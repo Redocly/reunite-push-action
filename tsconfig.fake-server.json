@@ -3,11 +3,10 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "NodeNext",
-    "rootDir": "./src",
     "moduleResolution": "NodeNext",
     "baseUrl": "./",
-    "sourceMap": true,
-    "outDir": "./dist",
+    "sourceMap": false,
+    "outDir": "./fake-api-server/.dist",
     "noImplicitAny": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,11 +14,6 @@
     "skipLibCheck": true,
     "newLine": "lf"
   },
-  "exclude": [
-    "./dist",
-    "./node_modules",
-    "./__tests__",
-    "./coverage",
-    "./fake-api-server"
-  ]
+  "include": ["./fake-api-server"],
+  "exclude": ["./dist", "./node_modules", "./__tests__", "./coverage"]
 }

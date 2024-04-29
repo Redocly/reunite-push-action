@@ -13,6 +13,7 @@ ignorePatterns:
   - '**/dist/.*'
   - '**/coverage/.*'
   - '*.json'
+  - 'fake-api-server/**/*'
 
 parser: '@typescript-eslint/parser'
 

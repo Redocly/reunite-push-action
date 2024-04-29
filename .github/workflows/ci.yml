@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on:
   pull_request:
@@ -10,10 +10,17 @@ on:
 
 permissions:
   contents: read
+  statuses: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
+
+# TODO: add caching for node_modules between jobs
 
 jobs:
-  test-typescript:
-    name: TypeScript Tests
+  code-quality:
+    name: Code Quality
     runs-on: ubuntu-latest
 
     steps:
@@ -33,19 +40,15 @@ jobs:
         run: npm ci
 
       - name: Check Format
-        id: npm-format-check
-        run: npm run format:check
+        id: npm-prettier-check
+        run: npm run prettier:check
 
       - name: Lint
         id: npm-lint
         run: npm run lint
 
-      - name: Test
-        id: npm-ci-test
-        run: npm run ci-test
-
-  test-action:
-    name: GitHub Actions Test
+  test-unit:
+    name: Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -53,12 +56,103 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: Unit tests
+        id: npm-ci-test
+        run:
+          npm run test:unit -- --coverage --ci --testLocationInResults --json
+          --outputFile=results.json
+
+  # In TypeScript actions, `dist/` is a special directory. When you reference
+  # an action with the `uses:` property, `dist/index.js` is the code that will be
+  # run. For this project, the `dist/index.js` file is transpiled from other
+  # source files. This workflow ensures the `dist/` directory contains the
+  # expected transpiled code.
+  #
+  # If this workflow is run from a feature branch, it will act as an additional CI
+  # check and fail if the checked-in `dist/` directory does not match what is
+  # expected from the build.
+  check-dist:
+    name: Check "dist" folder
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install Dependencies
+        id: install
+        run: npm ci
+
+      - name: Build dist/ Directory
+        id: build
+        run: npm run bundle
+
+      # This will fail the workflow if the PR wasn't created by Dependabot.
+      - name: Compare Directories
+        id: diff
+        run: |
+          if [ "$(git diff --ignore-space-at-eol --text dist/ | wc -l)" -gt "0" ]; then
+            echo "Detected uncommitted changes after build. See status below:"
+            git diff --ignore-space-at-eol --text dist/
+            exit 1
+          fi
+
+      # If `dist/` was different than expected, and this was not a Dependabot
+      # PR, upload the expected version as a workflow artifact.
+      - if: ${{ failure() && steps.diff.outcome == 'failure' }}
+        name: Upload Artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  test-smoke:
+    name: Action smoke test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Install modules
+        id: install-modules
+        run: npm install
+
+      - name: Start fake server
+        id: fake-server-start
+        run: npm run fake-server:start
+
+      - name: Run Local Action
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          organization: 'ci-test-org'
+          project: 'ci-test-project'
+          domain: 'http://localhost:3000'
+          files: 'tests/test-folder-1 tests/test-root-file.yaml'
+          mountPath: 'test-folder'
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        run: echo "${{ steps.test-action.outputs.pushId }}"

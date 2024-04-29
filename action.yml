@@ -1,22 +1,43 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Redocly Reunite CI/CD push'
+description: 'For CI/CD push to Redocly Reunite'
+author: 'Redocly'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
+# This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'upload-cloud'
+  color: 'blue'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  organization:
+    description: 'Your organization slug'
     required: true
-    default: '1000'
+  project:
+    description: 'Your project slug'
+    required: true
+  domain:
+    description: 'Your domain'
+    required: false
+  files:
+    description: 'Space separated list of files/folders to fetch'
+    required: true
+  mountPath:
+    description: 'Your remote content mount path'
+    required: true
+  maxExecutionTime:
+    description: 'Max execution time in seconds'
+    required: false
+  redoclyConfigPath:
+    description: 'Path to the redocly config file'
+    required: false
+  githubToken:
+    description: 'Token to authenticate with'
+    required: true
+    default: ${{ github.token }}
 
 # Define your outputs here.
 outputs:
-  time:
+  pushId:
     description: 'Your output description here'
 
 runs:

@@ -1,26 +1,98 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import * as github from '@actions/github'
 
-/**
- * The main function for the action.
- * @returns {Promise<void>} Resolves when the action is complete.
- */
+import { handlePush } from '@redocly/cli/lib/cms/commands/push'
+import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status'
+
+import { setCommitStatuses } from './set-commit-statuses'
+import { getRedoclyConfig, parseEventData, parseInputData } from './helpers'
+
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    const inputData = parseInputData()
+    const ghEvent = await parseEventData()
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    // eslint-disable-next-line no-console
+    console.debug('Push arguments', {
+      inputData,
+      ghEvent
+    })
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const config = await getRedoclyConfig(inputData.redoclyConfigPath)
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    const pushData = await handlePush(
+      {
+        domain: inputData.redoclyDomain,
+        organization: inputData.redoclyOrgSlug,
+        project: inputData.redoclyProjectSlug,
+        'mount-path': inputData.mountPath,
+        files: inputData.files,
+        'max-execution-time': inputData.maxExecutionTime,
+        namespace: ghEvent.namespace,
+        repository: ghEvent.repository,
+        branch: ghEvent.branch,
+        'default-branch': ghEvent.defaultBranch,
+        message: ghEvent.commit.commitMessage,
+        'commit-sha': ghEvent.commit.commitSha,
+        'commit-url': ghEvent.commit.commitUrl,
+        author: ghEvent.commit.commitAuthor,
+        'created-at': ghEvent.commit.commitCreatedAt
+      },
+      config
+    )
+
+    if (!pushData?.pushId) {
+      throw new Error('Missing push ID')
+    }
+
+    const pushStatusData = await handlePushStatus(
+      {
+        organization: inputData.redoclyOrgSlug,
+        project: inputData.redoclyProjectSlug,
+        pushId: pushData.pushId,
+        domain: inputData.redoclyDomain,
+        wait: true,
+        'continue-on-deploy-failures': true,
+        'max-execution-time': inputData.maxExecutionTime,
+        onRetry: async lastResult => {
+          try {
+            setCommitStatuses({
+              data: lastResult,
+              owner: ghEvent.namespace,
+              repo: ghEvent.repository,
+              commitId: ghEvent.commit.commitSha
+            })
+          } catch (error: unknown) {
+            core.error(
+              `Failed to set commit statuses. Error: ${(error as Error)?.message}`
+            )
+          }
+        }
+      },
+      config
+    )
+
+    if (!pushStatusData) {
+      throw new Error('Missing push status data')
+    }
+
+    console.debug(
+      'Amount of final commit statuses to set',
+      pushStatusData.commit.statuses.length
+    )
+
+    await setCommitStatuses({
+      data: pushStatusData,
+      owner: ghEvent.namespace,
+      repo: ghEvent.repository,
+      commitId: ghEvent.commit.commitSha
+    })
+
+    console.debug('Action finished successfully. Push ID:', pushData.pushId)
+
+    core.setOutput('pushId', pushData.pushId)
   } catch (error) {
-    // Fail the workflow run if an error occurs
+    console.debug('GitHub context', JSON.stringify(github.context, null, 2))
     if (error instanceof Error) core.setFailed(error.message)
   }
 }

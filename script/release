@@ -24,22 +24,25 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 
-# Get the latest release tag
-latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
+# Fetch all tags from remote
+git fetch --all --tags
 
-if [[ -z "$latest_tag" ]]; then
+# Get the latest release tags
+latest_tags=$(git tag --sort=-creatordate | head -n 3)
+
+if [[ -z "$latest_tags" ]]; then
 	# There are no existing release tags
 	echo -e "No tags found (yet) - Continue to create and push your first tag"
-	latest_tag="[unknown]"
+	latest_tags="[unknown]"
 fi
 
 # Display the latest release tag
-echo -e "The latest release tag is: ${BLUE}${latest_tag}${OFF}"
+echo -e "The latest 3 release tags are: \n${BLUE}${latest_tags}${OFF}"
 
 # Prompt the user for the new release tag
 read -r -p 'Enter a new release tag (vX.X.X format): ' new_tag
 
-# Validate the new release tag
+Validate the new release tag
 tag_regex='v[0-9]+\.[0-9]+\.[0-9]+$'
 if echo "$new_tag" | grep -q -E "$tag_regex"; then
 	echo -e "Tag: ${BLUE}$new_tag${OFF} is valid"
@@ -57,3 +60,20 @@ echo -e "${GREEN}Tagged: $new_tag${OFF}"
 git push --tags
 echo -e "${GREEN}Release tag pushed to remote${OFF}"
 echo -e "${GREEN}Done!${OFF}"
+
+# Prompt the user to move v1 tag to the current commit
+echo ""
+echo -e "Point ${BLUE}v1${OFF} tag to the same commit as ${GREEN}$new_tag${OFF}?"
+echo -e "Be sure that you do not introduce any breaking changes"
+read -r -p 'Type "y" or "n": ' move_tag
+
+if [ "$move_tag" = "y" ]; then
+	# Delete the old tag locally
+	git tag -d v1
+
+	# Create the new tag
+	git tag v1
+
+	# Push the new tag to the remote repository
+	git push origin v1 --force
+fi

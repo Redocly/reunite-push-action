@@ -1,0 +1,36 @@
+openapi: 3.0.0
+servers:
+  - url: ''
+info:
+  title: test-file-1
+  version: 2.0.0
+  license:
+    name: 'Test'
+    url: 'test'
+
+security:
+  - basicAuth: []
+
+paths:
+  /:
+    get:
+      operationId: test
+      summary: Test
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
