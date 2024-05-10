@@ -12,10 +12,6 @@ permissions:
   contents: read
   statuses: write
 
-env:
-  GH_TOKEN: ${{ github.token }}
-  REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
-
 # TODO: add caching for node_modules between jobs
 
 jobs:
@@ -152,6 +148,8 @@ jobs:
           domain: 'http://localhost:3000'
           files: 'tests/test-folder-1 tests/test-root-file.yaml'
           mountPath: 'test-folder'
+        env:
+          REDOCLY_AUTHORIZATION: ${{ secrets.REDOCLY_AUTHORIZATION }}
 
       - name: Print Output
         id: output
