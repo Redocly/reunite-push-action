@@ -22,16 +22,18 @@ npm install # or npm i
 - `npm run test` - for running tests
 - `npm run coverage` - for calculating tests coverage
 - `npm run bundle` - package the TypeScript for distribution
-- `npm run all` - runs prettier, lint, tests, coverage and bundle. Recommended to run before creating PR and sending to review.
+- `npm run all` - runs prettier, lint, tests, coverage and bundle. Recommended
+  to run before creating PR and sending to review.
 - `npm run fake-server:start` - fake server needed for smoke tests in CI.
 
 ## Release flow
 
-We use git tags for releases.
-After merging a PR with your changes to main branch, you should do next steps:
+We use git tags for releases. After merging a PR with your changes to main
+branch, you should do next steps:
 
 1. Checkout to main branch locally.
 1. Run `git pull` to fetch latest changes.
 1. Go to `script` folder (`cd script`) and run `./release` script.
 1. Type in a new release tag, e.g. `v1.0.9`.
-1. And then type `y` or `n` if you want also to point `v1` version to the current commit.
+1. And then type `y` or `n` if you want also to point `v1` version to the
+   current commit.
