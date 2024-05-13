@@ -56,7 +56,7 @@ export async function run(): Promise<void> {
         'max-execution-time': inputData.maxExecutionTime,
         onRetry: async lastResult => {
           try {
-            setCommitStatuses({
+            await setCommitStatuses({
               data: lastResult,
               owner: ghEvent.namespace,
               repo: ghEvent.repository,
