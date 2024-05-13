@@ -76490,6 +76490,9 @@ async function parseEventData() {
         repo: repository,
         ref: commitSha
     });
+    if (!commitData.commit.author?.name || !commitData.commit.author?.email) {
+        throw new Error('Invalid GitHub event data. Can not get author name or email from the event payload.');
+    }
     const commit = {
         commitSha,
         commitMessage: commitData.commit.message,

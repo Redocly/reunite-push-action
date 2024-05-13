@@ -86,6 +86,12 @@ export async function parseEventData(): Promise<ParsedEventData> {
     ref: commitSha
   })
 
+  if (!commitData.commit.author?.name || !commitData.commit.author?.email) {
+    throw new Error(
+      'Invalid GitHub event data. Can not get author name or email from the event payload.'
+    )
+  }
+
   const commit: ParsedEventData['commit'] = {
     commitSha,
     commitMessage: commitData.commit.message,
