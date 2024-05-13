@@ -17,10 +17,10 @@ inputs:
     description: 'Redocly app domain'
     required: false
   files:
-    description: 'Space separated list of files/folders to push'
+    description: 'Space-separated list of files and/or folders to push'
     required: true
   mountPath:
-    description: 'Remote content mount path inside target Redocly project'
+    description: 'Remote content mount path inside the target Redocly project'
     required: true
   maxExecutionTime:
     description: 'Max execution time in seconds'
