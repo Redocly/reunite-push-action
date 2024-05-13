@@ -76610,7 +76610,7 @@ async function run() {
             'max-execution-time': inputData.maxExecutionTime,
             onRetry: async (lastResult) => {
                 try {
-                    (0, set_commit_statuses_1.setCommitStatuses)({
+                    await (0, set_commit_statuses_1.setCommitStatuses)({
                         data: lastResult,
                         owner: ghEvent.namespace,
                         repo: ghEvent.repository,

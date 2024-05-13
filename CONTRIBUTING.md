@@ -20,7 +20,7 @@ npm install # or npm i
 - `npm run prettier:check` - to run prettier check (used for CI)
 - `npm run prettier:write` - to run prettier with fixing errors (used for local)
 - `npm run test` - for running tests
-- `npm run coverage` - for calculating tests coverage
+- `npm run coverage` - for generating coverage budge
 - `npm run bundle` - package the TypeScript for distribution
 - `npm run all` - runs prettier, lint, tests, coverage and bundle. Recommended
   to run before creating PR and sending to review.

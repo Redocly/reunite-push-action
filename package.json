@@ -17,13 +17,12 @@
     "node": ">=20"
   },
   "scripts": {
-    "all": "npm run prettier:write && npm run lint && npm run test && npm run coverage && npm run package",
+    "all": "npm run prettier:write && npm run lint && npm run test && npm run package",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --write .",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
     "test": "npm run test:unit",
     "test:unit": "npx jest",
-    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
     "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "bundle": "npm run prettier:write && npm run package",
