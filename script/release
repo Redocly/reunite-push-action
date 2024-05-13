@@ -42,7 +42,7 @@ echo -e "The latest 3 release tags are: \n${BLUE}${latest_tags}${OFF}"
 # Prompt the user for the new release tag
 read -r -p 'Enter a new release tag (vX.X.X format): ' new_tag
 
-Validate the new release tag
+# Validate the new release tag
 tag_regex='v[0-9]+\.[0-9]+\.[0-9]+$'
 if echo "$new_tag" | grep -q -E "$tag_regex"; then
 	echo -e "Tag: ${BLUE}$new_tag${OFF} is valid"
