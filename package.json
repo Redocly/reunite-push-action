@@ -1,6 +1,6 @@
 {
   "name": "@redocly/reunite-push-action",
-  "description": "GitHub action for CI/CD Reunite push",
+  "description": "GitHub Action for pushing files to Redocly Reunite app",
   "version": "1.0.0",
   "author": "Redocly",
   "private": true,

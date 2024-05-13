@@ -1,5 +1,5 @@
-name: 'Redocly Reunite CI/CD push'
-description: 'For CI/CD push to Redocly Reunite project'
+name: 'Redocly Reunite Push'
+description: 'Action for pushing files to Redocly Reunite app'
 author: 'Redocly'
 
 branding:
@@ -8,10 +8,10 @@ branding:
 
 inputs:
   organization:
-    description: 'Your organization slug'
+    description: 'Redocly organization slug'
     required: true
   project:
-    description: 'Your project slug'
+    description: 'Redocly project slug'
     required: true
   domain:
     description: 'Redocly app domain'
@@ -20,7 +20,7 @@ inputs:
     description: 'Space separated list of files/folders to push'
     required: true
   mountPath:
-    description: 'Remote content mount path inside target project'
+    description: 'Remote content mount path inside target Redocly project'
     required: true
   maxExecutionTime:
     description: 'Max execution time in seconds'
