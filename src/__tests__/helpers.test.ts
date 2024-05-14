@@ -47,10 +47,20 @@ jest.mock('@actions/github', () => ({
 }));
 
 describe('helpers', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  const OLD_ENV = process.env;
 
+  beforeEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+    process.env = {
+      ...OLD_ENV,
+      GITHUB_WORKSPACE: '/home/runner/work/reunite-push-action/'
+    };
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
+  });
+
+  afterAll(() => {
+    process.env = OLD_ENV; // Restore old environment
   });
 
   describe('parseInputData', () => {
@@ -73,7 +83,10 @@ describe('helpers', () => {
         redoclyOrgSlug: 'test-org-slug',
         redoclyProjectSlug: 'test-project-slug',
         redoclyDomain: 'redocly-domain.com',
-        files: ['testFolder', 'testOpenApiFile.yaml'],
+        files: [
+          '/home/runner/work/reunite-push-action/testFolder',
+          '/home/runner/work/reunite-push-action/testOpenApiFile.yaml'
+        ],
         mountPath: 'test/mount/path',
         maxExecutionTime: 100,
         redoclyConfigPath: 'test/redocly/config/path'
