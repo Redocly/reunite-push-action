@@ -21,16 +21,16 @@ const stubResponseStatus: PushResponse = {
     author: {
       name: 'test-author-name',
       email: 'test-author-email',
-      image: null
+      image: null,
     },
     statuses: [
       {
         name: 'CI / Action smoke test [commit status]',
         description: 'Status, which is set by action',
         status: 'success',
-        url: 'https://redocly.com/'
-      }
-    ]
+        url: 'https://redocly.com/',
+      },
+    ],
   },
   remote: { commits: [] },
   isOutdated: false,
@@ -41,17 +41,17 @@ const stubResponseStatus: PushResponse = {
       scorecard: [],
       deploy: {
         url: 'https://preview-test-url',
-        status: 'success'
-      }
+        status: 'success',
+      },
     },
     production: {
       scorecard: [],
       deploy: {
         url: 'https://production-test-url',
-        status: 'success'
-      }
-    }
-  }
+        status: 'success',
+      },
+    },
+  },
 };
 
 app.get('*', (req, res) => {
@@ -61,7 +61,7 @@ app.get('*', (req, res) => {
 app.post('*', (req, res) => {
   res.json({
     id: 'test-push-id',
-    mountPath: 'test-mount-path'
+    mountPath: 'test-mount-path',
   });
 });
 

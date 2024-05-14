@@ -10,10 +10,10 @@ jest.mock('@actions/github', () => ({
   getOctokit: jest.fn().mockImplementation(() => ({
     rest: {
       repos: {
-        createCommitStatus: createCommitStatusMock
-      }
-    }
-  }))
+        createCommitStatus: createCommitStatusMock,
+      },
+    },
+  })),
 }));
 
 describe('helpers', () => {
@@ -31,30 +31,30 @@ describe('helpers', () => {
             name: 'status-1',
             url: 'test-url-1',
             description: 'test-description-1',
-            status: 'pending'
+            status: 'pending',
           },
           {
             name: 'status-2',
             url: 'test-url-2',
             description: 'test-description-2',
-            status: 'running'
+            status: 'running',
           },
           {
             name: 'status-3',
             url: 'test-url-3',
             description: 'test-description-3',
-            status: 'success'
+            status: 'success',
           },
           {
             name: 'status-4',
             url: 'test-url-4',
             description: 'test-description-4',
-            status: 'failed'
-          }
+            status: 'failed',
+          },
         ],
         owner: 'test-owner',
         repo: 'test-repo',
-        commitId: 'test-commit-id'
+        commitId: 'test-commit-id',
       });
 
       expect(getInputMock).toHaveBeenCalledTimes(1);
@@ -67,7 +67,7 @@ describe('helpers', () => {
         state: 'pending',
         target_url: 'test-url-1',
         context: 'status-1',
-        description: 'test-description-1'
+        description: 'test-description-1',
       });
 
       expect(createCommitStatusMock).toHaveBeenNthCalledWith(2, {
@@ -77,7 +77,7 @@ describe('helpers', () => {
         state: 'pending',
         target_url: 'test-url-2',
         context: 'status-2',
-        description: 'test-description-2'
+        description: 'test-description-2',
       });
 
       expect(createCommitStatusMock).toHaveBeenNthCalledWith(3, {
@@ -87,7 +87,7 @@ describe('helpers', () => {
         state: 'success',
         target_url: 'test-url-3',
         context: 'status-3',
-        description: 'test-description-3'
+        description: 'test-description-3',
       });
 
       expect(createCommitStatusMock).toHaveBeenNthCalledWith(4, {
@@ -97,7 +97,7 @@ describe('helpers', () => {
         state: 'error',
         target_url: 'test-url-4',
         context: 'status-4',
-        description: 'test-description-4'
+        description: 'test-description-4',
       });
     });
   });

@@ -15,7 +15,7 @@ export function parseInputData(): ParsedInputData {
   const redoclyConfigPath = core.getInput('redoclyConfigPath');
 
   const absoluteFilePaths = files.map(_path =>
-    path.join(process.env.GITHUB_WORKSPACE || '', _path)
+    path.join(process.env.GITHUB_WORKSPACE || '', _path),
   );
 
   return {
@@ -25,7 +25,7 @@ export function parseInputData(): ParsedInputData {
     files: absoluteFilePaths,
     mountPath,
     maxExecutionTime,
-    redoclyConfigPath
+    redoclyConfigPath,
   };
 }
 
@@ -37,7 +37,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
     )
   ) {
     throw new Error(
-      'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.'
+      'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.',
     );
   }
   const namespace = github.context.payload?.repository?.owner?.login;
@@ -45,7 +45,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
 
   if (!namespace || !repository) {
     throw new Error(
-      'Invalid GitHub event data. Can not get owner or repository name from the event payload.'
+      'Invalid GitHub event data. Can not get owner or repository name from the event payload.',
     );
   }
 
@@ -55,7 +55,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
 
   if (!branch) {
     throw new Error(
-      'Invalid GitHub event data. Can not get branch from the event payload.'
+      'Invalid GitHub event data. Can not get branch from the event payload.',
     );
   }
 
@@ -65,7 +65,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
 
   if (!defaultBranch) {
     throw new Error(
-      'Invalid GitHub event data. Can not get default branch from the event payload.'
+      'Invalid GitHub event data. Can not get default branch from the event payload.',
     );
   }
 
@@ -73,7 +73,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
 
   if (!commitSha) {
     throw new Error(
-      'Invalid GitHub event data. Can not get commit sha from the event payload.'
+      'Invalid GitHub event data. Can not get commit sha from the event payload.',
     );
   }
 
@@ -83,12 +83,12 @@ export async function parseEventData(): Promise<ParsedEventData> {
   const { data: commitData } = await octokit.rest.repos.getCommit({
     owner: namespace,
     repo: repository,
-    ref: commitSha
+    ref: commitSha,
   });
 
   if (!commitData.commit.author?.name || !commitData.commit.author?.email) {
     throw new Error(
-      'Invalid GitHub event data. Can not get author name or email from the event payload.'
+      'Invalid GitHub event data. Can not get author name or email from the event payload.',
     );
   }
 
@@ -97,7 +97,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
     commitMessage: commitData.commit.message,
     commitUrl: commitData.html_url,
     commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`, // what about undefined name or email?
-    commitCreatedAt: commitData.commit.author?.date
+    commitCreatedAt: commitData.commit.author?.date,
   };
 
   return {
@@ -106,7 +106,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
     repository,
     branch,
     defaultBranch,
-    commit
+    commit,
   };
 }
 
@@ -128,13 +128,13 @@ function getCommitSha(): string | undefined {
 }
 
 export async function getRedoclyConfig(
-  configPath: string | undefined
+  configPath: string | undefined,
 ): ReturnType<typeof loadConfig> {
   const redoclyConfig = await loadConfig({
     configPath:
       configPath && process.env.GITHUB_WORKSPACE
         ? path.join(process.env.GITHUB_WORKSPACE, configPath)
-        : undefined
+        : undefined,
   });
 
   return redoclyConfig;

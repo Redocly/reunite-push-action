@@ -9,7 +9,7 @@ import * as commitStatusUtils from '../set-commit-statuses';
 import {
   parsedEventPushDataMock,
   parsedInputDataStub,
-  pushStatusSummaryStub
+  pushStatusSummaryStub,
 } from './fixtures';
 
 const runMock = jest.spyOn(main, 'run');
@@ -42,7 +42,7 @@ describe('action', () => {
     handlePushMock = jest
       .spyOn(handlePushCommand, 'handlePush')
       .mockImplementation(async () => ({
-        pushId: 'test-push-id'
+        pushId: 'test-push-id',
       }));
 
     handlePushStatusMock = jest
@@ -80,7 +80,7 @@ describe('action', () => {
 
     expect(setFailedMock).toHaveBeenNthCalledWith(
       1,
-      'Test error message from handlePush'
+      'Test error message from handlePush',
     );
     expect(setOutputMock).not.toHaveBeenCalled();
   });

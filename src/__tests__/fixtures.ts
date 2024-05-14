@@ -8,7 +8,7 @@ export const parsedInputDataStub: ParsedInputData = {
   files: ['test'],
   mountPath: 'test/mount/path',
   maxExecutionTime: 100,
-  redoclyConfigPath: 'test/redocly/config/path'
+  redoclyConfigPath: 'test/redocly/config/path',
 };
 
 export const parsedEventPushDataMock: ParsedEventData = {
@@ -22,17 +22,17 @@ export const parsedEventPushDataMock: ParsedEventData = {
     commitMessage: 'test-commit-message',
     commitUrl: 'test-commit-url',
     commitAuthor: 'test-commit-author',
-    commitCreatedAt: 'test-commit-created-at'
-  }
+    commitCreatedAt: 'test-commit-created-at',
+  },
 };
 
 export const pushStatusSummaryStub: PushStatusSummary = {
   preview: {
     deploy: {
       status: 'success',
-      url: 'test-url'
+      url: 'test-url',
     },
-    scorecard: []
+    scorecard: [],
   },
   production: null,
   commit: {
@@ -46,15 +46,15 @@ export const pushStatusSummaryStub: PushStatusSummary = {
     author: {
       name: 'Test Author Name',
       email: 'test-author-email',
-      image: null
+      image: null,
     },
     statuses: [
       {
         name: 'Test Status Name',
         description: 'Test Status Description',
         status: 'success',
-        url: null
-      }
-    ]
-  }
+        url: null,
+      },
+    ],
+  },
 };

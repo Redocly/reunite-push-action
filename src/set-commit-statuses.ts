@@ -8,7 +8,7 @@ export async function setCommitStatuses({
   commitStatuses,
   owner,
   repo,
-  commitId
+  commitId,
 }: {
   commitStatuses: PushStatusSummary['commit']['statuses'];
   owner: string;
@@ -29,15 +29,15 @@ export async function setCommitStatuses({
           state: mapDeploymentStateToGithubCommitState(status.status),
           target_url: status.url,
           context: status.name,
-          description: status.description
+          description: status.description,
         });
-      })
+      }),
     );
   }
 }
 
 function mapDeploymentStateToGithubCommitState(
-  state?: DeploymentStatus
+  state?: DeploymentStatus,
 ): RestEndpointMethodTypes['repos']['createCommitStatus']['parameters']['state'] {
   switch (state) {
     case 'pending':

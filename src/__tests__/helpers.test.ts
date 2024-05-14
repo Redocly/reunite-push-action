@@ -11,14 +11,14 @@ function getPushEventContext(): Partial<Context> {
     payload: {
       repository: {
         owner: {
-          login: 'test-namespace'
+          login: 'test-namespace',
         },
         name: 'test-repo',
-        default_branch: 'test-default-branch'
+        default_branch: 'test-default-branch',
       },
-      after: 'test-commit-sha'
+      after: 'test-commit-sha',
     },
-    ref: 'refs/heads/test-branch'
+    ref: 'refs/heads/test-branch',
   };
 }
 
@@ -36,14 +36,14 @@ jest.mock('@actions/github', () => ({
               author: {
                 name: 'test-commit-author-name',
                 email: 'test-commit-author-email',
-                date: 'test-commit-created-at'
-              }
-            }
-          }
-        }))
-      }
-    }
-  }))
+                date: 'test-commit-created-at',
+              },
+            },
+          },
+        })),
+      },
+    },
+  })),
 }));
 
 describe('helpers', () => {
@@ -54,7 +54,7 @@ describe('helpers', () => {
     jest.clearAllMocks();
     process.env = {
       ...OLD_ENV,
-      GITHUB_WORKSPACE: '/home/runner/work/reunite-push-action/'
+      GITHUB_WORKSPACE: '/home/runner/work/reunite-push-action/',
     };
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
   });
@@ -73,8 +73,8 @@ describe('helpers', () => {
           files: 'testFolder testOpenApiFile.yaml',
           mountPath: 'test/mount/path',
           maxExecutionTime: '100',
-          redoclyConfigPath: 'test/redocly/config/path'
-        })
+          redoclyConfigPath: 'test/redocly/config/path',
+        }),
       );
       const parsedInputData = parseInputData();
 
@@ -85,11 +85,11 @@ describe('helpers', () => {
         redoclyDomain: 'redocly-domain.com',
         files: [
           '/home/runner/work/reunite-push-action/testFolder',
-          '/home/runner/work/reunite-push-action/testOpenApiFile.yaml'
+          '/home/runner/work/reunite-push-action/testOpenApiFile.yaml',
         ],
         mountPath: 'test/mount/path',
         maxExecutionTime: 100,
-        redoclyConfigPath: 'test/redocly/config/path'
+        redoclyConfigPath: 'test/redocly/config/path',
       });
     });
   });
@@ -109,8 +109,8 @@ describe('helpers', () => {
           commitMessage: 'test-commit-message',
           commitUrl: 'test-commit-html-url',
           commitAuthor: 'test-commit-author-name <test-commit-author-email>',
-          commitCreatedAt: 'test-commit-created-at'
-        }
+          commitCreatedAt: 'test-commit-created-at',
+        },
       });
     });
   });
@@ -125,7 +125,6 @@ describe('helpers', () => {
 
 function getGetInputMock(mockInput: object) {
   return (name: string) => {
-    // @ts-expect-error - ignore indexing error
     return mockInput[name] || '';
   };
 }

@@ -15,7 +15,7 @@ export async function run(): Promise<void> {
     // eslint-disable-next-line no-console
     console.debug('Push arguments', {
       inputData,
-      ghEvent
+      ghEvent,
     });
 
     const config = await getRedoclyConfig(inputData.redoclyConfigPath);
@@ -36,9 +36,9 @@ export async function run(): Promise<void> {
         'commit-sha': ghEvent.commit.commitSha,
         'commit-url': ghEvent.commit.commitUrl,
         author: ghEvent.commit.commitAuthor,
-        'created-at': ghEvent.commit.commitCreatedAt
+        'created-at': ghEvent.commit.commitCreatedAt,
       },
-      config
+      config,
     );
 
     if (!pushData?.pushId) {
@@ -60,16 +60,16 @@ export async function run(): Promise<void> {
               commitStatuses: lastResult.commit.statuses,
               owner: ghEvent.namespace,
               repo: ghEvent.repository,
-              commitId: ghEvent.commit.commitSha
+              commitId: ghEvent.commit.commitSha,
             });
           } catch (error: unknown) {
             core.error(
-              `Failed to set commit statuses. Error: ${(error as Error)?.message}`
+              `Failed to set commit statuses. Error: ${(error as Error)?.message}`,
             );
           }
-        }
+        },
       },
-      config
+      config,
     );
 
     if (!pushStatusData) {
@@ -78,14 +78,14 @@ export async function run(): Promise<void> {
 
     console.debug(
       'Amount of final commit statuses to set',
-      pushStatusData.commit.statuses.length
+      pushStatusData.commit.statuses.length,
     );
 
     await setCommitStatuses({
       commitStatuses: pushStatusData.commit.statuses,
       owner: ghEvent.namespace,
       repo: ghEvent.repository,
-      commitId: ghEvent.commit.commitSha
+      commitId: ghEvent.commit.commitSha,
     });
 
     console.debug('Action finished successfully. Push ID:', pushData.pushId);
