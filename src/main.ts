@@ -57,7 +57,7 @@ export async function run(): Promise<void> {
         onRetry: async lastResult => {
           try {
             await setCommitStatuses({
-              data: lastResult,
+              commitStatuses: lastResult.commit.statuses,
               owner: ghEvent.namespace,
               repo: ghEvent.repository,
               commitId: ghEvent.commit.commitSha
@@ -82,7 +82,7 @@ export async function run(): Promise<void> {
     );
 
     await setCommitStatuses({
-      data: pushStatusData,
+      commitStatuses: pushStatusData.commit.statuses,
       owner: ghEvent.namespace,
       repo: ghEvent.repository,
       commitId: ghEvent.commit.commitSha

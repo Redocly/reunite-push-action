@@ -76614,7 +76614,7 @@ async function run() {
             onRetry: async (lastResult) => {
                 try {
                     await (0, set_commit_statuses_1.setCommitStatuses)({
-                        data: lastResult,
+                        commitStatuses: lastResult.commit.statuses,
                         owner: ghEvent.namespace,
                         repo: ghEvent.repository,
                         commitId: ghEvent.commit.commitSha
@@ -76630,7 +76630,7 @@ async function run() {
         }
         console.debug('Amount of final commit statuses to set', pushStatusData.commit.statuses.length);
         await (0, set_commit_statuses_1.setCommitStatuses)({
-            data: pushStatusData,
+            commitStatuses: pushStatusData.commit.statuses,
             owner: ghEvent.namespace,
             repo: ghEvent.repository,
             commitId: ghEvent.commit.commitSha
@@ -76681,12 +76681,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setCommitStatuses = void 0;
 const core = __importStar(__nccwpck_require__(42186));
 const github = __importStar(__nccwpck_require__(95438));
-async function setCommitStatuses({ data, owner, repo, commitId }) {
+async function setCommitStatuses({ commitStatuses, owner, repo, commitId }) {
     const githubToken = core.getInput('githubToken');
     const octokit = github.getOctokit(githubToken);
-    if (data.commit.statuses?.length > 0) {
+    if (commitStatuses?.length > 0) {
         // TBD: Should we add a concurrency limit here to avoid hitting rate limits?
-        await Promise.all(data.commit.statuses.map(async (status) => {
+        await Promise.all(commitStatuses.map(async (status) => {
             await octokit.rest.repos.createCommitStatus({
                 owner,
                 repo,

@@ -5,12 +5,12 @@ import { DeploymentStatus } from '@redocly/cli/lib/cms/api/types';
 import { PushStatusSummary } from '@redocly/cli/lib/cms/commands/push-status';
 
 export async function setCommitStatuses({
-  data,
+  commitStatuses,
   owner,
   repo,
   commitId
 }: {
-  data: PushStatusSummary;
+  commitStatuses: PushStatusSummary['commit']['statuses'];
   owner: string;
   repo: string;
   commitId: string;
@@ -18,10 +18,10 @@ export async function setCommitStatuses({
   const githubToken = core.getInput('githubToken');
   const octokit = github.getOctokit(githubToken);
 
-  if (data.commit.statuses?.length > 0) {
+  if (commitStatuses?.length > 0) {
     // TBD: Should we add a concurrency limit here to avoid hitting rate limits?
     await Promise.all(
-      data.commit.statuses.map(async status => {
+      commitStatuses.map(async status => {
         await octokit.rest.repos.createCommitStatus({
           owner,
           repo,

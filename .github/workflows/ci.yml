@@ -65,9 +65,7 @@ jobs:
 
       - name: Unit tests
         id: npm-ci-test
-        run:
-          npm run test -- --coverage --ci --testLocationInResults --json
-          --outputFile=results.json
+        run: npm run test:ci
 
   # In TypeScript actions, `dist/` is a special directory. When you reference
   # an action with the `uses:` property, `dist/index.js` is the code that will be
