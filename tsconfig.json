@@ -15,11 +15,5 @@
     "skipLibCheck": true,
     "newLine": "lf"
   },
-  "exclude": [
-    "./dist",
-    "./node_modules",
-    "src/__tests__",
-    "./coverage",
-    "./fake-api-server"
-  ]
+  "exclude": ["./dist", "./node_modules", "./coverage", "./fake-api-server"]
 }

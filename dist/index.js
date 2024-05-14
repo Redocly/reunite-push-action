@@ -76455,7 +76455,7 @@ function parseInputData() {
         files: absoluteFilePaths,
         mountPath,
         maxExecutionTime,
-        redoclyConfigPath
+        redoclyConfigPath,
     };
 }
 exports.parseInputData = parseInputData;
@@ -76488,7 +76488,7 @@ async function parseEventData() {
     const { data: commitData } = await octokit.rest.repos.getCommit({
         owner: namespace,
         repo: repository,
-        ref: commitSha
+        ref: commitSha,
     });
     if (!commitData.commit.author?.name || !commitData.commit.author?.email) {
         throw new Error('Invalid GitHub event data. Can not get author name or email from the event payload.');
@@ -76498,7 +76498,7 @@ async function parseEventData() {
         commitMessage: commitData.commit.message,
         commitUrl: commitData.html_url,
         commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`, // what about undefined name or email?
-        commitCreatedAt: commitData.commit.author?.date
+        commitCreatedAt: commitData.commit.author?.date,
     };
     return {
         eventName: github.context.eventName,
@@ -76506,7 +76506,7 @@ async function parseEventData() {
         repository,
         branch,
         defaultBranch,
-        commit
+        commit,
     };
 }
 exports.parseEventData = parseEventData;
@@ -76528,7 +76528,7 @@ async function getRedoclyConfig(configPath) {
     const redoclyConfig = await (0, openapi_core_1.loadConfig)({
         configPath: configPath && process.env.GITHUB_WORKSPACE
             ? path_1.default.join(process.env.GITHUB_WORKSPACE, configPath)
-            : undefined
+            : undefined,
     });
     return redoclyConfig;
 }
@@ -76580,7 +76580,7 @@ async function run() {
         // eslint-disable-next-line no-console
         console.debug('Push arguments', {
             inputData,
-            ghEvent
+            ghEvent,
         });
         const config = await (0, helpers_1.getRedoclyConfig)(inputData.redoclyConfigPath);
         const pushData = await (0, push_1.handlePush)({
@@ -76598,7 +76598,7 @@ async function run() {
             'commit-sha': ghEvent.commit.commitSha,
             'commit-url': ghEvent.commit.commitUrl,
             author: ghEvent.commit.commitAuthor,
-            'created-at': ghEvent.commit.commitCreatedAt
+            'created-at': ghEvent.commit.commitCreatedAt,
         }, config);
         if (!pushData?.pushId) {
             throw new Error('Missing push ID');
@@ -76617,13 +76617,13 @@ async function run() {
                         commitStatuses: lastResult.commit.statuses,
                         owner: ghEvent.namespace,
                         repo: ghEvent.repository,
-                        commitId: ghEvent.commit.commitSha
+                        commitId: ghEvent.commit.commitSha,
                     });
                 }
                 catch (error) {
                     core.error(`Failed to set commit statuses. Error: ${error?.message}`);
                 }
-            }
+            },
         }, config);
         if (!pushStatusData) {
             throw new Error('Missing push status data');
@@ -76633,7 +76633,7 @@ async function run() {
             commitStatuses: pushStatusData.commit.statuses,
             owner: ghEvent.namespace,
             repo: ghEvent.repository,
-            commitId: ghEvent.commit.commitSha
+            commitId: ghEvent.commit.commitSha,
         });
         console.debug('Action finished successfully. Push ID:', pushData.pushId);
         core.setOutput('pushId', pushData.pushId);
@@ -76681,7 +76681,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setCommitStatuses = void 0;
 const core = __importStar(__nccwpck_require__(42186));
 const github = __importStar(__nccwpck_require__(95438));
-async function setCommitStatuses({ commitStatuses, owner, repo, commitId }) {
+async function setCommitStatuses({ commitStatuses, owner, repo, commitId, }) {
     const githubToken = core.getInput('githubToken');
     const octokit = github.getOctokit(githubToken);
     if (commitStatuses?.length > 0) {
@@ -76694,7 +76694,7 @@ async function setCommitStatuses({ commitStatuses, owner, repo, commitId }) {
                 state: mapDeploymentStateToGithubCommitState(status.status),
                 target_url: status.url,
                 context: status.name,
-                description: status.description
+                description: status.description,
             });
         }));
     }

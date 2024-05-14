@@ -123,7 +123,7 @@ describe('helpers', () => {
   });
 });
 
-function getGetInputMock(mockInput: object) {
+function getGetInputMock(mockInput: { [key: string]: string }) {
   return (name: string) => {
     return mockInput[name] || '';
   };
