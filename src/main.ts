@@ -1,24 +1,24 @@
-import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as core from '@actions/core';
+import * as github from '@actions/github';
 
-import { handlePush } from '@redocly/cli/lib/cms/commands/push'
-import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status'
+import { handlePush } from '@redocly/cli/lib/cms/commands/push';
+import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status';
 
-import { setCommitStatuses } from './set-commit-statuses'
-import { getRedoclyConfig, parseEventData, parseInputData } from './helpers'
+import { setCommitStatuses } from './set-commit-statuses';
+import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
 
 export async function run(): Promise<void> {
   try {
-    const inputData = parseInputData()
-    const ghEvent = await parseEventData()
+    const inputData = parseInputData();
+    const ghEvent = await parseEventData();
 
     // eslint-disable-next-line no-console
     console.debug('Push arguments', {
       inputData,
       ghEvent
-    })
+    });
 
-    const config = await getRedoclyConfig(inputData.redoclyConfigPath)
+    const config = await getRedoclyConfig(inputData.redoclyConfigPath);
 
     const pushData = await handlePush(
       {
@@ -39,10 +39,10 @@ export async function run(): Promise<void> {
         'created-at': ghEvent.commit.commitCreatedAt
       },
       config
-    )
+    );
 
     if (!pushData?.pushId) {
-      throw new Error('Missing push ID')
+      throw new Error('Missing push ID');
     }
 
     const pushStatusData = await handlePushStatus(
@@ -61,38 +61,38 @@ export async function run(): Promise<void> {
               owner: ghEvent.namespace,
               repo: ghEvent.repository,
               commitId: ghEvent.commit.commitSha
-            })
+            });
           } catch (error: unknown) {
             core.error(
               `Failed to set commit statuses. Error: ${(error as Error)?.message}`
-            )
+            );
           }
         }
       },
       config
-    )
+    );
 
     if (!pushStatusData) {
-      throw new Error('Missing push status data')
+      throw new Error('Missing push status data');
     }
 
     console.debug(
       'Amount of final commit statuses to set',
       pushStatusData.commit.statuses.length
-    )
+    );
 
     await setCommitStatuses({
       data: pushStatusData,
       owner: ghEvent.namespace,
       repo: ghEvent.repository,
       commitId: ghEvent.commit.commitSha
-    })
+    });
 
-    console.debug('Action finished successfully. Push ID:', pushData.pushId)
+    console.debug('Action finished successfully. Push ID:', pushData.pushId);
 
-    core.setOutput('pushId', pushData.pushId)
+    core.setOutput('pushId', pushData.pushId);
   } catch (error) {
-    console.debug('GitHub context', JSON.stringify(github.context, null, 2))
-    if (error instanceof Error) core.setFailed(error.message)
+    console.debug('GitHub context', JSON.stringify(github.context, null, 2));
+    if (error instanceof Error) core.setFailed(error.message);
   }
 }

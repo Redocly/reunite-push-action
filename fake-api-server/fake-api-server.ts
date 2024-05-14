@@ -1,8 +1,8 @@
-import express from 'express'
-import { PushResponse } from '@redocly/cli/lib/cms/api/types'
+import express from 'express';
+import { PushResponse } from '@redocly/cli/lib/cms/api/types';
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
 const stubResponseStatus: PushResponse = {
   id: 'test-push-id',
@@ -52,20 +52,20 @@ const stubResponseStatus: PushResponse = {
       }
     }
   }
-}
+};
 
 app.get('*', (req, res) => {
-  res.json(stubResponseStatus)
-})
+  res.json(stubResponseStatus);
+});
 
 app.post('*', (req, res) => {
   res.json({
     id: 'test-push-id',
     mountPath: 'test-mount-path'
-  })
-})
+  });
+});
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`Fake server listening on port ${port}`)
-})
+  console.log(`Fake server listening on port ${port}`);
+});

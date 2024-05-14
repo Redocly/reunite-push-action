@@ -19,7 +19,8 @@ npm install # or npm i
 - `npm run lint` - to run linter for codebase
 - `npm run prettier:check` - to run prettier check (used for CI)
 - `npm run prettier:write` - to run prettier with fixing errors (used for local)
-- `npm run test` - for running tests
+- `npm run test` - for running unit tests
+- `npm run test:watch` - for running unit tests in watch mode
 - `npm run coverage` - for generating coverage budge
 - `npm run bundle` - package the TypeScript for distribution
 - `npm run all` - runs prettier, lint, tests, coverage and bundle. Recommended
