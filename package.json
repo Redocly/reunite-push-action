@@ -19,7 +19,7 @@
   "scripts": {
     "all": "npm run prettier:write && npm run lint && npm run test && npm run package",
     "prettier:check": "npx prettier --check .",
-    "prettier:write": "npx prettier --write .",
+    "prettier": "npx prettier --write .",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
     "test": "npx jest",
     "test:watch": "npm run test -- --watch",

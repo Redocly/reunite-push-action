@@ -18,7 +18,7 @@ npm install # or npm i
 
 - `npm run lint` - to run linter for codebase
 - `npm run prettier:check` - to run prettier check (used for CI)
-- `npm run prettier:write` - to run prettier with fixing errors (used for local)
+- `npm run prettier` - to run prettier with fixing errors (used for local)
 - `npm run test` - for running unit tests
 - `npm run test:watch` - for running unit tests in watch mode
 - `npm run test:coverage` - for check unit tests coverage
