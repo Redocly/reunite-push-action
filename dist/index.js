@@ -76445,7 +76445,7 @@ function parseInputData() {
     const redoclyDomain = core.getInput('domain') || 'https://app.cloud.redocly.com';
     const files = core.getInput('files').split(' ');
     const mountPath = core.getInput('mountPath');
-    const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 20000;
+    const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
     const redoclyConfigPath = core.getInput('redoclyConfigPath');
     const absoluteFilePaths = files.map(_path => path_1.default.join(process.env.GITHUB_WORKSPACE || '', _path));
     return {

@@ -17,7 +17,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "all": "npm run prettier:write && npm run lint && npm run test && npm run package",
+    "all": "npm run prettier && npm run lint && npm run test && npm run package",
     "prettier:check": "npx prettier --check .",
     "prettier": "npx prettier --write .",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
@@ -27,7 +27,7 @@
     "test:ci": "npm run test -- --coverage --ci --silent --testLocationInResults --json --outputFile=results.json",
     "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
-    "bundle": "npm run prettier:write && npm run package",
+    "bundle": "npm run prettier && npm run package",
     "compile-fake-server": "tsc -p tsconfig.fake-server.json",
     "fake-server:start": "npm run compile-fake-server && pm2 start ./fake-api-server/.dist/fake-api-server.js"
   },
