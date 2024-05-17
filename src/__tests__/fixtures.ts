@@ -8,7 +8,6 @@ export const parsedInputDataStub: ParsedInputData = {
   files: ['test'],
   mountPath: 'test/mount/path',
   maxExecutionTime: 100,
-  redoclyConfigPath: 'test/redocly/config/path',
 };
 
 export const parsedEventPushDataMock: ParsedEventData = {

@@ -27,9 +27,6 @@ inputs:
     description: 'Max execution time in seconds'
     required: false
     default: '1200'
-  redoclyConfigPath:
-    description: 'Path to the redocly config file'
-    required: false
   githubToken:
     description: 'Token to authenticate with'
     required: true

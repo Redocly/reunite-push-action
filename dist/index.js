@@ -76446,7 +76446,6 @@ function parseInputData() {
     const files = core.getInput('files').split(' ');
     const mountPath = core.getInput('mountPath');
     const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
-    const redoclyConfigPath = core.getInput('redoclyConfigPath');
     const absoluteFilePaths = files.map(_path => path_1.default.join(process.env.GITHUB_WORKSPACE || '', _path));
     return {
         redoclyOrgSlug,
@@ -76455,7 +76454,6 @@ function parseInputData() {
         files: absoluteFilePaths,
         mountPath,
         maxExecutionTime,
-        redoclyConfigPath,
     };
 }
 exports.parseInputData = parseInputData;
@@ -76497,7 +76495,7 @@ async function parseEventData() {
         commitSha,
         commitMessage: commitData.commit.message,
         commitUrl: commitData.html_url,
-        commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`, // what about undefined name or email?
+        commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`,
         commitCreatedAt: commitData.commit.author?.date,
     };
     return {
@@ -76522,14 +76520,10 @@ function getCommitSha() {
             return github.context.payload.after;
         }
     }
-    // TBD: what about other cases?
 }
-async function getRedoclyConfig(configPath) {
-    const redoclyConfig = await (0, openapi_core_1.loadConfig)({
-        configPath: configPath && process.env.GITHUB_WORKSPACE
-            ? path_1.default.join(process.env.GITHUB_WORKSPACE, configPath)
-            : undefined,
-    });
+// Returns parsed config from the root or default config if not found
+async function getRedoclyConfig() {
+    const redoclyConfig = await (0, openapi_core_1.loadConfig)();
     return redoclyConfig;
 }
 exports.getRedoclyConfig = getRedoclyConfig;
@@ -76568,7 +76562,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(42186));
-const github = __importStar(__nccwpck_require__(95438));
 const push_1 = __nccwpck_require__(8893);
 const push_status_1 = __nccwpck_require__(74229);
 const set_commit_statuses_1 = __nccwpck_require__(55467);
@@ -76577,12 +76570,9 @@ async function run() {
     try {
         const inputData = (0, helpers_1.parseInputData)();
         const ghEvent = await (0, helpers_1.parseEventData)();
-        // eslint-disable-next-line no-console
-        console.debug('Push arguments', {
-            inputData,
-            ghEvent,
-        });
-        const config = await (0, helpers_1.getRedoclyConfig)(inputData.redoclyConfigPath);
+        console.debug('Parsed input data', inputData);
+        console.debug('Parsed GitHub event', ghEvent);
+        const config = await (0, helpers_1.getRedoclyConfig)();
         const pushData = await (0, push_1.handlePush)({
             domain: inputData.redoclyDomain,
             organization: inputData.redoclyOrgSlug,
@@ -76639,7 +76629,6 @@ async function run() {
         core.setOutput('pushId', pushData.pushId);
     }
     catch (error) {
-        console.debug('GitHub context', JSON.stringify(github.context, null, 2));
         if (error instanceof Error)
             core.setFailed(error.message);
     }

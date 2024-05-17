@@ -12,7 +12,6 @@ export function parseInputData(): ParsedInputData {
   const files = core.getInput('files').split(' ');
   const mountPath = core.getInput('mountPath');
   const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
-  const redoclyConfigPath = core.getInput('redoclyConfigPath');
 
   const absoluteFilePaths = files.map(_path =>
     path.join(process.env.GITHUB_WORKSPACE || '', _path),
@@ -25,7 +24,6 @@ export function parseInputData(): ParsedInputData {
     files: absoluteFilePaths,
     mountPath,
     maxExecutionTime,
-    redoclyConfigPath,
   };
 }
 
@@ -96,7 +94,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
     commitSha,
     commitMessage: commitData.commit.message,
     commitUrl: commitData.html_url,
-    commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`, // what about undefined name or email?
+    commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`,
     commitCreatedAt: commitData.commit.author?.date,
   };
 
@@ -123,19 +121,11 @@ function getCommitSha(): string | undefined {
       return github.context.payload.after;
     }
   }
-
-  // TBD: what about other cases?
 }
 
-export async function getRedoclyConfig(
-  configPath: string | undefined,
-): ReturnType<typeof loadConfig> {
-  const redoclyConfig = await loadConfig({
-    configPath:
-      configPath && process.env.GITHUB_WORKSPACE
-        ? path.join(process.env.GITHUB_WORKSPACE, configPath)
-        : undefined,
-  });
+// Returns parsed config from the root or default config if not found
+export async function getRedoclyConfig(): ReturnType<typeof loadConfig> {
+  const redoclyConfig = await loadConfig();
 
   return redoclyConfig;
 }

@@ -73,12 +73,11 @@ describe('helpers', () => {
           files: 'testFolder testOpenApiFile.yaml',
           mountPath: 'test/mount/path',
           maxExecutionTime: '100',
-          redoclyConfigPath: 'test/redocly/config/path',
         }),
       );
       const parsedInputData = parseInputData();
 
-      expect(getInputMock).toHaveBeenCalledTimes(7);
+      expect(getInputMock).toHaveBeenCalledTimes(6);
       expect(parsedInputData).toEqual({
         redoclyOrgSlug: 'test-org-slug',
         redoclyProjectSlug: 'test-project-slug',
@@ -89,7 +88,6 @@ describe('helpers', () => {
         ],
         mountPath: 'test/mount/path',
         maxExecutionTime: 100,
-        redoclyConfigPath: 'test/redocly/config/path',
       });
     });
   });
@@ -117,7 +115,7 @@ describe('helpers', () => {
 
   describe('getRedoclyConfig', () => {
     it('should return redocly config', async () => {
-      const redoclyConfig = await getRedoclyConfig('some-path');
+      const redoclyConfig = await getRedoclyConfig();
       expect(typeof redoclyConfig).toBe(typeof loadConfig({}));
     });
   });

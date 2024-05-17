@@ -1,5 +1,4 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
 
 import { handlePush } from '@redocly/cli/lib/cms/commands/push';
 import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status';
@@ -12,13 +11,10 @@ export async function run(): Promise<void> {
     const inputData = parseInputData();
     const ghEvent = await parseEventData();
 
-    // eslint-disable-next-line no-console
-    console.debug('Push arguments', {
-      inputData,
-      ghEvent,
-    });
+    console.debug('Parsed input data', inputData);
+    console.debug('Parsed GitHub event', ghEvent);
 
-    const config = await getRedoclyConfig(inputData.redoclyConfigPath);
+    const config = await getRedoclyConfig();
 
     const pushData = await handlePush(
       {
@@ -92,7 +88,6 @@ export async function run(): Promise<void> {
 
     core.setOutput('pushId', pushData.pushId);
   } catch (error) {
-    console.debug('GitHub context', JSON.stringify(github.context, null, 2));
     if (error instanceof Error) core.setFailed(error.message);
   }
 }
