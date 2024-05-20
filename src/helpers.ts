@@ -50,7 +50,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
 
   const branch =
     github.context.payload.pull_request?.['head']?.['ref'] ||
-    github.context.ref.split('/').pop();
+    github.context.ref.replace('refs/heads/', '');
 
   if (!branch) {
     throw new Error(

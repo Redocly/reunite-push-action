@@ -76468,7 +76468,7 @@ async function parseEventData() {
         throw new Error('Invalid GitHub event data. Can not get owner or repository name from the event payload.');
     }
     const branch = github.context.payload.pull_request?.['head']?.['ref'] ||
-        github.context.ref.split('/').pop();
+        github.context.ref.replace('refs/heads/', '');
     if (!branch) {
         throw new Error('Invalid GitHub event data. Can not get branch from the event payload.');
     }
