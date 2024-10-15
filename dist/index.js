@@ -76568,6 +76568,7 @@ const set_commit_statuses_1 = __nccwpck_require__(55467);
 const helpers_1 = __nccwpck_require__(43015);
 async function run() {
     try {
+        console.info('Stub change to check smoke tests');
         const inputData = (0, helpers_1.parseInputData)();
         const ghEvent = await (0, helpers_1.parseEventData)();
         console.debug('Parsed input data', inputData);
