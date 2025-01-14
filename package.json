@@ -63,5 +63,8 @@
   },
   "eslintConfig": {
     "extends": "./.github/linters/.eslintrc.yml"
+  },
+  "overrides": {
+    "systeminformation@<=5.22.7": "5.25.5"
   }
 }
