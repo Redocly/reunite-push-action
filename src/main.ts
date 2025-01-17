@@ -8,6 +8,8 @@ import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
 
 export async function run(): Promise<void> {
   try {
+    console.info('Stub change to check smoke tests');
+
     const inputData = parseInputData();
     const ghEvent = await parseEventData();
 
