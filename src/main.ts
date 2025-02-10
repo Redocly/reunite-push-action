@@ -6,6 +6,10 @@ import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status';
 import { setCommitStatuses } from './set-commit-statuses';
 import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
 
+import { dependencies } from '../package.json';
+
+const redoclyCliVersion = dependencies['@redocly/cli'];
+
 export async function run(): Promise<void> {
   try {
     const inputData = parseInputData();
@@ -16,8 +20,8 @@ export async function run(): Promise<void> {
 
     const config = await getRedoclyConfig();
 
-    const pushData = await handlePush(
-      {
+    const pushData = await handlePush({
+      argv: {
         domain: inputData.redoclyDomain,
         organization: inputData.redoclyOrgSlug,
         project: inputData.redoclyProjectSlug,
@@ -35,14 +39,15 @@ export async function run(): Promise<void> {
         'created-at': ghEvent.commit.commitCreatedAt,
       },
       config,
-    );
+      version: redoclyCliVersion,
+    });
 
     if (!pushData?.pushId) {
       throw new Error('Missing push ID');
     }
 
-    const pushStatusData = await handlePushStatus(
-      {
+    const pushStatusData = await handlePushStatus({
+      argv: {
         organization: inputData.redoclyOrgSlug,
         project: inputData.redoclyProjectSlug,
         pushId: pushData.pushId,
@@ -66,7 +71,8 @@ export async function run(): Promise<void> {
         },
       },
       config,
-    );
+      version: redoclyCliVersion,
+    });
 
     if (!pushStatusData) {
       throw new Error('Missing push status data');
