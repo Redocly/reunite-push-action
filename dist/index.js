@@ -2375,7 +2375,7 @@ module.exports = __toCommonJS(dist_src_exports);
 var import_universal_user_agent = __nccwpck_require__(45030);
 
 // pkg/dist-src/version.js
-var VERSION = "9.0.5";
+var VERSION = "9.0.6";
 
 // pkg/dist-src/defaults.js
 var userAgent = `octokit-endpoint.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`;
@@ -2480,9 +2480,9 @@ function addQueryParameters(url, parameters) {
 }
 
 // pkg/dist-src/util/extract-url-variable-names.js
-var urlVariableRegex = /\{[^}]+\}/g;
+var urlVariableRegex = /\{[^{}}]+\}/g;
 function removeNonChars(variableName) {
-  return variableName.replace(/^\W+|\W+$/g, "").split(/,/);
+  return variableName.replace(/(?:^\W+)|(?:(?<!\W)\W+$)/g, "").split(/,/);
 }
 function extractUrlVariableNames(url) {
   const matches = url.match(urlVariableRegex);
@@ -2668,7 +2668,7 @@ function parse(options) {
     }
     if (url.endsWith("/graphql")) {
       if (options.mediaType.previews?.length) {
-        const previewsFromAcceptHeader = headers.accept.match(/[\w-]+(?=-preview)/g) || [];
+        const previewsFromAcceptHeader = headers.accept.match(/(?<![\w-])[\w-]+(?=-preview)/g) || [];
         headers.accept = previewsFromAcceptHeader.concat(options.mediaType.previews).map((preview) => {
           const format = options.mediaType.format ? `.${options.mediaType.format}` : "+json";
           return `application/vnd.github.${preview}-preview${format}`;
@@ -2749,18 +2749,18 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // pkg/dist-src/index.js
-var dist_src_exports = {};
-__export(dist_src_exports, {
+var index_exports = {};
+__export(index_exports, {
   GraphqlResponseError: () => GraphqlResponseError,
   graphql: () => graphql2,
   withCustomRequest: () => withCustomRequest
 });
-module.exports = __toCommonJS(dist_src_exports);
+module.exports = __toCommonJS(index_exports);
 var import_request3 = __nccwpck_require__(36234);
 var import_universal_user_agent = __nccwpck_require__(45030);
 
 // pkg/dist-src/version.js
-var VERSION = "7.1.0";
+var VERSION = "7.1.1";
 
 // pkg/dist-src/with-defaults.js
 var import_request2 = __nccwpck_require__(36234);
@@ -2808,8 +2808,7 @@ function graphql(request2, query, options) {
       );
     }
     for (const key in options) {
-      if (!FORBIDDEN_VARIABLE_OPTIONS.includes(key))
-        continue;
+      if (!FORBIDDEN_VARIABLE_OPTIONS.includes(key)) continue;
       return Promise.reject(
         new Error(
           `[@octokit/graphql] "${key}" cannot be used as variable name`
@@ -2917,7 +2916,7 @@ __export(dist_src_exports, {
 module.exports = __toCommonJS(dist_src_exports);
 
 // pkg/dist-src/version.js
-var VERSION = "9.2.1";
+var VERSION = "9.2.2";
 
 // pkg/dist-src/normalize-paginated-list-response.js
 function normalizePaginatedListResponse(response) {
@@ -2965,7 +2964,7 @@ function iterator(octokit, route, parameters) {
           const response = await requestMethod({ method, url, headers });
           const normalizedResponse = normalizePaginatedListResponse(response);
           url = ((normalizedResponse.headers.link || "").match(
-            /<([^>]+)>;\s*rel="next"/
+            /<([^<>]+)>;\s*rel="next"/
           ) || [])[1];
           return { value: normalizedResponse };
         } catch (error) {
@@ -5517,7 +5516,7 @@ var RequestError = class extends Error {
     if (options.request.headers.authorization) {
       requestCopy.headers = Object.assign({}, options.request.headers, {
         authorization: options.request.headers.authorization.replace(
-          / .*$/,
+          /(?<! ) .*$/,
           " [REDACTED]"
         )
       });
@@ -5585,7 +5584,7 @@ var import_endpoint = __nccwpck_require__(59440);
 var import_universal_user_agent = __nccwpck_require__(45030);
 
 // pkg/dist-src/version.js
-var VERSION = "8.4.0";
+var VERSION = "8.4.1";
 
 // pkg/dist-src/is-plain-object.js
 function isPlainObject(value) {
@@ -5644,7 +5643,7 @@ function fetchWrapper(requestOptions) {
       headers[keyAndValue[0]] = keyAndValue[1];
     }
     if ("deprecation" in headers) {
-      const matches = headers.link && headers.link.match(/<([^>]+)>; rel="deprecation"/);
+      const matches = headers.link && headers.link.match(/<([^<>]+)>; rel="deprecation"/);
       const deprecationLink = matches && matches.pop();
       log.warn(
         `[@octokit/request] "${requestOptions.method} ${requestOptions.url}" is deprecated. It is scheduled to be removed on ${headers.sunset}${deprecationLink ? `. See ${deprecationLink}` : ""}`
@@ -53686,6 +53685,14 @@ const { isUint8Array, isArrayBuffer } = __nccwpck_require__(29830)
 const { File: UndiciFile } = __nccwpck_require__(78511)
 const { parseMIMEType, serializeAMimeType } = __nccwpck_require__(685)
 
+let random
+try {
+  const crypto = __nccwpck_require__(6005)
+  random = (max) => crypto.randomInt(0, max)
+} catch {
+  random = (max) => Math.floor(Math.random(max))
+}
+
 let ReadableStream = globalThis.ReadableStream
 
 /** @type {globalThis['File']} */
@@ -53771,7 +53778,7 @@ function extractBody (object, keepalive = false) {
     // Set source to a copy of the bytes held by object.
     source = new Uint8Array(object.buffer.slice(object.byteOffset, object.byteOffset + object.byteLength))
   } else if (util.isFormDataLike(object)) {
-    const boundary = `----formdata-undici-0${`${Math.floor(Math.random() * 1e11)}`.padStart(11, '0')}`
+    const boundary = `----formdata-undici-0${`${random(1e11)}`.padStart(11, '0')}`
     const prefix = `--${boundary}\r\nContent-Disposition: form-data`
 
     /*! formdata-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
@@ -72823,6 +72830,14 @@ module.exports = require("net");
 
 /***/ }),
 
+/***/ 6005:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:crypto");
+
+/***/ }),
+
 /***/ 15673:
 /***/ ((module) => {
 
@@ -74781,7 +74796,7 @@ module.exports = {"i8":"1.28.5"};
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@redocly/reunite-push-action","description":"GitHub Action for pushing files to Redocly Reunite app","version":"1.0.0","author":"Redocly","private":true,"keywords":["actions","node","setup","redocly"],"exports":{".":"./dist/index.js"},"engines":{"node":">=20"},"scripts":{"all":"npm run prettier && npm run lint && npm run test && npm run package","prettier:check":"npx prettier --check .","prettier":"npx prettier --write .","lint":"npx eslint . -c ./.github/linters/.eslintrc.yml","test":"npx jest","test:watch":"npm run test -- --watch","test:coverage":"npm run test -- --coverage","test:ci":"npm run test -- --coverage --ci --silent --testLocationInResults --json --outputFile=results.json","package":"npx ncc build src/index.ts -o dist --source-map --license licenses.txt","package:watch":"npm run package -- --watch","bundle":"npm run prettier && npm run package","compile-fake-server":"tsc -p tsconfig.fake-server.json","fake-server:start":"npm run compile-fake-server && pm2 start ./fake-api-server/.dist/fake-api-server.js"},"license":"MIT","dependencies":{"@actions/core":"^1.10.1","@actions/github":"^6.0.0","@octokit/rest":"^20.1.0","@redocly/cli":"^1.28.5"},"devDependencies":{"@jest/globals":"^29.7.0","@types/express":"^4.17.21","@types/jest":"^29.5.14","@types/node":"^20.12.7","@typescript-eslint/eslint-plugin":"^7.7.0","@typescript-eslint/parser":"^7.7.0","@vercel/ncc":"^0.38.1","eslint":"^8.57.0","eslint-plugin-github":"^4.10.2","eslint-plugin-jest":"^28.2.0","eslint-plugin-jsonc":"^2.15.1","eslint-plugin-prettier":"^5.1.3","express":"^4.21.1","jest":"^29.7.0","make-coverage-badge":"^1.2.0","pm2":"^5.3.1","prettier":"^3.2.5","prettier-eslint":"^16.3.0","ts-jest":"^29.1.2","ts-node":"^10.9.2","typescript":"^5.4.5"},"eslintConfig":{"extends":"./.github/linters/.eslintrc.yml"},"overrides":{"systeminformation@<=5.22.7":"5.25.5"}}');
+module.exports = JSON.parse('{"name":"@redocly/reunite-push-action","description":"GitHub Action for pushing files to Redocly Reunite app","version":"1.0.0","author":"Redocly","private":true,"keywords":["actions","node","setup","redocly"],"exports":{".":"./dist/index.js"},"engines":{"node":">=20"},"scripts":{"all":"npm run prettier && npm run lint && npm run test && npm run package","prettier:check":"npx prettier --check .","prettier":"npx prettier --write .","lint":"npx eslint . -c ./.github/linters/.eslintrc.yml","test":"npx jest","test:watch":"npm run test -- --watch","test:coverage":"npm run test -- --coverage","test:ci":"npm run test -- --coverage --ci --silent --testLocationInResults --json --outputFile=results.json","package":"npx ncc build src/index.ts -o dist --source-map --license licenses.txt","package:watch":"npm run package -- --watch","bundle":"npm run prettier && npm run package","compile-fake-server":"tsc -p tsconfig.fake-server.json","fake-server:start":"npm run compile-fake-server && pm2 start ./fake-api-server/.dist/fake-api-server.js"},"license":"MIT","dependencies":{"@actions/core":"^1.10.1","@actions/github":"^6.0.0","@octokit/rest":"^20.1.0","@redocly/cli":"^1.28.5"},"devDependencies":{"@jest/globals":"^29.7.0","@types/express":"^4.17.21","@types/jest":"^29.5.14","@types/node":"^20.12.7","@typescript-eslint/eslint-plugin":"^7.7.0","@typescript-eslint/parser":"^7.7.0","@vercel/ncc":"^0.38.1","eslint":"^8.57.0","eslint-plugin-github":"^4.10.2","eslint-plugin-jest":"^28.2.0","eslint-plugin-jsonc":"^2.15.1","eslint-plugin-prettier":"^5.1.3","express":"^4.21.1","jest":"^29.7.0","make-coverage-badge":"^1.2.0","pm2":"^6.0.5","prettier":"^3.2.5","prettier-eslint":"^16.3.0","ts-jest":"^29.1.2","ts-node":"^10.9.2","typescript":"^5.4.5"},"eslintConfig":{"extends":"./.github/linters/.eslintrc.yml"},"overrides":{"systeminformation@<=5.22.7":"5.25.5"}}');
 
 /***/ })
 
