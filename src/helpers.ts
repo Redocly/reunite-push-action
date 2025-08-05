@@ -39,6 +39,20 @@ export async function parseEventData(): Promise<ParsedEventData> {
       'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.',
     );
   }
+
+  if (github.context.eventName === 'pull_request') {
+    const allowedActions = ['opened', 'synchronize', 'reopened'];
+
+    if (
+      !github.context.payload.action ||
+      !allowedActions.includes(github.context.payload.action)
+    ) {
+      throw new Error(
+        'Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
+      );
+    }
+  }
+
   const namespace = github.context.payload?.repository?.owner?.login;
   const repository = github.context.payload?.repository?.name;
 
@@ -109,18 +123,13 @@ export async function parseEventData(): Promise<ParsedEventData> {
   };
 }
 
-function getCommitSha(): string | undefined {
+export function getCommitSha(): string | undefined {
   if (github.context.eventName === 'push') {
     return github.context.payload.after;
   }
 
   if (github.context.eventName === 'pull_request') {
-    if (github.context.payload.action === 'opened') {
-      return github.context.payload.pull_request?.head?.sha;
-    }
-    if (github.context.payload.action === 'synchronize') {
-      return github.context.payload.after;
-    }
+    return github.context.payload.pull_request?.head?.sha;
   }
 }
 
