@@ -173,17 +173,6 @@ describe('helpers', () => {
       );
     });
 
-    it('should throw error for unsupported PR action', async () => {
-      github.context.eventName = 'pull_request';
-      github.context.payload = createPayloadMock({
-        action: 'closed',
-      });
-
-      await expect(parseEventData()).rejects.toThrow(
-        'Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
-      );
-    });
-
     it('should throw error when repository info is missing', async () => {
       github.context.eventName = 'push';
       github.context.payload = createPayloadMock({

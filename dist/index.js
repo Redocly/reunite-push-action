@@ -72444,7 +72444,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getRedoclyConfig = exports.getCommitSha = exports.parseEventData = exports.parseInputData = void 0;
+exports.shouldSkipPRAction = exports.getRedoclyConfig = exports.getCommitSha = exports.parseEventData = exports.parseInputData = void 0;
 const path_1 = __importDefault(__nccwpck_require__(71017));
 const core = __importStar(__nccwpck_require__(42186));
 const github = __importStar(__nccwpck_require__(95438));
@@ -72471,13 +72471,6 @@ async function parseEventData() {
     if (!(github.context.eventName === 'push' ||
         github.context.eventName === 'pull_request')) {
         throw new Error('Unsupported GitHub event type. Only "push" and "pull_request" events are supported.');
-    }
-    if (github.context.eventName === 'pull_request') {
-        const allowedActions = ['opened', 'synchronize', 'reopened'];
-        if (!github.context.payload.action ||
-            !allowedActions.includes(github.context.payload.action)) {
-            throw new Error('Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.');
-        }
     }
     const namespace = github.context.payload?.repository?.owner?.login;
     const repository = github.context.payload?.repository?.name;
@@ -72540,6 +72533,17 @@ async function getRedoclyConfig() {
     return redoclyConfig;
 }
 exports.getRedoclyConfig = getRedoclyConfig;
+function shouldSkipPRAction() {
+    if (github.context.eventName === 'pull_request' &&
+        ['opened', 'synchronize', 'reopened'].includes(github.context.action)) {
+        return false;
+    }
+    if (github.context.eventName === 'push') {
+        return false;
+    }
+    return true;
+}
+exports.shouldSkipPRAction = shouldSkipPRAction;
 
 
 /***/ }),
@@ -72583,6 +72587,11 @@ const package_json_1 = __nccwpck_require__(4147);
 const redoclyCliVersion = package_json_1.dependencies['@redocly/cli'];
 async function run() {
     try {
+        if ((0, helpers_1.shouldSkipPRAction)()) {
+            core.info(`No changes detected in the pull request.`);
+            core.setOutput('skipped', 'true');
+            return;
+        }
         const inputData = (0, helpers_1.parseInputData)();
         const ghEvent = await (0, helpers_1.parseEventData)();
         console.debug('Parsed input data', inputData);

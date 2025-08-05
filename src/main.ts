@@ -4,7 +4,12 @@ import { handlePush } from '@redocly/cli/lib/cms/commands/push';
 import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status';
 
 import { setCommitStatuses } from './set-commit-statuses';
-import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
+import {
+  getRedoclyConfig,
+  parseEventData,
+  parseInputData,
+  shouldSkipPRAction,
+} from './helpers';
 
 import { dependencies } from '../package.json';
 
@@ -12,6 +17,12 @@ const redoclyCliVersion = dependencies['@redocly/cli'];
 
 export async function run(): Promise<void> {
   try {
+    if (shouldSkipPRAction()) {
+      core.info(`No changes detected in the pull request.`);
+      core.setOutput('skipped', 'true');
+      return;
+    }
+
     const inputData = parseInputData();
     const ghEvent = await parseEventData();
 

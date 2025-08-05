@@ -40,18 +40,6 @@ export async function parseEventData(): Promise<ParsedEventData> {
     );
   }
 
-  if (github.context.eventName === 'pull_request') {
-    const allowedActions = ['opened', 'synchronize', 'reopened'];
-
-    if (
-      !github.context.payload.action ||
-      !allowedActions.includes(github.context.payload.action)
-    ) {
-      throw new Error(
-        'Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
-      );
-    }
-  }
 
   const namespace = github.context.payload?.repository?.owner?.login;
   const repository = github.context.payload?.repository?.name;
@@ -138,4 +126,19 @@ export async function getRedoclyConfig(): ReturnType<typeof loadConfig> {
   const redoclyConfig = await loadConfig();
 
   return redoclyConfig;
+}
+
+export function shouldSkipPRAction(): boolean {
+  if (
+    github.context.eventName === 'pull_request' &&
+    ['opened', 'synchronize', 'reopened'].includes(github.context.action)
+  ) {
+    return false;
+  }
+
+  if (github.context.eventName === 'push') {
+    return false;
+  }
+
+  return true;
 }

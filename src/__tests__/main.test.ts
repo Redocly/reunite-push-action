@@ -84,4 +84,23 @@ describe('action', () => {
     );
     expect(setOutputMock).not.toHaveBeenCalled();
   });
+
+  it('should skip action when shouldSkipPRAction returns true', async () => {
+    const shouldSkipPRActionMock = jest
+      .spyOn(helpers, 'shouldSkipPRAction')
+      .mockReturnValue(true);
+
+    await main.run();
+
+    expect(runMock).toHaveReturned();
+    expect(shouldSkipPRActionMock).toHaveBeenCalled();
+    expect(parseInputDataMock).not.toHaveBeenCalled();
+    expect(parseEventDataMock).not.toHaveBeenCalled();
+    expect(handlePushMock).not.toHaveBeenCalled();
+    expect(handlePushStatusMock).not.toHaveBeenCalled();
+    expect(setCommitStatusMock).not.toHaveBeenCalled();
+    expect(setOutputMock).not.toHaveBeenCalled();
+    expect(setFailedMock).not.toHaveBeenCalled();
+    expect(setOutputMock).toHaveBeenCalledWith('skipped', 'true');
+  });
 });
