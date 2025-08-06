@@ -13,6 +13,7 @@ export function parseInputData(): ParsedInputData {
   const redoclyDomain =
     core.getInput('domain') || 'https://app.cloud.redocly.com';
   const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
+  const configPath = core.getInput('configPath') || undefined;
 
   const absoluteFilePaths = files.map(_path =>
     path.join(process.env.GITHUB_WORKSPACE || '', _path),
@@ -25,6 +26,7 @@ export function parseInputData(): ParsedInputData {
     files: absoluteFilePaths,
     redoclyDomain,
     maxExecutionTime,
+    configPath,
   };
 }
 
@@ -124,9 +126,13 @@ function getCommitSha(): string | undefined {
   }
 }
 
-// Returns parsed config from the root or default config if not found
-export async function getRedoclyConfig(): ReturnType<typeof loadConfig> {
-  const redoclyConfig = await loadConfig();
+// Returns parsed config from the specified path or default config if not found
+export async function getRedoclyConfig(
+  configPath?: string,
+): ReturnType<typeof loadConfig> {
+  const redoclyConfig = await loadConfig(
+    configPath ? { configPath } : undefined,
+  );
 
   return redoclyConfig;
 }

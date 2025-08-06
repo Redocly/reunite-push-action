@@ -5,6 +5,7 @@ export interface ParsedInputData {
   files: string[];
   mountPath: string;
   maxExecutionTime: number;
+  configPath?: string;
 }
 
 export interface ParsedEventData {
