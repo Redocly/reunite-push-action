@@ -72444,7 +72444,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getRedoclyConfig = exports.parseEventData = exports.parseInputData = void 0;
+exports.getRedoclyConfig = exports.getCommitSha = exports.parseEventData = exports.parseInputData = void 0;
 const path_1 = __importDefault(__nccwpck_require__(71017));
 const core = __importStar(__nccwpck_require__(42186));
 const github = __importStar(__nccwpck_require__(95438));
@@ -72471,6 +72471,13 @@ async function parseEventData() {
     if (!(github.context.eventName === 'push' ||
         github.context.eventName === 'pull_request')) {
         throw new Error('Unsupported GitHub event type. Only "push" and "pull_request" events are supported.');
+    }
+    if (github.context.eventName === 'pull_request') {
+        const allowedActions = ['opened', 'synchronize', 'reopened'];
+        if (!github.context.payload.action ||
+            !allowedActions.includes(github.context.payload.action)) {
+            throw new Error('Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.');
+        }
     }
     const namespace = github.context.payload?.repository?.owner?.login;
     const repository = github.context.payload?.repository?.name;
@@ -72523,14 +72530,10 @@ function getCommitSha() {
         return github.context.payload.after;
     }
     if (github.context.eventName === 'pull_request') {
-        if (github.context.payload.action === 'opened') {
-            return github.context.payload.pull_request?.head?.sha;
-        }
-        if (github.context.payload.action === 'synchronize') {
-            return github.context.payload.after;
-        }
+        return github.context.payload.pull_request?.head?.sha;
     }
 }
+exports.getCommitSha = getCommitSha;
 // Returns parsed config from the root or default config if not found
 async function getRedoclyConfig() {
     const redoclyConfig = await (0, openapi_core_1.loadConfig)();
