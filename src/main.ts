@@ -18,7 +18,7 @@ export async function run(): Promise<void> {
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);
 
-    const config = await getRedoclyConfig();
+    const config = await getRedoclyConfig(inputData.configPath);
 
     const pushData = await handlePush({
       argv: {

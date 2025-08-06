@@ -1,7 +1,11 @@
 import * as core from '@actions/core';
+import { Context } from '@actions/github/lib/context';
 import { parseInputData, parseEventData, getRedoclyConfig } from '../helpers';
 import { loadConfig } from '@redocly/openapi-core';
-import { Context } from '@actions/github/lib/context';
+
+jest.mock('@redocly/openapi-core', () => ({
+  loadConfig: jest.fn(),
+}));
 
 let getInputMock: jest.SpiedFunction<typeof core.getInput>;
 
@@ -64,7 +68,7 @@ describe('helpers', () => {
   });
 
   describe('parseInputData', () => {
-    it('should return parsed input data', () => {
+    it('should return parsed input data without config', () => {
       getInputMock.mockImplementation(
         getGetInputMock({
           organization: 'test-org-slug',
@@ -77,7 +81,7 @@ describe('helpers', () => {
       );
       const parsedInputData = parseInputData();
 
-      expect(getInputMock).toHaveBeenCalledTimes(6);
+      expect(getInputMock).toHaveBeenCalledTimes(7);
       expect(parsedInputData).toEqual({
         redoclyOrgSlug: 'test-org-slug',
         redoclyProjectSlug: 'test-project-slug',
@@ -88,6 +92,36 @@ describe('helpers', () => {
         ],
         mountPath: 'test/mount/path',
         maxExecutionTime: 100,
+        configPath: undefined,
+      });
+    });
+
+    it('should return parsed input data with custom config', () => {
+      getInputMock.mockImplementation(
+        getGetInputMock({
+          organization: 'test-org-slug',
+          project: 'test-project-slug',
+          domain: 'redocly-domain.com',
+          files: 'testFolder testOpenApiFile.yaml',
+          mountPath: 'test/mount/path',
+          maxExecutionTime: '100',
+          configPath: 'custom/path/redocly.yaml',
+        }),
+      );
+      const parsedInputData = parseInputData();
+
+      expect(getInputMock).toHaveBeenCalledTimes(7);
+      expect(parsedInputData).toEqual({
+        redoclyOrgSlug: 'test-org-slug',
+        redoclyProjectSlug: 'test-project-slug',
+        redoclyDomain: 'redocly-domain.com',
+        files: [
+          '/home/runner/work/reunite-push-action/testFolder',
+          '/home/runner/work/reunite-push-action/testOpenApiFile.yaml',
+        ],
+        mountPath: 'test/mount/path',
+        maxExecutionTime: 100,
+        configPath: 'custom/path/redocly.yaml',
       });
     });
   });
@@ -114,9 +148,23 @@ describe('helpers', () => {
   });
 
   describe('getRedoclyConfig', () => {
-    it('should return redocly config', async () => {
-      const redoclyConfig = await getRedoclyConfig();
-      expect(typeof redoclyConfig).toBe(typeof loadConfig({}));
+    const mockLoadConfig = loadConfig as jest.MockedFunction<typeof loadConfig>;
+
+    beforeEach(() => {
+      mockLoadConfig.mockResolvedValue({} as ReturnType<typeof loadConfig>);
+    });
+
+    it('should return redocly config with default path', async () => {
+      await getRedoclyConfig();
+      expect(mockLoadConfig).toHaveBeenCalledWith(undefined);
+    });
+
+    it('should return redocly config with custom path', async () => {
+      const customConfigPath = 'custom/path/redocly.yaml';
+      await getRedoclyConfig(customConfigPath);
+      expect(mockLoadConfig).toHaveBeenCalledWith({
+        configPath: customConfigPath,
+      });
     });
   });
 });
