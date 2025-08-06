@@ -48,7 +48,7 @@ export async function parseEventData(): Promise<ParsedEventData> {
       !allowedActions.includes(github.context.payload.action)
     ) {
       throw new Error(
-        'Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
+        'Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
       );
     }
   }

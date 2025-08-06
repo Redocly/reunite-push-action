@@ -72476,7 +72476,7 @@ async function parseEventData() {
         const allowedActions = ['opened', 'synchronize', 'reopened'];
         if (!github.context.payload.action ||
             !allowedActions.includes(github.context.payload.action)) {
-            throw new Error('Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.');
+            throw new Error('Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.');
         }
     }
     const namespace = github.context.payload?.repository?.owner?.login;

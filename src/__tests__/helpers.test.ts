@@ -180,7 +180,7 @@ describe('helpers', () => {
       });
 
       await expect(parseEventData()).rejects.toThrow(
-        'Invalid GitHub event data. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
+        'Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
       );
     });
 
