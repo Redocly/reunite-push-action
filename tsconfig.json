@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "esnext",
     "module": "esnext",
     "rootDir": "./src",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "sourceMap": true,
     "outDir": "./dist",
@@ -14,7 +14,8 @@
     "strict": true,
     "skipLibCheck": true,
     "newLine": "lf",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "exclude": ["./dist", "./node_modules", "./coverage", "./fake-api-server"]
 }
