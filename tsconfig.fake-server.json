@@ -13,8 +13,14 @@
     "strict": true,
     "skipLibCheck": true,
     "newLine": "lf",
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "include": ["./fake-api-server"],
-  "exclude": ["./dist", "./node_modules", "./__tests__", "./coverage", "vitest.config.ts"]
+  "exclude": [
+    "./dist",
+    "./node_modules",
+    "./__tests__",
+    "./coverage",
+    "vitest.config.ts"
+  ]
 }
