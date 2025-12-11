@@ -1,10 +1,10 @@
+import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import * as core from '@actions/core';
-import * as handlePushCommand from '@redocly/cli/lib/cms/commands/push';
-import * as handlePushStatusCommand from '@redocly/cli/lib/cms/commands/push-status';
+import * as handlePushCommand from '@redocly/cli/lib/reunite/commands/push';
+import * as handlePushStatusCommand from '@redocly/cli/lib/reunite/commands/push-status';
 
 import * as main from '../main';
 import * as helpers from '../helpers';
-
 import * as commitStatusUtils from '../set-commit-statuses';
 import {
   parsedEventPushDataMock,
@@ -12,49 +12,52 @@ import {
   pushStatusSummaryStub,
 } from './fixtures';
 
-const runMock = jest.spyOn(main, 'run');
+vi.mock('@actions/core', { spy: true });
+vi.mock('@redocly/cli/lib/reunite/commands/push', { spy: true });
+vi.mock('@redocly/cli/lib/reunite/commands/push-status', { spy: true });
+vi.mock('../helpers', { spy: true });
+vi.mock('../set-commit-statuses', { spy: true });
+vi.mock('../main', { spy: true });
 
-let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
-let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
-let handlePushMock: jest.SpiedFunction<typeof handlePushCommand.handlePush>;
-let handlePushStatusMock: jest.SpiedFunction<
-  typeof handlePushStatusCommand.handlePushStatus
->;
-let setOutputMock: jest.SpiedFunction<typeof core.setOutput>;
-let setFailedMock: jest.SpiedFunction<typeof core.setFailed>;
-
-let setCommitStatusMock: jest.SpiedFunction<
-  typeof commitStatusUtils.setCommitStatuses
->;
+let runMock: Mock<typeof main.run>;
+let parseInputDataMock: Mock<typeof helpers.parseInputData>;
+let parseEventDataMock: Mock<typeof helpers.parseEventData>;
+let handlePushMock: Mock<typeof handlePushCommand.handlePush>;
+let handlePushStatusMock: Mock<typeof handlePushStatusCommand.handlePushStatus>;
+let setOutputMock: Mock<typeof core.setOutput>;
+let setFailedMock: Mock<typeof core.setFailed>;
+let setCommitStatusMock: Mock<typeof commitStatusUtils.setCommitStatuses>;
 
 describe('action', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
-    parseInputDataMock = jest
-      .spyOn(helpers, 'parseInputData')
+    runMock = vi.mocked(main.run);
+
+    parseInputDataMock = vi
+      .mocked(helpers.parseInputData)
       .mockImplementation(() => parsedInputDataStub);
 
-    parseEventDataMock = jest
-      .spyOn(helpers, 'parseEventData')
+    parseEventDataMock = vi
+      .mocked(helpers.parseEventData)
       .mockImplementation(async () => parsedEventPushDataMock);
 
-    handlePushMock = jest
-      .spyOn(handlePushCommand, 'handlePush')
+    handlePushMock = vi
+      .mocked(handlePushCommand.handlePush)
       .mockImplementation(async () => ({
         pushId: 'test-push-id',
       }));
 
-    handlePushStatusMock = jest
-      .spyOn(handlePushStatusCommand, 'handlePushStatus')
+    handlePushStatusMock = vi
+      .mocked(handlePushStatusCommand.handlePushStatus)
       .mockImplementation(async () => pushStatusSummaryStub);
 
-    setCommitStatusMock = jest
-      .spyOn(commitStatusUtils, 'setCommitStatuses')
+    setCommitStatusMock = vi
+      .mocked(commitStatusUtils.setCommitStatuses)
       .mockImplementation(async () => {});
 
-    setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation();
-    setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation();
+    setOutputMock = vi.mocked(core.setOutput).mockImplementation(vi.fn());
+    setFailedMock = vi.mocked(core.setFailed).mockImplementation(vi.fn());
   });
 
   it('should set commit status and return push id', async () => {

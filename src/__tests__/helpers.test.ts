@@ -1,13 +1,14 @@
+import { describe, it, expect, beforeEach, afterAll, vi, Mock } from 'vitest';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { parseInputData, parseEventData, getRedoclyConfig } from '../helpers';
 import { loadConfig } from '@redocly/openapi-core';
 import { WebhookPayload } from '@actions/github/lib/interfaces';
 
-let getInputMock: jest.SpiedFunction<typeof core.getInput>;
+let getInputMock: Mock<typeof core.getInput>;
 
-jest.mock('@actions/github', () => ({
-  ...jest.requireActual('@actions/github'),
+vi.mock('@actions/github', () => ({
+  ...vi.importActual('@actions/github'),
   context: {
     repo: {
       owner: '',
@@ -19,10 +20,10 @@ jest.mock('@actions/github', () => ({
       number: 1,
     },
   },
-  getOctokit: jest.fn().mockImplementation(() => ({
+  getOctokit: vi.fn().mockImplementation(() => ({
     rest: {
       repos: {
-        getCommit: jest.fn().mockImplementation(() => ({
+        getCommit: vi.fn().mockImplementation(() => ({
           data: {
             html_url: 'test-commit-html-url',
             commit: {
@@ -44,8 +45,8 @@ const OLD_ENV = process.env;
 
 describe('helpers', () => {
   beforeEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
 
     // NOTE: The 'context' object cannot be mocked using jest.spyOn because it is not declared as configurable.
     // As a result, we manually set its properties in the test setup.
@@ -67,7 +68,7 @@ describe('helpers', () => {
       ...OLD_ENV,
       GITHUB_WORKSPACE: '/home/runner/work/reunite-push-action/',
     };
-    getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
+    getInputMock = vi.spyOn(core, 'getInput').mockImplementation(vi.fn());
   });
 
   afterAll(() => {

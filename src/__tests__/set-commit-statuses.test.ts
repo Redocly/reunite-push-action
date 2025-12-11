@@ -1,13 +1,13 @@
+import { Mock, vi, describe, beforeEach, it, expect } from 'vitest';
 import * as core from '@actions/core';
 import { setCommitStatuses } from '../set-commit-statuses';
 
-let getInputMock: jest.SpiedFunction<typeof core.getInput>;
+let getInputMock: Mock<typeof core.getInput>;
+const createCommitStatusMock = vi.fn().mockResolvedValue({});
 
-const createCommitStatusMock = jest.fn().mockResolvedValue({});
-
-jest.mock('@actions/github', () => ({
-  ...jest.requireActual('@actions/github'),
-  getOctokit: jest.fn().mockImplementation(() => ({
+vi.mock('@actions/github', () => ({
+  ...vi.importActual('@actions/github'),
+  getOctokit: vi.fn().mockImplementation(() => ({
     rest: {
       repos: {
         createCommitStatus: createCommitStatusMock,
@@ -18,9 +18,9 @@ jest.mock('@actions/github', () => ({
 
 describe('helpers', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
-    getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
+    getInputMock = vi.spyOn(core, 'getInput').mockImplementation(vi.fn());
   });
 
   describe('parseInputData', () => {
