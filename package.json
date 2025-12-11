@@ -15,7 +15,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "all": "npm run prettier && npm run lint && npm run test && npm run package",
