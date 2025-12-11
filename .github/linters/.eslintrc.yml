@@ -32,7 +32,7 @@ extends:
   - plugin:@typescript-eslint/eslint-recommended
   - plugin:@typescript-eslint/recommended
   - plugin:github/recommended
-  - plugin:@vitest/eslint-plugin/recommended
+  - plugin:@vitest/recommended
 
 rules:
   {
