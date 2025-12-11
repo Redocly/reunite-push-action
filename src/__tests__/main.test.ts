@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
-import * as handlePushCommand from '@redocly/cli/lib/cms/commands/push';
-import * as handlePushStatusCommand from '@redocly/cli/lib/cms/commands/push-status';
+import * as handlePushCommand from '@redocly/cli/lib/reunite/commands/push';
+import * as handlePushStatusCommand from '@redocly/cli/lib/reunite/commands/push-status';
 
 import * as main from '../main';
 import * as helpers from '../helpers';

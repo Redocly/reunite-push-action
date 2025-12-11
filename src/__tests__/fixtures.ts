@@ -1,4 +1,4 @@
-import { PushStatusSummary } from '@redocly/cli/lib/cms/commands/push-status';
+import { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 import { ParsedEventData, ParsedInputData } from '../types';
 
 export const parsedInputDataStub: ParsedInputData = {
