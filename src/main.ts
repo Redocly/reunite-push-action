@@ -13,7 +13,7 @@ const redoclyCliVersion = dependencies['@redocly/cli'];
 export async function run(): Promise<void> {
   try {
     const inputData = parseInputData();
-    const ghEvent = await parseEventData();
+    const ghEvent = await parseEventData(inputData.defaultBranch);
 
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);

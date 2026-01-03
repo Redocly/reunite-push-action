@@ -88,7 +88,7 @@ describe('helpers', () => {
       );
       const parsedInputData = parseInputData();
 
-      expect(getInputMock).toHaveBeenCalledTimes(6);
+      expect(getInputMock).toHaveBeenCalledTimes(7);
       expect(parsedInputData).toEqual({
         redoclyOrgSlug: 'test-org-slug',
         redoclyProjectSlug: 'test-project-slug',
@@ -99,6 +99,36 @@ describe('helpers', () => {
         ],
         mountPath: 'test/mount/path',
         maxExecutionTime: 100,
+        defaultBranch: undefined,
+      });
+    });
+
+    it('should return parsed input data with custom default branch', () => {
+      getInputMock.mockImplementation(
+        getGetInputMock({
+          organization: 'test-org-slug',
+          project: 'test-project-slug',
+          domain: 'redocly-domain.com',
+          files: 'testFolder testOpenApiFile.yaml',
+          mountPath: 'test/mount/path',
+          maxExecutionTime: '100',
+          defaultBranch: 'custom-main',
+        }),
+      );
+      const parsedInputData = parseInputData();
+
+      expect(getInputMock).toHaveBeenCalledTimes(7);
+      expect(parsedInputData).toEqual({
+        redoclyOrgSlug: 'test-org-slug',
+        redoclyProjectSlug: 'test-project-slug',
+        redoclyDomain: 'redocly-domain.com',
+        files: [
+          '/home/runner/work/reunite-push-action/testFolder',
+          '/home/runner/work/reunite-push-action/testOpenApiFile.yaml',
+        ],
+        mountPath: 'test/mount/path',
+        maxExecutionTime: 100,
+        defaultBranch: 'custom-main',
       });
     });
   });
@@ -219,8 +249,59 @@ describe('helpers', () => {
       });
 
       await expect(parseEventData()).rejects.toThrow(
-        'Invalid GitHub event data. Can not get default branch from the event payload.',
+        'Invalid GitHub event data. Can not get default branch from the event payload. You can use the "defaultBranch" input to set it manually.',
       );
+    });
+
+    it('should use default branch override when provided', async () => {
+      github.context.eventName = 'push';
+      github.context.payload = createPayloadMock({
+        after: 'test-commit-sha',
+      });
+      github.context.ref = 'refs/heads/test-branch';
+
+      const parsedEventData = await parseEventData('custom-main-branch');
+
+      expect(parsedEventData.defaultBranch).toBe('custom-main-branch');
+    });
+
+    it('should use default branch override even when GitHub payload has default branch', async () => {
+      github.context.eventName = 'push';
+      github.context.payload = createPayloadMock({
+        after: 'test-commit-sha',
+        repository: {
+          owner: {
+            login: 'test-namespace',
+          },
+          name: 'test-repo',
+          default_branch: 'github-default-branch',
+        },
+      });
+      github.context.ref = 'refs/heads/test-branch';
+
+      const parsedEventData = await parseEventData('override-branch');
+
+      expect(parsedEventData.defaultBranch).toBe('override-branch');
+    });
+
+    it('should not throw when default branch override is provided and GitHub payload is missing default branch', async () => {
+      github.context.eventName = 'push';
+      github.context.payload = createPayloadMock({
+        after: 'test-commit-sha',
+        repository: {
+          owner: {
+            login: 'test-namespace',
+          },
+          name: 'test-repo',
+          default_branch: undefined,
+          master_branch: undefined,
+        },
+      });
+      github.context.ref = 'refs/heads/test-branch';
+
+      const parsedEventData = await parseEventData('fallback-branch');
+
+      expect(parsedEventData.defaultBranch).toBe('fallback-branch');
     });
   });
 

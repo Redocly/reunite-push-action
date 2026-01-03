@@ -13,6 +13,7 @@ export function parseInputData(): ParsedInputData {
   const redoclyDomain =
     core.getInput('domain') || 'https://app.cloud.redocly.com';
   const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
+  const defaultBranch = core.getInput('defaultBranch') || undefined;
 
   const absoluteFilePaths = files.map(_path =>
     path.join(process.env.GITHUB_WORKSPACE || '', _path),
@@ -25,10 +26,13 @@ export function parseInputData(): ParsedInputData {
     files: absoluteFilePaths,
     redoclyDomain,
     maxExecutionTime,
+    defaultBranch,
   };
 }
 
-export async function parseEventData(): Promise<ParsedEventData> {
+export async function parseEventData(
+  defaultBranchOverride?: string,
+): Promise<ParsedEventData> {
   if (
     !(
       github.context.eventName === 'push' ||
@@ -73,12 +77,13 @@ export async function parseEventData(): Promise<ParsedEventData> {
   }
 
   const defaultBranch: string | undefined =
+    defaultBranchOverride ||
     github.context.payload?.repository?.default_branch ||
     github.context.payload?.repository?.master_branch;
 
   if (!defaultBranch) {
     throw new Error(
-      'Invalid GitHub event data. Can not get default branch from the event payload.',
+      'Invalid GitHub event data. Can not get default branch from the event payload. You can use the "defaultBranch" input to set it manually.',
     );
   }
 

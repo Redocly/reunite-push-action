@@ -27,6 +27,10 @@ inputs:
     description: 'Max execution time in seconds'
     required: false
     default: '1200'
+  defaultBranch:
+    description:
+      'Override the default branch detected from GitHub repository settings'
+    required: false
   githubToken:
     description: 'Token to authenticate with'
     required: true
