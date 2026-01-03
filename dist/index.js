@@ -82322,6 +82322,7 @@ function parseInputData() {
     const files = core.getInput('files', { required: true }).split(' ');
     const redoclyDomain = core.getInput('domain') || 'https://app.cloud.redocly.com';
     const maxExecutionTime = Number(core.getInput('maxExecutionTime')) || 1200;
+    const defaultBranch = core.getInput('defaultBranch') || undefined;
     const absoluteFilePaths = files.map(_path => path_1.default.join(process.env.GITHUB_WORKSPACE || '', _path));
     return {
         redoclyOrgSlug,
@@ -82330,10 +82331,11 @@ function parseInputData() {
         files: absoluteFilePaths,
         redoclyDomain,
         maxExecutionTime,
+        defaultBranch,
     };
 }
 exports.parseInputData = parseInputData;
-async function parseEventData() {
+async function parseEventData(defaultBranchOverride) {
     if (!(github.context.eventName === 'push' ||
         github.context.eventName === 'pull_request')) {
         throw new Error('Unsupported GitHub event type. Only "push" and "pull_request" events are supported.');
@@ -82355,10 +82357,11 @@ async function parseEventData() {
     if (!branch) {
         throw new Error('Invalid GitHub event data. Can not get branch from the event payload.');
     }
-    const defaultBranch = github.context.payload?.repository?.default_branch ||
+    const defaultBranch = defaultBranchOverride ||
+        github.context.payload?.repository?.default_branch ||
         github.context.payload?.repository?.master_branch;
     if (!defaultBranch) {
-        throw new Error('Invalid GitHub event data. Can not get default branch from the event payload.');
+        throw new Error('Invalid GitHub event data. Can not get default branch from the event payload. You can use the "defaultBranch" input to set it manually.');
     }
     const commitSha = getCommitSha();
     if (!commitSha) {
@@ -82450,7 +82453,7 @@ const redoclyCliVersion = package_json_1.dependencies['@redocly/cli'];
 async function run() {
     try {
         const inputData = (0, helpers_1.parseInputData)();
-        const ghEvent = await (0, helpers_1.parseEventData)();
+        const ghEvent = await (0, helpers_1.parseEventData)(inputData.defaultBranch);
         console.debug('Parsed input data', inputData);
         console.debug('Parsed GitHub event', ghEvent);
         const config = await (0, helpers_1.getRedoclyConfig)();
