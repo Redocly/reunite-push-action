@@ -66,6 +66,7 @@
   },
   "overrides": {
     "systeminformation@<5.27.14": ">=5.27.14",
-    "undici": ">=5.29.0"
+    "undici": ">=5.29.0",
+    "fast-xml-parser@<5.4.1": ">=5.4.1"
   }
 }
