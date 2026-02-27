@@ -28,7 +28,7 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
           cache: npm
 
       - name: Install Dependencies
@@ -56,7 +56,7 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
           cache: npm
 
       - name: Install Dependencies
@@ -89,7 +89,7 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
           cache: npm
 
       - name: Install Dependencies
