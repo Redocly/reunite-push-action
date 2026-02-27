@@ -14,7 +14,7 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "all": "npm run prettier && npm run lint && npm run test && npm run package",
