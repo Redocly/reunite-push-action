@@ -7,3 +7,5 @@ are a Redocly customer then check the product documentation to learn more about
 how to use this action in your project.
 
 For more details, contact team@redocly.com
+
+For development and contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
