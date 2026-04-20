@@ -25,7 +25,7 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "test:ci": "npm run test -- --coverage --ci --silent --testLocationInResults --json --outputFile=results.json",
-    "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt --transpile-only",
     "package:watch": "npm run package -- --watch",
     "bundle": "npm run prettier && npm run package",
     "compile-fake-server": "tsc -p tsconfig.fake-server.json",
