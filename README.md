@@ -8,4 +8,5 @@ how to use this action in your project.
 
 For more details, contact team@redocly.com
 
-For development and contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+For development and contribution guidelines, see
+[CONTRIBUTING.md](./CONTRIBUTING.md).
