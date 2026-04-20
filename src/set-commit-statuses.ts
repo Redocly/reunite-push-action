@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { RestEndpointMethodTypes } from '@octokit/rest';
-import { DeploymentStatus } from '@redocly/cli/lib/cms/api/types';
-import { PushStatusSummary } from '@redocly/cli/lib/cms/commands/push-status';
+import { DeploymentStatus } from '@redocly/cli/lib/reunite/api/types';
+import { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 
 export async function setCommitStatuses({
   commitStatuses,

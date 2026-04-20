@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 
-import { handlePush } from '@redocly/cli/lib/cms/commands/push';
-import { handlePushStatus } from '@redocly/cli/lib/cms/commands/push-status';
+import { handlePush } from '@redocly/cli/lib/reunite/commands/push';
+import { handlePushStatus } from '@redocly/cli/lib/reunite/commands/push-status';
 
 import { setCommitStatuses } from './set-commit-statuses';
 import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
