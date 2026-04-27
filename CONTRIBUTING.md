@@ -30,12 +30,16 @@ npm install # or npm i
 
 ## Release flow
 
-We use git tags for releases. After merging a PR with your changes to main
-branch, you should do next steps:
+These steps assume the action code is already built, the `./dist` folder
+contains the build artifacts, and these changes are committed and pushed to the
+`main` branch.
 
-1. Checkout to main branch locally.
-1. Run `git pull` to fetch latest changes.
-1. Go to `script` folder (`cd script`) and run `./release` script.
-1. Type in a new release tag, e.g. `v1.0.9`.
-1. And then type `y` or `n` if you want also to point `v1` version to the
-   current commit.
+To release a new version of the action, follow these steps:
+
+1. Check out the `main` branch locally.
+1. Run `git pull` to fetch the latest changes.
+1. Run `npm run release` and enter a new release tag, for example `v1.0.9`.
+   > Note: The script sets the tag to the current commit and pushes it to
+   > GitHub. Make sure you have committed and pushed all the changes you want to
+   > include in the release to the `main` branch before running the script.
+1. In the next prompt, type `y` to also move the `v1` tag to the current commit.
