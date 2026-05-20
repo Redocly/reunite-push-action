@@ -18,8 +18,8 @@ var __commonJS = (cb, mod) => function __require2() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all2) => {
-  for (var name2 in all2)
-    __defProp(target, name2, { get: all2[name2], enumerable: true });
+  for (var name in all2)
+    __defProp(target, name, { get: all2[name], enumerable: true });
 };
 var __copyProps = (to2, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -110,8 +110,8 @@ var require_command = __commonJS({
       process.stdout.write(cmd.toString() + os2.EOL);
     }
     exports.issueCommand = issueCommand;
-    function issue(name2, message = "") {
-      issueCommand(name2, {}, message);
+    function issue(name, message = "") {
+      issueCommand(name, {}, message);
     }
     exports.issue = issue;
     var CMD_STRING = "::";
@@ -2183,16 +2183,16 @@ var require_util = __commonJS({
         size: m[3] ? parseInt(m[3]) : null
       } : null;
     }
-    function addListener(obj, name2, listener) {
+    function addListener(obj, name, listener) {
       const listeners = obj[kListeners] ??= [];
-      listeners.push([name2, listener]);
-      obj.on(name2, listener);
+      listeners.push([name, listener]);
+      obj.on(name, listener);
       return obj;
     }
     function removeAllListeners(obj) {
       if (obj[kListeners] != null) {
-        for (const [name2, listener] of obj[kListeners]) {
-          obj.removeListener(name2, listener);
+        for (const [name, listener] of obj[kListeners]) {
+          obj.removeListener(name, listener);
         }
         obj[kListeners] = null;
       }
@@ -4674,9 +4674,9 @@ var require_data_url = __commonJS({
       assert(mimeType !== "failure");
       const { parameters, essence } = mimeType;
       let serialization = essence;
-      for (let [name2, value] of parameters.entries()) {
+      for (let [name, value] of parameters.entries()) {
         serialization += ";";
-        serialization += name2;
+        serialization += name;
         serialization += "=";
         if (!HTTP_TOKEN_CODEPOINTS.test(value)) {
           value = value.replace(/[\\"]/ug, "\\$&");
@@ -5124,12 +5124,12 @@ var require_webidl = __commonJS({
         return result;
       };
     };
-    webidl.interfaceConverter = function(TypeCheck, name2) {
+    webidl.interfaceConverter = function(TypeCheck, name) {
       return (V3, prefix, argument) => {
         if (!TypeCheck(V3)) {
           throw webidl.errors.exception({
             header: prefix,
-            message: `Expected ${argument} ("${webidl.util.Stringify(V3)}") to be an instance of ${name2}.`
+            message: `Expected ${argument} ("${webidl.util.Stringify(V3)}") to be an instance of ${name}.`
           });
         }
         return V3;
@@ -5782,7 +5782,7 @@ var require_util2 = __commonJS({
       return normalizedMethodRecordsBase[method.toLowerCase()] ?? method;
     }
     var esIteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]()));
-    function createIterator(name2, kInternalIterator, keyIndex = 0, valueIndex = 1) {
+    function createIterator(name, kInternalIterator, keyIndex = 0, valueIndex = 1) {
       class FastIterableIterator {
         /** @type {any} */
         #target;
@@ -5803,7 +5803,7 @@ var require_util2 = __commonJS({
         next() {
           if (typeof this !== "object" || this === null || !(#target in this)) {
             throw new TypeError(
-              `'next' called on an object that does not implement interface ${name2} Iterator.`
+              `'next' called on an object that does not implement interface ${name} Iterator.`
             );
           }
           const index = this.#index;
@@ -5842,7 +5842,7 @@ var require_util2 = __commonJS({
           writable: false,
           enumerable: false,
           configurable: true,
-          value: `${name2} Iterator`
+          value: `${name} Iterator`
         },
         next: { writable: true, enumerable: true, configurable: true }
       });
@@ -5850,8 +5850,8 @@ var require_util2 = __commonJS({
         return new FastIterableIterator(target, kind);
       };
     }
-    function iteratorMixin(name2, object, kInternalIterator, keyIndex = 0, valueIndex = 1) {
-      const makeIterator = createIterator(name2, kInternalIterator, keyIndex, valueIndex);
+    function iteratorMixin(name, object, kInternalIterator, keyIndex = 0, valueIndex = 1) {
+      const makeIterator = createIterator(name, kInternalIterator, keyIndex, valueIndex);
       const properties = {
         keys: {
           writable: true,
@@ -5886,10 +5886,10 @@ var require_util2 = __commonJS({
           configurable: true,
           value: function forEach(callbackfn, thisArg = globalThis) {
             webidl.brandCheck(this, object);
-            webidl.argumentLengthCheck(arguments, 1, `${name2}.forEach`);
+            webidl.argumentLengthCheck(arguments, 1, `${name}.forEach`);
             if (typeof callbackfn !== "function") {
               throw new TypeError(
-                `Failed to execute 'forEach' on '${name2}': parameter 1 is not of type 'Function'.`
+                `Failed to execute 'forEach' on '${name}': parameter 1 is not of type 'Function'.`
               );
             }
             for (const { 0: key, 1: value } of makeIterator(this, "key+value")) {
@@ -6133,8 +6133,8 @@ var require_util2 = __commonJS({
       }
       return values;
     }
-    function getDecodeSplit(name2, list) {
-      const value = list.get(name2, true);
+    function getDecodeSplit(name, list) {
+      const value = list.get(name, true);
       if (value === null) {
         return null;
       }
@@ -6234,11 +6234,11 @@ var require_formdata = __commonJS({
           });
         }
       }
-      append(name2, value, filename = void 0) {
+      append(name, value, filename = void 0) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.append";
         webidl.argumentLengthCheck(arguments, 2, prefix);
-        name2 = webidl.converters.USVString(name2);
+        name = webidl.converters.USVString(name);
         if (arguments.length === 3 || webidl.is.Blob(value)) {
           value = webidl.converters.Blob(value, prefix, "value");
           if (filename !== void 0) {
@@ -6247,46 +6247,46 @@ var require_formdata = __commonJS({
         } else {
           value = webidl.converters.USVString(value);
         }
-        const entry = makeEntry(name2, value, filename);
+        const entry = makeEntry(name, value, filename);
         this.#state.push(entry);
       }
-      delete(name2) {
+      delete(name) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.delete";
         webidl.argumentLengthCheck(arguments, 1, prefix);
-        name2 = webidl.converters.USVString(name2);
-        this.#state = this.#state.filter((entry) => entry.name !== name2);
+        name = webidl.converters.USVString(name);
+        this.#state = this.#state.filter((entry) => entry.name !== name);
       }
-      get(name2) {
+      get(name) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.get";
         webidl.argumentLengthCheck(arguments, 1, prefix);
-        name2 = webidl.converters.USVString(name2);
-        const idx = this.#state.findIndex((entry) => entry.name === name2);
+        name = webidl.converters.USVString(name);
+        const idx = this.#state.findIndex((entry) => entry.name === name);
         if (idx === -1) {
           return null;
         }
         return this.#state[idx].value;
       }
-      getAll(name2) {
+      getAll(name) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.getAll";
         webidl.argumentLengthCheck(arguments, 1, prefix);
-        name2 = webidl.converters.USVString(name2);
-        return this.#state.filter((entry) => entry.name === name2).map((entry) => entry.value);
+        name = webidl.converters.USVString(name);
+        return this.#state.filter((entry) => entry.name === name).map((entry) => entry.value);
       }
-      has(name2) {
+      has(name) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.has";
         webidl.argumentLengthCheck(arguments, 1, prefix);
-        name2 = webidl.converters.USVString(name2);
-        return this.#state.findIndex((entry) => entry.name === name2) !== -1;
+        name = webidl.converters.USVString(name);
+        return this.#state.findIndex((entry) => entry.name === name) !== -1;
       }
-      set(name2, value, filename = void 0) {
+      set(name, value, filename = void 0) {
         webidl.brandCheck(this, _FormData);
         const prefix = "FormData.set";
         webidl.argumentLengthCheck(arguments, 2, prefix);
-        name2 = webidl.converters.USVString(name2);
+        name = webidl.converters.USVString(name);
         if (arguments.length === 3 || webidl.is.Blob(value)) {
           value = webidl.converters.Blob(value, prefix, "value");
           if (filename !== void 0) {
@@ -6295,13 +6295,13 @@ var require_formdata = __commonJS({
         } else {
           value = webidl.converters.USVString(value);
         }
-        const entry = makeEntry(name2, value, filename);
-        const idx = this.#state.findIndex((entry2) => entry2.name === name2);
+        const entry = makeEntry(name, value, filename);
+        const idx = this.#state.findIndex((entry2) => entry2.name === name);
         if (idx !== -1) {
           this.#state = [
             ...this.#state.slice(0, idx),
             entry,
-            ...this.#state.slice(idx + 1).filter((entry2) => entry2.name !== name2)
+            ...this.#state.slice(idx + 1).filter((entry2) => entry2.name !== name)
           ];
         } else {
           this.#state.push(entry);
@@ -6355,7 +6355,7 @@ var require_formdata = __commonJS({
         configurable: true
       }
     });
-    function makeEntry(name2, value, filename) {
+    function makeEntry(name, value, filename) {
       if (typeof value === "string") {
       } else {
         if (!webidl.is.File(value)) {
@@ -6369,7 +6369,7 @@ var require_formdata = __commonJS({
           value = new File([value], filename, options2);
         }
       }
-      return { name: name2, value };
+      return { name, value };
     }
     webidl.is.FormData = webidl.util.MakeTypeAssertion(FormData);
     module3.exports = { FormData, makeEntry, setFormDataState };
@@ -6438,7 +6438,7 @@ var require_formdata_parser = __commonJS({
         }
         position.position += 2;
         const result = parseMultipartFormDataHeaders(input, position);
-        let { name: name2, filename, contentType, encoding } = result;
+        let { name, filename, contentType, encoding } = result;
         position.position += 2;
         let body;
         {
@@ -6467,9 +6467,9 @@ var require_formdata_parser = __commonJS({
         } else {
           value = decoderIgnoreBOM.decode(Buffer.from(body));
         }
-        assert(webidl.is.USVString(name2));
+        assert(webidl.is.USVString(name));
         assert(typeof value === "string" && webidl.is.USVString(value) || webidl.is.File(value));
-        entryList.push(makeEntry(name2, value, filename));
+        entryList.push(makeEntry(name, value, filename));
       }
     }
     function parseContentDispositionAttribute(input, position) {
@@ -6545,16 +6545,16 @@ var require_formdata_parser = __commonJS({
       return { name: attrNameStr, value };
     }
     function parseMultipartFormDataHeaders(input, position) {
-      let name2 = null;
+      let name = null;
       let filename = null;
       let contentType = null;
       let encoding = null;
       while (true) {
         if (input[position.position] === 13 && input[position.position + 1] === 10) {
-          if (name2 === null) {
+          if (name === null) {
             throw parsingError("header name is null");
           }
-          return { name: name2, filename, contentType, encoding };
+          return { name, filename, contentType, encoding };
         }
         let headerName = collectASequenceOfBytes(
           (char) => char !== 10 && char !== 13 && char !== 58,
@@ -6576,7 +6576,7 @@ var require_formdata_parser = __commonJS({
         );
         switch (bufferToLowerCasedHeaderName(headerName)) {
           case "content-disposition": {
-            name2 = filename = null;
+            name = filename = null;
             const dispositionType = collectASequenceOfBytes(
               (char) => isToken(char),
               input,
@@ -6591,12 +6591,12 @@ var require_formdata_parser = __commonJS({
                 break;
               }
               if (attribute.name === "name") {
-                name2 = attribute.value;
+                name = attribute.value;
               } else if (attribute.name === "filename") {
                 filename = attribute.value;
               }
             }
-            if (name2 === null) {
+            if (name === null) {
               throw parsingError("name attribute is required in content-disposition header");
             }
             break;
@@ -6793,16 +6793,16 @@ Content-Disposition: form-data`;
         const rn = new Uint8Array([13, 10]);
         length = 0;
         let hasUnknownSizeValue = false;
-        for (const [name2, value] of object) {
+        for (const [name, value] of object) {
           if (typeof value === "string") {
-            const chunk2 = textEncoder.encode(prefix + `; name="${formdataEscape(normalizeLinefeeds(name2))}"\r
+            const chunk2 = textEncoder.encode(prefix + `; name="${formdataEscape(normalizeLinefeeds(name))}"\r
 \r
 ${normalizeLinefeeds(value)}\r
 `);
             blobParts.push(chunk2);
             length += chunk2.byteLength;
           } else {
-            const chunk2 = textEncoder.encode(`${prefix}; name="${formdataEscape(normalizeLinefeeds(name2))}"` + (value.name ? `; filename="${formdataEscape(value.name)}"` : "") + `\r
+            const chunk2 = textEncoder.encode(`${prefix}; name="${formdataEscape(normalizeLinefeeds(name))}"` + (value.name ? `; filename="${formdataEscape(value.name)}"` : "") + `\r
 Content-Type: ${value.type || "application/octet-stream"}\r
 \r
 `);
@@ -6930,8 +6930,8 @@ Content-Type: ${value.type || "application/octet-stream"}\r
                 case "application/x-www-form-urlencoded": {
                   const entries = new URLSearchParams(value.toString());
                   const fd = new FormData();
-                  for (const [name2, value2] of entries) {
-                    fd.append(name2, value2);
+                  for (const [name, value2] of entries) {
+                    fd.append(name, value2);
                   }
                   return fd;
                 }
@@ -8235,13 +8235,13 @@ var require_client_h2 = __commonJS({
     } = http2;
     function parseH2Headers(headers) {
       const result = [];
-      for (const [name2, value] of Object.entries(headers)) {
+      for (const [name, value] of Object.entries(headers)) {
         if (Array.isArray(value)) {
           for (const subvalue of value) {
-            result.push(Buffer.from(name2), Buffer.from(subvalue));
+            result.push(Buffer.from(name), Buffer.from(subvalue));
           }
         } else {
-          result.push(Buffer.from(name2), Buffer.from(value));
+          result.push(Buffer.from(name), Buffer.from(value));
         }
       }
       return result;
@@ -13055,13 +13055,13 @@ var require_mock_utils = __commonJS({
       for (let i2 = 0; i2 < keys.length; ++i2) {
         const key = keys[i2];
         const value = data[key];
-        const name2 = Buffer.from(`${key}`);
+        const name = Buffer.from(`${key}`);
         if (Array.isArray(value)) {
           for (let j3 = 0; j3 < value.length; ++j3) {
-            result.push(name2, Buffer.from(`${value[j3]}`));
+            result.push(name, Buffer.from(`${value[j3]}`));
           }
         } else {
-          result.push(name2, Buffer.from(`${value}`));
+          result.push(name, Buffer.from(`${value}`));
         }
       }
       return result;
@@ -14916,8 +14916,8 @@ var require_redirect_handler = __commonJS({
         return true;
       }
       if (unknownOrigin && (header.length === 13 || header.length === 6 || header.length === 19)) {
-        const name2 = util.headerNameToString(header);
-        return name2 === "authorization" || name2 === "cookie" || name2 === "proxy-authorization";
+        const name = util.headerNameToString(header);
+        return name === "authorization" || name === "cookie" || name === "proxy-authorization";
       }
       return false;
     }
@@ -15816,26 +15816,26 @@ var require_cache = __commonJS({
       }
       return false;
     }
-    function assertCacheStore(store, name2 = "CacheStore") {
+    function assertCacheStore(store, name = "CacheStore") {
       if (typeof store !== "object" || store === null) {
-        throw new TypeError(`expected type of ${name2} to be a CacheStore, got ${store === null ? "null" : typeof store}`);
+        throw new TypeError(`expected type of ${name} to be a CacheStore, got ${store === null ? "null" : typeof store}`);
       }
       for (const fn of ["get", "createWriteStream", "delete"]) {
         if (typeof store[fn] !== "function") {
-          throw new TypeError(`${name2} needs to have a \`${fn}()\` function`);
+          throw new TypeError(`${name} needs to have a \`${fn}()\` function`);
         }
       }
     }
-    function assertCacheMethods(methods, name2 = "CacheMethods") {
+    function assertCacheMethods(methods, name = "CacheMethods") {
       if (!Array.isArray(methods)) {
-        throw new TypeError(`expected type of ${name2} needs to be an array, got ${methods === null ? "null" : typeof methods}`);
+        throw new TypeError(`expected type of ${name} needs to be an array, got ${methods === null ? "null" : typeof methods}`);
       }
       if (methods.length === 0) {
-        throw new TypeError(`${name2} needs to have at least one method`);
+        throw new TypeError(`${name} needs to have at least one method`);
       }
       for (const method of methods) {
         if (!safeHTTPMethods.includes(method)) {
-          throw new TypeError(`element of ${name2}-array needs to be one of following values: ${safeHTTPMethods.join(", ")}, got ${method}`);
+          throw new TypeError(`element of ${name}-array needs to be one of following values: ${safeHTTPMethods.join(", ")}, got ${method}`);
         }
       }
     }
@@ -17019,15 +17019,15 @@ var require_cache2 = __commonJS({
     var CacheRevalidationHandler = require_cache_revalidation_handler();
     var { assertCacheStore, assertCacheMethods, makeCacheKey, normalizeHeaders, parseCacheControlHeader } = require_cache();
     var { AbortError } = require_errors();
-    function assertCacheOrigins(origins, name2) {
+    function assertCacheOrigins(origins, name) {
       if (origins === void 0) return;
       if (!Array.isArray(origins)) {
-        throw new TypeError(`expected ${name2} to be an array or undefined, got ${typeof origins}`);
+        throw new TypeError(`expected ${name} to be an array or undefined, got ${typeof origins}`);
       }
       for (let i2 = 0; i2 < origins.length; i2++) {
         const origin = origins[i2];
         if (typeof origin !== "string" && !(origin instanceof RegExp)) {
-          throw new TypeError(`expected ${name2}[${i2}] to be a string or RegExp, got ${typeof origin}`);
+          throw new TypeError(`expected ${name}[${i2}] to be a string or RegExp, got ${typeof origin}`);
         }
       }
     }
@@ -17952,8 +17952,8 @@ var require_deduplicate = __commonJS({
       if (!Number.isFinite(maxBufferSize) || maxBufferSize <= 0) {
         throw new TypeError(`expected opts.maxBufferSize to be a positive finite number, got ${maxBufferSize}`);
       }
-      const skipHeaderNamesSet = new Set(skipHeaderNames.map((name2) => name2.toLowerCase()));
-      const excludeHeaderNamesSet = new Set(excludeHeaderNames.map((name2) => name2.toLowerCase()));
+      const skipHeaderNamesSet = new Set(skipHeaderNames.map((name) => name.toLowerCase()));
+      const excludeHeaderNamesSet = new Set(excludeHeaderNames.map((name) => name.toLowerCase()));
       const pendingRequests = /* @__PURE__ */ new Map();
       return (dispatch) => {
         return (opts2, handler) => {
@@ -18409,12 +18409,12 @@ var require_headers = __commonJS({
         });
       }
     }
-    function appendHeader(headers, name2, value) {
+    function appendHeader(headers, name, value) {
       value = headerValueNormalize(value);
-      if (!isValidHeaderName(name2)) {
+      if (!isValidHeaderName(name)) {
         throw webidl.errors.invalidArgument({
           prefix: "Headers.append",
-          value: name2,
+          value: name,
           type: "header name"
         });
       } else if (!isValidHeaderValue(value)) {
@@ -18427,7 +18427,7 @@ var require_headers = __commonJS({
       if (getHeadersGuard(headers) === "immutable") {
         throw new TypeError("immutable");
       }
-      return getHeadersList(headers).append(name2, value, false);
+      return getHeadersList(headers).append(name, value, false);
     }
     function headersListSortAndCombine(target) {
       const headersList = getHeadersList(target);
@@ -18444,13 +18444,13 @@ var require_headers = __commonJS({
         return headersList.sortedMap = names;
       }
       for (let i2 = 0; i2 < names.length; ++i2) {
-        const { 0: name2, 1: value } = names[i2];
-        if (name2 === "set-cookie") {
+        const { 0: name, 1: value } = names[i2];
+        if (name === "set-cookie") {
           for (let j3 = 0; j3 < cookies.length; ++j3) {
-            headers.push([name2, cookies[j3]]);
+            headers.push([name, cookies[j3]]);
           }
         } else {
-          headers.push([name2, value]);
+          headers.push([name, value]);
         }
       }
       return headersList.sortedMap = headers;
@@ -18478,8 +18478,8 @@ var require_headers = __commonJS({
        * @param {string} name
        * @param {boolean} isLowerCase
        */
-      contains(name2, isLowerCase) {
-        return this.headersMap.has(isLowerCase ? name2 : name2.toLowerCase());
+      contains(name, isLowerCase) {
+        return this.headersMap.has(isLowerCase ? name : name.toLowerCase());
       }
       clear() {
         this.headersMap.clear();
@@ -18492,9 +18492,9 @@ var require_headers = __commonJS({
        * @param {string} value
        * @param {boolean} isLowerCase
        */
-      append(name2, value, isLowerCase) {
+      append(name, value, isLowerCase) {
         this.sortedMap = null;
-        const lowercaseName = isLowerCase ? name2 : name2.toLowerCase();
+        const lowercaseName = isLowerCase ? name : name.toLowerCase();
         const exists = this.headersMap.get(lowercaseName);
         if (exists) {
           const delimiter = lowercaseName === "cookie" ? "; " : ", ";
@@ -18503,7 +18503,7 @@ var require_headers = __commonJS({
             value: `${exists.value}${delimiter}${value}`
           });
         } else {
-          this.headersMap.set(lowercaseName, { name: name2, value });
+          this.headersMap.set(lowercaseName, { name, value });
         }
         if (lowercaseName === "set-cookie") {
           (this.cookies ??= []).push(value);
@@ -18515,26 +18515,26 @@ var require_headers = __commonJS({
        * @param {string} value
        * @param {boolean} isLowerCase
        */
-      set(name2, value, isLowerCase) {
+      set(name, value, isLowerCase) {
         this.sortedMap = null;
-        const lowercaseName = isLowerCase ? name2 : name2.toLowerCase();
+        const lowercaseName = isLowerCase ? name : name.toLowerCase();
         if (lowercaseName === "set-cookie") {
           this.cookies = [value];
         }
-        this.headersMap.set(lowercaseName, { name: name2, value });
+        this.headersMap.set(lowercaseName, { name, value });
       }
       /**
        * @see https://fetch.spec.whatwg.org/#concept-header-list-delete
        * @param {string} name
        * @param {boolean} isLowerCase
        */
-      delete(name2, isLowerCase) {
+      delete(name, isLowerCase) {
         this.sortedMap = null;
-        if (!isLowerCase) name2 = name2.toLowerCase();
-        if (name2 === "set-cookie") {
+        if (!isLowerCase) name = name.toLowerCase();
+        if (name === "set-cookie") {
           this.cookies = null;
         }
-        this.headersMap.delete(name2);
+        this.headersMap.delete(name);
       }
       /**
        * @see https://fetch.spec.whatwg.org/#concept-header-list-get
@@ -18542,19 +18542,19 @@ var require_headers = __commonJS({
        * @param {boolean} isLowerCase
        * @returns {string | null}
        */
-      get(name2, isLowerCase) {
-        return this.headersMap.get(isLowerCase ? name2 : name2.toLowerCase())?.value ?? null;
+      get(name, isLowerCase) {
+        return this.headersMap.get(isLowerCase ? name : name.toLowerCase())?.value ?? null;
       }
       *[Symbol.iterator]() {
-        for (const { 0: name2, 1: { value } } of this.headersMap) {
-          yield [name2, value];
+        for (const { 0: name, 1: { value } } of this.headersMap) {
+          yield [name, value];
         }
       }
       get entries() {
         const headers = {};
         if (this.headersMap.size !== 0) {
-          for (const { name: name2, value } of this.headersMap.values()) {
-            headers[name2] = value;
+          for (const { name, value } of this.headersMap.values()) {
+            headers[name] = value;
           }
         }
         return headers;
@@ -18565,13 +18565,13 @@ var require_headers = __commonJS({
       get entriesList() {
         const headers = [];
         if (this.headersMap.size !== 0) {
-          for (const { 0: lowerName, 1: { name: name2, value } } of this.headersMap) {
+          for (const { 0: lowerName, 1: { name, value } } of this.headersMap) {
             if (lowerName === "set-cookie") {
               for (const cookie of this.cookies) {
-                headers.push([name2, cookie]);
+                headers.push([name, cookie]);
               }
             } else {
-              headers.push([name2, value]);
+              headers.push([name, value]);
             }
           }
         }
@@ -18617,8 +18617,8 @@ var require_headers = __commonJS({
           return array;
         } else {
           let i2 = 0;
-          for (const { 0: name2, 1: { value } } of this.headersMap) {
-            array[i2++] = [name2, value];
+          for (const { 0: name, 1: { value } } of this.headersMap) {
+            array[i2++] = [name, value];
             assert(value !== null);
           }
           return array.sort(compareHeaderName);
@@ -18648,77 +18648,77 @@ var require_headers = __commonJS({
         }
       }
       // https://fetch.spec.whatwg.org/#dom-headers-append
-      append(name2, value) {
+      append(name, value) {
         webidl.brandCheck(this, _Headers);
         webidl.argumentLengthCheck(arguments, 2, "Headers.append");
         const prefix = "Headers.append";
-        name2 = webidl.converters.ByteString(name2, prefix, "name");
+        name = webidl.converters.ByteString(name, prefix, "name");
         value = webidl.converters.ByteString(value, prefix, "value");
-        return appendHeader(this, name2, value);
+        return appendHeader(this, name, value);
       }
       // https://fetch.spec.whatwg.org/#dom-headers-delete
-      delete(name2) {
+      delete(name) {
         webidl.brandCheck(this, _Headers);
         webidl.argumentLengthCheck(arguments, 1, "Headers.delete");
         const prefix = "Headers.delete";
-        name2 = webidl.converters.ByteString(name2, prefix, "name");
-        if (!isValidHeaderName(name2)) {
+        name = webidl.converters.ByteString(name, prefix, "name");
+        if (!isValidHeaderName(name)) {
           throw webidl.errors.invalidArgument({
             prefix: "Headers.delete",
-            value: name2,
+            value: name,
             type: "header name"
           });
         }
         if (this.#guard === "immutable") {
           throw new TypeError("immutable");
         }
-        if (!this.#headersList.contains(name2, false)) {
+        if (!this.#headersList.contains(name, false)) {
           return;
         }
-        this.#headersList.delete(name2, false);
+        this.#headersList.delete(name, false);
       }
       // https://fetch.spec.whatwg.org/#dom-headers-get
-      get(name2) {
+      get(name) {
         webidl.brandCheck(this, _Headers);
         webidl.argumentLengthCheck(arguments, 1, "Headers.get");
         const prefix = "Headers.get";
-        name2 = webidl.converters.ByteString(name2, prefix, "name");
-        if (!isValidHeaderName(name2)) {
+        name = webidl.converters.ByteString(name, prefix, "name");
+        if (!isValidHeaderName(name)) {
           throw webidl.errors.invalidArgument({
             prefix,
-            value: name2,
+            value: name,
             type: "header name"
           });
         }
-        return this.#headersList.get(name2, false);
+        return this.#headersList.get(name, false);
       }
       // https://fetch.spec.whatwg.org/#dom-headers-has
-      has(name2) {
+      has(name) {
         webidl.brandCheck(this, _Headers);
         webidl.argumentLengthCheck(arguments, 1, "Headers.has");
         const prefix = "Headers.has";
-        name2 = webidl.converters.ByteString(name2, prefix, "name");
-        if (!isValidHeaderName(name2)) {
+        name = webidl.converters.ByteString(name, prefix, "name");
+        if (!isValidHeaderName(name)) {
           throw webidl.errors.invalidArgument({
             prefix,
-            value: name2,
+            value: name,
             type: "header name"
           });
         }
-        return this.#headersList.contains(name2, false);
+        return this.#headersList.contains(name, false);
       }
       // https://fetch.spec.whatwg.org/#dom-headers-set
-      set(name2, value) {
+      set(name, value) {
         webidl.brandCheck(this, _Headers);
         webidl.argumentLengthCheck(arguments, 2, "Headers.set");
         const prefix = "Headers.set";
-        name2 = webidl.converters.ByteString(name2, prefix, "name");
+        name = webidl.converters.ByteString(name, prefix, "name");
         value = webidl.converters.ByteString(value, prefix, "value");
         value = headerValueNormalize(value);
-        if (!isValidHeaderName(name2)) {
+        if (!isValidHeaderName(name)) {
           throw webidl.errors.invalidArgument({
             prefix,
-            value: name2,
+            value: name,
             type: "header name"
           });
         } else if (!isValidHeaderValue(value)) {
@@ -18731,7 +18731,7 @@ var require_headers = __commonJS({
         if (this.#guard === "immutable") {
           throw new TypeError("immutable");
         }
-        this.#headersList.set(name2, value, false);
+        this.#headersList.set(name, value, false);
       }
       // https://fetch.spec.whatwg.org/#dom-headers-getsetcookie
       getSetCookie() {
@@ -19185,9 +19185,9 @@ var require_response = __commonJS({
       }
       return response;
     }
-    webidl.converters.XMLHttpRequestBodyInit = function(V3, prefix, name2) {
+    webidl.converters.XMLHttpRequestBodyInit = function(V3, prefix, name) {
       if (typeof V3 === "string") {
-        return webidl.converters.USVString(V3, prefix, name2);
+        return webidl.converters.USVString(V3, prefix, name);
       }
       if (webidl.is.Blob(V3)) {
         return V3;
@@ -19201,7 +19201,7 @@ var require_response = __commonJS({
       if (webidl.is.URLSearchParams(V3)) {
         return V3;
       }
-      return webidl.converters.DOMString(V3, prefix, name2);
+      return webidl.converters.DOMString(V3, prefix, name);
     };
     webidl.converters.BodyInit = function(V3, prefix, argument) {
       if (webidl.is.ReadableStream(V3)) {
@@ -19533,8 +19533,8 @@ var require_request2 = __commonJS({
           const headers = init2.headers !== void 0 ? init2.headers : new HeadersList(headersList);
           headersList.clear();
           if (headers instanceof HeadersList) {
-            for (const { name: name2, value } of headers.rawValues()) {
-              headersList.append(name2, value, false);
+            for (const { name, value } of headers.rawValues()) {
+              headersList.append(name, value, false);
             }
             headersList.cookies = headers.cookies;
           } else {
@@ -21224,11 +21224,11 @@ var require_fetch = __commonJS({
                 return false;
               }
               const headersList = new HeadersList();
-              for (const [name2, value] of Object.entries(headers)) {
+              for (const [name, value] of Object.entries(headers)) {
                 if (value == null) {
                   continue;
                 }
-                const headerName = name2.toLowerCase();
+                const headerName = name.toLowerCase();
                 if (Array.isArray(value)) {
                   for (const entry of value) {
                     headersList.append(headerName, String(entry), true);
@@ -21997,9 +21997,9 @@ var require_util4 = __commonJS({
       }
       return false;
     }
-    function validateCookieName(name2) {
-      for (let i2 = 0; i2 < name2.length; ++i2) {
-        const code = name2.charCodeAt(i2);
+    function validateCookieName(name) {
+      for (let i2 = 0; i2 < name.length; ++i2) {
+        const code = name.charCodeAt(i2);
         if (code < 33 || // exclude CTLs (0-31), SP and HT
         code > 126 || // exclude non-ascii and DEL
         code === 34 || // "
@@ -22169,7 +22169,7 @@ var require_parse = __commonJS({
       }
       let nameValuePair = "";
       let unparsedAttributes = "";
-      let name2 = "";
+      let name = "";
       let value = "";
       if (header.includes(";")) {
         const position = { position: 0 };
@@ -22182,20 +22182,20 @@ var require_parse = __commonJS({
         value = nameValuePair;
       } else {
         const position = { position: 0 };
-        name2 = collectASequenceOfCodePointsFast(
+        name = collectASequenceOfCodePointsFast(
           "=",
           nameValuePair,
           position
         );
         value = nameValuePair.slice(position.position + 1);
       }
-      name2 = name2.trim();
+      name = name.trim();
       value = value.trim();
-      if (name2.length + value.length > maxNameValuePairSize) {
+      if (name.length + value.length > maxNameValuePairSize) {
         return null;
       }
       return {
-        name: name2,
+        name,
         value: qsUnescape(value),
         ...parseUnparsedAttributes(unparsedAttributes)
       };
@@ -22313,19 +22313,19 @@ var require_cookies = __commonJS({
         return out;
       }
       for (const piece of cookie.split(";")) {
-        const [name2, ...value] = piece.split("=");
-        out[name2.trim()] = value.join("=");
+        const [name, ...value] = piece.split("=");
+        out[name.trim()] = value.join("=");
       }
       return out;
     }
-    function deleteCookie(headers, name2, attributes) {
+    function deleteCookie(headers, name, attributes) {
       brandChecks(headers);
       const prefix = "deleteCookie";
       webidl.argumentLengthCheck(arguments, 2, prefix);
-      name2 = webidl.converters.DOMString(name2, prefix, "name");
+      name = webidl.converters.DOMString(name, prefix, "name");
       attributes = webidl.converters.DeleteCookieAttributes(attributes);
       setCookie(headers, {
-        name: name2,
+        name,
         value: "",
         expires: /* @__PURE__ */ new Date(0),
         ...attributes
@@ -22841,9 +22841,9 @@ var require_util5 = __commonJS({
       const extensionList = /* @__PURE__ */ new Map();
       while (position.position < extensions.length) {
         const pair = collectASequenceOfCodePointsFast(";", extensions, position);
-        const [name2, value = ""] = pair.split("=", 2);
+        const [name, value = ""] = pair.split("=", 2);
         extensionList.set(
-          removeHTTPWhitespace(name2, true, false),
+          removeHTTPWhitespace(name, true, false),
           removeHTTPWhitespace(value, false, true)
         );
         position.position++;
@@ -27578,11 +27578,11 @@ var require_platform = __commonJS({
       const { stdout: version2 } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
         silent: true
       });
-      const { stdout: name2 } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
+      const { stdout: name } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
         silent: true
       });
       return {
-        name: name2.trim(),
+        name: name.trim(),
         version: version2.trim()
       };
     });
@@ -27592,9 +27592,9 @@ var require_platform = __commonJS({
         silent: true
       });
       const version2 = (_b = (_a = stdout2.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : "";
-      const name2 = (_d = (_c = stdout2.match(/ProductName:\s*(.+)/)) === null || _c === void 0 ? void 0 : _c[1]) !== null && _d !== void 0 ? _d : "";
+      const name = (_d = (_c = stdout2.match(/ProductName:\s*(.+)/)) === null || _c === void 0 ? void 0 : _c[1]) !== null && _d !== void 0 ? _d : "";
       return {
-        name: name2,
+        name,
         version: version2
       };
     });
@@ -27602,9 +27602,9 @@ var require_platform = __commonJS({
       const { stdout: stdout2 } = yield exec.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
         silent: true
       });
-      const [name2, version2] = stdout2.trim().split("\n");
+      const [name, version2] = stdout2.trim().split("\n");
       return {
-        name: name2,
+        name,
         version: version2
       };
     });
@@ -27699,14 +27699,14 @@ var require_core = __commonJS({
       ExitCode2[ExitCode2["Success"] = 0] = "Success";
       ExitCode2[ExitCode2["Failure"] = 1] = "Failure";
     })(ExitCode || (exports.ExitCode = ExitCode = {}));
-    function exportVariable(name2, val) {
+    function exportVariable(name, val) {
       const convertedVal = (0, utils_1.toCommandValue)(val);
-      process.env[name2] = convertedVal;
+      process.env[name] = convertedVal;
       const filePath = process.env["GITHUB_ENV"] || "";
       if (filePath) {
-        return (0, file_command_1.issueFileCommand)("ENV", (0, file_command_1.prepareKeyValueMessage)(name2, val));
+        return (0, file_command_1.issueFileCommand)("ENV", (0, file_command_1.prepareKeyValueMessage)(name, val));
       }
-      (0, command_1.issueCommand)("set-env", { name: name2 }, convertedVal);
+      (0, command_1.issueCommand)("set-env", { name }, convertedVal);
     }
     exports.exportVariable = exportVariable;
     function setSecret(secret) {
@@ -27723,10 +27723,10 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path13.delimiter}${process.env["PATH"]}`;
     }
     exports.addPath = addPath;
-    function getInput3(name2, options2) {
-      const val = process.env[`INPUT_${name2.replace(/ /g, "_").toUpperCase()}`] || "";
+    function getInput3(name, options2) {
+      const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options2 && options2.required && !val) {
-        throw new Error(`Input required and not supplied: ${name2}`);
+        throw new Error(`Input required and not supplied: ${name}`);
       }
       if (options2 && options2.trimWhitespace === false) {
         return val;
@@ -27734,33 +27734,33 @@ var require_core = __commonJS({
       return val.trim();
     }
     exports.getInput = getInput3;
-    function getMultilineInput(name2, options2) {
-      const inputs = getInput3(name2, options2).split("\n").filter((x3) => x3 !== "");
+    function getMultilineInput(name, options2) {
+      const inputs = getInput3(name, options2).split("\n").filter((x3) => x3 !== "");
       if (options2 && options2.trimWhitespace === false) {
         return inputs;
       }
       return inputs.map((input) => input.trim());
     }
     exports.getMultilineInput = getMultilineInput;
-    function getBooleanInput(name2, options2) {
+    function getBooleanInput(name, options2) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput3(name2, options2);
+      const val = getInput3(name, options2);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
         return false;
-      throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name2}
+      throw new TypeError(`Input does not meet YAML 1.2 "Core Schema" specification: ${name}
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.getBooleanInput = getBooleanInput;
-    function setOutput2(name2, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
-        return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name2, value));
+        return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
       process.stdout.write(os2.EOL);
-      (0, command_1.issueCommand)("set-output", { name: name2 }, (0, utils_1.toCommandValue)(value));
+      (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports.setOutput = setOutput2;
     function setCommandEcho(enabled2) {
@@ -27796,17 +27796,17 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(message + os2.EOL);
     }
     exports.info = info;
-    function startGroup(name2) {
-      (0, command_1.issue)("group", name2);
+    function startGroup(name) {
+      (0, command_1.issue)("group", name);
     }
     exports.startGroup = startGroup;
     function endGroup() {
       (0, command_1.issue)("endgroup");
     }
     exports.endGroup = endGroup;
-    function group(name2, fn) {
+    function group(name, fn) {
       return __awaiter(this, void 0, void 0, function* () {
-        startGroup(name2);
+        startGroup(name);
         let result;
         try {
           result = yield fn();
@@ -27817,16 +27817,16 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       });
     }
     exports.group = group;
-    function saveState(name2, value) {
+    function saveState(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
-        return (0, file_command_1.issueFileCommand)("STATE", (0, file_command_1.prepareKeyValueMessage)(name2, value));
+        return (0, file_command_1.issueFileCommand)("STATE", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
-      (0, command_1.issueCommand)("save-state", { name: name2 }, (0, utils_1.toCommandValue)(value));
+      (0, command_1.issueCommand)("save-state", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports.saveState = saveState;
-    function getState(name2) {
-      return process.env[`STATE_${name2}`] || "";
+    function getState(name) {
+      return process.env[`STATE_${name}`] || "";
     }
     exports.getState = getState;
     function getIDToken(aud) {
@@ -28033,23 +28033,23 @@ var require_dist_node = __commonJS({
 var require_register = __commonJS({
   "node_modules/before-after-hook/lib/register.js"(exports, module3) {
     module3.exports = register;
-    function register(state, name2, method, options2) {
+    function register(state, name, method, options2) {
       if (typeof method !== "function") {
         throw new Error("method for before hook must be a function");
       }
       if (!options2) {
         options2 = {};
       }
-      if (Array.isArray(name2)) {
-        return name2.reverse().reduce(function(callback, name3) {
-          return register.bind(null, state, name3, callback, options2);
+      if (Array.isArray(name)) {
+        return name.reverse().reduce(function(callback, name2) {
+          return register.bind(null, state, name2, callback, options2);
         }, method)();
       }
       return Promise.resolve().then(function() {
-        if (!state.registry[name2]) {
+        if (!state.registry[name]) {
           return method(options2);
         }
-        return state.registry[name2].reduce(function(method2, registered) {
+        return state.registry[name].reduce(function(method2, registered) {
           return registered.hook.bind(null, method2, options2);
         }, method)();
       });
@@ -28061,10 +28061,10 @@ var require_register = __commonJS({
 var require_add = __commonJS({
   "node_modules/before-after-hook/lib/add.js"(exports, module3) {
     module3.exports = addHook;
-    function addHook(state, kind, name2, hook) {
+    function addHook(state, kind, name, hook) {
       var orig = hook;
-      if (!state.registry[name2]) {
-        state.registry[name2] = [];
+      if (!state.registry[name]) {
+        state.registry[name] = [];
       }
       if (kind === "before") {
         hook = function(method, options2) {
@@ -28089,7 +28089,7 @@ var require_add = __commonJS({
           });
         };
       }
-      state.registry[name2].push({
+      state.registry[name].push({
         hook,
         orig
       });
@@ -28101,17 +28101,17 @@ var require_add = __commonJS({
 var require_remove = __commonJS({
   "node_modules/before-after-hook/lib/remove.js"(exports, module3) {
     module3.exports = removeHook;
-    function removeHook(state, name2, method) {
-      if (!state.registry[name2]) {
+    function removeHook(state, name, method) {
+      if (!state.registry[name]) {
         return;
       }
-      var index = state.registry[name2].map(function(registered) {
+      var index = state.registry[name].map(function(registered) {
         return registered.orig;
       }).indexOf(method);
       if (index === -1) {
         return;
       }
-      state.registry[name2].splice(index, 1);
+      state.registry[name].splice(index, 1);
     }
   }
 });
@@ -28124,15 +28124,15 @@ var require_before_after_hook = __commonJS({
     var removeHook = require_remove();
     var bind = Function.bind;
     var bindable = bind.bind(bind);
-    function bindApi(hook, state, name2) {
+    function bindApi(hook, state, name) {
       var removeHookRef = bindable(removeHook, null).apply(
         null,
-        name2 ? [state, name2] : [state]
+        name ? [state, name] : [state]
       );
       hook.api = { remove: removeHookRef };
       hook.remove = removeHookRef;
       ["before", "error", "after", "wrap"].forEach(function(kind) {
-        var args = name2 ? [state, kind, name2] : [state, kind];
+        var args = name ? [state, kind, name] : [state, kind];
         hook[kind] = hook.api[kind] = bindable(addHook, null).apply(null, args);
       });
     }
@@ -28181,8 +28181,8 @@ var require_dist_node2 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -28281,11 +28281,11 @@ var require_dist_node2 = __commonJS({
       if (names.length === 0) {
         return url3;
       }
-      return url3 + separator + names.map((name2) => {
-        if (name2 === "q") {
+      return url3 + separator + names.map((name) => {
+        if (name === "q") {
           return "q=" + parameters.q.split("+").map(encodeURIComponent).join("+");
         }
-        return `${name2}=${encodeURIComponent(parameters[name2])}`;
+        return `${name}=${encodeURIComponent(parameters[name])}`;
       }).join("&");
     }
     var urlVariableRegex = /\{[^{}}]+\}/g;
@@ -28602,8 +28602,8 @@ var require_once = __commonJS({
         f.called = true;
         return f.value = fn.apply(this, arguments);
       };
-      var name2 = fn.name || "Function wrapped with `once`";
-      f.onceError = name2 + " shouldn't be called more than once";
+      var name = fn.name || "Function wrapped with `once`";
+      f.onceError = name + " shouldn't be called more than once";
       f.called = false;
       return f;
     }
@@ -28621,8 +28621,8 @@ var require_dist_node4 = __commonJS({
     var __getProtoOf2 = Object.getPrototypeOf;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -28711,8 +28711,8 @@ var require_dist_node5 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -28921,8 +28921,8 @@ var require_dist_node6 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -29058,8 +29058,8 @@ var require_dist_node7 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -29129,8 +29129,8 @@ var require_dist_node8 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -29288,8 +29288,8 @@ var require_dist_node9 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -31398,17 +31398,17 @@ var require_dist_node9 = __commonJS({
         }
         if (decorations.renamedParameters) {
           const options22 = requestWithDefaults.endpoint.merge(...args);
-          for (const [name2, alias] of Object.entries(
+          for (const [name, alias] of Object.entries(
             decorations.renamedParameters
           )) {
-            if (name2 in options22) {
+            if (name in options22) {
               octokit.log.warn(
-                `"${name2}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`
+                `"${name}" parameter is deprecated for "octokit.${scope}.${methodName}()". Use "${alias}" instead`
               );
               if (!(alias in options22)) {
-                options22[alias] = options22[name2];
+                options22[alias] = options22[name];
               }
-              delete options22[name2];
+              delete options22[name];
             }
           }
           return requestWithDefaults(options22);
@@ -31444,8 +31444,8 @@ var require_dist_node10 = __commonJS({
     var __getOwnPropNames2 = Object.getOwnPropertyNames;
     var __hasOwnProp2 = Object.prototype.hasOwnProperty;
     var __export2 = (target, all2) => {
-      for (var name2 in all2)
-        __defProp2(target, name2, { get: all2[name2], enumerable: true });
+      for (var name in all2)
+        __defProp2(target, name, { get: all2[name], enumerable: true });
     };
     var __copyProps2 = (to2, from, except, desc) => {
       if (from && typeof from === "object" || typeof from === "function") {
@@ -39498,9 +39498,9 @@ var require_scope = __commonJS({
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
     var code_1 = require_code();
     var ValueError = class extends Error {
-      constructor(name2) {
-        super(`CodeGen: "code" for ${name2} not defined`);
-        this.value = name2.value;
+      constructor(name) {
+        super(`CodeGen: "code" for ${name} not defined`);
+        this.value = name.value;
       }
     };
     var UsedValueState;
@@ -39567,8 +39567,8 @@ var require_scope = __commonJS({
         var _a;
         if (value.ref === void 0)
           throw new Error("CodeGen: ref must be passed in value");
-        const name2 = this.toName(nameOrPrefix);
-        const { prefix } = name2;
+        const name = this.toName(nameOrPrefix);
+        const { prefix } = name;
         const valueKey = (_a = value.key) !== null && _a !== void 0 ? _a : value.ref;
         let vs2 = this._values[prefix];
         if (vs2) {
@@ -39578,12 +39578,12 @@ var require_scope = __commonJS({
         } else {
           vs2 = this._values[prefix] = /* @__PURE__ */ new Map();
         }
-        vs2.set(valueKey, name2);
+        vs2.set(valueKey, name);
         const s2 = this._scope[prefix] || (this._scope[prefix] = []);
         const itemIndex = s2.length;
         s2[itemIndex] = value.ref;
-        name2.setValue(value, { property: prefix, itemIndex });
-        return name2;
+        name.setValue(value, { property: prefix, itemIndex });
+        return name;
       }
       getValue(prefix, keyOrRef) {
         const vs2 = this._values[prefix];
@@ -39592,17 +39592,17 @@ var require_scope = __commonJS({
         return vs2.get(keyOrRef);
       }
       scopeRefs(scopeName, values = this._values) {
-        return this._reduceValues(values, (name2) => {
-          if (name2.scopePath === void 0)
-            throw new Error(`CodeGen: name "${name2}" has no value`);
-          return (0, code_1._)`${scopeName}${name2.scopePath}`;
+        return this._reduceValues(values, (name) => {
+          if (name.scopePath === void 0)
+            throw new Error(`CodeGen: name "${name}" has no value`);
+          return (0, code_1._)`${scopeName}${name.scopePath}`;
         });
       }
       scopeCode(values = this._values, usedValues, getCode) {
-        return this._reduceValues(values, (name2) => {
-          if (name2.value === void 0)
-            throw new Error(`CodeGen: name "${name2}" has no value`);
-          return name2.value.code;
+        return this._reduceValues(values, (name) => {
+          if (name.value === void 0)
+            throw new Error(`CodeGen: name "${name}" has no value`);
+          return name.value.code;
         }, usedValues, getCode);
       }
       _reduceValues(values, valueCode, usedValues = {}, getCode) {
@@ -39612,20 +39612,20 @@ var require_scope = __commonJS({
           if (!vs2)
             continue;
           const nameSet = usedValues[prefix] = usedValues[prefix] || /* @__PURE__ */ new Map();
-          vs2.forEach((name2) => {
-            if (nameSet.has(name2))
+          vs2.forEach((name) => {
+            if (nameSet.has(name))
               return;
-            nameSet.set(name2, UsedValueState.Started);
-            let c2 = valueCode(name2);
+            nameSet.set(name, UsedValueState.Started);
+            let c2 = valueCode(name);
             if (c2) {
               const def = this.opts.es5 ? exports.varKinds.var : exports.varKinds.const;
-              code = (0, code_1._)`${code}${def} ${name2} = ${c2};${this.opts._n}`;
-            } else if (c2 = getCode === null || getCode === void 0 ? void 0 : getCode(name2)) {
+              code = (0, code_1._)`${code}${def} ${name} = ${c2};${this.opts._n}`;
+            } else if (c2 = getCode === null || getCode === void 0 ? void 0 : getCode(name)) {
               code = (0, code_1._)`${code}${c2}${this.opts._n}`;
             } else {
-              throw new ValueError(name2);
+              throw new ValueError(name);
             }
-            nameSet.set(name2, UsedValueState.Completed);
+            nameSet.set(name, UsedValueState.Completed);
           });
         }
         return code;
@@ -39702,10 +39702,10 @@ var require_codegen = __commonJS({
       }
     };
     var Def = class extends Node {
-      constructor(varKind, name2, rhs) {
+      constructor(varKind, name, rhs) {
         super();
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.rhs = rhs;
       }
       render({ es5, _n }) {
@@ -39925,17 +39925,17 @@ var require_codegen = __commonJS({
       }
     };
     var ForRange = class extends For {
-      constructor(varKind, name2, from, to2) {
+      constructor(varKind, name, from, to2) {
         super();
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.from = from;
         this.to = to2;
       }
       render(opts) {
         const varKind = opts.es5 ? scope_1.varKinds.var : this.varKind;
-        const { name: name2, from, to: to2 } = this;
-        return `for(${varKind} ${name2}=${from}; ${name2}<${to2}; ${name2}++)` + super.render(opts);
+        const { name, from, to: to2 } = this;
+        return `for(${varKind} ${name}=${from}; ${name}<${to2}; ${name}++)` + super.render(opts);
       }
       get names() {
         const names = addExprNames(super.names, this.from);
@@ -39943,11 +39943,11 @@ var require_codegen = __commonJS({
       }
     };
     var ForIter = class extends For {
-      constructor(loop, varKind, name2, iterable) {
+      constructor(loop, varKind, name, iterable) {
         super();
         this.loop = loop;
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.iterable = iterable;
       }
       render(opts) {
@@ -39964,9 +39964,9 @@ var require_codegen = __commonJS({
       }
     };
     var Func = class extends BlockNode {
-      constructor(name2, args, async) {
+      constructor(name, args, async) {
         super();
-        this.name = name2;
+        this.name = name;
         this.args = args;
         this.async = async;
       }
@@ -40053,10 +40053,10 @@ var require_codegen = __commonJS({
       }
       // reserves unique name in the external scope and assigns value to it
       scopeValue(prefixOrName, value) {
-        const name2 = this._extScope.value(prefixOrName, value);
-        const vs2 = this._values[name2.prefix] || (this._values[name2.prefix] = /* @__PURE__ */ new Set());
-        vs2.add(name2);
-        return name2;
+        const name = this._extScope.value(prefixOrName, value);
+        const vs2 = this._values[name.prefix] || (this._values[name.prefix] = /* @__PURE__ */ new Set());
+        vs2.add(name);
+        return name;
       }
       getScopeValue(prefix, keyOrRef) {
         return this._extScope.getValue(prefix, keyOrRef);
@@ -40070,11 +40070,11 @@ var require_codegen = __commonJS({
         return this._extScope.scopeCode(this._values);
       }
       _def(varKind, nameOrPrefix, rhs, constant) {
-        const name2 = this._scope.toName(nameOrPrefix);
+        const name = this._scope.toName(nameOrPrefix);
         if (rhs !== void 0 && constant)
-          this._constants[name2.str] = rhs;
-        this._leafNode(new Def(varKind, name2, rhs));
-        return name2;
+          this._constants[name.str] = rhs;
+        this._leafNode(new Def(varKind, name, rhs));
+        return name;
       }
       // `const` declaration (`var` in es5 mode)
       const(nameOrPrefix, rhs, _constant) {
@@ -40155,20 +40155,20 @@ var require_codegen = __commonJS({
       }
       // `for` statement for a range of values
       forRange(nameOrPrefix, from, to2, forBody, varKind = this.opts.es5 ? scope_1.varKinds.var : scope_1.varKinds.let) {
-        const name2 = this._scope.toName(nameOrPrefix);
-        return this._for(new ForRange(varKind, name2, from, to2), () => forBody(name2));
+        const name = this._scope.toName(nameOrPrefix);
+        return this._for(new ForRange(varKind, name, from, to2), () => forBody(name));
       }
       // `for-of` statement (in es5 mode replace with a normal for loop)
       forOf(nameOrPrefix, iterable, forBody, varKind = scope_1.varKinds.const) {
-        const name2 = this._scope.toName(nameOrPrefix);
+        const name = this._scope.toName(nameOrPrefix);
         if (this.opts.es5) {
           const arr = iterable instanceof code_1.Name ? iterable : this.var("_arr", iterable);
           return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i2) => {
-            this.var(name2, (0, code_1._)`${arr}[${i2}]`);
-            forBody(name2);
+            this.var(name, (0, code_1._)`${arr}[${i2}]`);
+            forBody(name);
           });
         }
-        return this._for(new ForIter("of", varKind, name2, iterable), () => forBody(name2));
+        return this._for(new ForIter("of", varKind, name, iterable), () => forBody(name));
       }
       // `for-in` statement.
       // With option `ownProperties` replaced with a `for-of` loop for object keys
@@ -40176,8 +40176,8 @@ var require_codegen = __commonJS({
         if (this.opts.ownProperties) {
           return this.forOf(nameOrPrefix, (0, code_1._)`Object.keys(${obj})`, forBody);
         }
-        const name2 = this._scope.toName(nameOrPrefix);
-        return this._for(new ForIter("in", varKind, name2, obj), () => forBody(name2));
+        const name = this._scope.toName(nameOrPrefix);
+        return this._for(new ForIter("in", varKind, name, obj), () => forBody(name));
       }
       // end `for` loop
       endFor() {
@@ -40242,8 +40242,8 @@ var require_codegen = __commonJS({
         return this;
       }
       // `function` heading (or definition if funcBody is passed)
-      func(name2, args = code_1.nil, async, funcBody) {
-        this._blockNode(new Func(name2, args, async));
+      func(name, args = code_1.nil, async, funcBody) {
+        this._blockNode(new Func(name, args, async));
         if (funcBody)
           this.code(funcBody).endFunc();
         return this;
@@ -42794,10 +42794,10 @@ var require_schemes = __commonJS({
         "urn:uuid"
       ]
     );
-    function isValidSchemeName(name2) {
+    function isValidSchemeName(name) {
       return supportedSchemeNames.indexOf(
         /** @type {*} */
-        name2
+        name
       ) !== -1;
     }
     function wsIsSecure(wsComponent) {
@@ -43681,10 +43681,10 @@ var require_core2 = __commonJS({
         return this;
       }
       // Add format
-      addFormat(name2, format) {
+      addFormat(name, format) {
         if (typeof format == "string")
           format = new RegExp(format);
-        this.formats[name2] = format;
+        this.formats[name] = format;
         return this;
       }
       errorsText(errors = this.errors, { separator = ", ", dataVar = "data" } = {}) {
@@ -43801,10 +43801,10 @@ var require_core2 = __commonJS({
           this.addSchema(optsSchemas[key], key);
     }
     function addInitialFormats() {
-      for (const name2 in this.opts.formats) {
-        const format = this.opts.formats[name2];
+      for (const name in this.opts.formats) {
+        const format = this.opts.formats[name];
         if (format)
-          this.addFormat(name2, format);
+          this.addFormat(name, format);
       }
     }
     function addInitialKeywords(defs) {
@@ -46750,8 +46750,8 @@ function extractNodeToContext(propertyName, schema2, ctx) {
   }
   const nodeTypeName = schema2.nodeTypeName ?? propertyName;
   const properties = {};
-  for (const [name2, property] of Object.entries(schema2.properties || {})) {
-    properties[name2] = transformJSONSchemaToNodeType(nodeTypeName + "." + name2, property, ctx);
+  for (const [name, property] of Object.entries(schema2.properties || {})) {
+    properties[name] = transformJSONSchemaToNodeType(nodeTypeName + "." + name, property, ctx);
   }
   let additionalProperties;
   if (isPlainObject(schema2.additionalProperties)) {
@@ -47951,9 +47951,9 @@ function compileStyleAliases(map2) {
 }
 function Type$1(tag, options2) {
   options2 = options2 || {};
-  Object.keys(options2).forEach(function(name2) {
-    if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name2) === -1) {
-      throw new exception('Unknown option "' + name2 + '" is met in definition of "' + tag + '" YAML type.');
+  Object.keys(options2).forEach(function(name) {
+    if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name) === -1) {
+      throw new exception('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
     }
   });
   this.options = options2;
@@ -47976,9 +47976,9 @@ function Type$1(tag, options2) {
     throw new exception('Unknown kind "' + this.kind + '" is specified for "' + tag + '" YAML type.');
   }
 }
-function compileList(schema2, name2) {
+function compileList(schema2, name) {
   var result = [];
-  schema2[name2].forEach(function(currentType) {
+  schema2[name].forEach(function(currentType) {
     var newIndex = result.length;
     result.forEach(function(previousType, previousIndex) {
       if (previousType.tag === currentType.tag && previousType.kind === currentType.kind && previousType.multi === currentType.multi) {
@@ -50265,7 +50265,7 @@ var init_js_yaml = __esm({
       simpleEscapeMap[i2] = simpleEscapeSequence(i2);
     }
     directiveHandlers = {
-      YAML: function handleYamlDirective(state, name2, args) {
+      YAML: function handleYamlDirective(state, name, args) {
         var match2, major, minor;
         if (state.version !== null) {
           throwError(state, "duplication of %YAML directive");
@@ -50288,7 +50288,7 @@ var init_js_yaml = __esm({
           throwWarning(state, "unsupported YAML version of the document");
         }
       },
-      TAG: function handleTagDirective(state, name2, args) {
+      TAG: function handleTagDirective(state, name, args) {
         var handle, prefix;
         if (args.length !== 2) {
           throwError(state, "TAG directive accepts exactly two arguments");
@@ -51060,9 +51060,9 @@ var init_config = __esm({
         const decorators8 = [];
         const preprocessors8 = [];
         for (const usedVersion of Array.from(this._usedVersions)) {
-          rules8.push(...Object.keys(this.rules[usedVersion]).filter((name2) => !this._usedRules.has(name2)));
-          decorators8.push(...Object.keys(this.decorators[usedVersion]).filter((name2) => !this._usedRules.has(name2)));
-          preprocessors8.push(...Object.keys(this.preprocessors[usedVersion]).filter((name2) => !this._usedRules.has(name2)));
+          rules8.push(...Object.keys(this.rules[usedVersion]).filter((name) => !this._usedRules.has(name)));
+          decorators8.push(...Object.keys(this.decorators[usedVersion]).filter((name) => !this._usedRules.has(name)));
+          preprocessors8.push(...Object.keys(this.preprocessors[usedVersion]).filter((name) => !this._usedRules.has(name)));
         }
         return {
           rules: rules8,
@@ -51666,31 +51666,31 @@ var init_remove_unused_components = __esm({
     ];
     RemoveUnusedComponents = () => {
       const components = /* @__PURE__ */ new Map();
-      function registerComponent(componentType, name2) {
-        const key = `${componentType}/${name2}`;
+      function registerComponent(componentType, name) {
+        const key = `${componentType}/${name}`;
         components.set(key, {
           usedIn: components.get(key)?.usedIn ?? [],
           componentType,
-          name: name2
+          name
         });
       }
       function getComponentKey2(pointer) {
         if (!pointer.startsWith("#/"))
           return;
-        const [type2, name2] = parseRef(pointer).pointer;
-        if (!type2 || !name2)
+        const [type2, name] = parseRef(pointer).pointer;
+        if (!type2 || !name)
           return void 0;
         if (!OAS2_COMPONENT_TYPES.includes(type2))
           return void 0;
-        return `${type2}/${name2}`;
+        return `${type2}/${name}`;
       }
       function removeUnusedComponents(root, removedKeys = /* @__PURE__ */ new Set()) {
         const removedCountBefore = removedKeys.size;
-        for (const [key, { usedIn, name: name2, componentType }] of components) {
+        for (const [key, { usedIn, name, componentType }] of components) {
           const used = usedIn.some((sourceKey) => sourceKey !== key && !removedKeys.has(sourceKey));
           if (!used && componentType) {
             removedKeys.add(key);
-            delete root[componentType][name2];
+            delete root[componentType][name];
             components.delete(key);
             if (isEmptyObject(root[componentType])) {
               delete root[componentType];
@@ -51854,10 +51854,10 @@ var init_oas_has_component = __esm({
 function getComponentKey(pointer) {
   if (!pointer.startsWith("#/components/"))
     return;
-  const [_component, type2, name2] = parseRef(pointer).pointer;
-  if (!type2 || !name2)
+  const [_component, type2, name] = parseRef(pointer).pointer;
+  if (!type2 || !name)
     return;
-  return `${type2}/${name2}`;
+  return `${type2}/${name}`;
 }
 var RemoveUnusedComponents2;
 var init_remove_unused_components2 = __esm({
@@ -51867,23 +51867,23 @@ var init_remove_unused_components2 = __esm({
     init_oas_has_component();
     RemoveUnusedComponents2 = () => {
       const components = /* @__PURE__ */ new Map();
-      function registerComponent(componentType, name2, referencesDiscriminator = false) {
-        const key = `${componentType}/${name2}`;
+      function registerComponent(componentType, name, referencesDiscriminator = false) {
+        const key = `${componentType}/${name}`;
         components.set(key, {
           usedIn: components.get(key)?.usedIn ?? [],
           componentType,
-          name: name2,
+          name,
           referencesDiscriminator
         });
       }
       function removeUnusedComponents(root, removedKeys = /* @__PURE__ */ new Set()) {
         const removedCountBefore = removedKeys.size;
-        for (const [key, { usedIn, name: name2, componentType, referencesDiscriminator }] of components) {
+        for (const [key, { usedIn, name, componentType, referencesDiscriminator }] of components) {
           const used = usedIn.some((sourceKey) => sourceKey !== key && !removedKeys.has(sourceKey)) || referencesDiscriminator;
           if (!used && componentType && root.components && hasComponent(root.components, componentType)) {
             removedKeys.add(key);
             const componentChild = root.components[componentType];
-            delete componentChild[name2];
+            delete componentChild[name];
             components.delete(key);
             if (isEmptyObject(componentChild)) {
               delete root.components[componentType];
@@ -53217,9 +53217,9 @@ var require_scope2 = __commonJS({
     exports.ValueScope = exports.ValueScopeName = exports.Scope = exports.varKinds = exports.UsedValueState = void 0;
     var code_1 = require_code3();
     var ValueError = class extends Error {
-      constructor(name2) {
-        super(`CodeGen: "code" for ${name2} not defined`);
-        this.value = name2.value;
+      constructor(name) {
+        super(`CodeGen: "code" for ${name} not defined`);
+        this.value = name.value;
       }
     };
     var UsedValueState;
@@ -53286,8 +53286,8 @@ var require_scope2 = __commonJS({
         var _a;
         if (value.ref === void 0)
           throw new Error("CodeGen: ref must be passed in value");
-        const name2 = this.toName(nameOrPrefix);
-        const { prefix } = name2;
+        const name = this.toName(nameOrPrefix);
+        const { prefix } = name;
         const valueKey = (_a = value.key) !== null && _a !== void 0 ? _a : value.ref;
         let vs2 = this._values[prefix];
         if (vs2) {
@@ -53297,12 +53297,12 @@ var require_scope2 = __commonJS({
         } else {
           vs2 = this._values[prefix] = /* @__PURE__ */ new Map();
         }
-        vs2.set(valueKey, name2);
+        vs2.set(valueKey, name);
         const s2 = this._scope[prefix] || (this._scope[prefix] = []);
         const itemIndex = s2.length;
         s2[itemIndex] = value.ref;
-        name2.setValue(value, { property: prefix, itemIndex });
-        return name2;
+        name.setValue(value, { property: prefix, itemIndex });
+        return name;
       }
       getValue(prefix, keyOrRef) {
         const vs2 = this._values[prefix];
@@ -53311,17 +53311,17 @@ var require_scope2 = __commonJS({
         return vs2.get(keyOrRef);
       }
       scopeRefs(scopeName, values = this._values) {
-        return this._reduceValues(values, (name2) => {
-          if (name2.scopePath === void 0)
-            throw new Error(`CodeGen: name "${name2}" has no value`);
-          return (0, code_1._)`${scopeName}${name2.scopePath}`;
+        return this._reduceValues(values, (name) => {
+          if (name.scopePath === void 0)
+            throw new Error(`CodeGen: name "${name}" has no value`);
+          return (0, code_1._)`${scopeName}${name.scopePath}`;
         });
       }
       scopeCode(values = this._values, usedValues, getCode) {
-        return this._reduceValues(values, (name2) => {
-          if (name2.value === void 0)
-            throw new Error(`CodeGen: name "${name2}" has no value`);
-          return name2.value.code;
+        return this._reduceValues(values, (name) => {
+          if (name.value === void 0)
+            throw new Error(`CodeGen: name "${name}" has no value`);
+          return name.value.code;
         }, usedValues, getCode);
       }
       _reduceValues(values, valueCode, usedValues = {}, getCode) {
@@ -53331,20 +53331,20 @@ var require_scope2 = __commonJS({
           if (!vs2)
             continue;
           const nameSet = usedValues[prefix] = usedValues[prefix] || /* @__PURE__ */ new Map();
-          vs2.forEach((name2) => {
-            if (nameSet.has(name2))
+          vs2.forEach((name) => {
+            if (nameSet.has(name))
               return;
-            nameSet.set(name2, UsedValueState.Started);
-            let c2 = valueCode(name2);
+            nameSet.set(name, UsedValueState.Started);
+            let c2 = valueCode(name);
             if (c2) {
               const def = this.opts.es5 ? exports.varKinds.var : exports.varKinds.const;
-              code = (0, code_1._)`${code}${def} ${name2} = ${c2};${this.opts._n}`;
-            } else if (c2 = getCode === null || getCode === void 0 ? void 0 : getCode(name2)) {
+              code = (0, code_1._)`${code}${def} ${name} = ${c2};${this.opts._n}`;
+            } else if (c2 = getCode === null || getCode === void 0 ? void 0 : getCode(name)) {
               code = (0, code_1._)`${code}${c2}${this.opts._n}`;
             } else {
-              throw new ValueError(name2);
+              throw new ValueError(name);
             }
-            nameSet.set(name2, UsedValueState.Completed);
+            nameSet.set(name, UsedValueState.Completed);
           });
         }
         return code;
@@ -53421,10 +53421,10 @@ var require_codegen2 = __commonJS({
       }
     };
     var Def = class extends Node {
-      constructor(varKind, name2, rhs) {
+      constructor(varKind, name, rhs) {
         super();
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.rhs = rhs;
       }
       render({ es5, _n }) {
@@ -53644,17 +53644,17 @@ var require_codegen2 = __commonJS({
       }
     };
     var ForRange = class extends For {
-      constructor(varKind, name2, from, to2) {
+      constructor(varKind, name, from, to2) {
         super();
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.from = from;
         this.to = to2;
       }
       render(opts) {
         const varKind = opts.es5 ? scope_1.varKinds.var : this.varKind;
-        const { name: name2, from, to: to2 } = this;
-        return `for(${varKind} ${name2}=${from}; ${name2}<${to2}; ${name2}++)` + super.render(opts);
+        const { name, from, to: to2 } = this;
+        return `for(${varKind} ${name}=${from}; ${name}<${to2}; ${name}++)` + super.render(opts);
       }
       get names() {
         const names = addExprNames(super.names, this.from);
@@ -53662,11 +53662,11 @@ var require_codegen2 = __commonJS({
       }
     };
     var ForIter = class extends For {
-      constructor(loop, varKind, name2, iterable) {
+      constructor(loop, varKind, name, iterable) {
         super();
         this.loop = loop;
         this.varKind = varKind;
-        this.name = name2;
+        this.name = name;
         this.iterable = iterable;
       }
       render(opts) {
@@ -53683,9 +53683,9 @@ var require_codegen2 = __commonJS({
       }
     };
     var Func = class extends BlockNode {
-      constructor(name2, args, async) {
+      constructor(name, args, async) {
         super();
-        this.name = name2;
+        this.name = name;
         this.args = args;
         this.async = async;
       }
@@ -53772,10 +53772,10 @@ var require_codegen2 = __commonJS({
       }
       // reserves unique name in the external scope and assigns value to it
       scopeValue(prefixOrName, value) {
-        const name2 = this._extScope.value(prefixOrName, value);
-        const vs2 = this._values[name2.prefix] || (this._values[name2.prefix] = /* @__PURE__ */ new Set());
-        vs2.add(name2);
-        return name2;
+        const name = this._extScope.value(prefixOrName, value);
+        const vs2 = this._values[name.prefix] || (this._values[name.prefix] = /* @__PURE__ */ new Set());
+        vs2.add(name);
+        return name;
       }
       getScopeValue(prefix, keyOrRef) {
         return this._extScope.getValue(prefix, keyOrRef);
@@ -53789,11 +53789,11 @@ var require_codegen2 = __commonJS({
         return this._extScope.scopeCode(this._values);
       }
       _def(varKind, nameOrPrefix, rhs, constant) {
-        const name2 = this._scope.toName(nameOrPrefix);
+        const name = this._scope.toName(nameOrPrefix);
         if (rhs !== void 0 && constant)
-          this._constants[name2.str] = rhs;
-        this._leafNode(new Def(varKind, name2, rhs));
-        return name2;
+          this._constants[name.str] = rhs;
+        this._leafNode(new Def(varKind, name, rhs));
+        return name;
       }
       // `const` declaration (`var` in es5 mode)
       const(nameOrPrefix, rhs, _constant) {
@@ -53874,20 +53874,20 @@ var require_codegen2 = __commonJS({
       }
       // `for` statement for a range of values
       forRange(nameOrPrefix, from, to2, forBody, varKind = this.opts.es5 ? scope_1.varKinds.var : scope_1.varKinds.let) {
-        const name2 = this._scope.toName(nameOrPrefix);
-        return this._for(new ForRange(varKind, name2, from, to2), () => forBody(name2));
+        const name = this._scope.toName(nameOrPrefix);
+        return this._for(new ForRange(varKind, name, from, to2), () => forBody(name));
       }
       // `for-of` statement (in es5 mode replace with a normal for loop)
       forOf(nameOrPrefix, iterable, forBody, varKind = scope_1.varKinds.const) {
-        const name2 = this._scope.toName(nameOrPrefix);
+        const name = this._scope.toName(nameOrPrefix);
         if (this.opts.es5) {
           const arr = iterable instanceof code_1.Name ? iterable : this.var("_arr", iterable);
           return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i2) => {
-            this.var(name2, (0, code_1._)`${arr}[${i2}]`);
-            forBody(name2);
+            this.var(name, (0, code_1._)`${arr}[${i2}]`);
+            forBody(name);
           });
         }
-        return this._for(new ForIter("of", varKind, name2, iterable), () => forBody(name2));
+        return this._for(new ForIter("of", varKind, name, iterable), () => forBody(name));
       }
       // `for-in` statement.
       // With option `ownProperties` replaced with a `for-of` loop for object keys
@@ -53895,8 +53895,8 @@ var require_codegen2 = __commonJS({
         if (this.opts.ownProperties) {
           return this.forOf(nameOrPrefix, (0, code_1._)`Object.keys(${obj})`, forBody);
         }
-        const name2 = this._scope.toName(nameOrPrefix);
-        return this._for(new ForIter("in", varKind, name2, obj), () => forBody(name2));
+        const name = this._scope.toName(nameOrPrefix);
+        return this._for(new ForIter("in", varKind, name, obj), () => forBody(name));
       }
       // end `for` loop
       endFor() {
@@ -53961,8 +53961,8 @@ var require_codegen2 = __commonJS({
         return this;
       }
       // `function` heading (or definition if funcBody is passed)
-      func(name2, args = code_1.nil, async, funcBody) {
-        this._blockNode(new Func(name2, args, async));
+      func(name, args = code_1.nil, async, funcBody) {
+        this._blockNode(new Func(name, args, async));
         if (funcBody)
           this.code(funcBody).endFunc();
         return this;
@@ -56484,10 +56484,10 @@ var require_core5 = __commonJS({
         return this;
       }
       // Add format
-      addFormat(name2, format) {
+      addFormat(name, format) {
         if (typeof format == "string")
           format = new RegExp(format);
-        this.formats[name2] = format;
+        this.formats[name] = format;
         return this;
       }
       errorsText(errors = this.errors, { separator = ", ", dataVar = "data" } = {}) {
@@ -56604,10 +56604,10 @@ var require_core5 = __commonJS({
           this.addSchema(optsSchemas[key], key);
     }
     function addInitialFormats() {
-      for (const name2 in this.opts.formats) {
-        const format = this.opts.formats[name2];
+      for (const name in this.opts.formats) {
+        const format = this.opts.formats[name];
         if (format)
-          this.addFormat(name2, format);
+          this.addFormat(name, format);
       }
     }
     function addInitialKeywords(defs) {
@@ -58844,11 +58844,11 @@ var require_dist = __commonJS({
         (0, limit_1.default)(ajv2);
       return ajv2;
     };
-    formatsPlugin.get = (name2, mode = "full") => {
+    formatsPlugin.get = (name, mode = "full") => {
       const formats = mode === "fast" ? formats_1.fastFormats : formats_1.fullFormats;
-      const f = formats[name2];
+      const f = formats[name];
       if (!f)
-        throw new Error(`Unknown format "${name2}"`);
+        throw new Error(`Unknown format "${name}"`);
       return f;
     };
     function addFormats2(ajv2, list, fs9, exportName) {
@@ -61503,12 +61503,12 @@ var init_security_defined = __esm({
       return {
         Root: {
           leave(root, { report }) {
-            for (const [name2, scheme] of referencedSchemes.entries()) {
+            for (const [name, scheme] of referencedSchemes.entries()) {
               if (scheme.defined)
                 continue;
               for (const reportedFromLocation of scheme.from) {
                 report({
-                  message: `There is no \`${name2}\` security scheme defined.`,
+                  message: `There is no \`${name}\` security scheme defined.`,
                   location: reportedFromLocation.key()
                 });
               }
@@ -62264,12 +62264,12 @@ var init_no_unused_components = __esm({
     init_ref_utils();
     NoUnusedComponents = () => {
       const components = /* @__PURE__ */ new Map();
-      function registerComponent(location, name2, referencesDiscriminator = false) {
+      function registerComponent(location, name, referencesDiscriminator = false) {
         components.set(location.absolutePointer, {
           used: components.get(location.absolutePointer)?.used || false,
           referencesDiscriminator,
           location,
-          name: name2
+          name
         });
       }
       return {
@@ -62947,11 +62947,11 @@ var init_no_unused_components2 = __esm({
   "node_modules/@redocly/openapi-core/lib/rules/openrpc/no-unused-components.js"() {
     NoUnusedComponents2 = () => {
       const components = /* @__PURE__ */ new Map();
-      function registerComponent(location, name2) {
+      function registerComponent(location, name) {
         components.set(location.absolutePointer, {
           used: components.get(location.absolutePointer)?.used || false,
           location,
-          name: name2
+          name
         });
       }
       return {
@@ -65143,8 +65143,8 @@ function normalizeVisitors(visitorsConfig, types2) {
   }
   function findLegacyVisitorNode(visitor, typeName) {
     if (Array.isArray(typeName)) {
-      const name2 = typeName.find((name3) => visitor[name3]) || void 0;
-      return name2 && visitor[name2];
+      const name = typeName.find((name2) => visitor[name2]) || void 0;
+      return name && visitor[name];
     }
     return visitor[typeName];
   }
@@ -65286,8 +65286,8 @@ function prefixRules(rules8, prefix) {
   if (!prefix)
     return rules8;
   const res = {};
-  for (const name2 of Object.keys(rules8)) {
-    res[`${prefix}/${name2}`] = rules8[name2];
+  for (const name of Object.keys(rules8)) {
+    res[`${prefix}/${name}`] = rules8[name];
   }
   return res;
 }
@@ -66023,17 +66023,17 @@ function makeBundleVisitor({ version: version2, dereference, rootDocument, resol
       },
       DiscriminatorMapping: {
         leave(mapping, ctx) {
-          for (const name2 of Object.keys(mapping)) {
-            const $ref = mapping[name2];
+          for (const name of Object.keys(mapping)) {
+            const $ref = mapping[name];
             if (!isMappingRef($ref)) {
               continue;
             }
             const resolved = ctx.resolve({ $ref });
             if (!resolved.location || resolved.node === void 0) {
-              reportUnresolvedRef(resolved, ctx.report, ctx.location.child(name2));
+              reportUnresolvedRef(resolved, ctx.report, ctx.location.child(name));
               return;
             }
-            mapping[name2] = saveComponent(componentType, resolved, ctx);
+            mapping[name] = saveComponent(componentType, resolved, ctx);
           }
         }
       }
@@ -66051,12 +66051,12 @@ function makeBundleVisitor({ version: version2, dereference, rootDocument, resol
   }
   function saveComponent(componentType, target, ctx) {
     components[componentType] = components[componentType] || {};
-    const name2 = getComponentName(target, componentType, ctx);
-    components[componentType][name2] = target.node;
+    const name = getComponentName(target, componentType, ctx);
+    components[componentType][name] = target.node;
     if (version2 === "oas3" || version2 === "async2" || version2 === "async3" || version2 === "openrpc1") {
-      return `#/components/${componentType}/${name2}`;
+      return `#/components/${componentType}/${name}`;
     } else {
-      return `#/${componentType}/${name2}`;
+      return `#/${componentType}/${name}`;
     }
   }
   function isEqualOrEqualRef(node, target, ctx) {
@@ -66068,21 +66068,21 @@ function makeBundleVisitor({ version: version2, dereference, rootDocument, resol
   function getComponentName(target, componentType, ctx) {
     const componentsGroup = components[componentType];
     const [fileRef, pointer] = [target.location.source.absoluteRef, target.location.pointer];
-    let name2 = pointerBaseName(pointer) || refBaseName(fileRef);
-    const prevName = name2;
+    let name = pointerBaseName(pointer) || refBaseName(fileRef);
+    const prevName = name;
     let serialId = 2;
-    while (componentsGroup[name2] && !isEqualOrEqualRef(componentsGroup[name2], target, ctx)) {
-      name2 = `${prevName}-${serialId}`;
+    while (componentsGroup[name] && !isEqualOrEqualRef(componentsGroup[name], target, ctx)) {
+      name = `${prevName}-${serialId}`;
       serialId++;
     }
-    if (!componentsGroup[name2] && prevName !== name2) {
+    if (!componentsGroup[name] && prevName !== name) {
       ctx.report({
-        message: `Two schemas are referenced with the same name but different content. Renamed ${prevName} to ${name2}.`,
+        message: `Two schemas are referenced with the same name but different content. Renamed ${prevName} to ${name}.`,
         location: ctx.location,
         forceSeverity: componentRenamingConflicts
       });
     }
-    return name2;
+    return name;
   }
   return visitor;
 }
@@ -66985,8 +66985,8 @@ var require_mark = __commonJS({
     "use strict";
     var common2 = require_common();
     var Mark = (function() {
-      function Mark2(name2, buffer, position, line, column) {
-        this.name = name2;
+      function Mark2(name, buffer, position, line, column) {
+        this.name = name;
         this.buffer = buffer;
         this.position = position;
         this.line = line;
@@ -67086,9 +67086,9 @@ var require_type = __commonJS({
     var Type = /* @__PURE__ */ (function() {
       function Type2(tag, options2) {
         options2 = options2 || {};
-        Object.keys(options2).forEach(function(name2) {
-          if (-1 === TYPE_CONSTRUCTOR_OPTIONS2.indexOf(name2)) {
-            throw new YAMLException('Unknown option "' + name2 + '" is met in definition of "' + tag + '" YAML type.');
+        Object.keys(options2).forEach(function(name) {
+          if (-1 === TYPE_CONSTRUCTOR_OPTIONS2.indexOf(name)) {
+            throw new YAMLException('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
           }
         });
         this.tag = tag;
@@ -67122,12 +67122,12 @@ var require_schema2 = __commonJS({
     var common2 = require_common();
     var YAMLException = require_exception();
     var type_1 = require_type();
-    function compileList2(schema2, name2, result) {
+    function compileList2(schema2, name, result) {
       var exclude = [];
       schema2.include.forEach(function(includedSchema) {
-        result = compileList2(includedSchema, name2, result);
+        result = compileList2(includedSchema, name, result);
       });
-      schema2[name2].forEach(function(currentType) {
+      schema2[name].forEach(function(currentType) {
         result.forEach(function(previousType, previousIndex) {
           if (previousType.tag === currentType.tag) {
             exclude.push(previousIndex);
@@ -68250,7 +68250,7 @@ var require_loader = __commonJS({
       }
     }
     var directiveHandlers2 = {
-      YAML: function handleYamlDirective2(state, name2, args) {
+      YAML: function handleYamlDirective2(state, name, args) {
         var match2, major, minor;
         if (null !== state.version) {
           throwError2(state, "duplication of %YAML directive");
@@ -68273,7 +68273,7 @@ var require_loader = __commonJS({
           throwError2(state, "found incompatible YAML document (version 1.2 is required)");
         }
       },
-      TAG: function handleTagDirective2(state, name2, args) {
+      TAG: function handleTagDirective2(state, name, args) {
         var handle, prefix;
         if (2 !== args.length) {
           throwError2(state, "TAG directive accepts exactly two arguments");
@@ -74256,13 +74256,11 @@ var init_miscellaneous = __esm({
   }
 });
 
-// node_modules/@redocly/cli/lib/utils/package.js
-import { createRequire } from "node:module";
-var packageJson, version, name, engines;
-var init_package = __esm({
-  "node_modules/@redocly/cli/lib/utils/package.js"() {
-    packageJson = createRequire(import.meta.url ?? __dirname)("../../package.json");
-    ({ version, name, engines } = packageJson);
+// src/redocly-cli-package.ts
+var version;
+var init_redocly_cli_package = __esm({
+  "src/redocly-cli-package.ts"() {
+    version = "2.31.2";
   }
 });
 
@@ -74385,9 +74383,9 @@ var require_ms = __commonJS({
       }
       return ms2 + " ms";
     }
-    function plural(ms2, msAbs, n8, name2) {
+    function plural(ms2, msAbs, n8, name) {
       var isPlural = msAbs >= n8 * 1.5;
-      return Math.round(ms2 / n8) + " " + name2 + (isPlural ? "s" : "");
+      return Math.round(ms2 / n8) + " " + name + (isPlural ? "s" : "");
     }
   }
 });
@@ -74518,19 +74516,19 @@ var require_common2 = __commonJS({
         createDebug.enable("");
         return namespaces;
       }
-      function enabled2(name2) {
-        if (name2[name2.length - 1] === "*") {
+      function enabled2(name) {
+        if (name[name.length - 1] === "*") {
           return true;
         }
         let i2;
         let len;
         for (i2 = 0, len = createDebug.skips.length; i2 < len; i2++) {
-          if (createDebug.skips[i2].test(name2)) {
+          if (createDebug.skips[i2].test(name)) {
             return false;
           }
         }
         for (i2 = 0, len = createDebug.names.length; i2 < len; i2++) {
-          if (createDebug.names[i2].test(name2)) {
+          if (createDebug.names[i2].test(name)) {
             return true;
           }
         }
@@ -74963,15 +74961,15 @@ var require_node = __commonJS({
       return "colors" in exports.inspectOpts ? Boolean(exports.inspectOpts.colors) : tty2.isatty(process.stderr.fd);
     }
     function formatArgs(args) {
-      const { namespace: name2, useColors: useColors2 } = this;
+      const { namespace: name, useColors: useColors2 } = this;
       if (useColors2) {
         const c2 = this.color;
         const colorCode = "\x1B[3" + (c2 < 8 ? c2 : "8;5;" + c2);
-        const prefix = `  ${colorCode};1m${name2} \x1B[0m`;
+        const prefix = `  ${colorCode};1m${name} \x1B[0m`;
         args[0] = prefix + args[0].split("\n").join("\n" + prefix);
         args.push(colorCode + "m+" + module3.exports.humanize(this.diff) + "\x1B[0m");
       } else {
-        args[0] = getDate() + name2 + " " + args[0];
+        args[0] = getDate() + name + " " + args[0];
       }
     }
     function getDate() {
@@ -75163,29 +75161,29 @@ var require_dist2 = __commonJS({
       // accurate when `addRequest()` is next called. We achieve this by creating a
       // fake socket and adding it to `sockets[origin]` and incrementing
       // `totalSocketCount`.
-      incrementSockets(name2) {
+      incrementSockets(name) {
         if (this.maxSockets === Infinity && this.maxTotalSockets === Infinity) {
           return null;
         }
-        if (!this.sockets[name2]) {
-          this.sockets[name2] = [];
+        if (!this.sockets[name]) {
+          this.sockets[name] = [];
         }
         const fakeSocket = new net.Socket({ writable: false });
-        this.sockets[name2].push(fakeSocket);
+        this.sockets[name].push(fakeSocket);
         this.totalSocketCount++;
         return fakeSocket;
       }
-      decrementSockets(name2, socket) {
-        if (!this.sockets[name2] || socket === null) {
+      decrementSockets(name, socket) {
+        if (!this.sockets[name] || socket === null) {
           return;
         }
-        const sockets = this.sockets[name2];
+        const sockets = this.sockets[name];
         const index = sockets.indexOf(socket);
         if (index !== -1) {
           sockets.splice(index, 1);
           this.totalSocketCount--;
           if (sockets.length === 0) {
-            delete this.sockets[name2];
+            delete this.sockets[name];
           }
         }
       }
@@ -75203,10 +75201,10 @@ var require_dist2 = __commonJS({
           ...options2,
           secureEndpoint: this.isSecureEndpoint(options2)
         };
-        const name2 = this.getName(connectOpts);
-        const fakeSocket = this.incrementSockets(name2);
+        const name = this.getName(connectOpts);
+        const fakeSocket = this.incrementSockets(name);
         Promise.resolve().then(() => this.connect(req, connectOpts)).then((socket) => {
-          this.decrementSockets(name2, fakeSocket);
+          this.decrementSockets(name, fakeSocket);
           if (socket instanceof http.Agent) {
             try {
               return socket.addRequest(req, connectOpts);
@@ -75217,7 +75215,7 @@ var require_dist2 = __commonJS({
           this[INTERNAL].currentSocket = socket;
           super.createSocket(req, options2, cb);
         }, (err) => {
-          this.decrementSockets(name2, fakeSocket);
+          this.decrementSockets(name, fakeSocket);
           cb(err);
         });
       }
@@ -75445,8 +75443,8 @@ var require_dist3 = __commonJS({
         if (!headers["Proxy-Connection"]) {
           headers["Proxy-Connection"] = this.keepAlive ? "Keep-Alive" : "close";
         }
-        for (const name2 of Object.keys(headers)) {
-          payload += `${name2}: ${headers[name2]}\r
+        for (const name of Object.keys(headers)) {
+          payload += `${name}: ${headers[name]}\r
 `;
         }
         const proxyResponsePromise = (0, parse_proxy_response_1.parseProxyResponse)(socket);
@@ -75575,7 +75573,7 @@ var init_api_client = __esm({
     init_lib();
     init_constants2();
     init_fetch_with_timeout();
-    init_package();
+    init_redocly_cli_package();
     ReuniteApiError = class extends Error {
       status;
       constructor(message, status) {
@@ -76301,9 +76299,9 @@ function parseCommitAuthor(author) {
   if (!reg.test(author)) {
     throw new Error('Invalid author format. Use "Author Name <author@email.com>"');
   }
-  const [name2, email] = author.split("<");
+  const [name, email] = author.split("<");
   return {
-    name: name2.trim(),
+    name: name.trim(),
     email: email.replace(">", "").trim()
   };
 }
@@ -76326,18 +76324,18 @@ function collectFilesToPush(files) {
     }
     collectedFiles[fileName] = filePath;
   }
-  return Object.entries(collectedFiles).map(([name2, filePath]) => getFileEntry(name2, filePath));
+  return Object.entries(collectedFiles).map(([name, filePath]) => getFileEntry(name, filePath));
 }
-function getFileEntry(name2, filePath) {
+function getFileEntry(name, filePath) {
   return {
-    name: name2,
+    name,
     path: path12.resolve(filePath)
   };
 }
 function getFilesList(dir, files) {
   const filesAndDirs = fs8.readdirSync(dir);
-  for (const name2 of filesAndDirs) {
-    const currentPath = path12.join(dir, name2);
+  for (const name of filesAndDirs) {
+    const currentPath = path12.join(dir, name);
     if (fs8.statSync(currentPath).isDirectory()) {
       files = getFilesList(currentPath, files);
     } else {
@@ -76352,7 +76350,7 @@ var init_push = __esm({
     init_colorette();
     init_error2();
     init_miscellaneous();
-    init_package();
+    init_redocly_cli_package();
     init_api();
     init_push_status();
     init_utils5();

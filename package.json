@@ -26,7 +26,7 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
     "test:ci": "npm run test -- --coverage --ci --silent --testLocationInResults --json --outputFile=results.json",
-    "package": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/index.js --sourcemap --banner:js=\"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);\"",
+    "package": "node scripts/build.mjs",
     "package:watch": "npm run package -- --watch",
     "bundle": "npm run prettier && npm run package",
     "compile-fake-server": "tsc -p tsconfig.fake-server.json",
