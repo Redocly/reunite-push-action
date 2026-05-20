@@ -1,10 +1,9 @@
 import * as core from '@actions/core';
 
-import { handlePush } from '@redocly/cli/lib/reunite/commands/push';
-import { handlePushStatus } from '@redocly/cli/lib/reunite/commands/push-status';
-
 import { setCommitStatuses } from './set-commit-statuses';
 import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
+import { loadRedoclyCliCommands } from './redocly-cli';
+import type { PushStatusResult } from './redocly-cli';
 
 import { dependencies } from '../package.json';
 
@@ -19,6 +18,7 @@ export async function run(): Promise<void> {
     console.debug('Parsed GitHub event', ghEvent);
 
     const config = await getRedoclyConfig();
+    const { handlePush, handlePushStatus } = await loadRedoclyCliCommands();
 
     const pushData = await handlePush({
       argv: {
@@ -55,7 +55,7 @@ export async function run(): Promise<void> {
         wait: true,
         'continue-on-deploy-failures': true,
         'max-execution-time': inputData.maxExecutionTime,
-        onRetry: async lastResult => {
+        onRetry: async (lastResult: PushStatusResult) => {
           try {
             await setCommitStatuses({
               commitStatuses: lastResult.commit.statuses,
