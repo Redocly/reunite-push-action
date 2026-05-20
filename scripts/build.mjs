@@ -1,8 +1,15 @@
-import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
 
 import { build } from 'esbuild';
 
-const cliPackageShim = resolve('src/redocly-cli-package.ts');
+const cliPackageJson = JSON.parse(
+  await readFile('node_modules/@redocly/cli/package.json', 'utf8'),
+);
+const cliPackageModule = `
+  export const name = ${JSON.stringify(cliPackageJson.name)};
+  export const version = ${JSON.stringify(cliPackageJson.version)};
+  export const engines = ${JSON.stringify(cliPackageJson.engines)};
+`;
 
 await build({
   entryPoints: ['src/index.ts'],
@@ -18,22 +25,42 @@ await build({
   plugins: [
     {
       name: 'redocly-cli-package-shim',
-      setup(build) {
-        build.onResolve({ filter: /(?:^|\/)utils\/package\.js$/ }, args => {
-          if (!args.importer.includes('@redocly/cli')) {
-            return null;
-          }
+      setup(pluginBuild) {
+        pluginBuild.onResolve(
+          { filter: /(?:^|\/)utils\/package\.js$/ },
+          args => {
+            if (!args.importer.includes('@redocly/cli')) {
+              return null;
+            }
 
-          return { path: cliPackageShim };
-        });
+            return {
+              path: 'redocly-cli-package',
+              namespace: 'redocly-cli-package-shim',
+            };
+          },
+        );
 
-        build.onResolve({ filter: /^\.\/package\.js$/ }, args => {
+        pluginBuild.onResolve({ filter: /^\.\/package\.js$/ }, args => {
           if (!args.importer.includes('@redocly/cli/lib/utils/')) {
             return null;
           }
 
-          return { path: cliPackageShim };
+          return {
+            path: 'redocly-cli-package',
+            namespace: 'redocly-cli-package-shim',
+          };
         });
+
+        pluginBuild.onLoad(
+          {
+            filter: /^redocly-cli-package$/,
+            namespace: 'redocly-cli-package-shim',
+          },
+          () => ({
+            contents: cliPackageModule,
+            loader: 'js',
+          }),
+        );
       },
     },
   ],

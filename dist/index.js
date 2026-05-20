@@ -74256,10 +74256,10 @@ var init_miscellaneous = __esm({
   }
 });
 
-// src/redocly-cli-package.ts
+// redocly-cli-package-shim:redocly-cli-package
 var version;
 var init_redocly_cli_package = __esm({
-  "src/redocly-cli-package.ts"() {
+  "redocly-cli-package-shim:redocly-cli-package"() {
     version = "2.31.2";
   }
 });
