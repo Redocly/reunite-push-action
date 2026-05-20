@@ -14,7 +14,7 @@
     ".": "./dist/index.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.0"
   },
   "scripts": {
     "all": "npm run prettier && npm run lint && npm run test && npm run package",
@@ -37,7 +37,8 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@octokit/rest": "^20.1.0",
-    "@redocly/cli": "1.34.13"
+    "@redocly/cli": "2.31.2",
+    "@redocly/openapi-core": "2.31.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

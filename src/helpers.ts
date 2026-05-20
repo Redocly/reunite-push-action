@@ -1,8 +1,8 @@
 import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { loadConfig } from '@redocly/openapi-core';
 import { ParsedEventData, ParsedInputData } from './types';
+import { loadRedoclyConfig } from './redocly-config';
 
 export function parseInputData(): ParsedInputData {
   const redoclyOrgSlug = core.getInput('organization', { required: true });
@@ -139,8 +139,6 @@ export function getCommitSha(): string | undefined {
 }
 
 // Returns parsed config from the root or default config if not found
-export async function getRedoclyConfig(): ReturnType<typeof loadConfig> {
-  const redoclyConfig = await loadConfig();
-
-  return redoclyConfig;
+export async function getRedoclyConfig(): Promise<unknown> {
+  return loadRedoclyConfig();
 }

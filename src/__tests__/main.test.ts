@@ -1,9 +1,8 @@
 import * as core from '@actions/core';
-import * as handlePushCommand from '@redocly/cli/lib/reunite/commands/push';
-import * as handlePushStatusCommand from '@redocly/cli/lib/reunite/commands/push-status';
 
 import * as main from '../main';
 import * as helpers from '../helpers';
+import * as redoclyCli from '../redocly-cli';
 
 import * as commitStatusUtils from '../set-commit-statuses';
 import {
@@ -16,9 +15,11 @@ const runMock = jest.spyOn(main, 'run');
 
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
 let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
-let handlePushMock: jest.SpiedFunction<typeof handlePushCommand.handlePush>;
-let handlePushStatusMock: jest.SpiedFunction<
-  typeof handlePushStatusCommand.handlePushStatus
+let getRedoclyConfigMock: jest.SpiedFunction<typeof helpers.getRedoclyConfig>;
+let handlePushMock: jest.Mock;
+let handlePushStatusMock: jest.Mock;
+let loadRedoclyCliCommandsMock: jest.SpiedFunction<
+  typeof redoclyCli.loadRedoclyCliCommands
 >;
 let setOutputMock: jest.SpiedFunction<typeof core.setOutput>;
 let setFailedMock: jest.SpiedFunction<typeof core.setFailed>;
@@ -39,15 +40,24 @@ describe('action', () => {
       .spyOn(helpers, 'parseEventData')
       .mockImplementation(async () => parsedEventPushDataMock);
 
-    handlePushMock = jest
-      .spyOn(handlePushCommand, 'handlePush')
-      .mockImplementation(async () => ({
-        pushId: 'test-push-id',
-      }));
+    getRedoclyConfigMock = jest
+      .spyOn(helpers, 'getRedoclyConfig')
+      .mockResolvedValue(
+        {} as Awaited<ReturnType<typeof helpers.getRedoclyConfig>>,
+      );
 
-    handlePushStatusMock = jest
-      .spyOn(handlePushStatusCommand, 'handlePushStatus')
-      .mockImplementation(async () => pushStatusSummaryStub);
+    handlePushMock = jest.fn().mockResolvedValue({
+      pushId: 'test-push-id',
+    });
+
+    handlePushStatusMock = jest.fn().mockResolvedValue(pushStatusSummaryStub);
+
+    loadRedoclyCliCommandsMock = jest
+      .spyOn(redoclyCli, 'loadRedoclyCliCommands')
+      .mockResolvedValue({
+        handlePush: handlePushMock,
+        handlePushStatus: handlePushStatusMock,
+      });
 
     setCommitStatusMock = jest
       .spyOn(commitStatusUtils, 'setCommitStatuses')
@@ -63,6 +73,8 @@ describe('action', () => {
     expect(runMock).toHaveReturned();
     expect(parseInputDataMock).toHaveBeenCalled();
     expect(parseEventDataMock).toHaveBeenCalled();
+    expect(getRedoclyConfigMock).toHaveBeenCalled();
+    expect(loadRedoclyCliCommandsMock).toHaveBeenCalled();
     expect(handlePushMock).toHaveBeenCalled();
     expect(handlePushStatusMock).toHaveBeenCalled();
     expect(setCommitStatusMock).toHaveBeenCalled();
