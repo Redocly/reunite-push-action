@@ -5,6 +5,7 @@ import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
 import { loadRedoclyCliCommands } from './redocly-cli';
 import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 
+// eslint-disable-next-line import/extensions
 import { dependencies } from '../package.json';
 
 const redoclyCliVersion = dependencies['@redocly/cli'];
