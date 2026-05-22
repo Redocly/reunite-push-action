@@ -35,6 +35,12 @@ extends:
   - plugin:github/recommended
   - plugin:jest/recommended
 
+settings:
+  import/resolver:
+    typescript:
+      project: ./tsconfig.json
+    node: true
+
 rules:
   {
     'camelcase': 'off',
@@ -42,6 +48,7 @@ rules:
     'eslint-comments/no-unused-disable': 'off',
     'i18n-text/no-en': 'off',
     'import/no-namespace': 'off',
+    'import/extensions': ['error', 'never', { 'json': 'always' }],
     'no-console': 'off',
     'no-unused-vars': 'off',
     'prettier/prettier': 'error',

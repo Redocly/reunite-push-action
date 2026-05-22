@@ -3,7 +3,7 @@ import * as core from '@actions/core';
 import { setCommitStatuses } from './set-commit-statuses';
 import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
 import { loadRedoclyCliCommands } from './redocly-cli';
-import type { PushStatusResult } from './redocly-cli';
+import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 
 import { dependencies } from '../package.json';
 
@@ -55,7 +55,7 @@ export async function run(): Promise<void> {
         wait: true,
         'continue-on-deploy-failures': true,
         'max-execution-time': inputData.maxExecutionTime,
-        onRetry: async (lastResult: PushStatusResult) => {
+        onRetry: async (lastResult: PushStatusSummary) => {
           try {
             await setCommitStatuses({
               commitStatuses: lastResult.commit.statuses,

@@ -1,20 +1,10 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { RestEndpointMethodTypes } from '@octokit/rest';
+import type { DeploymentStatus } from '@redocly/cli/lib/reunite/api/types';
+import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 
-export type DeploymentStatus =
-  | 'skipped'
-  | 'pending'
-  | 'success'
-  | 'running'
-  | 'failed';
-
-export type CommitStatus = {
-  name: string;
-  description: string;
-  status?: DeploymentStatus;
-  url: string | null;
-};
+type CommitStatus = PushStatusSummary['commit']['statuses'][number];
 
 export async function setCommitStatuses({
   commitStatuses,

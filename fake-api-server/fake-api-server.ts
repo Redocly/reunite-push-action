@@ -1,9 +1,10 @@
 import express from 'express';
+import { PushResponse } from '@redocly/cli/lib/reunite/api/types';
 
 const app = express();
 const port = 3000;
 
-const stubResponseStatus = {
+const stubResponseStatus: PushResponse = {
   id: 'test-push-id',
   remoteId: 'test-remote-id',
   replace: false,

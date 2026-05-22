@@ -16,8 +16,13 @@ const runMock = jest.spyOn(main, 'run');
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
 let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
 let getRedoclyConfigMock: jest.SpiedFunction<typeof helpers.getRedoclyConfig>;
-let handlePushMock: jest.Mock;
-let handlePushStatusMock: jest.Mock;
+type RedoclyCliCommands = Awaited<
+  ReturnType<typeof redoclyCli.loadRedoclyCliCommands>
+>;
+let handlePushMock: jest.MockedFunction<RedoclyCliCommands['handlePush']>;
+let handlePushStatusMock: jest.MockedFunction<
+  RedoclyCliCommands['handlePushStatus']
+>;
 let loadRedoclyCliCommandsMock: jest.SpiedFunction<
   typeof redoclyCli.loadRedoclyCliCommands
 >;

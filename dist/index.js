@@ -76408,8 +76408,8 @@ import path11 from "path";
 
 // src/redocly-config.ts
 async function loadRedoclyConfig() {
-  const { loadConfig: loadConfig2 } = await Promise.resolve().then(() => (init_lib(), lib_exports));
-  return loadConfig2();
+  const { loadConfig: load2 } = await Promise.resolve().then(() => (init_lib(), lib_exports));
+  return load2();
 }
 
 // src/helpers.ts
@@ -76515,13 +76515,13 @@ async function getRedoclyConfig() {
 
 // src/redocly-cli.ts
 async function loadRedoclyCliCommands() {
-  const [{ handlePush: handlePush2 }, { handlePushStatus: handlePushStatus2 }] = await Promise.all([
+  const [push, pushStatus] = await Promise.all([
     Promise.resolve().then(() => (init_push(), push_exports)),
     Promise.resolve().then(() => (init_push_status(), push_status_exports))
   ]);
   return {
-    handlePush: async (args) => handlePush2(args),
-    handlePushStatus: async (args) => handlePushStatus2(args)
+    handlePush: push.handlePush,
+    handlePushStatus: pushStatus.handlePushStatus
   };
 }
 

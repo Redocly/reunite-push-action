@@ -1,39 +1,21 @@
-/* istanbul ignore file */
-/* eslint-disable import/extensions */
-
-import type { CommitStatus } from './set-commit-statuses';
-
-type PushResult = {
-  pushId?: string;
-};
-
-export type PushStatusResult = {
-  commit: {
-    statuses: CommitStatus[];
-  };
-};
-
-type ReuniteCommandArgs = {
-  argv: Record<string, unknown>;
-  config: unknown;
-  version: string;
-};
+// Defer loading @redocly/cli until call time. The cli is pure ESM; statically
+// importing it from CJS jest would crash with ERR_REQUIRE_ESM.
+import type { handlePush } from '@redocly/cli/lib/reunite/commands/push';
+import type { handlePushStatus } from '@redocly/cli/lib/reunite/commands/push-status';
 
 type RedoclyCliCommands = {
-  handlePush: (args: ReuniteCommandArgs) => Promise<PushResult | void>;
-  handlePushStatus: (
-    args: ReuniteCommandArgs,
-  ) => Promise<PushStatusResult | void>;
+  handlePush: typeof handlePush;
+  handlePushStatus: typeof handlePushStatus;
 };
 
 export async function loadRedoclyCliCommands(): Promise<RedoclyCliCommands> {
-  const [{ handlePush }, { handlePushStatus }] = await Promise.all([
-    import('@redocly/cli/lib/reunite/commands/push.js'),
-    import('@redocly/cli/lib/reunite/commands/push-status.js'),
+  const [push, pushStatus] = await Promise.all([
+    import('@redocly/cli/lib/reunite/commands/push'),
+    import('@redocly/cli/lib/reunite/commands/push-status'),
   ]);
 
   return {
-    handlePush: async args => handlePush(args as never),
-    handlePushStatus: async args => handlePushStatus(args as never),
+    handlePush: push.handlePush,
+    handlePushStatus: pushStatus.handlePushStatus,
   };
 }

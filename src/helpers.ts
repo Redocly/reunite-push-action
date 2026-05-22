@@ -139,6 +139,6 @@ export function getCommitSha(): string | undefined {
 }
 
 // Returns parsed config from the root or default config if not found
-export async function getRedoclyConfig(): Promise<unknown> {
+export async function getRedoclyConfig(): ReturnType<typeof loadRedoclyConfig> {
   return loadRedoclyConfig();
 }

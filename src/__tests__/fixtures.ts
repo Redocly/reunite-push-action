@@ -1,3 +1,4 @@
+import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
 import { ParsedEventData, ParsedInputData } from '../types';
 
 export const parsedInputDataStub: ParsedInputData = {
@@ -24,7 +25,7 @@ export const parsedEventPushDataMock: ParsedEventData = {
   },
 };
 
-export const pushStatusSummaryStub = {
+export const pushStatusSummaryStub: PushStatusSummary = {
   preview: {
     deploy: {
       status: 'success',
