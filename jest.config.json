@@ -12,6 +12,11 @@
   "coverageReporters": ["json-summary", "text", "lcov"],
   "collectCoverage": true,
   "collectCoverageFrom": ["./src/**"],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "src/redocly-cli.ts",
+    "src/redocly-config.ts"
+  ],
   "coverageThreshold": {
     "global": {
       "branches": 50,

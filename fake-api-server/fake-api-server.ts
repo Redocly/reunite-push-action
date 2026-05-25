@@ -1,5 +1,5 @@
 import express from 'express';
-import { PushResponse } from '@redocly/cli/lib/reunite/api/types';
+import type { PushResponse } from '@redocly/cli/lib/reunite/api/types.js';
 
 const app = express();
 const port = 3000;
