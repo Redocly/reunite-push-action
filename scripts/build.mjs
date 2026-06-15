@@ -16,7 +16,7 @@ await build({
   bundle: true,
   platform: 'node',
   format: 'esm',
-  target: 'node20',
+  target: 'node24',
   outfile: 'dist/index.js',
   sourcemap: true,
   banner: {
