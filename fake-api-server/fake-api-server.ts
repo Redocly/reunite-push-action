@@ -1,10 +1,56 @@
 import express from 'express';
-import type { PushResponse } from '@redocly/cli/lib/reunite/api/types.js';
 
 const app = express();
 const port = 3000;
 
-const stubResponseStatus: PushResponse = {
+// Keep in sync with the PushResponse type in src/types.ts. It is declared
+// locally because this file is compiled by its own tsconfig that only
+// includes the fake-api-server directory.
+type FakePushResponse = {
+  id: string;
+  remoteId: string;
+  isMainBranch: boolean;
+  isOutdated: boolean;
+  hasChanges: boolean;
+  replace: boolean;
+  scoutJobId: string | null;
+  uploadedFiles: Array<{ path: string; mimeType: string }>;
+  commit: {
+    branchName: string;
+    message: string;
+    createdAt: string | null;
+    namespaceId: string | null;
+    repositoryId: string | null;
+    url: string | null;
+    sha: string | null;
+    author: {
+      name: string;
+      email: string;
+      image: string | null;
+    };
+    statuses: Array<{
+      name: string;
+      description: string;
+      status: 'pending' | 'running' | 'success' | 'failed';
+      url: string | null;
+    }>;
+  };
+  remote: { commits: { sha: string; branchName: string }[] };
+  status: {
+    preview: FakeDeploymentStatus;
+    production: FakeDeploymentStatus;
+  };
+};
+
+type FakeDeploymentStatus = {
+  scorecard: [];
+  deploy: {
+    url: string | null;
+    status: 'pending' | 'running' | 'success' | 'failed';
+  };
+};
+
+const stubResponseStatus: FakePushResponse = {
   id: 'test-push-id',
   remoteId: 'test-remote-id',
   replace: false,
@@ -53,6 +99,30 @@ const stubResponseStatus: PushResponse = {
     },
   },
 };
+
+// Report a running preview deployment on the first status poll so the action
+// exercises its retry loop (including intermediate commit statuses).
+let pushStatusRequestCount = 0;
+
+app.get(/\/pushes\/[^/]+$/, (req, res) => {
+  pushStatusRequestCount++;
+
+  if (pushStatusRequestCount === 1) {
+    res.json({
+      ...stubResponseStatus,
+      status: {
+        ...stubResponseStatus.status,
+        preview: {
+          scorecard: [],
+          deploy: { url: null, status: 'running' },
+        },
+      },
+    });
+    return;
+  }
+
+  res.json(stubResponseStatus);
+});
 
 app.get('*', (req, res) => {
   res.json(stubResponseStatus);

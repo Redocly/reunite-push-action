@@ -1,15 +1,6 @@
-import { readFile } from 'node:fs/promises';
+import { cp, rm } from 'node:fs/promises';
 
 import { build } from 'esbuild';
-
-const cliPackageJson = JSON.parse(
-  await readFile('node_modules/@redocly/cli/package.json', 'utf8'),
-);
-const cliPackageModule = `
-  export const name = ${JSON.stringify(cliPackageJson.name)};
-  export const version = ${JSON.stringify(cliPackageJson.version)};
-  export const engines = ${JSON.stringify(cliPackageJson.engines)};
-`;
 
 await build({
   entryPoints: ['src/index.ts'],
@@ -22,46 +13,17 @@ await build({
   banner: {
     js: "import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);",
   },
-  plugins: [
-    {
-      name: 'redocly-cli-package-shim',
-      setup(pluginBuild) {
-        pluginBuild.onResolve(
-          { filter: /(?:^|\/)utils\/package\.js$/ },
-          args => {
-            if (!args.importer.includes('@redocly/cli')) {
-              return null;
-            }
-
-            return {
-              path: 'redocly-cli-package',
-              namespace: 'redocly-cli-package-shim',
-            };
-          },
-        );
-
-        pluginBuild.onResolve({ filter: /^\.\/package\.js$/ }, args => {
-          if (!args.importer.includes('@redocly/cli/lib/utils/')) {
-            return null;
-          }
-
-          return {
-            path: 'redocly-cli-package',
-            namespace: 'redocly-cli-package-shim',
-          };
-        });
-
-        pluginBuild.onLoad(
-          {
-            filter: /^redocly-cli-package$/,
-            namespace: 'redocly-cli-package-shim',
-          },
-          () => ({
-            contents: cliPackageModule,
-            loader: 'js',
-          }),
-        );
-      },
-    },
-  ],
 });
+
+// Vendor the Redocly CLI next to the action bundle so the action can spawn it
+// at runtime. The published package is a self-contained, dependency-free
+// bundle (since v2.34.0), so copying it verbatim is enough.
+const cliVendorDir = 'dist/redocly-cli';
+
+await rm(cliVendorDir, { recursive: true, force: true });
+
+for (const entry of ['bin', 'lib', 'package.json', 'LICENSE']) {
+  await cp(`node_modules/@redocly/cli/${entry}`, `${cliVendorDir}/${entry}`, {
+    recursive: true,
+  });
+}

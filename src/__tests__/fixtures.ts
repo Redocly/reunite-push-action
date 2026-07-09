@@ -1,5 +1,9 @@
-import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
-import { ParsedEventData, ParsedInputData } from '../types';
+import {
+  ParsedEventData,
+  ParsedInputData,
+  PushResponse,
+  PushStatusSummary,
+} from '../types';
 
 export const parsedInputDataStub: ParsedInputData = {
   redoclyOrgSlug: 'test-org-slug',
@@ -22,6 +26,56 @@ export const parsedEventPushDataMock: ParsedEventData = {
     commitUrl: 'test-commit-url',
     commitAuthor: 'test-commit-author',
     commitCreatedAt: 'test-commit-created-at',
+  },
+};
+
+export const pushResponseStub: PushResponse = {
+  id: 'test-push-id',
+  remoteId: 'test-remote-id',
+  isMainBranch: false,
+  isOutdated: false,
+  hasChanges: true,
+  replace: false,
+  scoutJobId: null,
+  uploadedFiles: [],
+  commit: {
+    branchName: 'test-branch-name',
+    message: 'test-commit-message',
+    createdAt: 'test-created-at',
+    namespaceId: null,
+    repositoryId: null,
+    url: null,
+    sha: null,
+    author: {
+      name: 'Test Author Name',
+      email: 'test-author-email',
+      image: null,
+    },
+    statuses: [
+      {
+        name: 'Test Status Name',
+        description: 'Test Status Description',
+        status: 'success',
+        url: null,
+      },
+    ],
+  },
+  remote: { commits: [] },
+  status: {
+    preview: {
+      deploy: {
+        status: 'success',
+        url: 'test-url',
+      },
+      scorecard: [],
+    },
+    production: {
+      deploy: {
+        status: 'pending',
+        url: null,
+      },
+      scorecard: [],
+    },
   },
 };
 
