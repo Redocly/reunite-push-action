@@ -39,7 +39,7 @@
     "@actions/github": "^6.0.0",
     "@octokit/rest": "^20.1.0",
     "@redocly/cli": "2.39.0",
-    "@redocly/openapi-core": "2.31.2"
+    "@redocly/openapi-core": "2.39.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
