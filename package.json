@@ -38,7 +38,7 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@octokit/rest": "^20.1.0",
-    "@redocly/cli": "2.39.0",
+    "@redocly/cli": "2.31.2",
     "@redocly/openapi-core": "2.31.2"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
   },
   "overrides": {
     "systeminformation@<5.27.14": ">=5.27.14",
-    "undici": "^7.24.0",
+    "undici": "^7.28.0",
     "@typescript-eslint/typescript-estree": {
       "minimatch": ">=9.0.7"
     },
