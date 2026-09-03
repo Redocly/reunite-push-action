@@ -5,7 +5,7 @@ Avoid long-winded descriptions. Be precise and concise. -->
 
 ## Reference
 
-<!-- Add references if applicable. (link to slack conversation, issue or any other reference. -->
+<!-- Add references if applicable - the issue or any other reference. -->
 
 ## Testing
 
