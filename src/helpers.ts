@@ -2,7 +2,6 @@ import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { ParsedEventData, ParsedInputData } from './types';
-import { loadRedoclyConfig } from './redocly-config';
 
 export function parseInputData(): ParsedInputData {
   const redoclyOrgSlug = core.getInput('organization', { required: true });
@@ -136,9 +135,4 @@ export function getCommitSha(): string | undefined {
   if (github.context.eventName === 'pull_request') {
     return github.context.payload.pull_request?.head?.sha;
   }
-}
-
-// Returns parsed config from the root or default config if not found
-export async function getRedoclyConfig(): ReturnType<typeof loadRedoclyConfig> {
-  return loadRedoclyConfig();
 }

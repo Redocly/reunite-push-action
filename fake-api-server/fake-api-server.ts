@@ -1,10 +1,9 @@
 import express from 'express';
-import type { PushResponse } from '@redocly/cli/lib/reunite/api/types.js';
 
 const app = express();
 const port = 3000;
 
-const stubResponseStatus: PushResponse = {
+const stubResponseStatus = {
   id: 'test-push-id',
   remoteId: 'test-remote-id',
   replace: false,
@@ -53,6 +52,30 @@ const stubResponseStatus: PushResponse = {
     },
   },
 };
+
+// Report a running preview deployment on the first status poll so the action
+// exercises its retry loop (including intermediate commit statuses).
+let pushStatusRequestCount = 0;
+
+app.get(/\/pushes\/[^/]+$/, (req, res) => {
+  pushStatusRequestCount++;
+
+  if (pushStatusRequestCount === 1) {
+    res.json({
+      ...stubResponseStatus,
+      status: {
+        ...stubResponseStatus.status,
+        preview: {
+          scorecard: [],
+          deploy: { url: null, status: 'running' },
+        },
+      },
+    });
+    return;
+  }
+
+  res.json(stubResponseStatus);
+});
 
 app.get('*', (req, res) => {
   res.json(stubResponseStatus);

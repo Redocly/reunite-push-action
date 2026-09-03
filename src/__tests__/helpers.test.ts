@@ -1,13 +1,9 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { parseInputData, parseEventData, getRedoclyConfig } from '../helpers';
+import { parseInputData, parseEventData } from '../helpers';
 import { WebhookPayload } from '@actions/github/lib/interfaces';
-import * as redoclyConfig from '../redocly-config';
 
 let getInputMock: jest.SpiedFunction<typeof core.getInput>;
-let loadRedoclyConfigMock: jest.SpiedFunction<
-  typeof redoclyConfig.loadRedoclyConfig
->;
 
 jest.mock('@actions/github', () => ({
   ...jest.requireActual('@actions/github'),
@@ -71,9 +67,6 @@ describe('helpers', () => {
       GITHUB_WORKSPACE: '/home/runner/work/reunite-push-action/',
     };
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
-    loadRedoclyConfigMock = jest
-      .spyOn(redoclyConfig, 'loadRedoclyConfig')
-      .mockResolvedValue({} as Awaited<ReturnType<typeof getRedoclyConfig>>);
   });
 
   afterAll(() => {
@@ -308,14 +301,6 @@ describe('helpers', () => {
       const parsedEventData = await parseEventData('fallback-branch');
 
       expect(parsedEventData.defaultBranch).toBe('fallback-branch');
-    });
-  });
-
-  describe('getRedoclyConfig', () => {
-    it('should return redocly config', async () => {
-      const config = await getRedoclyConfig();
-      expect(loadRedoclyConfigMock).toHaveBeenCalledTimes(1);
-      expect(config).toBeDefined();
     });
   });
 });

@@ -1,0 +1,13 @@
+import { createRequire as __createRequire } from 'node:module';
+import { fileURLToPath as __fileURLToPath } from 'node:url';
+import { dirname as __pathDirname } from 'node:path';
+const require = __createRequire(import.meta.url);
+var __filename = __fileURLToPath(import.meta.url);
+var __dirname = __pathDirname(__filename);
+import{a as E,c as b,d as m,l as y}from"./HJYFWIVE.js";var $=b.go,w=class extends E{constructor(){super("	")}typeName(t){return x(t)}memberName(t){return x(t)}identifier(t){return m(t,{style:"camel",reserved:$})}identifiers(t,n){let r=new Set(n??[]);return t.map(e=>{let a=x(e),c=a;for(let o=2;r.has(c);o++)c=`${a}${o}`;return r.add(c),c})}packageName(t){let n=t.toLowerCase().replace(/[^a-z0-9]/g,"");return n===""||/^[0-9]/.test(n)?"client":n}string(t){let n='"';for(let r of t){let e=r.codePointAt(0);r==="\\"?n+="\\\\":r==='"'?n+='\\"':r===`
+`?n+="\\n":r==="\r"?n+="\\r":r==="	"?n+="\\t":e<32||e===127?n+=`\\x${e.toString(16).padStart(2,"0")}`:e>=55296&&e<=57343?n+="\\uFFFD":n+=r}return n+'"'}literal(t){return t==null?"nil":typeof t=="boolean"||typeof t=="number"?String(t):typeof t=="string"?this.string(t):Array.isArray(t)?`[]any{${t.map(r=>this.literal(r)).join(", ")}}`:`map[string]any{${Object.entries(t).map(([r,e])=>`${this.string(r)}: ${this.literal(e)}`).join(", ")}}`}comment(t){for(let n of y(t))this.line(n===""?"//":`// ${n}`);return this}doc(t,n){let r=y(n);if(r.length===0)return this;this.line(`// ${t} \u2014 ${r[0]}`);let e=!1;for(let a of r.slice(1)){if(a===""){e||this.line("//"),e=!0;continue}this.line(`// ${a}`),e=!1}return this}layout(t){return A(N(t))}toString(){return this.layout(super.toString())}};function x(g){let t=m(g,{style:"pascal",reserved:$});return t.startsWith("_")?`N${t.slice(1)}`:t}function A(g){return`${g.replace(/\n{3,}/g,`
+
+`).trimEnd()}
+`}function N(g){let t=g.split(`
+`),n=[...t],r=/^(\t+)([A-Za-z_]\w*) (\S+)( `[^`]*`)?$/,e=/^(\t+)([A-Za-z_]\w*) (\S+) = (.+)$/,a=/^(\t+)("(?:[^"\\]|\\.)*":) (.+)$/,c=u=>{if(u.length<2)return;let d=[];for(let{parts:i}of u)i.forEach((s,l)=>{l<i.length-1&&(d[l]=Math.max(d[l]??0,s.length))});for(let{index:i,parts:s,indent:l}of u){let f=s.map((p,h)=>h<s.length-1?p.padEnd(d[h]??0):p);n[i]=l+f.join(" ").trimEnd()}},o=[],S;return t.forEach((u,d)=>{let i=a.exec(u),s=i===null?e.exec(u):null,l=i===null&&s===null?r.exec(u):null,f=l!==null&&!$.has(l[2])?l:null,p=i!==null?"entry":s!==null?"const":f!==null?"field":void 0;if((p===void 0||p!==S)&&(c(o),o=[],S=p),i!==null){o.push({index:d,indent:i[1],parts:[i[2],i[3]]});return}if(s!==null){o.push({index:d,indent:s[1],parts:[s[2],s[3],"=",s[4]]});return}if(f!==null){let h=[f[2],f[3]];f[4]!==void 0&&h.push(f[4].trimStart()),o.push({index:d,indent:f[1],parts:h})}}),c(o),n.join(`
+`)}export{w as a,x as b};

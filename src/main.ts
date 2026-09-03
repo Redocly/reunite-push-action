@@ -1,14 +1,10 @@
 import * as core from '@actions/core';
 
 import { setCommitStatuses } from './set-commit-statuses';
-import { getRedoclyConfig, parseEventData, parseInputData } from './helpers';
-import { loadRedoclyCliCommands } from './redocly-cli';
-import type { PushStatusSummary } from '@redocly/cli/lib/reunite/commands/push-status';
-
-// eslint-disable-next-line import/extensions
-import { dependencies } from '../package.json';
-
-const redoclyCliVersion = dependencies['@redocly/cli'];
+import { parseEventData, parseInputData } from './helpers';
+import { runRedoclyPush } from './redocly-cli';
+import { waitForDeployment } from './push-status';
+import type { PushStatusSummary } from './types';
 
 export async function run(): Promise<void> {
   try {
@@ -18,66 +14,29 @@ export async function run(): Promise<void> {
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);
 
-    const config = await getRedoclyConfig();
-    const { handlePush, handlePushStatus } = await loadRedoclyCliCommands();
+    const pushId = await runRedoclyPush({ inputData, ghEvent });
 
-    const pushData = await handlePush({
-      argv: {
-        domain: inputData.redoclyDomain,
-        organization: inputData.redoclyOrgSlug,
-        project: inputData.redoclyProjectSlug,
-        'mount-path': inputData.mountPath,
-        files: inputData.files,
-        'max-execution-time': inputData.maxExecutionTime,
-        namespace: ghEvent.namespace,
-        repository: ghEvent.repository,
-        branch: ghEvent.branch,
-        'default-branch': ghEvent.defaultBranch,
-        message: ghEvent.commit.commitMessage,
-        'commit-sha': ghEvent.commit.commitSha,
-        'commit-url': ghEvent.commit.commitUrl,
-        author: ghEvent.commit.commitAuthor,
-        'created-at': ghEvent.commit.commitCreatedAt,
+    const pushStatusData = await waitForDeployment({
+      domain: inputData.redoclyDomain,
+      organization: inputData.redoclyOrgSlug,
+      project: inputData.redoclyProjectSlug,
+      pushId,
+      maxExecutionTime: inputData.maxExecutionTime,
+      onRetry: async (lastResult: PushStatusSummary) => {
+        try {
+          await setCommitStatuses({
+            commitStatuses: lastResult.commit.statuses,
+            owner: ghEvent.namespace,
+            repo: ghEvent.repository,
+            commitId: ghEvent.commit.commitSha,
+          });
+        } catch (error: unknown) {
+          core.error(
+            `Failed to set commit statuses. Error: ${(error as Error)?.message}`,
+          );
+        }
       },
-      config,
-      version: redoclyCliVersion,
     });
-
-    if (!pushData?.pushId) {
-      throw new Error('Missing push ID');
-    }
-
-    const pushStatusData = await handlePushStatus({
-      argv: {
-        organization: inputData.redoclyOrgSlug,
-        project: inputData.redoclyProjectSlug,
-        pushId: pushData.pushId,
-        domain: inputData.redoclyDomain,
-        wait: true,
-        'continue-on-deploy-failures': true,
-        'max-execution-time': inputData.maxExecutionTime,
-        onRetry: async (lastResult: PushStatusSummary) => {
-          try {
-            await setCommitStatuses({
-              commitStatuses: lastResult.commit.statuses,
-              owner: ghEvent.namespace,
-              repo: ghEvent.repository,
-              commitId: ghEvent.commit.commitSha,
-            });
-          } catch (error: unknown) {
-            core.error(
-              `Failed to set commit statuses. Error: ${(error as Error)?.message}`,
-            );
-          }
-        },
-      },
-      config,
-      version: redoclyCliVersion,
-    });
-
-    if (!pushStatusData) {
-      throw new Error('Missing push status data');
-    }
 
     console.debug(
       'Amount of final commit statuses to set',
@@ -91,9 +50,9 @@ export async function run(): Promise<void> {
       commitId: ghEvent.commit.commitSha,
     });
 
-    console.debug('Action finished successfully. Push ID:', pushData.pushId);
+    console.debug('Action finished successfully. Push ID:', pushId);
 
-    core.setOutput('pushId', pushData.pushId);
+    core.setOutput('pushId', pushId);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }
