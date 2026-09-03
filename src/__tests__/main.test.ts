@@ -3,6 +3,7 @@ import * as core from '@actions/core';
 import * as main from '../main';
 import * as helpers from '../helpers';
 import * as redoclyCli from '../redocly-cli';
+import * as pushStatus from '../push-status';
 
 import * as commitStatusUtils from '../set-commit-statuses';
 import {
@@ -15,16 +16,9 @@ const runMock = jest.spyOn(main, 'run');
 
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
 let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
-let getRedoclyConfigMock: jest.SpiedFunction<typeof helpers.getRedoclyConfig>;
-type RedoclyCliCommands = Awaited<
-  ReturnType<typeof redoclyCli.loadRedoclyCliCommands>
->;
-let handlePushMock: jest.MockedFunction<RedoclyCliCommands['handlePush']>;
-let handlePushStatusMock: jest.MockedFunction<
-  RedoclyCliCommands['handlePushStatus']
->;
-let loadRedoclyCliCommandsMock: jest.SpiedFunction<
-  typeof redoclyCli.loadRedoclyCliCommands
+let runRedoclyPushMock: jest.SpiedFunction<typeof redoclyCli.runRedoclyPush>;
+let waitForDeploymentMock: jest.SpiedFunction<
+  typeof pushStatus.waitForDeployment
 >;
 let setOutputMock: jest.SpiedFunction<typeof core.setOutput>;
 let setFailedMock: jest.SpiedFunction<typeof core.setFailed>;
@@ -45,24 +39,13 @@ describe('action', () => {
       .spyOn(helpers, 'parseEventData')
       .mockImplementation(async () => parsedEventPushDataMock);
 
-    getRedoclyConfigMock = jest
-      .spyOn(helpers, 'getRedoclyConfig')
-      .mockResolvedValue(
-        {} as Awaited<ReturnType<typeof helpers.getRedoclyConfig>>,
-      );
+    runRedoclyPushMock = jest
+      .spyOn(redoclyCli, 'runRedoclyPush')
+      .mockResolvedValue('test-push-id');
 
-    handlePushMock = jest.fn().mockResolvedValue({
-      pushId: 'test-push-id',
-    });
-
-    handlePushStatusMock = jest.fn().mockResolvedValue(pushStatusSummaryStub);
-
-    loadRedoclyCliCommandsMock = jest
-      .spyOn(redoclyCli, 'loadRedoclyCliCommands')
-      .mockResolvedValue({
-        handlePush: handlePushMock,
-        handlePushStatus: handlePushStatusMock,
-      });
+    waitForDeploymentMock = jest
+      .spyOn(pushStatus, 'waitForDeployment')
+      .mockResolvedValue(pushStatusSummaryStub);
 
     setCommitStatusMock = jest
       .spyOn(commitStatusUtils, 'setCommitStatuses')
@@ -78,18 +61,46 @@ describe('action', () => {
     expect(runMock).toHaveReturned();
     expect(parseInputDataMock).toHaveBeenCalled();
     expect(parseEventDataMock).toHaveBeenCalled();
-    expect(getRedoclyConfigMock).toHaveBeenCalled();
-    expect(loadRedoclyCliCommandsMock).toHaveBeenCalled();
-    expect(handlePushMock).toHaveBeenCalled();
-    expect(handlePushStatusMock).toHaveBeenCalled();
-    expect(setCommitStatusMock).toHaveBeenCalled();
+    expect(runRedoclyPushMock).toHaveBeenCalledWith({
+      inputData: parsedInputDataStub,
+      ghEvent: parsedEventPushDataMock,
+    });
+    expect(waitForDeploymentMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        domain: parsedInputDataStub.redoclyDomain,
+        organization: parsedInputDataStub.redoclyOrgSlug,
+        project: parsedInputDataStub.redoclyProjectSlug,
+        pushId: 'test-push-id',
+        maxExecutionTime: parsedInputDataStub.maxExecutionTime,
+      }),
+    );
+    expect(setCommitStatusMock).toHaveBeenCalledWith({
+      commitStatuses: pushStatusSummaryStub.commit.statuses,
+      owner: parsedEventPushDataMock.namespace,
+      repo: parsedEventPushDataMock.repository,
+      commitId: parsedEventPushDataMock.commit.commitSha,
+    });
     expect(setOutputMock).toHaveBeenCalledWith('pushId', 'test-push-id');
     expect(setFailedMock).not.toHaveBeenCalled();
   });
 
+  it('sets commit statuses on each deployment status retry', async () => {
+    waitForDeploymentMock.mockImplementation(async ({ onRetry }) => {
+      await onRetry?.(pushStatusSummaryStub);
+
+      return pushStatusSummaryStub;
+    });
+
+    await main.run();
+
+    expect(runMock).toHaveReturned();
+    expect(setCommitStatusMock).toHaveBeenCalledTimes(2);
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
+
   it('sets a failed status in case push error', async () => {
-    handlePushMock.mockImplementation(async () => {
-      throw new Error('Test error message from handlePush');
+    runRedoclyPushMock.mockImplementation(async () => {
+      throw new Error('Test error message from push');
     });
 
     await main.run();
@@ -97,7 +108,7 @@ describe('action', () => {
 
     expect(setFailedMock).toHaveBeenNthCalledWith(
       1,
-      'Test error message from handlePush',
+      'Test error message from push',
     );
     expect(setOutputMock).not.toHaveBeenCalled();
   });

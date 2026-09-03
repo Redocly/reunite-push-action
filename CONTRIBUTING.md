@@ -28,6 +28,17 @@ npm install # or npm i
   to run before creating PR and sending to review.
 - `npm run fake-server:start` - fake server needed for smoke tests in CI.
 
+## Redocly CLI
+
+The action runs the Redocly CLI as a child process. `npm run bundle` copies the
+CLI from `node_modules/@redocly/cli` into `dist/redocly-cli`. To update the CLI,
+install the new version and rebuild:
+
+```bash
+npm install --save-dev @redocly/cli@<version>
+npm run bundle
+```
+
 ## Release flow
 
 These steps assume the action code is already built, the `./dist` folder
