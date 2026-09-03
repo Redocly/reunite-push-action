@@ -5,7 +5,7 @@ Avoid long-winded descriptions. Be precise and concise. -->
 
 ## Reference
 
-<!-- Add references if applicable -->
+<!-- Add references if applicable - the issue or any other reference. -->
 
 ## Testing
 
@@ -15,6 +15,13 @@ Avoid long-winded descriptions. Be precise and concise. -->
 
 <!-- If useful, provide screenshots or videos of your changes. -->
 
-## Additional context
+## Check yourself
 
-<!-- If useful, provide additional context. -->
+- [ ] All new/updated code is covered with tests
+- [ ] Documentation update considered
+- [ ] CODEOWNERS update considered
+
+## Security
+
+- [ ] Security impact of change has been considered
+- [ ] Code follows company security practices and guidelines
