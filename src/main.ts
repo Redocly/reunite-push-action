@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 
 import { setCommitStatuses } from './set-commit-statuses';
 import { parseEventData, parseInputData } from './helpers';
-import { runRedoclyPush } from './redocly-cli';
+import { pushToReunite } from './push';
 import { waitForDeployment } from './push-status';
 import type { PushStatusSummary } from './types';
 
@@ -14,7 +14,7 @@ export async function run(): Promise<void> {
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);
 
-    const pushId = await runRedoclyPush({ inputData, ghEvent });
+    const pushId = await pushToReunite({ inputData, ghEvent });
 
     const pushStatusData = await waitForDeployment({
       domain: inputData.redoclyDomain,

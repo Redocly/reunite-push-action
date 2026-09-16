@@ -24,7 +24,10 @@ export const parsedEventPushDataMock: ParsedEventData = {
     commitSha: 'test-commit-sha',
     commitMessage: 'test-commit-message',
     commitUrl: 'test-commit-url',
-    commitAuthor: 'test-commit-author',
+    commitAuthor: {
+      name: 'test-commit-author',
+      email: 'test-author@example.com',
+    },
     commitCreatedAt: 'test-commit-created-at',
   },
 };

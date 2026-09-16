@@ -113,7 +113,10 @@ export async function parseEventData(
     commitSha,
     commitMessage: commitData.commit.message,
     commitUrl: commitData.html_url,
-    commitAuthor: `${commitData.commit.author?.name} <${commitData.commit.author?.email}>`,
+    commitAuthor: {
+      name: commitData.commit.author.name,
+      email: commitData.commit.author.email,
+    },
     commitCreatedAt: commitData.commit.author?.date,
   };
 
