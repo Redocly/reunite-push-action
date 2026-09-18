@@ -1,5 +1,3 @@
-import { cp, rm } from 'node:fs/promises';
-
 import { build } from 'esbuild';
 
 await build({
@@ -20,21 +18,3 @@ await build({
     ].join('\n'),
   },
 });
-
-// The published @redocly/cli is a dependency-free bundle, so a verbatim copy
-// next to the action bundle is enough for the action to spawn it at runtime.
-const cliVendorDir = 'dist/redocly-cli';
-
-await rm(cliVendorDir, { recursive: true, force: true });
-
-for (const entry of [
-  'bin',
-  'lib',
-  'package.json',
-  'LICENSE',
-  'THIRD_PARTY_NOTICES',
-]) {
-  await cp(`node_modules/@redocly/cli/${entry}`, `${cliVendorDir}/${entry}`, {
-    recursive: true,
-  });
-}

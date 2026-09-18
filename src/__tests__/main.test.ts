@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 
 import * as main from '../main';
 import * as helpers from '../helpers';
-import * as redoclyCli from '../redocly-cli';
+import * as push from '../push';
 import * as pushStatus from '../push-status';
 
 import * as commitStatusUtils from '../set-commit-statuses';
@@ -16,7 +16,7 @@ const runMock = jest.spyOn(main, 'run');
 
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
 let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
-let runRedoclyPushMock: jest.SpiedFunction<typeof redoclyCli.runRedoclyPush>;
+let pushToReuniteMock: jest.SpiedFunction<typeof push.pushToReunite>;
 let waitForDeploymentMock: jest.SpiedFunction<
   typeof pushStatus.waitForDeployment
 >;
@@ -39,8 +39,8 @@ describe('action', () => {
       .spyOn(helpers, 'parseEventData')
       .mockImplementation(async () => parsedEventPushDataMock);
 
-    runRedoclyPushMock = jest
-      .spyOn(redoclyCli, 'runRedoclyPush')
+    pushToReuniteMock = jest
+      .spyOn(push, 'pushToReunite')
       .mockResolvedValue('test-push-id');
 
     waitForDeploymentMock = jest
@@ -61,7 +61,7 @@ describe('action', () => {
     expect(runMock).toHaveReturned();
     expect(parseInputDataMock).toHaveBeenCalled();
     expect(parseEventDataMock).toHaveBeenCalled();
-    expect(runRedoclyPushMock).toHaveBeenCalledWith({
+    expect(pushToReuniteMock).toHaveBeenCalledWith({
       inputData: parsedInputDataStub,
       ghEvent: parsedEventPushDataMock,
     });
@@ -99,7 +99,7 @@ describe('action', () => {
   });
 
   it('sets a failed status in case push error', async () => {
-    runRedoclyPushMock.mockImplementation(async () => {
+    pushToReuniteMock.mockImplementation(async () => {
       throw new Error('Test error message from push');
     });
 

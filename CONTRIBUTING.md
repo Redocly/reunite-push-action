@@ -28,14 +28,15 @@ npm install # or npm i
   to run before creating PR and sending to review.
 - `npm run fake-server:start` - fake server needed for smoke tests in CI.
 
-## Redocly CLI
+## Reunite integration
 
-The action runs the Redocly CLI as a child process. `npm run bundle` copies the
-CLI from `node_modules/@redocly/cli` into `dist/redocly-cli`. To update the CLI,
+The action pushes files and polls deployment status through
+`@redocly/reunite-integration`, the library behind the `push` and `push-status`
+commands of Redocly CLI. It is bundled into `dist/index.js`. To update it,
 install the new version and rebuild:
 
 ```bash
-npm install --save-dev @redocly/cli@<version>
+npm install @redocly/reunite-integration@<version>
 npm run bundle
 ```
 

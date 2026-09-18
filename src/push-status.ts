@@ -1,8 +1,11 @@
 import * as core from '@actions/core';
-import type { PushResponse, PushStatusSummary } from './types';
-
-const RETRY_INTERVAL_MS = 5000;
-const PENDING_DEPLOYMENT_STATUSES = ['pending', 'running'];
+import {
+  getApiKeys,
+  waitForDeployment as waitForBuildDeployment,
+  type BuildType,
+  type PushResponse,
+} from '@redocly/reunite-integration';
+import type { PushStatusSummary } from './types';
 
 export interface WaitForDeploymentOptions {
   domain: string;
@@ -17,24 +20,50 @@ export interface WaitForDeploymentOptions {
 export async function waitForDeployment(
   options: WaitForDeploymentOptions,
 ): Promise<PushStatusSummary> {
+  // One time budget for both deployments, the same way `redocly push-status --wait` counts it.
   const startTime = Date.now();
-  const retryTimeoutMs = options.maxExecutionTime * 1000;
+  const apiKey = getApiKeys();
 
-  let push = await pollUntilDeployed('preview', {
-    options,
-    startTime,
-    retryTimeoutMs,
-  });
+  const waitFor = async (buildType: BuildType): Promise<PushResponse> => {
+    let push: PushResponse;
 
-  const shouldWaitForProdDeployment =
-    push.isMainBranch && push.status.preview.deploy.status === 'success';
+    try {
+      push = await waitForBuildDeployment({
+        domain: options.domain,
+        apiKey,
+        organization: options.organization,
+        project: options.project,
+        pushId: options.pushId,
+        buildType,
+        maxExecutionTime: options.maxExecutionTime,
+        retryIntervalMs: options.retryIntervalMs,
+        startTime,
+        onRetry: async pendingPush => {
+          core.info(
+            `Waiting for the ${buildType} deployment to finish. Current status: "${pendingPush.status[buildType].deploy.status}".`,
+          );
+          await options.onRetry?.(toPushStatusSummary(pendingPush));
+        },
+      });
+    } catch (error: unknown) {
+      throw new Error(
+        `Failed to get push status. Reason: ${(error as Error).message}`,
+      );
+    }
 
-  if (shouldWaitForProdDeployment) {
-    push = await pollUntilDeployed('production', {
-      options,
-      startTime,
-      retryTimeoutMs,
-    });
+    core.info(
+      `The ${buildType} deployment finished with status "${push.status[buildType].deploy.status}". URL: ${
+        push.status[buildType].deploy.url || 'no URL yet'
+      }.`,
+    );
+
+    return push;
+  };
+
+  let push = await waitFor('preview');
+
+  if (push.isMainBranch && push.status.preview.deploy.status === 'success') {
+    push = await waitFor('production');
   }
 
   if (push.isOutdated || !push.hasChanges) {
@@ -48,97 +77,10 @@ export async function waitForDeployment(
   return toPushStatusSummary(push);
 }
 
-async function pollUntilDeployed(
-  buildType: 'preview' | 'production',
-  {
-    options,
-    startTime,
-    retryTimeoutMs,
-  }: {
-    options: WaitForDeploymentOptions;
-    startTime: number;
-    retryTimeoutMs: number;
-  },
-): Promise<PushResponse> {
-  const retryIntervalMs = options.retryIntervalMs ?? RETRY_INTERVAL_MS;
-
-  for (;;) {
-    const push = await fetchPushStatus(options);
-    const deploymentStatus = push.status[buildType].deploy.status;
-
-    if (!PENDING_DEPLOYMENT_STATUSES.includes(deploymentStatus)) {
-      core.info(
-        `The ${buildType} deployment finished with status "${deploymentStatus}". URL: ${
-          push.status[buildType].deploy.url || 'no URL yet'
-        }.`,
-      );
-
-      return push;
-    }
-
-    if (Date.now() - startTime > retryTimeoutMs) {
-      throw new Error('Failed to get push status. Reason: Timeout exceeded.');
-    }
-
-    core.info(
-      `Waiting for the ${buildType} deployment to finish. Current status: "${deploymentStatus}".`,
-    );
-
-    await pause(retryIntervalMs);
-    await options.onRetry?.(toPushStatusSummary(push));
-  }
-}
-
-export async function fetchPushStatus({
-  domain,
-  organization,
-  project,
-  pushId,
-}: {
-  domain: string;
-  organization: string;
-  project: string;
-  pushId: string;
-}): Promise<PushResponse> {
-  const apiKey = process.env.REDOCLY_AUTHORIZATION;
-
-  if (!apiKey) {
-    throw new Error(
-      'No api key provided, please use environment variable REDOCLY_AUTHORIZATION.',
-    );
-  }
-
-  const response = await fetch(
-    `${domain}/api/orgs/${encodeURIComponent(
-      organization,
-    )}/projects/${encodeURIComponent(project)}/pushes/${encodeURIComponent(
-      pushId,
-    )}`,
-    {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'user-agent': 'redocly-reunite-push-action',
-      },
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `Failed to get push status. Reason: ${response.statusText} (status: ${response.status}).`,
-    );
-  }
-
-  return (await response.json()) as PushResponse;
-}
-
 function toPushStatusSummary(push: PushResponse): PushStatusSummary {
   return {
     preview: push.status.preview,
     production: push.isMainBranch ? push.status.production : null,
     commit: push.commit,
   };
-}
-
-async function pause(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
