@@ -444,18 +444,18 @@ var require_tunnel = __commonJS({
             res.statusCode
           );
           socket.destroy();
-          var error2 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
-          error2.code = "ECONNRESET";
-          options2.request.emit("error", error2);
+          var error3 = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
+          error3.code = "ECONNRESET";
+          options2.request.emit("error", error3);
           self.removeSocket(placeholder);
           return;
         }
         if (head.length > 0) {
           debug("got illegal response body from proxy");
           socket.destroy();
-          var error2 = new Error("got illegal response body from proxy");
-          error2.code = "ECONNRESET";
-          options2.request.emit("error", error2);
+          var error3 = new Error("got illegal response body from proxy");
+          error3.code = "ECONNRESET";
+          options2.request.emit("error", error3);
           self.removeSocket(placeholder);
           return;
         }
@@ -470,9 +470,9 @@ var require_tunnel = __commonJS({
           cause.message,
           cause.stack
         );
-        var error2 = new Error("tunneling socket could not be established, cause=" + cause.message);
-        error2.code = "ECONNRESET";
-        options2.request.emit("error", error2);
+        var error3 = new Error("tunneling socket could not be established, cause=" + cause.message);
+        error3.code = "ECONNRESET";
+        options2.request.emit("error", error3);
         self.removeSocket(placeholder);
       }
     };
@@ -2473,7 +2473,7 @@ var require_diagnostics = __commonJS({
         (evt) => {
           const {
             connectParams: { version, protocol, port, host },
-            error: error2
+            error: error3
           } = evt;
           debugLog(
             "connection to %s%s using %s%s errored - %s",
@@ -2481,7 +2481,7 @@ var require_diagnostics = __commonJS({
             port ? `:${port}` : "",
             protocol,
             version,
-            error2.message
+            error3.message
           );
         }
       );
@@ -2535,14 +2535,14 @@ var require_diagnostics = __commonJS({
         (evt) => {
           const {
             request: { method, path: path6, origin },
-            error: error2
+            error: error3
           } = evt;
           debugLog(
             "request to %s %s%s errored - %s",
             method,
             origin,
             path6,
-            error2.message
+            error3.message
           );
         }
       );
@@ -2875,16 +2875,16 @@ var require_request = __commonJS({
           this.onError(err);
         }
       }
-      onError(error2) {
+      onError(error3) {
         this.onFinally();
         if (channels.error.hasSubscribers) {
-          channels.error.publish({ request: this, error: error2 });
+          channels.error.publish({ request: this, error: error3 });
         }
         if (this.aborted) {
           return;
         }
         this.aborted = true;
-        return this[kHandler].onError(error2);
+        return this[kHandler].onError(error3);
       }
       onFinally() {
         if (this.errorHandler) {
@@ -8573,9 +8573,9 @@ var require_client_h2 = __commonJS({
         const client = this[kClient];
         const socket = this[kClient];
         if (err != null) {
-          const error2 = new InformationalError(`HTTP/2: "PING" errored - type ${err.message}`);
-          socket[kError] = error2;
-          client[kOnError](error2);
+          const error3 = new InformationalError(`HTTP/2: "PING" errored - type ${err.message}`);
+          socket[kError] = error3;
+          client[kOnError](error3);
         } else {
           client.emit("ping", duration);
         }
@@ -8991,8 +8991,8 @@ var require_client_h2 = __commonJS({
         }
         request.onRequestSent();
         client[kResume]();
-      } catch (error2) {
-        abort(error2);
+      } catch (error3) {
+        abort(error3);
       }
     }
     function writeStream(abort, socket, expectsPayload, h2stream, body, client, request, contentLength) {
@@ -9933,7 +9933,7 @@ var require_pool = __commonJS({
             }
           }
         });
-        this.on("connectionError", (origin2, targets, error2) => {
+        this.on("connectionError", (origin2, targets, error3) => {
           for (const target of targets) {
             const idx = this[kClients].indexOf(target);
             if (idx !== -1) {
@@ -10185,7 +10185,7 @@ var require_round_robin_pool = __commonJS({
             }
           }
         });
-        this.on("connectionError", (origin2, targets, error2) => {
+        this.on("connectionError", (origin2, targets, error3) => {
           for (const target of targets) {
             const idx = this[kClients].indexOf(target);
             if (idx !== -1) {
@@ -10507,9 +10507,9 @@ var require_socks5_utils = __commonJS({
         8: "Address type not supported"
       };
       const message = messages[replyCode] || `Unknown SOCKS5 error code: ${replyCode}`;
-      const error2 = new Error(message);
-      error2.code = `SOCKS5_${replyCode}`;
-      return error2;
+      const error3 = new Error(message);
+      error3.code = `SOCKS5_${replyCode}`;
+      return error3;
     }
     module2.exports = {
       parseAddress,
@@ -13335,13 +13335,13 @@ var require_mock_utils = __commonJS({
       if (mockDispatch2.data.callback) {
         mockDispatch2.data = { ...mockDispatch2.data, ...mockDispatch2.data.callback(opts) };
       }
-      const { data: { statusCode, data, headers, trailers, error: error2 }, delay, persist } = mockDispatch2;
+      const { data: { statusCode, data, headers, trailers, error: error3 }, delay, persist } = mockDispatch2;
       const { timesInvoked, times } = mockDispatch2;
       mockDispatch2.consumed = !persist && timesInvoked >= times;
       mockDispatch2.pending = timesInvoked < times;
-      if (error2 !== null) {
+      if (error3 !== null) {
         deleteMockDispatch(this[kDispatches], key);
-        handler.onError(error2);
+        handler.onError(error3);
         return true;
       }
       let aborted = false;
@@ -13398,22 +13398,22 @@ var require_mock_utils = __commonJS({
         if (agent.isMockActive) {
           try {
             mockDispatch.call(this, opts, handler);
-          } catch (error2) {
-            if (error2.code === "UND_MOCK_ERR_MOCK_NOT_MATCHED") {
+          } catch (error3) {
+            if (error3.code === "UND_MOCK_ERR_MOCK_NOT_MATCHED") {
               const netConnect = agent[kGetNetConnect]();
               const totalInterceptsCount = this[kDispatches][kTotalDispatchCount] || this[kDispatches].length;
               const pendingInterceptsCount = this[kDispatches].filter(({ consumed }) => !consumed).length;
               const interceptsMessage = `, ${pendingInterceptsCount} interceptor(s) remaining out of ${totalInterceptsCount} defined`;
               if (netConnect === false) {
-                throw new MockNotMatchedError(`${error2.message}: subsequent request to origin ${origin} was not allowed (net.connect disabled)${interceptsMessage}`);
+                throw new MockNotMatchedError(`${error3.message}: subsequent request to origin ${origin} was not allowed (net.connect disabled)${interceptsMessage}`);
               }
               if (checkNetConnect(netConnect, origin)) {
                 originalDispatch.call(this, opts, handler);
               } else {
-                throw new MockNotMatchedError(`${error2.message}: subsequent request to origin ${origin} was not allowed (net.connect is not enabled for this origin)${interceptsMessage}`);
+                throw new MockNotMatchedError(`${error3.message}: subsequent request to origin ${origin} was not allowed (net.connect is not enabled for this origin)${interceptsMessage}`);
               }
             } else {
-              throw error2;
+              throw error3;
             }
           }
         } else {
@@ -13598,11 +13598,11 @@ var require_mock_interceptor = __commonJS({
       /**
        * Mock an undici request with a defined error.
        */
-      replyWithError(error2) {
-        if (typeof error2 === "undefined") {
+      replyWithError(error3) {
+        if (typeof error3 === "undefined") {
           throw new InvalidArgumentError("error must be defined");
         }
-        const newMockDispatch = addMockDispatch(this[kDispatches], this[kDispatchKey], { error: error2 }, { ignoreTrailingSlash: this[kIgnoreTrailingSlash] });
+        const newMockDispatch = addMockDispatch(this[kDispatches], this[kDispatchKey], { error: error3 }, { ignoreTrailingSlash: this[kIgnoreTrailingSlash] });
         return new MockScope(newMockDispatch);
       }
       /**
@@ -13752,8 +13752,8 @@ var require_mock_call_history = __commonJS({
         }
         url2.search = new URLSearchParams(requestInit.query).toString();
         return url2;
-      } catch (error2) {
-        throw new InvalidArgumentError("An error occurred when computing MockCallHistoryLog.url", { cause: error2 });
+      } catch (error3) {
+        throw new InvalidArgumentError("An error occurred when computing MockCallHistoryLog.url", { cause: error3 });
       }
     }
     var MockCallHistoryLog = class {
@@ -14487,11 +14487,11 @@ var require_snapshot_recorder = __commonJS({
           } else {
             this.#snapshots = new Map(Object.entries(parsed));
           }
-        } catch (error2) {
-          if (error2.code === "ENOENT") {
+        } catch (error3) {
+          if (error3.code === "ENOENT") {
             this.#snapshots.clear();
           } else {
-            throw new UndiciError(`Failed to load snapshots from ${path6}`, { cause: error2 });
+            throw new UndiciError(`Failed to load snapshots from ${path6}`, { cause: error3 });
           }
         }
       }
@@ -14725,12 +14725,12 @@ var require_snapshot_agent = __commonJS({
           } else if (mode === "update") {
             return this.#recordAndReplay(opts, handler);
           } else {
-            const error2 = new UndiciError(`No snapshot found for ${opts.method || "GET"} ${opts.path}`);
+            const error3 = new UndiciError(`No snapshot found for ${opts.method || "GET"} ${opts.path}`);
             if (handler.onError) {
-              handler.onError(error2);
+              handler.onError(error3);
               return;
             }
-            throw error2;
+            throw error3;
           }
         } else if (mode === "record") {
           return this.#recordAndReplay(opts, handler);
@@ -14778,7 +14778,7 @@ var require_snapshot_agent = __commonJS({
               headers: responseData.headers,
               body: responseBody,
               trailers: responseData.trailers
-            }).then(() => handler.onResponseEnd(controller, trailers)).catch((error2) => handler.onResponseError(controller, error2));
+            }).then(() => handler.onResponseEnd(controller, trailers)).catch((error3) => handler.onResponseError(controller, error3));
           }
         };
         const agent = this[kRealAgent];
@@ -14811,8 +14811,8 @@ var require_snapshot_agent = __commonJS({
           const body = Buffer.from(response.body, "base64");
           handler.onResponseData(controller, body);
           handler.onResponseEnd(controller, response.trailers);
-        } catch (error2) {
-          handler.onError?.(error2);
+        } catch (error3) {
+          handler.onError?.(error3);
         }
       }
       /**
@@ -15163,8 +15163,8 @@ var require_redirect_handler = __commonJS({
           this.handler.onResponseEnd(controller, trailers);
         }
       }
-      onResponseError(controller, error2) {
-        this.handler.onResponseError?.(controller, error2);
+      onResponseError(controller, error3) {
+        this.handler.onResponseError?.(controller, error3);
       }
     };
     function shouldRemoveHeader(header, removeContent, unknownOrigin) {
@@ -18151,8 +18151,8 @@ var require_decompress = __commonJS({
             }
           }
         });
-        decompressor.on("error", (error2) => {
-          super.onResponseError(controller, error2);
+        decompressor.on("error", (error3) => {
+          super.onResponseError(controller, error3);
         });
       }
       /**
@@ -20951,17 +20951,17 @@ var require_fetch = __commonJS({
         this.emit("terminated", reason);
       }
       // https://fetch.spec.whatwg.org/#fetch-controller-abort
-      abort(error2) {
+      abort(error3) {
         if (this.state !== "ongoing") {
           return;
         }
         this.state = "aborted";
-        if (!error2) {
-          error2 = new DOMException("The operation was aborted.", "AbortError");
+        if (!error3) {
+          error3 = new DOMException("The operation was aborted.", "AbortError");
         }
-        this.serializedAbortReason = error2;
-        this.connection?.destroy(error2);
-        this.emit("terminated", error2);
+        this.serializedAbortReason = error3;
+        this.connection?.destroy(error3);
+        this.emit("terminated", error3);
       }
     };
     function handleFetchDone(response) {
@@ -21063,12 +21063,12 @@ var require_fetch = __commonJS({
       );
     }
     var markResourceTiming = performance.markResourceTiming;
-    function abortFetch(p2, request, responseObject, error2, controller) {
+    function abortFetch(p2, request, responseObject, error3, controller) {
       if (p2) {
-        p2.reject(error2);
+        p2.reject(error3);
       }
       if (request.body?.stream != null && isReadable(request.body.stream)) {
-        request.body.stream.cancel(error2).catch((err) => {
+        request.body.stream.cancel(error3).catch((err) => {
           if (err.code === "ERR_INVALID_STATE") {
             return;
           }
@@ -21080,7 +21080,7 @@ var require_fetch = __commonJS({
       }
       const response = getResponseState(responseObject);
       if (response.body?.stream != null && isReadable(response.body.stream)) {
-        controller.error(error2);
+        controller.error(error3);
       }
     }
     function fetching({
@@ -21934,13 +21934,13 @@ var require_fetch = __commonJS({
               fetchParams.controller.ended = true;
               this.body.push(null);
             },
-            onError(error2) {
+            onError(error3) {
               if (this.abort) {
                 fetchParams.controller.off("terminated", this.abort);
               }
-              this.body?.destroy(error2);
-              fetchParams.controller.terminate(error2);
-              reject(error2);
+              this.body?.destroy(error3);
+              fetchParams.controller.terminate(error3);
+              reject(error3);
             },
             onRequestUpgrade(_controller, status, headers, socket) {
               if (socket.session != null && status !== 200 || socket.session == null && status !== 101) {
@@ -24219,10 +24219,10 @@ var require_receiver = __commonJS({
                 this.#extensions.get("permessage-deflate").decompress(
                   body,
                   this.#info.fin,
-                  (error2, data) => {
-                    if (error2) {
-                      const code = error2 instanceof MessageSizeExceededError ? 1009 : 1007;
-                      failWebsocketConnection(this.#handler, code, error2.message);
+                  (error3, data) => {
+                    if (error3) {
+                      const code = error3 instanceof MessageSizeExceededError ? 1009 : 1007;
+                      failWebsocketConnection(this.#handler, code, error3.message);
                       return;
                     }
                     if (!this.writeFragments(data)) {
@@ -25022,10 +25022,10 @@ var require_websocketerror = __commonJS({
        * @param {string} reason
        */
       static createUnvalidatedWebSocketError(message, code, reason) {
-        const error2 = new _WebSocketError(message, kConstruct);
-        error2.#closeCode = code;
-        error2.#reason = reason;
-        return error2;
+        const error3 = new _WebSocketError(message, kConstruct);
+        error3.#closeCode = code;
+        error3.#reason = reason;
+        return error3;
       }
     };
     var { createUnvalidatedWebSocketError } = WebSocketError;
@@ -25291,10 +25291,10 @@ var require_websocketstream = __commonJS({
             reason
           });
         } else {
-          const error2 = createUnvalidatedWebSocketError("unclean close", code, reason);
-          this.#readableStreamController?.error(error2);
-          this.#writableStream?.abort(error2);
-          this.#closedPromise.reject(error2);
+          const error3 = createUnvalidatedWebSocketError("unclean close", code, reason);
+          this.#readableStreamController?.error(error3);
+          this.#writableStream?.abort(error3);
+          this.#closedPromise.reject(error3);
         }
       }
       #closeUsingReason(reason) {
@@ -25773,8 +25773,8 @@ var require_eventsource = __commonJS({
           pipeline(
             response.body.stream,
             eventSourceStream,
-            (error2) => {
-              if (error2?.aborted === false) {
+            (error3) => {
+              if (error3?.aborted === false) {
                 this.close();
                 this.dispatchEvent(new Event("error"));
               }
@@ -26905,12 +26905,12 @@ var require_oidc_utils = __commonJS({
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
           const httpclient = _OidcClient.createHttpClient();
-          const res = yield httpclient.getJson(id_token_url).catch((error2) => {
+          const res = yield httpclient.getJson(id_token_url).catch((error3) => {
             throw new Error(`Failed to get ID Token. 
  
-        Error Code : ${error2.statusCode}
+        Error Code : ${error3.statusCode}
  
-        Error Message: ${error2.message}`);
+        Error Message: ${error3.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -26931,8 +26931,8 @@ var require_oidc_utils = __commonJS({
             const id_token = yield _OidcClient.getCall(id_token_url);
             (0, core_1.setSecret)(id_token);
             return id_token;
-          } catch (error2) {
-            throw new Error(`Error message: ${error2.message}`);
+          } catch (error3) {
+            throw new Error(`Error message: ${error3.message}`);
           }
         });
       }
@@ -28054,7 +28054,7 @@ var require_toolrunner = __commonJS({
               this._debug(`STDIO streams have closed for tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            state.on("done", (error2, exitCode) => {
+            state.on("done", (error3, exitCode) => {
               if (stdbuffer.length > 0) {
                 this.emit("stdline", stdbuffer);
               }
@@ -28062,8 +28062,8 @@ var require_toolrunner = __commonJS({
                 this.emit("errline", errbuffer);
               }
               cp.removeAllListeners();
-              if (error2) {
-                reject(error2);
+              if (error3) {
+                reject(error3);
               } else {
                 resolve3(exitCode);
               }
@@ -28158,14 +28158,14 @@ var require_toolrunner = __commonJS({
         this.emit("debug", message);
       }
       _setResult() {
-        let error2;
+        let error3;
         if (this.processExited) {
           if (this.processError) {
-            error2 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
+            error3 = new Error(`There was an error when attempting to execute the process '${this.toolPath}'. This may indicate the process failed to start. Error: ${this.processError}`);
           } else if (this.processExitCode !== 0 && !this.options.ignoreReturnCode) {
-            error2 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
+            error3 = new Error(`The process '${this.toolPath}' failed with exit code ${this.processExitCode}`);
           } else if (this.processStderr && this.options.failOnStdErr) {
-            error2 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
+            error3 = new Error(`The process '${this.toolPath}' failed because one or more lines were written to the STDERR stream`);
           }
         }
         if (this.timeout) {
@@ -28173,7 +28173,7 @@ var require_toolrunner = __commonJS({
           this.timeout = null;
         }
         this.done = true;
-        this.emit("done", error2, this.processExitCode);
+        this.emit("done", error3, this.processExitCode);
       }
       static HandleTimeout(state) {
         if (state.done) {
@@ -28556,7 +28556,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     exports.setCommandEcho = setCommandEcho;
     function setFailed2(message) {
       process.exitCode = ExitCode.Failure;
-      error2(message);
+      error3(message);
     }
     exports.setFailed = setFailed2;
     function isDebug() {
@@ -28567,14 +28567,14 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       (0, command_1.issueCommand)("debug", {}, message);
     }
     exports.debug = debug;
-    function error2(message, properties = {}) {
+    function error3(message, properties = {}) {
       (0, command_1.issueCommand)("error", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.error = error2;
-    function warning2(message, properties = {}) {
+    exports.error = error3;
+    function warning3(message, properties = {}) {
       (0, command_1.issueCommand)("warning", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.warning = warning2;
+    exports.warning = warning3;
     function notice(message, properties = {}) {
       (0, command_1.issueCommand)("notice", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
@@ -28872,8 +28872,8 @@ var require_add = __commonJS({
       }
       if (kind === "error") {
         hook = function(method, options2) {
-          return Promise.resolve().then(method.bind(null, options2)).catch(function(error2) {
-            return orig(error2, options2);
+          return Promise.resolve().then(method.bind(null, options2)).catch(function(error3) {
+            return orig(error3, options2);
           });
         };
       }
@@ -29605,7 +29605,7 @@ var require_dist_node5 = __commonJS({
         }
         if (status >= 400) {
           const data = await getResponseData(response);
-          const error2 = new import_request_error.RequestError(toErrorMessage(data), status, {
+          const error3 = new import_request_error.RequestError(toErrorMessage(data), status, {
             response: {
               url: url2,
               status,
@@ -29614,7 +29614,7 @@ var require_dist_node5 = __commonJS({
             },
             request: requestOptions
           });
-          throw error2;
+          throw error3;
         }
         return parseSuccessResponseBody ? await getResponseData(response) : response.body;
       }).then((data) => {
@@ -29624,17 +29624,17 @@ var require_dist_node5 = __commonJS({
           headers,
           data
         };
-      }).catch((error2) => {
-        if (error2 instanceof import_request_error.RequestError)
-          throw error2;
-        else if (error2.name === "AbortError")
-          throw error2;
-        let message = error2.message;
-        if (error2.name === "TypeError" && "cause" in error2) {
-          if (error2.cause instanceof Error) {
-            message = error2.cause.message;
-          } else if (typeof error2.cause === "string") {
-            message = error2.cause;
+      }).catch((error3) => {
+        if (error3 instanceof import_request_error.RequestError)
+          throw error3;
+        else if (error3.name === "AbortError")
+          throw error3;
+        let message = error3.message;
+        if (error3.name === "TypeError" && "cause" in error3) {
+          if (error3.cause instanceof Error) {
+            message = error3.cause.message;
+          } else if (typeof error3.cause === "string") {
+            message = error3.cause;
           }
         }
         throw new import_request_error.RequestError(message, 500, {
@@ -32306,9 +32306,9 @@ var require_dist_node10 = __commonJS({
                 /<([^<>]+)>;\s*rel="next"/
               ) || [])[1];
               return { value: normalizedResponse };
-            } catch (error2) {
-              if (error2.status !== 409)
-                throw error2;
+            } catch (error3) {
+              if (error3.status !== 409)
+                throw error3;
               url2 = "";
               return {
                 value: {
@@ -33504,9 +33504,9 @@ var require_codegen = __commonJS({
       }
     };
     var Throw = class extends Node {
-      constructor(error2) {
+      constructor(error3) {
         super();
-        this.error = error2;
+        this.error = error3;
       }
       render({ _n }) {
         return `throw ${this.error};` + _n;
@@ -33743,9 +33743,9 @@ var require_codegen = __commonJS({
       }
     };
     var Catch = class extends BlockNode {
-      constructor(error2) {
+      constructor(error3) {
         super();
-        this.error = error2;
+        this.error = error3;
       }
       render(opts) {
         return `catch(${this.error})` + super.render(opts);
@@ -33936,9 +33936,9 @@ var require_codegen = __commonJS({
         this._blockNode(node);
         this.code(tryBody);
         if (catchCode) {
-          const error2 = this.name("e");
-          this._currNode = node.catch = new Catch(error2);
-          catchCode(error2);
+          const error3 = this.name("e");
+          this._currNode = node.catch = new Catch(error3);
+          catchCode(error3);
         }
         if (finallyCode) {
           this._currNode = node.finally = new Finally();
@@ -33947,8 +33947,8 @@ var require_codegen = __commonJS({
         return this._endBlockNode(Catch, Finally);
       }
       // `throw` statement
-      throw(error2) {
-        return this._leafNode(new Throw(error2));
+      throw(error3) {
+        return this._leafNode(new Throw(error3));
       }
       // start self-balancing block
       block(body, nodeCount) {
@@ -34306,10 +34306,10 @@ var require_errors2 = __commonJS({
     exports.keyword$DataError = {
       message: ({ keyword, schemaType }) => schemaType ? (0, codegen_1.str)`"${keyword}" keyword must be ${schemaType} ($data)` : (0, codegen_1.str)`"${keyword}" keyword is invalid ($data)`
     };
-    function reportError(cxt, error2 = exports.keywordError, errorPaths, overrideAllErrors) {
+    function reportError(cxt, error3 = exports.keywordError, errorPaths, overrideAllErrors) {
       const { it: it2 } = cxt;
       const { gen, compositeRule, allErrors } = it2;
-      const errObj = errorObjectCode(cxt, error2, errorPaths);
+      const errObj = errorObjectCode(cxt, error3, errorPaths);
       if (overrideAllErrors !== null && overrideAllErrors !== void 0 ? overrideAllErrors : compositeRule || allErrors) {
         addError(gen, errObj);
       } else {
@@ -34317,10 +34317,10 @@ var require_errors2 = __commonJS({
       }
     }
     exports.reportError = reportError;
-    function reportExtraError(cxt, error2 = exports.keywordError, errorPaths) {
+    function reportExtraError(cxt, error3 = exports.keywordError, errorPaths) {
       const { it: it2 } = cxt;
       const { gen, compositeRule, allErrors } = it2;
-      const errObj = errorObjectCode(cxt, error2, errorPaths);
+      const errObj = errorObjectCode(cxt, error3, errorPaths);
       addError(gen, errObj);
       if (!(compositeRule || allErrors)) {
         returnErrors(it2, names_1.default.vErrors);
@@ -34371,19 +34371,19 @@ var require_errors2 = __commonJS({
       schema: new codegen_1.Name("schema"),
       parentSchema: new codegen_1.Name("parentSchema")
     };
-    function errorObjectCode(cxt, error2, errorPaths) {
+    function errorObjectCode(cxt, error3, errorPaths) {
       const { createErrors } = cxt.it;
       if (createErrors === false)
         return (0, codegen_1._)`{}`;
-      return errorObject(cxt, error2, errorPaths);
+      return errorObject(cxt, error3, errorPaths);
     }
-    function errorObject(cxt, error2, errorPaths = {}) {
+    function errorObject(cxt, error3, errorPaths = {}) {
       const { gen, it: it2 } = cxt;
       const keyValues = [
         errorInstancePath(it2, errorPaths),
         errorSchemaPath(cxt, errorPaths)
       ];
-      extraErrorProps(cxt, error2, keyValues);
+      extraErrorProps(cxt, error3, keyValues);
       return gen.object(...keyValues);
     }
     function errorInstancePath({ errorPath }, { instancePath }) {
@@ -38105,7 +38105,7 @@ var require_core3 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id();
     var ref_1 = require_ref();
-    var core6 = [
+    var core7 = [
       "$schema",
       "$id",
       "$defs",
@@ -38115,7 +38115,7 @@ var require_core3 = __commonJS({
       id_1.default,
       ref_1.default
     ];
-    exports.default = core6;
+    exports.default = core7;
   }
 });
 
@@ -38132,7 +38132,7 @@ var require_limitNumber = __commonJS({
       exclusiveMaximum: { okStr: "<", ok: ops.LT, fail: ops.GTE },
       exclusiveMinimum: { okStr: ">", ok: ops.GT, fail: ops.LTE }
     };
-    var error2 = {
+    var error3 = {
       message: ({ keyword, schemaCode }) => (0, codegen_1.str)`must be ${KWDs[keyword].okStr} ${schemaCode}`,
       params: ({ keyword, schemaCode }) => (0, codegen_1._)`{comparison: ${KWDs[keyword].okStr}, limit: ${schemaCode}}`
     };
@@ -38141,7 +38141,7 @@ var require_limitNumber = __commonJS({
       type: "number",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         cxt.fail$data((0, codegen_1._)`${data} ${KWDs[keyword].fail} ${schemaCode} || isNaN(${data})`);
@@ -38157,7 +38157,7 @@ var require_multipleOf = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must be multiple of ${schemaCode}`,
       params: ({ schemaCode }) => (0, codegen_1._)`{multipleOf: ${schemaCode}}`
     };
@@ -38166,7 +38166,7 @@ var require_multipleOf = __commonJS({
       type: "number",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, schemaCode, it: it2 } = cxt;
         const prec = it2.opts.multipleOfPrecision;
@@ -38213,7 +38213,7 @@ var require_limitLength = __commonJS({
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
     var ucs2length_1 = require_ucs2length();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxLength" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} characters`;
@@ -38225,7 +38225,7 @@ var require_limitLength = __commonJS({
       type: "string",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode, it: it2 } = cxt;
         const op = keyword === "maxLength" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -38245,7 +38245,7 @@ var require_pattern = __commonJS({
     var code_1 = require_code2();
     var util_1 = require_util7();
     var codegen_1 = require_codegen();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must match pattern "${schemaCode}"`,
       params: ({ schemaCode }) => (0, codegen_1._)`{pattern: ${schemaCode}}`
     };
@@ -38254,7 +38254,7 @@ var require_pattern = __commonJS({
       type: "string",
       schemaType: "string",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         const u2 = it2.opts.unicodeRegExp ? "u" : "";
@@ -38280,7 +38280,7 @@ var require_limitProperties = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxProperties" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} properties`;
@@ -38292,7 +38292,7 @@ var require_limitProperties = __commonJS({
       type: "object",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         const op = keyword === "maxProperties" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -38312,7 +38312,7 @@ var require_required = __commonJS({
     var oasContext_1 = require_oasContext();
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params: { missingProperty } }) => (0, codegen_1.str)`must have required property '${missingProperty}'`,
       params: ({ params: { missingProperty } }) => (0, codegen_1._)`{missingProperty: ${missingProperty}}`
     };
@@ -38321,7 +38321,7 @@ var require_required = __commonJS({
       type: "object",
       schemaType: "array",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, schemaCode, data, $data, it: it2 } = cxt;
         const { opts } = it2;
@@ -38395,13 +38395,13 @@ var require_readOnly = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var names_1 = require_names();
-    var error2 = {
+    var error3 = {
       message: () => (0, codegen_1.str)`must NOT be present in request context`
     };
     var def = {
       keyword: "readOnly",
       schemaType: "boolean",
-      error: error2,
+      error: error3,
       code(cxt) {
         if (cxt.schema !== true)
           return;
@@ -38420,13 +38420,13 @@ var require_writeOnly = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var names_1 = require_names();
-    var error2 = {
+    var error3 = {
       message: () => (0, codegen_1.str)`must NOT be present in response context`
     };
     var def = {
       keyword: "writeOnly",
       schemaType: "boolean",
-      error: error2,
+      error: error3,
       code(cxt) {
         if (cxt.schema !== true)
           return;
@@ -38444,7 +38444,7 @@ var require_limitItems = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxItems" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} items`;
@@ -38456,7 +38456,7 @@ var require_limitItems = __commonJS({
       type: "array",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         const op = keyword === "maxItems" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -38487,7 +38487,7 @@ var require_uniqueItems = __commonJS({
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
     var equal_1 = require_equal();
-    var error2 = {
+    var error3 = {
       message: ({ params: { i, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i} are identical)`,
       params: ({ params: { i, j: j2 } }) => (0, codegen_1._)`{i: ${i}, j: ${j2}}`
     };
@@ -38496,7 +38496,7 @@ var require_uniqueItems = __commonJS({
       type: "array",
       schemaType: "boolean",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, parentSchema, schemaCode, it: it2 } = cxt;
         if (!$data && !schema)
@@ -38553,14 +38553,14 @@ var require_const = __commonJS({
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
     var equal_1 = require_equal();
-    var error2 = {
+    var error3 = {
       message: "must be equal to constant",
       params: ({ schemaCode }) => (0, codegen_1._)`{allowedValue: ${schemaCode}}`
     };
     var def = {
       keyword: "const",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schemaCode, schema } = cxt;
         if ($data || schema && typeof schema == "object") {
@@ -38582,7 +38582,7 @@ var require_enum = __commonJS({
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
     var equal_1 = require_equal();
-    var error2 = {
+    var error3 = {
       message: "must be equal to one of the allowed values",
       params: ({ schemaCode }) => (0, codegen_1._)`{allowedValues: ${schemaCode}}`
     };
@@ -38590,7 +38590,7 @@ var require_enum = __commonJS({
       keyword: "enum",
       schemaType: "array",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         if (!$data && schema.length === 0)
@@ -38673,7 +38673,7 @@ var require_additionalItems = __commonJS({
     exports.validateAdditionalItems = void 0;
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params: { len } }) => (0, codegen_1.str)`must NOT have more than ${len} items`,
       params: ({ params: { len } }) => (0, codegen_1._)`{limit: ${len}}`
     };
@@ -38682,7 +38682,7 @@ var require_additionalItems = __commonJS({
       type: "array",
       schemaType: ["boolean", "object"],
       before: "uniqueItems",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { parentSchema, it: it2 } = cxt;
         const { items } = parentSchema;
@@ -38801,7 +38801,7 @@ var require_items2020 = __commonJS({
     var util_1 = require_util7();
     var code_1 = require_code2();
     var additionalItems_1 = require_additionalItems();
-    var error2 = {
+    var error3 = {
       message: ({ params: { len } }) => (0, codegen_1.str)`must NOT have more than ${len} items`,
       params: ({ params: { len } }) => (0, codegen_1._)`{limit: ${len}}`
     };
@@ -38810,7 +38810,7 @@ var require_items2020 = __commonJS({
       type: "array",
       schemaType: ["object", "boolean"],
       before: "uniqueItems",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { schema, parentSchema, it: it2 } = cxt;
         const { prefixItems } = parentSchema;
@@ -38834,7 +38834,7 @@ var require_contains = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params: { min, max } }) => max === void 0 ? (0, codegen_1.str)`must contain at least ${min} valid item(s)` : (0, codegen_1.str)`must contain at least ${min} and no more than ${max} valid item(s)`,
       params: ({ params: { min, max } }) => max === void 0 ? (0, codegen_1._)`{minContains: ${min}}` : (0, codegen_1._)`{minContains: ${min}, maxContains: ${max}}`
     };
@@ -38844,7 +38844,7 @@ var require_contains = __commonJS({
       schemaType: ["object", "boolean"],
       before: "uniqueItems",
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, parentSchema, data, it: it2 } = cxt;
         let min;
@@ -39022,7 +39022,7 @@ var require_propertyNames = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: "property name must be valid",
       params: ({ params }) => (0, codegen_1._)`{propertyName: ${params.propertyName}}`
     };
@@ -39030,7 +39030,7 @@ var require_propertyNames = __commonJS({
       keyword: "propertyNames",
       type: "object",
       schemaType: ["object", "boolean"],
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, data, it: it2 } = cxt;
         if ((0, util_1.alwaysValidSchema)(it2, schema))
@@ -39067,7 +39067,7 @@ var require_additionalProperties = __commonJS({
     var codegen_1 = require_codegen();
     var names_1 = require_names();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: "must NOT have additional properties",
       params: ({ params }) => (0, codegen_1._)`{additionalProperty: ${params.additionalProperty}}`
     };
@@ -39077,7 +39077,7 @@ var require_additionalProperties = __commonJS({
       schemaType: ["boolean", "object"],
       allowUndefined: true,
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, parentSchema, data, errsCount, it: it2 } = cxt;
         const { schema = it2.opts.defaultAdditionalProperties } = cxt;
@@ -39352,7 +39352,7 @@ var require_oneOf = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: "must match exactly one schema in oneOf",
       params: ({ params }) => (0, codegen_1._)`{passingSchemas: ${params.passing}}`
     };
@@ -39360,7 +39360,7 @@ var require_oneOf = __commonJS({
       keyword: "oneOf",
       schemaType: "array",
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, parentSchema, it: it2 } = cxt;
         if (!Array.isArray(schema))
@@ -39437,7 +39437,7 @@ var require_if = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params }) => (0, codegen_1.str)`must match "${params.ifClause}" schema`,
       params: ({ params }) => (0, codegen_1._)`{failingKeyword: ${params.ifClause}}`
     };
@@ -39445,7 +39445,7 @@ var require_if = __commonJS({
       keyword: "if",
       schemaType: ["object", "boolean"],
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, parentSchema, it: it2 } = cxt;
         if (parentSchema.then === void 0 && parentSchema.else === void 0) {
@@ -39770,7 +39770,7 @@ var require_unevaluatedProperties = __commonJS({
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
     var names_1 = require_names();
-    var error2 = {
+    var error3 = {
       message: "must NOT have unevaluated properties",
       params: ({ params }) => (0, codegen_1._)`{unevaluatedProperty: ${params.unevaluatedProperty}}`
     };
@@ -39780,7 +39780,7 @@ var require_unevaluatedProperties = __commonJS({
       schemaType: ["boolean", "object"],
       allowUndefined: true,
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema = cxt.it.opts.defaultUnevaluatedProperties, data, errsCount, it: it2 } = cxt;
         const isForced2 = cxt.schema === void 0 && cxt.it.opts.defaultUnevaluatedProperties === false;
@@ -39846,7 +39846,7 @@ var require_unevaluatedItems = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params: { len } }) => (0, codegen_1.str)`must NOT have more than ${len} items`,
       params: ({ params: { len } }) => (0, codegen_1._)`{limit: ${len}}`
     };
@@ -39854,7 +39854,7 @@ var require_unevaluatedItems = __commonJS({
       keyword: "unevaluatedItems",
       type: "array",
       schemaType: ["boolean", "object"],
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, data, it: it2 } = cxt;
         const items = it2.items || 0;
@@ -39901,7 +39901,7 @@ var require_format = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must match format "${schemaCode}"`,
       params: ({ schemaCode }) => (0, codegen_1._)`{format: ${schemaCode}}`
     };
@@ -39910,7 +39910,7 @@ var require_format = __commonJS({
       type: ["number", "string"],
       schemaType: "string",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt, ruleType) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         const { opts, errSchemaPath, schemaEnv, self } = it2;
@@ -40079,7 +40079,7 @@ var require_discriminator = __commonJS({
     var compile_1 = require_compile();
     var ref_error_1 = require_ref_error();
     var util_1 = require_util7();
-    var error2 = {
+    var error3 = {
       message: ({ params: { discrError, tagName } }) => discrError === types_1.DiscrError.Tag ? `tag "${tagName}" must be string` : `value of tag "${tagName}" must be in oneOf or anyOf`,
       params: ({ params: { discrError, tag, tagName } }) => (0, codegen_1._)`{error: ${discrError}, tag: ${tagName}, tagValue: ${tag}}`
     };
@@ -40099,7 +40099,7 @@ var require_discriminator = __commonJS({
       keyword: "discriminator",
       type: "object",
       schemaType: "object",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, schema, parentSchema, it: it2 } = cxt;
         const keyword = parentSchema.oneOf ? "oneOf" : parentSchema.anyOf ? "anyOf" : void 0;
@@ -40583,7 +40583,7 @@ var require_json_schema_2020_12 = __commonJS({
     var applicator = require_applicator2();
     var unevaluated = require_unevaluated2();
     var content = require_content();
-    var core6 = require_core4();
+    var core7 = require_core4();
     var format = require_format_annotation();
     var metadata = require_meta_data();
     var validation = require_validation2();
@@ -40595,7 +40595,7 @@ var require_json_schema_2020_12 = __commonJS({
         applicator,
         unevaluated,
         content,
-        core6,
+        core7,
         with$data(this, format),
         metadata,
         with$data(this, validation)
@@ -41329,9 +41329,9 @@ var require_codegen2 = __commonJS({
       }
     };
     var Throw = class extends Node {
-      constructor(error2) {
+      constructor(error3) {
         super();
-        this.error = error2;
+        this.error = error3;
       }
       render({ _n }) {
         return `throw ${this.error};` + _n;
@@ -41568,9 +41568,9 @@ var require_codegen2 = __commonJS({
       }
     };
     var Catch = class extends BlockNode {
-      constructor(error2) {
+      constructor(error3) {
         super();
-        this.error = error2;
+        this.error = error3;
       }
       render(opts) {
         return `catch(${this.error})` + super.render(opts);
@@ -41761,9 +41761,9 @@ var require_codegen2 = __commonJS({
         this._blockNode(node);
         this.code(tryBody);
         if (catchCode) {
-          const error2 = this.name("e");
-          this._currNode = node.catch = new Catch(error2);
-          catchCode(error2);
+          const error3 = this.name("e");
+          this._currNode = node.catch = new Catch(error3);
+          catchCode(error3);
         }
         if (finallyCode) {
           this._currNode = node.finally = new Finally();
@@ -41772,8 +41772,8 @@ var require_codegen2 = __commonJS({
         return this._endBlockNode(Catch, Finally);
       }
       // `throw` statement
-      throw(error2) {
-        return this._leafNode(new Throw(error2));
+      throw(error3) {
+        return this._leafNode(new Throw(error3));
       }
       // start self-balancing block
       block(body, nodeCount) {
@@ -42131,10 +42131,10 @@ var require_errors3 = __commonJS({
     exports.keyword$DataError = {
       message: ({ keyword, schemaType }) => schemaType ? (0, codegen_1.str)`"${keyword}" keyword must be ${schemaType} ($data)` : (0, codegen_1.str)`"${keyword}" keyword is invalid ($data)`
     };
-    function reportError(cxt, error2 = exports.keywordError, errorPaths, overrideAllErrors) {
+    function reportError(cxt, error3 = exports.keywordError, errorPaths, overrideAllErrors) {
       const { it: it2 } = cxt;
       const { gen, compositeRule, allErrors } = it2;
-      const errObj = errorObjectCode(cxt, error2, errorPaths);
+      const errObj = errorObjectCode(cxt, error3, errorPaths);
       if (overrideAllErrors !== null && overrideAllErrors !== void 0 ? overrideAllErrors : compositeRule || allErrors) {
         addError(gen, errObj);
       } else {
@@ -42142,10 +42142,10 @@ var require_errors3 = __commonJS({
       }
     }
     exports.reportError = reportError;
-    function reportExtraError(cxt, error2 = exports.keywordError, errorPaths) {
+    function reportExtraError(cxt, error3 = exports.keywordError, errorPaths) {
       const { it: it2 } = cxt;
       const { gen, compositeRule, allErrors } = it2;
-      const errObj = errorObjectCode(cxt, error2, errorPaths);
+      const errObj = errorObjectCode(cxt, error3, errorPaths);
       addError(gen, errObj);
       if (!(compositeRule || allErrors)) {
         returnErrors(it2, names_1.default.vErrors);
@@ -42196,19 +42196,19 @@ var require_errors3 = __commonJS({
       schema: new codegen_1.Name("schema"),
       parentSchema: new codegen_1.Name("parentSchema")
     };
-    function errorObjectCode(cxt, error2, errorPaths) {
+    function errorObjectCode(cxt, error3, errorPaths) {
       const { createErrors } = cxt.it;
       if (createErrors === false)
         return (0, codegen_1._)`{}`;
-      return errorObject(cxt, error2, errorPaths);
+      return errorObject(cxt, error3, errorPaths);
     }
-    function errorObject(cxt, error2, errorPaths = {}) {
+    function errorObject(cxt, error3, errorPaths = {}) {
       const { gen, it: it2 } = cxt;
       const keyValues = [
         errorInstancePath(it2, errorPaths),
         errorSchemaPath(cxt, errorPaths)
       ];
-      extraErrorProps(cxt, error2, keyValues);
+      extraErrorProps(cxt, error3, keyValues);
       return gen.object(...keyValues);
     }
     function errorInstancePath({ errorPath }, { instancePath }) {
@@ -44688,7 +44688,7 @@ var require_core6 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var id_1 = require_id2();
     var ref_1 = require_ref2();
-    var core6 = [
+    var core7 = [
       "$schema",
       "$id",
       "$defs",
@@ -44698,7 +44698,7 @@ var require_core6 = __commonJS({
       id_1.default,
       ref_1.default
     ];
-    exports.default = core6;
+    exports.default = core7;
   }
 });
 
@@ -44715,7 +44715,7 @@ var require_limitNumber2 = __commonJS({
       exclusiveMaximum: { okStr: "<", ok: ops.LT, fail: ops.GTE },
       exclusiveMinimum: { okStr: ">", ok: ops.GT, fail: ops.LTE }
     };
-    var error2 = {
+    var error3 = {
       message: ({ keyword, schemaCode }) => (0, codegen_1.str)`must be ${KWDs[keyword].okStr} ${schemaCode}`,
       params: ({ keyword, schemaCode }) => (0, codegen_1._)`{comparison: ${KWDs[keyword].okStr}, limit: ${schemaCode}}`
     };
@@ -44724,7 +44724,7 @@ var require_limitNumber2 = __commonJS({
       type: "number",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         cxt.fail$data((0, codegen_1._)`${data} ${KWDs[keyword].fail} ${schemaCode} || isNaN(${data})`);
@@ -44740,7 +44740,7 @@ var require_multipleOf2 = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must be multiple of ${schemaCode}`,
       params: ({ schemaCode }) => (0, codegen_1._)`{multipleOf: ${schemaCode}}`
     };
@@ -44749,7 +44749,7 @@ var require_multipleOf2 = __commonJS({
       type: "number",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, schemaCode, it: it2 } = cxt;
         const prec = it2.opts.multipleOfPrecision;
@@ -44796,7 +44796,7 @@ var require_limitLength2 = __commonJS({
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
     var ucs2length_1 = require_ucs2length2();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxLength" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} characters`;
@@ -44808,7 +44808,7 @@ var require_limitLength2 = __commonJS({
       type: "string",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode, it: it2 } = cxt;
         const op = keyword === "maxLength" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -44828,7 +44828,7 @@ var require_pattern2 = __commonJS({
     var code_1 = require_code4();
     var util_1 = require_util8();
     var codegen_1 = require_codegen2();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must match pattern "${schemaCode}"`,
       params: ({ schemaCode }) => (0, codegen_1._)`{pattern: ${schemaCode}}`
     };
@@ -44837,7 +44837,7 @@ var require_pattern2 = __commonJS({
       type: "string",
       schemaType: "string",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         const u2 = it2.opts.unicodeRegExp ? "u" : "";
@@ -44863,7 +44863,7 @@ var require_limitProperties2 = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxProperties" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} properties`;
@@ -44875,7 +44875,7 @@ var require_limitProperties2 = __commonJS({
       type: "object",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         const op = keyword === "maxProperties" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -44895,7 +44895,7 @@ var require_required2 = __commonJS({
     var oasContext_1 = require_oasContext2();
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: ({ params: { missingProperty } }) => (0, codegen_1.str)`must have required property '${missingProperty}'`,
       params: ({ params: { missingProperty } }) => (0, codegen_1._)`{missingProperty: ${missingProperty}}`
     };
@@ -44904,7 +44904,7 @@ var require_required2 = __commonJS({
       type: "object",
       schemaType: "array",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, schemaCode, data, $data, it: it2 } = cxt;
         const { opts } = it2;
@@ -44978,13 +44978,13 @@ var require_readOnly2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var names_1 = require_names2();
-    var error2 = {
+    var error3 = {
       message: () => (0, codegen_1.str)`must NOT be present in request context`
     };
     var def = {
       keyword: "readOnly",
       schemaType: "boolean",
-      error: error2,
+      error: error3,
       code(cxt) {
         if (cxt.schema !== true)
           return;
@@ -45003,13 +45003,13 @@ var require_writeOnly2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var names_1 = require_names2();
-    var error2 = {
+    var error3 = {
       message: () => (0, codegen_1.str)`must NOT be present in response context`
     };
     var def = {
       keyword: "writeOnly",
       schemaType: "boolean",
-      error: error2,
+      error: error3,
       code(cxt) {
         if (cxt.schema !== true)
           return;
@@ -45027,7 +45027,7 @@ var require_limitItems2 = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
-    var error2 = {
+    var error3 = {
       message({ keyword, schemaCode }) {
         const comp = keyword === "maxItems" ? "more" : "fewer";
         return (0, codegen_1.str)`must NOT have ${comp} than ${schemaCode} items`;
@@ -45039,7 +45039,7 @@ var require_limitItems2 = __commonJS({
       type: "array",
       schemaType: "number",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { keyword, data, schemaCode } = cxt;
         const op = keyword === "maxItems" ? codegen_1.operators.GT : codegen_1.operators.LT;
@@ -45070,7 +45070,7 @@ var require_uniqueItems2 = __commonJS({
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
     var equal_1 = require_equal2();
-    var error2 = {
+    var error3 = {
       message: ({ params: { i, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i} are identical)`,
       params: ({ params: { i, j: j2 } }) => (0, codegen_1._)`{i: ${i}, j: ${j2}}`
     };
@@ -45079,7 +45079,7 @@ var require_uniqueItems2 = __commonJS({
       type: "array",
       schemaType: "boolean",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, parentSchema, schemaCode, it: it2 } = cxt;
         if (!$data && !schema)
@@ -45136,14 +45136,14 @@ var require_const2 = __commonJS({
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
     var equal_1 = require_equal2();
-    var error2 = {
+    var error3 = {
       message: "must be equal to constant",
       params: ({ schemaCode }) => (0, codegen_1._)`{allowedValue: ${schemaCode}}`
     };
     var def = {
       keyword: "const",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schemaCode, schema } = cxt;
         if ($data || schema && typeof schema == "object") {
@@ -45165,7 +45165,7 @@ var require_enum2 = __commonJS({
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
     var equal_1 = require_equal2();
-    var error2 = {
+    var error3 = {
       message: "must be equal to one of the allowed values",
       params: ({ schemaCode }) => (0, codegen_1._)`{allowedValues: ${schemaCode}}`
     };
@@ -45173,7 +45173,7 @@ var require_enum2 = __commonJS({
       keyword: "enum",
       schemaType: "array",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         if (!$data && schema.length === 0)
@@ -45256,7 +45256,7 @@ var require_additionalItems2 = __commonJS({
     exports.validateAdditionalItems = void 0;
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: ({ params: { len } }) => (0, codegen_1.str)`must NOT have more than ${len} items`,
       params: ({ params: { len } }) => (0, codegen_1._)`{limit: ${len}}`
     };
@@ -45265,7 +45265,7 @@ var require_additionalItems2 = __commonJS({
       type: "array",
       schemaType: ["boolean", "object"],
       before: "uniqueItems",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { parentSchema, it: it2 } = cxt;
         const { items } = parentSchema;
@@ -45384,7 +45384,7 @@ var require_items20202 = __commonJS({
     var util_1 = require_util8();
     var code_1 = require_code4();
     var additionalItems_1 = require_additionalItems2();
-    var error2 = {
+    var error3 = {
       message: ({ params: { len } }) => (0, codegen_1.str)`must NOT have more than ${len} items`,
       params: ({ params: { len } }) => (0, codegen_1._)`{limit: ${len}}`
     };
@@ -45393,7 +45393,7 @@ var require_items20202 = __commonJS({
       type: "array",
       schemaType: ["object", "boolean"],
       before: "uniqueItems",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { schema, parentSchema, it: it2 } = cxt;
         const { prefixItems } = parentSchema;
@@ -45417,7 +45417,7 @@ var require_contains2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: ({ params: { min, max } }) => max === void 0 ? (0, codegen_1.str)`must contain at least ${min} valid item(s)` : (0, codegen_1.str)`must contain at least ${min} and no more than ${max} valid item(s)`,
       params: ({ params: { min, max } }) => max === void 0 ? (0, codegen_1._)`{minContains: ${min}}` : (0, codegen_1._)`{minContains: ${min}, maxContains: ${max}}`
     };
@@ -45427,7 +45427,7 @@ var require_contains2 = __commonJS({
       schemaType: ["object", "boolean"],
       before: "uniqueItems",
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, parentSchema, data, it: it2 } = cxt;
         let min;
@@ -45605,7 +45605,7 @@ var require_propertyNames2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: "property name must be valid",
       params: ({ params }) => (0, codegen_1._)`{propertyName: ${params.propertyName}}`
     };
@@ -45613,7 +45613,7 @@ var require_propertyNames2 = __commonJS({
       keyword: "propertyNames",
       type: "object",
       schemaType: ["object", "boolean"],
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, data, it: it2 } = cxt;
         if ((0, util_1.alwaysValidSchema)(it2, schema))
@@ -45650,7 +45650,7 @@ var require_additionalProperties2 = __commonJS({
     var codegen_1 = require_codegen2();
     var names_1 = require_names2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: "must NOT have additional properties",
       params: ({ params }) => (0, codegen_1._)`{additionalProperty: ${params.additionalProperty}}`
     };
@@ -45660,7 +45660,7 @@ var require_additionalProperties2 = __commonJS({
       schemaType: ["boolean", "object"],
       allowUndefined: true,
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, parentSchema, data, errsCount, it: it2 } = cxt;
         const { schema = it2.opts.defaultAdditionalProperties } = cxt;
@@ -45935,7 +45935,7 @@ var require_oneOf2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: "must match exactly one schema in oneOf",
       params: ({ params }) => (0, codegen_1._)`{passingSchemas: ${params.passing}}`
     };
@@ -45943,7 +45943,7 @@ var require_oneOf2 = __commonJS({
       keyword: "oneOf",
       schemaType: "array",
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, schema, parentSchema, it: it2 } = cxt;
         if (!Array.isArray(schema))
@@ -46020,7 +46020,7 @@ var require_if2 = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: ({ params }) => (0, codegen_1.str)`must match "${params.ifClause}" schema`,
       params: ({ params }) => (0, codegen_1._)`{failingKeyword: ${params.ifClause}}`
     };
@@ -46028,7 +46028,7 @@ var require_if2 = __commonJS({
       keyword: "if",
       schemaType: ["object", "boolean"],
       trackErrors: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, parentSchema, it: it2 } = cxt;
         if (parentSchema.then === void 0 && parentSchema.else === void 0) {
@@ -46154,7 +46154,7 @@ var require_format3 = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var codegen_1 = require_codegen2();
-    var error2 = {
+    var error3 = {
       message: ({ schemaCode }) => (0, codegen_1.str)`must match format "${schemaCode}"`,
       params: ({ schemaCode }) => (0, codegen_1._)`{format: ${schemaCode}}`
     };
@@ -46163,7 +46163,7 @@ var require_format3 = __commonJS({
       type: ["number", "string"],
       schemaType: "string",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt, ruleType) {
         const { gen, data, $data, schema, schemaCode, it: it2 } = cxt;
         const { opts, errSchemaPath, schemaEnv, self } = it2;
@@ -46326,7 +46326,7 @@ var require_discriminator2 = __commonJS({
     var compile_1 = require_compile2();
     var ref_error_1 = require_ref_error2();
     var util_1 = require_util8();
-    var error2 = {
+    var error3 = {
       message: ({ params: { discrError, tagName } }) => discrError === types_1.DiscrError.Tag ? `tag "${tagName}" must be string` : `value of tag "${tagName}" must be in oneOf or anyOf`,
       params: ({ params: { discrError, tag, tagName } }) => (0, codegen_1._)`{error: ${discrError}, tag: ${tagName}, tagValue: ${tag}}`
     };
@@ -46346,7 +46346,7 @@ var require_discriminator2 = __commonJS({
       keyword: "discriminator",
       type: "object",
       schemaType: "object",
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, schema, parentSchema, it: it2 } = cxt;
         const keyword = parentSchema.oneOf ? "oneOf" : parentSchema.anyOf ? "anyOf" : void 0;
@@ -46698,7 +46698,7 @@ var require_limit = __commonJS({
       formatExclusiveMaximum: { okStr: "<", ok: ops.LT, fail: ops.GTE },
       formatExclusiveMinimum: { okStr: ">", ok: ops.GT, fail: ops.LTE }
     };
-    var error2 = {
+    var error3 = {
       message: ({ keyword, schemaCode }) => (0, codegen_1.str)`should be ${KWDs[keyword].okStr} ${schemaCode}`,
       params: ({ keyword, schemaCode }) => (0, codegen_1._)`{comparison: ${KWDs[keyword].okStr}, limit: ${schemaCode}}`
     };
@@ -46707,7 +46707,7 @@ var require_limit = __commonJS({
       type: "string",
       schemaType: "string",
       $data: true,
-      error: error2,
+      error: error3,
       code(cxt) {
         const { gen, data, schemaCode, keyword, it: it2 } = cxt;
         const { opts, self } = it2;
@@ -48119,7 +48119,7 @@ var require_regexp = __commonJS({
       try {
         var dummy = new RegExp(regexp, modifiers);
         return true;
-      } catch (error2) {
+      } catch (error3) {
         return false;
       }
     }
@@ -48313,16 +48313,16 @@ var require_loader = __commonJS({
       if (toLineEnd) {
         mark.toLineEnd = true;
       }
-      var error2 = new YAMLException2(message, mark, isWarning);
-      state.errors.push(error2);
+      var error3 = new YAMLException2(message, mark, isWarning);
+      state.errors.push(error3);
     }
     function throwError(state, message) {
-      var error2 = generateError(state, message);
-      var hash = error2.message + error2.mark.position;
+      var error3 = generateError(state, message);
+      var hash = error3.message + error3.mark.position;
       if (state.errorMap[hash]) {
         return;
       }
-      state.errors.push(error2);
+      state.errors.push(error3);
       state.errorMap[hash] = 1;
       var or = state.position;
       while (true) {
@@ -48348,9 +48348,9 @@ var require_loader = __commonJS({
       }
     }
     function throwWarning(state, message) {
-      var error2 = generateError(state, message);
+      var error3 = generateError(state, message);
       if (state.onWarning) {
-        state.onWarning.call(null, error2);
+        state.onWarning.call(null, error3);
       } else {
       }
     }
@@ -50171,7 +50171,7 @@ var require_src = __commonJS({
 });
 
 // src/main.ts
-var core5 = __toESM(require_core(), 1);
+var core6 = __toESM(require_core(), 1);
 
 // src/set-commit-statuses.ts
 var core = __toESM(require_core(), 1);
@@ -50320,6 +50320,316 @@ function getCommitSha() {
 
 // src/push.ts
 var core3 = __toESM(require_core(), 1);
+
+// node_modules/@redocly/reunite-integration/lib/utils/constants.js
+var DEFAULT_FETCH_TIMEOUT = 6e3;
+var DEFAULT_CLI_VERSION = "2.0";
+
+// node_modules/@redocly/reunite-integration/lib/utils/fetch-with-timeout.js
+var import_undici = __toESM(require_undici(), 1);
+
+// node_modules/@redocly/reunite-integration/lib/utils/proxy-env.js
+function getProxyUrl() {
+  return process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.http_proxy || process.env.https_proxy;
+}
+function shouldBypassProxy(url2) {
+  const noProxy = process.env.NO_PROXY || process.env.no_proxy;
+  if (!noProxy)
+    return false;
+  const entries = noProxy.split(",").map((entry) => entry.trim().toLowerCase()).filter(Boolean);
+  if (entries.length === 0)
+    return false;
+  let hostname;
+  try {
+    hostname = new URL(url2).hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  return entries.some((entry) => {
+    if (entry === "*")
+      return true;
+    if (hostname === entry)
+      return true;
+    if (entry.startsWith(".") && hostname.endsWith(entry))
+      return true;
+    if (!entry.startsWith(".") && hostname.endsWith("." + entry))
+      return true;
+    return false;
+  });
+}
+
+// node_modules/@redocly/reunite-integration/lib/utils/fetch-with-timeout.js
+var fetch_with_timeout_default = async (url2, { timeout, ...options2 } = {}) => {
+  const proxyUrl = getProxyUrl();
+  const useProxy = proxyUrl && !shouldBypassProxy(url2);
+  let dispatcher;
+  const connectOptions = timeout ? { connect: { timeout } } : {};
+  if (useProxy) {
+    dispatcher = new import_undici.ProxyAgent({
+      uri: proxyUrl,
+      ...connectOptions
+    });
+  } else if (timeout) {
+    dispatcher = new import_undici.Agent(connectOptions);
+  }
+  const res = await fetch(url2, {
+    signal: timeout ? AbortSignal.timeout(timeout) : void 0,
+    ...options2,
+    dispatcher
+  });
+  return res;
+};
+
+// node_modules/@redocly/reunite-integration/lib/api/api-client.js
+var ReuniteApiError = class extends Error {
+  status;
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+};
+var ReuniteApiClient = class {
+  command;
+  version;
+  sunsetWarnings = [];
+  constructor(command, version = DEFAULT_CLI_VERSION) {
+    this.command = command;
+    this.version = version;
+  }
+  async request(url2, options2) {
+    const headers = {
+      ...options2.headers,
+      "user-agent": `redocly-cli/${this.version} ${this.command}`
+    };
+    try {
+      const response = await fetch_with_timeout_default(url2, {
+        ...options2,
+        headers
+      });
+      this.collectSunsetWarning(response);
+      return response;
+    } catch (err) {
+      let errorMessage = "Failed to fetch.";
+      if (err.cause) {
+        errorMessage += ` Caused by ${err.cause.message || err.cause.name}.`;
+      }
+      if (err.code || err.cause?.code) {
+        errorMessage += ` Code: ${err.code || err.cause?.code}`;
+      }
+      throw new Error(errorMessage);
+    }
+  }
+  collectSunsetWarning(response) {
+    const sunsetTime = this.getSunsetDate(response);
+    if (!sunsetTime)
+      return;
+    const sunsetDate = new Date(sunsetTime);
+    if (sunsetTime > Date.now()) {
+      this.sunsetWarnings.push({
+        sunsetDate,
+        isSunsetExpired: false
+      });
+    } else {
+      this.sunsetWarnings.push({
+        sunsetDate,
+        isSunsetExpired: true
+      });
+    }
+  }
+  getSunsetDate(response) {
+    const { headers } = response;
+    if (!headers) {
+      return;
+    }
+    const sunsetDate = headers.get("sunset") || headers.get("Sunset");
+    if (!sunsetDate) {
+      return;
+    }
+    return Date.parse(sunsetDate);
+  }
+};
+var RemotesApi = class {
+  client;
+  domain;
+  apiKey;
+  constructor(client, domain, apiKey) {
+    this.client = client;
+    this.domain = domain;
+    this.apiKey = apiKey;
+  }
+  async getParsedResponse(response) {
+    const responseBody = await response.json();
+    if (response.ok) {
+      return responseBody;
+    }
+    throw new ReuniteApiError(`${responseBody.title || response.statusText || "Unknown error"}.`, response.status);
+  }
+  async getDefaultBranch(organizationId, projectId) {
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/source`, {
+        timeout: DEFAULT_FETCH_TIMEOUT,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`
+        }
+      });
+      const source = await this.getParsedResponse(response);
+      return source.branchName;
+    } catch (err) {
+      const message = `Failed to fetch default branch. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+  async upsert(organizationId, projectId, remote) {
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/remotes`, {
+        timeout: DEFAULT_FETCH_TIMEOUT,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`
+        },
+        body: JSON.stringify({
+          mountPath: remote.mountPath,
+          mountBranchName: remote.mountBranchName,
+          type: "CICD",
+          autoMerge: true
+        })
+      });
+      return await this.getParsedResponse(response);
+    } catch (err) {
+      const message = `Failed to upsert remote. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+  async push(organizationId, projectId, payload, files) {
+    const formData = new globalThis.FormData();
+    formData.append("remoteId", payload.remoteId);
+    formData.append("commit[message]", payload.commit.message);
+    formData.append("commit[author][name]", payload.commit.author.name);
+    formData.append("commit[author][email]", payload.commit.author.email);
+    formData.append("commit[branchName]", payload.commit.branchName);
+    if (payload.commit.url) {
+      formData.append("commit[url]", payload.commit.url);
+    }
+    if (payload.commit.namespace) {
+      formData.append("commit[namespaceId]", payload.commit.namespace);
+    }
+    if (payload.commit.sha) {
+      formData.append("commit[sha]", payload.commit.sha);
+    }
+    if (payload.commit.repository) {
+      formData.append("commit[repositoryId]", payload.commit.repository);
+    }
+    if (payload.commit.createdAt) {
+      formData.append("commit[createdAt]", payload.commit.createdAt);
+    }
+    for (const file of files) {
+      const blob = Buffer.isBuffer(file.stream) ? new Blob([file.stream]) : new Blob([await streamToBuffer(file.stream)]);
+      formData.append(`files[${file.path}]`, blob, file.path);
+    }
+    if (payload.isMainBranch) {
+      formData.append("isMainBranch", "true");
+    }
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/pushes`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`
+        },
+        body: formData
+      });
+      return await this.getParsedResponse(response);
+    } catch (err) {
+      const message = `Failed to push. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+  async getRemotesList({ organizationId, projectId, mountPath }) {
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/remotes?filter=mountPath:/${mountPath}/`, {
+        timeout: DEFAULT_FETCH_TIMEOUT,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`
+        }
+      });
+      return await this.getParsedResponse(response);
+    } catch (err) {
+      const message = `Failed to get remote list. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+  async getPush({ organizationId, projectId, pushId }) {
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/pushes/${pushId}`, {
+        timeout: DEFAULT_FETCH_TIMEOUT,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`
+        }
+      });
+      return await this.getParsedResponse(response);
+    } catch (err) {
+      const message = `Failed to get push status. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+};
+var ReuniteApi = class {
+  apiClient;
+  remotes;
+  constructor({ domain, apiKey, command, version = DEFAULT_CLI_VERSION }) {
+    this.apiClient = new ReuniteApiClient(command, version);
+    this.remotes = new RemotesApi(this.apiClient, domain, apiKey);
+  }
+  // The most urgent sunset warning the Reunite API sent through this client so far, if any.
+  getSunsetWarning() {
+    return getMostUrgentSunsetWarning(this.apiClient.sunsetWarnings);
+  }
+};
+function getMostUrgentSunsetWarning(sunsetWarnings) {
+  const [mostUrgent] = [...sunsetWarnings].sort((a2, b2) => {
+    if (a2.isSunsetExpired !== b2.isSunsetExpired) {
+      return a2.isSunsetExpired ? -1 : 1;
+    }
+    return a2.sunsetDate > b2.sunsetDate ? 1 : -1;
+  });
+  return mostUrgent;
+}
+async function streamToBuffer(stream) {
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks);
+}
+
+// node_modules/@redocly/reunite-integration/lib/api/api-keys.js
+function getApiKeys() {
+  if (process.env.REDOCLY_AUTHORIZATION) {
+    return process.env.REDOCLY_AUTHORIZATION;
+  }
+  throw new Error("No api key provided, please use environment variable REDOCLY_AUTHORIZATION.");
+}
 
 // node_modules/@redocly/openapi-core/lib/utils/is-plain-object.js
 function isPlainObject(value) {
@@ -58769,330 +59079,10 @@ var redoclyConfigSchemaWithoutTheme2 = {
   properties: propertiesWithoutTheme2
 };
 
-// node_modules/@redocly/reunite-integration/lib/utils/constants.js
-var DEFAULT_FETCH_TIMEOUT = 6e3;
-var DEFAULT_CLI_VERSION = "2.0";
-
-// node_modules/@redocly/reunite-integration/lib/utils/fetch-with-timeout.js
-var import_undici = __toESM(require_undici(), 1);
-
-// node_modules/@redocly/reunite-integration/lib/utils/proxy-env.js
-function getProxyUrl() {
-  return process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.http_proxy || process.env.https_proxy;
-}
-function shouldBypassProxy(url2) {
-  const noProxy = process.env.NO_PROXY || process.env.no_proxy;
-  if (!noProxy)
-    return false;
-  const entries = noProxy.split(",").map((entry) => entry.trim().toLowerCase()).filter(Boolean);
-  if (entries.length === 0)
-    return false;
-  let hostname;
-  try {
-    hostname = new URL(url2).hostname.toLowerCase();
-  } catch {
-    return false;
-  }
-  return entries.some((entry) => {
-    if (entry === "*")
-      return true;
-    if (hostname === entry)
-      return true;
-    if (entry.startsWith(".") && hostname.endsWith(entry))
-      return true;
-    if (!entry.startsWith(".") && hostname.endsWith("." + entry))
-      return true;
-    return false;
-  });
-}
-
-// node_modules/@redocly/reunite-integration/lib/utils/fetch-with-timeout.js
-var fetch_with_timeout_default = async (url2, { timeout, ...options2 } = {}) => {
-  const proxyUrl = getProxyUrl();
-  const useProxy = proxyUrl && !shouldBypassProxy(url2);
-  let dispatcher;
-  const connectOptions = timeout ? { connect: { timeout } } : {};
-  if (useProxy) {
-    dispatcher = new import_undici.ProxyAgent({
-      uri: proxyUrl,
-      ...connectOptions
-    });
-  } else if (timeout) {
-    dispatcher = new import_undici.Agent(connectOptions);
-  }
-  const res = await fetch(url2, {
-    signal: timeout ? AbortSignal.timeout(timeout) : void 0,
-    ...options2,
-    dispatcher
-  });
-  return res;
-};
-
-// node_modules/@redocly/reunite-integration/lib/api/api-client.js
-var ReuniteApiError = class extends Error {
-  status;
-  constructor(message, status) {
-    super(message);
-    this.status = status;
-  }
-};
-var ReuniteApiClient = class {
-  command;
-  version;
-  sunsetWarnings = [];
-  constructor(command, version = DEFAULT_CLI_VERSION) {
-    this.command = command;
-    this.version = version;
-  }
-  async request(url2, options2) {
-    const headers = {
-      ...options2.headers,
-      "user-agent": `redocly-cli/${this.version} ${this.command}`
-    };
-    try {
-      const response = await fetch_with_timeout_default(url2, {
-        ...options2,
-        headers
-      });
-      this.collectSunsetWarning(response);
-      return response;
-    } catch (err) {
-      let errorMessage = "Failed to fetch.";
-      if (err.cause) {
-        errorMessage += ` Caused by ${err.cause.message || err.cause.name}.`;
-      }
-      if (err.code || err.cause?.code) {
-        errorMessage += ` Code: ${err.code || err.cause?.code}`;
-      }
-      throw new Error(errorMessage);
-    }
-  }
-  collectSunsetWarning(response) {
-    const sunsetTime = this.getSunsetDate(response);
-    if (!sunsetTime)
-      return;
-    const sunsetDate = new Date(sunsetTime);
-    if (sunsetTime > Date.now()) {
-      this.sunsetWarnings.push({
-        sunsetDate,
-        isSunsetExpired: false
-      });
-    } else {
-      this.sunsetWarnings.push({
-        sunsetDate,
-        isSunsetExpired: true
-      });
-    }
-  }
-  getSunsetDate(response) {
-    const { headers } = response;
-    if (!headers) {
-      return;
-    }
-    const sunsetDate = headers.get("sunset") || headers.get("Sunset");
-    if (!sunsetDate) {
-      return;
-    }
-    return Date.parse(sunsetDate);
-  }
-};
-var RemotesApi = class {
-  client;
-  domain;
-  apiKey;
-  constructor(client, domain, apiKey) {
-    this.client = client;
-    this.domain = domain;
-    this.apiKey = apiKey;
-  }
-  async getParsedResponse(response) {
-    const responseBody = await response.json();
-    if (response.ok) {
-      return responseBody;
-    }
-    throw new ReuniteApiError(`${responseBody.title || response.statusText || "Unknown error"}.`, response.status);
-  }
-  async getDefaultBranch(organizationId, projectId) {
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/source`, {
-        timeout: DEFAULT_FETCH_TIMEOUT,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`
-        }
-      });
-      const source = await this.getParsedResponse(response);
-      return source.branchName;
-    } catch (err) {
-      const message = `Failed to fetch default branch. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-  async upsert(organizationId, projectId, remote) {
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/remotes`, {
-        timeout: DEFAULT_FETCH_TIMEOUT,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`
-        },
-        body: JSON.stringify({
-          mountPath: remote.mountPath,
-          mountBranchName: remote.mountBranchName,
-          type: "CICD",
-          autoMerge: true
-        })
-      });
-      return await this.getParsedResponse(response);
-    } catch (err) {
-      const message = `Failed to upsert remote. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-  async push(organizationId, projectId, payload, files) {
-    const formData = new globalThis.FormData();
-    formData.append("remoteId", payload.remoteId);
-    formData.append("commit[message]", payload.commit.message);
-    formData.append("commit[author][name]", payload.commit.author.name);
-    formData.append("commit[author][email]", payload.commit.author.email);
-    formData.append("commit[branchName]", payload.commit.branchName);
-    if (payload.commit.url) {
-      formData.append("commit[url]", payload.commit.url);
-    }
-    if (payload.commit.namespace) {
-      formData.append("commit[namespaceId]", payload.commit.namespace);
-    }
-    if (payload.commit.sha) {
-      formData.append("commit[sha]", payload.commit.sha);
-    }
-    if (payload.commit.repository) {
-      formData.append("commit[repositoryId]", payload.commit.repository);
-    }
-    if (payload.commit.createdAt) {
-      formData.append("commit[createdAt]", payload.commit.createdAt);
-    }
-    for (const file of files) {
-      const blob = Buffer.isBuffer(file.stream) ? new Blob([file.stream]) : new Blob([await streamToBuffer(file.stream)]);
-      formData.append(`files[${file.path}]`, blob, file.path);
-    }
-    if (payload.isMainBranch) {
-      formData.append("isMainBranch", "true");
-    }
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/pushes`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`
-        },
-        body: formData
-      });
-      return await this.getParsedResponse(response);
-    } catch (err) {
-      const message = `Failed to push. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-  async getRemotesList({ organizationId, projectId, mountPath }) {
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/remotes?filter=mountPath:/${mountPath}/`, {
-        timeout: DEFAULT_FETCH_TIMEOUT,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`
-        }
-      });
-      return await this.getParsedResponse(response);
-    } catch (err) {
-      const message = `Failed to get remote list. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-  async getPush({ organizationId, projectId, pushId }) {
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/pushes/${pushId}`, {
-        timeout: DEFAULT_FETCH_TIMEOUT,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`
-        }
-      });
-      return await this.getParsedResponse(response);
-    } catch (err) {
-      const message = `Failed to get push status. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-};
-var ReuniteApi = class {
-  apiClient;
-  command;
-  remotes;
-  constructor({ domain, apiKey, command, version = DEFAULT_CLI_VERSION }) {
-    this.command = command;
-    this.apiClient = new ReuniteApiClient(this.command, version);
-    this.remotes = new RemotesApi(this.apiClient, domain, apiKey);
-  }
-  reportSunsetWarnings() {
-    const sunsetWarnings = this.apiClient.sunsetWarnings;
-    if (sunsetWarnings.length) {
-      const [{ isSunsetExpired, sunsetDate }] = sunsetWarnings.sort((a2, b2) => {
-        if (a2.isSunsetExpired !== b2.isSunsetExpired) {
-          return a2.isSunsetExpired ? -1 : 1;
-        }
-        return a2.sunsetDate > b2.sunsetDate ? 1 : -1;
-      });
-      const updateVersionMessage = `Update to the latest version by running "npm install @redocly/cli@latest".`;
-      if (isSunsetExpired) {
-        logger.error(`The "${this.command}" command is not compatible with your version of Redocly CLI. ${updateVersionMessage}
-
-`);
-      } else {
-        logger.warn(`The "${this.command}" command will be incompatible with your version of Redocly CLI after ${sunsetDate.toLocaleString()}. ${updateVersionMessage}
-
-`);
-      }
-    }
-  }
-};
-async function streamToBuffer(stream) {
-  const chunks = [];
-  for await (const chunk of stream) {
-    chunks.push(chunk);
-  }
-  return Buffer.concat(chunks);
-}
-
-// node_modules/@redocly/reunite-integration/lib/api/api-keys.js
-function getApiKeys() {
-  if (process.env.REDOCLY_AUTHORIZATION) {
-    return process.env.REDOCLY_AUTHORIZATION;
-  }
-  throw new Error("No api key provided, please use environment variable REDOCLY_AUTHORIZATION.");
-}
-
 // node_modules/@redocly/reunite-integration/lib/push.js
 import * as fs2 from "node:fs";
 import * as path5 from "node:path";
-async function pushFiles({ domain, apiKey, organization, project, mountPath, files, defaultBranch, commit, version, onUploadStart }) {
+async function pushFiles({ domain, apiKey, organization, project, mountPath, files, defaultBranch, commit, version, onUploadStart, onSunsetWarning }) {
   const client = new ReuniteApi({ domain, apiKey, command: "push", version });
   const projectDefaultBranch = await client.remotes.getDefaultBranch(organization, project);
   const remote = await client.remotes.upsert(organization, project, {
@@ -59105,7 +59095,10 @@ async function pushFiles({ domain, apiKey, organization, project, mountPath, fil
     commit,
     isMainBranch: defaultBranch === commit.branchName
   }, files.map((file) => ({ path: slash(file.name), stream: fs2.createReadStream(file.path) })));
-  client.reportSunsetWarnings();
+  const sunsetWarning = client.getSunsetWarning();
+  if (sunsetWarning) {
+    onSunsetWarning?.(sunsetWarning);
+  }
   return { pushId: id };
 }
 function collectFilesToPush(files) {
@@ -59185,11 +59178,17 @@ async function waitForDeployment({ buildType, maxExecutionTime = DEFAULT_MAX_EXE
     retryTimeoutMs: maxExecutionTime * 1e3,
     retryIntervalMs
   });
-  client.reportSunsetWarnings();
+  reportSunsetWarning(client, options2);
   return push;
 }
 function createClient({ domain, apiKey, version }) {
   return new ReuniteApi({ domain, apiKey, command: "push-status", version });
+}
+function reportSunsetWarning(client, { onSunsetWarning }) {
+  const sunsetWarning = client.getSunsetWarning();
+  if (sunsetWarning) {
+    onSunsetWarning?.(sunsetWarning);
+  }
 }
 function getPush(client, { organization, project, pushId }) {
   return client.remotes.getPush({ organizationId: organization, projectId: project, pushId });
@@ -59198,7 +59197,8 @@ function getPush(client, { organization, project, pushId }) {
 // src/push.ts
 async function pushToReunite({
   inputData,
-  ghEvent
+  ghEvent,
+  onSunsetWarning
 }) {
   const files = collectFilesToPush(inputData.files);
   if (files.length === 0) {
@@ -59227,7 +59227,8 @@ async function pushToReunite({
       for (const file of files) {
         core3.info(`  ${file.name}`);
       }
-    }
+    },
+    onSunsetWarning
   });
   core3.info(`Push ID: ${pushId}`);
   return pushId;
@@ -59251,6 +59252,7 @@ async function waitForDeployment2(options2) {
         maxExecutionTime: options2.maxExecutionTime,
         retryIntervalMs: options2.retryIntervalMs,
         startTime,
+        onSunsetWarning: options2.onSunsetWarning,
         onRetry: async (pendingPush) => {
           core4.info(
             `Waiting for the ${buildType} deployment to finish. Current status: "${pendingPush.status[buildType].deploy.status}".`
@@ -59258,9 +59260,9 @@ async function waitForDeployment2(options2) {
           await options2.onRetry?.(toPushStatusSummary(pendingPush));
         }
       });
-    } catch (error2) {
+    } catch (error3) {
       throw new Error(
-        `Failed to get push status. Reason: ${error2.message}`
+        `Failed to get push status. Reason: ${error3.message}`
       );
     }
     core4.info(
@@ -59287,20 +59289,44 @@ function toPushStatusSummary(push) {
   };
 }
 
+// src/sunset-warning.ts
+var core5 = __toESM(require_core(), 1);
+function reportSunsetWarning2(warnings) {
+  const warning3 = getMostUrgentSunsetWarning(warnings);
+  if (!warning3) {
+    return;
+  }
+  const updateMessage = "Update the action to its latest version.";
+  if (warning3.isSunsetExpired) {
+    core5.error(
+      `This version of the action is no longer compatible with the Reunite API. ${updateMessage}`
+    );
+  } else {
+    core5.warning(
+      `This version of the action will stop working with the Reunite API after ${warning3.sunsetDate.toISOString()}. ${updateMessage}`
+    );
+  }
+}
+
 // src/main.ts
 async function run() {
+  const sunsetWarnings = [];
+  const onSunsetWarning = (warning3) => {
+    sunsetWarnings.push(warning3);
+  };
   try {
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
     console.debug("Parsed input data", inputData);
     console.debug("Parsed GitHub event", ghEvent);
-    const pushId = await pushToReunite({ inputData, ghEvent });
+    const pushId = await pushToReunite({ inputData, ghEvent, onSunsetWarning });
     const pushStatusData = await waitForDeployment2({
       domain: inputData.redoclyDomain,
       organization: inputData.redoclyOrgSlug,
       project: inputData.redoclyProjectSlug,
       pushId,
       maxExecutionTime: inputData.maxExecutionTime,
+      onSunsetWarning,
       onRetry: async (lastResult) => {
         try {
           await setCommitStatuses({
@@ -59309,9 +59335,9 @@ async function run() {
             repo: ghEvent.repository,
             commitId: ghEvent.commit.commitSha
           });
-        } catch (error2) {
-          core5.error(
-            `Failed to set commit statuses. Error: ${error2?.message}`
+        } catch (error3) {
+          core6.error(
+            `Failed to set commit statuses. Error: ${error3?.message}`
           );
         }
       }
@@ -59327,9 +59353,11 @@ async function run() {
       commitId: ghEvent.commit.commitSha
     });
     console.debug("Action finished successfully. Push ID:", pushId);
-    core5.setOutput("pushId", pushId);
-  } catch (error2) {
-    if (error2 instanceof Error) core5.setFailed(error2.message);
+    core6.setOutput("pushId", pushId);
+  } catch (error3) {
+    if (error3 instanceof Error) core6.setFailed(error3.message);
+  } finally {
+    reportSunsetWarning2(sunsetWarnings);
   }
 }
 

@@ -5,3 +5,4 @@ export const collectFilesToPush = jest.fn();
 export const getApiKeys = jest.fn();
 export const pushFiles = jest.fn();
 export const waitForDeployment = jest.fn();
+export const getMostUrgentSunsetWarning = jest.fn();

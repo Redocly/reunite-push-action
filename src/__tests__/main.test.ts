@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import { getMostUrgentSunsetWarning } from '@redocly/reunite-integration';
 
 import * as main from '../main';
 import * as helpers from '../helpers';
@@ -64,6 +65,7 @@ describe('action', () => {
     expect(pushToReuniteMock).toHaveBeenCalledWith({
       inputData: parsedInputDataStub,
       ghEvent: parsedEventPushDataMock,
+      onSunsetWarning: expect.any(Function),
     });
     expect(waitForDeploymentMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -111,5 +113,32 @@ describe('action', () => {
       'Test error message from push',
     );
     expect(setOutputMock).not.toHaveBeenCalled();
+  });
+
+  it('reports a sunset warning once, even when the run fails afterwards', async () => {
+    const sunsetWarning = {
+      sunsetDate: new Date('2030-01-01T00:00:00Z'),
+      isSunsetExpired: false,
+    };
+    jest
+      .mocked(getMostUrgentSunsetWarning)
+      .mockImplementation(warnings => warnings[0]);
+    const warningMock = jest.spyOn(core, 'warning').mockImplementation();
+    pushToReuniteMock.mockImplementation(async ({ onSunsetWarning }) => {
+      onSunsetWarning?.(sunsetWarning);
+      return 'test-push-id';
+    });
+    waitForDeploymentMock.mockImplementation(async ({ onSunsetWarning }) => {
+      onSunsetWarning?.(sunsetWarning);
+      throw new Error('Timeout exceeded.');
+    });
+
+    await main.run();
+
+    expect(setFailedMock).toHaveBeenCalledWith('Timeout exceeded.');
+    expect(warningMock).toHaveBeenCalledTimes(1);
+    expect(warningMock).toHaveBeenCalledWith(
+      'This version of the action will stop working with the Reunite API after 2030-01-01T00:00:00.000Z. Update the action to its latest version.',
+    );
   });
 });

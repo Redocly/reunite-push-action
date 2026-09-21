@@ -3,15 +3,18 @@ import {
   collectFilesToPush,
   getApiKeys,
   pushFiles,
+  type SunsetWarning,
 } from '@redocly/reunite-integration';
 import type { ParsedEventData, ParsedInputData } from './types';
 
 export async function pushToReunite({
   inputData,
   ghEvent,
+  onSunsetWarning,
 }: {
   inputData: ParsedInputData;
   ghEvent: ParsedEventData;
+  onSunsetWarning?: (warning: SunsetWarning) => void;
 }): Promise<string> {
   const files = collectFilesToPush(inputData.files);
 
@@ -43,6 +46,7 @@ export async function pushToReunite({
         core.info(`  ${file.name}`);
       }
     },
+    onSunsetWarning,
   });
 
   core.info(`Push ID: ${pushId}`);

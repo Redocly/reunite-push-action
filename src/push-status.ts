@@ -4,6 +4,7 @@ import {
   waitForDeployment as waitForBuildDeployment,
   type BuildType,
   type PushResponse,
+  type SunsetWarning,
 } from '@redocly/reunite-integration';
 import type { PushStatusSummary } from './types';
 
@@ -15,6 +16,7 @@ export interface WaitForDeploymentOptions {
   maxExecutionTime: number;
   retryIntervalMs?: number;
   onRetry?: (lastResult: PushStatusSummary) => void | Promise<void>;
+  onSunsetWarning?: (warning: SunsetWarning) => void;
 }
 
 export async function waitForDeployment(
@@ -38,6 +40,7 @@ export async function waitForDeployment(
         maxExecutionTime: options.maxExecutionTime,
         retryIntervalMs: options.retryIntervalMs,
         startTime,
+        onSunsetWarning: options.onSunsetWarning,
         onRetry: async pendingPush => {
           core.info(
             `Waiting for the ${buildType} deployment to finish. Current status: "${pendingPush.status[buildType].deploy.status}".`,
