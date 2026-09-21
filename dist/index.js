@@ -28571,10 +28571,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       (0, command_1.issueCommand)("error", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
     exports.error = error3;
-    function warning3(message, properties = {}) {
+    function warning4(message, properties = {}) {
       (0, command_1.issueCommand)("warning", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
-    exports.warning = warning3;
+    exports.warning = warning4;
     function notice(message, properties = {}) {
       (0, command_1.issueCommand)("notice", (0, utils_1.toCommandProperties)(properties), message instanceof Error ? message.toString() : message);
     }
@@ -50597,7 +50597,7 @@ var RemotesApi = class {
 var ReuniteApi = class {
   apiClient;
   remotes;
-  constructor({ domain, apiKey, command, version = DEFAULT_CLI_VERSION }) {
+  constructor({ domain, apiKey, command, version }) {
     this.apiClient = new ReuniteApiClient(command, version);
     this.remotes = new RemotesApi(this.apiClient, domain, apiKey);
   }
@@ -59101,7 +59101,7 @@ async function pushFiles({ domain, apiKey, organization, project, mountPath, fil
   }
   return { pushId: id };
 }
-function collectFilesToPush(files) {
+function collectFilesToPush(files, onFileOverwritten) {
   const collectedFiles = {};
   for (const file of files) {
     if (fs2.statSync(file).isDirectory()) {
@@ -59115,8 +59115,7 @@ function collectFilesToPush(files) {
   function addFile(filePath, fileDir) {
     const fileName = path5.relative(fileDir, filePath);
     if (collectedFiles[fileName]) {
-      logger.warn(`File ${collectedFiles[fileName]} is overwritten by ${filePath}
-`);
+      onFileOverwritten?.(collectedFiles[fileName], filePath);
     }
     collectedFiles[fileName] = filePath;
   }
@@ -59200,7 +59199,12 @@ async function pushToReunite({
   ghEvent,
   onSunsetWarning
 }) {
-  const files = collectFilesToPush(inputData.files);
+  const files = collectFilesToPush(
+    inputData.files,
+    (existingPath, replacementPath) => {
+      core3.warning(`File ${existingPath} is overwritten by ${replacementPath}`);
+    }
+  );
   if (files.length === 0) {
     throw new Error("No files to upload.");
   }
@@ -59292,18 +59296,18 @@ function toPushStatusSummary(push) {
 // src/sunset-warning.ts
 var core5 = __toESM(require_core(), 1);
 function reportSunsetWarning2(warnings) {
-  const warning3 = getMostUrgentSunsetWarning(warnings);
-  if (!warning3) {
+  const warning4 = getMostUrgentSunsetWarning(warnings);
+  if (!warning4) {
     return;
   }
   const updateMessage = "Update the action to its latest version.";
-  if (warning3.isSunsetExpired) {
+  if (warning4.isSunsetExpired) {
     core5.error(
       `This version of the action is no longer compatible with the Reunite API. ${updateMessage}`
     );
   } else {
     core5.warning(
-      `This version of the action will stop working with the Reunite API after ${warning3.sunsetDate.toISOString()}. ${updateMessage}`
+      `This version of the action will stop working with the Reunite API after ${warning4.sunsetDate.toISOString()}. ${updateMessage}`
     );
   }
 }
@@ -59311,8 +59315,8 @@ function reportSunsetWarning2(warnings) {
 // src/main.ts
 async function run() {
   const sunsetWarnings = [];
-  const onSunsetWarning = (warning3) => {
-    sunsetWarnings.push(warning3);
+  const onSunsetWarning = (warning4) => {
+    sunsetWarnings.push(warning4);
   };
   try {
     const inputData = parseInputData();

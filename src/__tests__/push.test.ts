@@ -36,6 +36,7 @@ describe('push', () => {
     expect(pushId).toBe('test-push-id');
     expect(collectFilesToPushMock).toHaveBeenCalledWith(
       parsedInputDataStub.files,
+      expect.any(Function),
     );
     expect(pushFilesMock).toHaveBeenCalledWith({
       domain: parsedInputDataStub.redoclyDomain,
@@ -74,6 +75,26 @@ describe('push', () => {
     );
     expect(infoMock).toHaveBeenCalledWith('  openapi.yaml');
     expect(infoMock).toHaveBeenCalledWith('  docs/index.md');
+  });
+
+  it('warns when a later path overwrites an earlier file', async () => {
+    const warningMock = jest.spyOn(core, 'warning').mockImplementation();
+    collectFilesToPushMock.mockImplementation((_paths, onFileOverwritten) => {
+      onFileOverwritten?.(
+        '/workspace/a/openapi.yaml',
+        '/workspace/b/openapi.yaml',
+      );
+      return collectedFiles;
+    });
+
+    await pushToReunite({
+      inputData: parsedInputDataStub,
+      ghEvent: parsedEventPushDataMock,
+    });
+
+    expect(warningMock).toHaveBeenCalledWith(
+      'File /workspace/a/openapi.yaml is overwritten by /workspace/b/openapi.yaml',
+    );
   });
 
   it('rejects when there are no files to upload', async () => {

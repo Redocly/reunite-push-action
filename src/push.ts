@@ -16,7 +16,12 @@ export async function pushToReunite({
   ghEvent: ParsedEventData;
   onSunsetWarning?: (warning: SunsetWarning) => void;
 }): Promise<string> {
-  const files = collectFilesToPush(inputData.files);
+  const files = collectFilesToPush(
+    inputData.files,
+    (existingPath, replacementPath) => {
+      core.warning(`File ${existingPath} is overwritten by ${replacementPath}`);
+    },
+  );
 
   if (files.length === 0) {
     throw new Error('No files to upload.');
