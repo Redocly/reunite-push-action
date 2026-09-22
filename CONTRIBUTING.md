@@ -23,7 +23,10 @@ npm install # or npm i
 - `npm run test:watch` - for running unit tests in watch mode
 - `npm run test:coverage` - for check unit tests coverage
 - `npm run test:ci` - for running unit tests in ci mode
-- `npm run bundle` - package the TypeScript for distribution
+- `npm run bundle` - package the TypeScript for distribution. A pre-commit hook
+  (husky) rebuilds `dist/` automatically when you commit changes under `src/`,
+  the build script, or the package manifests, so the checked-in bundle cannot
+  drift from the sources.
 - `npm run all` - runs prettier, lint, tests, coverage and bundle. Recommended
   to run before creating PR and sending to review.
 - `npm run fake-server:start` - fake server needed for smoke tests in CI.

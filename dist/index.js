@@ -59084,22 +59084,25 @@ import * as fs2 from "node:fs";
 import * as path5 from "node:path";
 async function pushFiles({ domain, apiKey, organization, project, mountPath, files, defaultBranch, commit, version, onUploadStart, onSunsetWarning }) {
   const client = new ReuniteApi({ domain, apiKey, command: "push", version });
-  const projectDefaultBranch = await client.remotes.getDefaultBranch(organization, project);
-  const remote = await client.remotes.upsert(organization, project, {
-    mountBranchName: projectDefaultBranch,
-    mountPath
-  });
-  onUploadStart?.(remote);
-  const { id } = await client.remotes.push(organization, project, {
-    remoteId: remote.id,
-    commit,
-    isMainBranch: defaultBranch === commit.branchName
-  }, files.map((file) => ({ path: slash(file.name), stream: fs2.createReadStream(file.path) })));
-  const sunsetWarning = client.getSunsetWarning();
-  if (sunsetWarning) {
-    onSunsetWarning?.(sunsetWarning);
+  try {
+    const projectDefaultBranch = await client.remotes.getDefaultBranch(organization, project);
+    const remote = await client.remotes.upsert(organization, project, {
+      mountBranchName: projectDefaultBranch,
+      mountPath
+    });
+    onUploadStart?.(remote);
+    const { id } = await client.remotes.push(organization, project, {
+      remoteId: remote.id,
+      commit,
+      isMainBranch: defaultBranch === commit.branchName
+    }, files.map((file) => ({ path: slash(file.name), stream: fs2.createReadStream(file.path) })));
+    return { pushId: id };
+  } finally {
+    const sunsetWarning = client.getSunsetWarning();
+    if (sunsetWarning) {
+      onSunsetWarning?.(sunsetWarning);
+    }
   }
-  return { pushId: id };
 }
 function collectFilesToPush(files, onFileOverwritten) {
   const collectedFiles = {};
@@ -59169,16 +59172,18 @@ var DEFAULT_RETRY_INTERVAL_MS = 5e3;
 var PENDING_DEPLOYMENT_STATUSES = ["pending", "running"];
 async function waitForDeployment({ buildType, maxExecutionTime = DEFAULT_MAX_EXECUTION_TIME, retryIntervalMs = DEFAULT_RETRY_INTERVAL_MS, startTime = Date.now(), onRetry, ...options2 }) {
   const client = createClient(options2);
-  const push = await retryUntilConditionMet({
-    operation: () => getPush(client, options2),
-    condition: (result) => !PENDING_DEPLOYMENT_STATUSES.includes(result.status[buildType].deploy.status),
-    onConditionNotMet: onRetry,
-    startTime,
-    retryTimeoutMs: maxExecutionTime * 1e3,
-    retryIntervalMs
-  });
-  reportSunsetWarning(client, options2);
-  return push;
+  try {
+    return await retryUntilConditionMet({
+      operation: () => getPush(client, options2),
+      condition: (result) => !PENDING_DEPLOYMENT_STATUSES.includes(result.status[buildType].deploy.status),
+      onConditionNotMet: onRetry,
+      startTime,
+      retryTimeoutMs: maxExecutionTime * 1e3,
+      retryIntervalMs
+    });
+  } finally {
+    reportSunsetWarning(client, options2);
+  }
 }
 function createClient({ domain, apiKey, version }) {
   return new ReuniteApi({ domain, apiKey, command: "push-status", version });
