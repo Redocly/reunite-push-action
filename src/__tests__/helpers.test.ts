@@ -152,7 +152,10 @@ describe('helpers', () => {
           commitSha: 'test-commit-sha',
           commitMessage: 'test-commit-message',
           commitUrl: 'test-commit-html-url',
-          commitAuthor: 'test-commit-author-name <test-commit-author-email>',
+          commitAuthor: {
+            name: 'test-commit-author-name',
+            email: 'test-commit-author-email',
+          },
           commitCreatedAt: 'test-commit-created-at',
         },
       });
@@ -186,7 +189,10 @@ describe('helpers', () => {
             commitSha: 'test-pr-head-sha',
             commitMessage: 'test-commit-message',
             commitUrl: 'test-commit-html-url',
-            commitAuthor: 'test-commit-author-name <test-commit-author-email>',
+            commitAuthor: {
+              name: 'test-commit-author-name',
+              email: 'test-commit-author-email',
+            },
             commitCreatedAt: 'test-commit-created-at',
           },
         });

@@ -20,5 +20,8 @@
       "lines": 80,
       "statements": 80
     }
+  },
+  "moduleNameMapper": {
+    "^@redocly/reunite-integration$": "<rootDir>/src/__tests__/mocks/reunite-integration.ts"
   }
 }

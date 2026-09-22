@@ -1,0 +1,5 @@
+# dist/index.js is what GitHub runs, so rebuild it whenever a commit changes its inputs.
+if ! git diff --cached --quiet -- src scripts/build.mjs package.json package-lock.json; then
+  npm run package
+  git add dist
+fi

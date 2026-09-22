@@ -1,12 +1,20 @@
 import * as core from '@actions/core';
+import type { SunsetWarning } from '@redocly/reunite-integration';
 
 import { setCommitStatuses } from './set-commit-statuses';
 import { parseEventData, parseInputData } from './helpers';
-import { runRedoclyPush } from './redocly-cli';
+import { pushToReunite } from './push';
 import { waitForDeployment } from './push-status';
+import { reportSunsetWarning } from './sunset-warning';
 import type { PushStatusSummary } from './types';
 
 export async function run(): Promise<void> {
+  // Any Reunite request may carry a sunset warning; it is reported once, even when the run fails.
+  const sunsetWarnings: SunsetWarning[] = [];
+  const onSunsetWarning = (warning: SunsetWarning): void => {
+    sunsetWarnings.push(warning);
+  };
+
   try {
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
@@ -14,7 +22,7 @@ export async function run(): Promise<void> {
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);
 
-    const pushId = await runRedoclyPush({ inputData, ghEvent });
+    const pushId = await pushToReunite({ inputData, ghEvent, onSunsetWarning });
 
     const pushStatusData = await waitForDeployment({
       domain: inputData.redoclyDomain,
@@ -22,6 +30,7 @@ export async function run(): Promise<void> {
       project: inputData.redoclyProjectSlug,
       pushId,
       maxExecutionTime: inputData.maxExecutionTime,
+      onSunsetWarning,
       onRetry: async (lastResult: PushStatusSummary) => {
         try {
           await setCommitStatuses({
@@ -55,5 +64,7 @@ export async function run(): Promise<void> {
     core.setOutput('pushId', pushId);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
+  } finally {
+    reportSunsetWarning(sunsetWarnings);
   }
 }

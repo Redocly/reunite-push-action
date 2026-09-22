@@ -1,8 +1,9 @@
 import * as core from '@actions/core';
+import { getMostUrgentSunsetWarning } from '@redocly/reunite-integration';
 
 import * as main from '../main';
 import * as helpers from '../helpers';
-import * as redoclyCli from '../redocly-cli';
+import * as push from '../push';
 import * as pushStatus from '../push-status';
 
 import * as commitStatusUtils from '../set-commit-statuses';
@@ -16,7 +17,7 @@ const runMock = jest.spyOn(main, 'run');
 
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
 let parseEventDataMock: jest.SpiedFunction<typeof helpers.parseEventData>;
-let runRedoclyPushMock: jest.SpiedFunction<typeof redoclyCli.runRedoclyPush>;
+let pushToReuniteMock: jest.SpiedFunction<typeof push.pushToReunite>;
 let waitForDeploymentMock: jest.SpiedFunction<
   typeof pushStatus.waitForDeployment
 >;
@@ -39,8 +40,8 @@ describe('action', () => {
       .spyOn(helpers, 'parseEventData')
       .mockImplementation(async () => parsedEventPushDataMock);
 
-    runRedoclyPushMock = jest
-      .spyOn(redoclyCli, 'runRedoclyPush')
+    pushToReuniteMock = jest
+      .spyOn(push, 'pushToReunite')
       .mockResolvedValue('test-push-id');
 
     waitForDeploymentMock = jest
@@ -61,9 +62,10 @@ describe('action', () => {
     expect(runMock).toHaveReturned();
     expect(parseInputDataMock).toHaveBeenCalled();
     expect(parseEventDataMock).toHaveBeenCalled();
-    expect(runRedoclyPushMock).toHaveBeenCalledWith({
+    expect(pushToReuniteMock).toHaveBeenCalledWith({
       inputData: parsedInputDataStub,
       ghEvent: parsedEventPushDataMock,
+      onSunsetWarning: expect.any(Function),
     });
     expect(waitForDeploymentMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -99,7 +101,7 @@ describe('action', () => {
   });
 
   it('sets a failed status in case push error', async () => {
-    runRedoclyPushMock.mockImplementation(async () => {
+    pushToReuniteMock.mockImplementation(async () => {
       throw new Error('Test error message from push');
     });
 
@@ -111,5 +113,32 @@ describe('action', () => {
       'Test error message from push',
     );
     expect(setOutputMock).not.toHaveBeenCalled();
+  });
+
+  it('reports a sunset warning once, even when the run fails afterwards', async () => {
+    const sunsetWarning = {
+      sunsetDate: new Date('2030-01-01T00:00:00Z'),
+      isSunsetExpired: false,
+    };
+    jest
+      .mocked(getMostUrgentSunsetWarning)
+      .mockImplementation(warnings => warnings[0]);
+    const warningMock = jest.spyOn(core, 'warning').mockImplementation();
+    pushToReuniteMock.mockImplementation(async ({ onSunsetWarning }) => {
+      onSunsetWarning?.(sunsetWarning);
+      return 'test-push-id';
+    });
+    waitForDeploymentMock.mockImplementation(async ({ onSunsetWarning }) => {
+      onSunsetWarning?.(sunsetWarning);
+      throw new Error('Timeout exceeded.');
+    });
+
+    await main.run();
+
+    expect(setFailedMock).toHaveBeenCalledWith('Timeout exceeded.');
+    expect(warningMock).toHaveBeenCalledTimes(1);
+    expect(warningMock).toHaveBeenCalledWith(
+      'This version of the action will stop working with the Reunite API after 2030-01-01T00:00:00.000Z. Update the action to its latest version.',
+    );
   });
 });
