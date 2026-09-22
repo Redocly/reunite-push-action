@@ -38,8 +38,8 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@octokit/rest": "^20.1.0",
-    "@redocly/openapi-core": "file:./openapi-core.tgz",
-    "@redocly/reunite-integration": "file:./reunite-integration.tgz"
+    "@redocly/openapi-core": "2.54.0",
+    "@redocly/reunite-integration": "2.54.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
