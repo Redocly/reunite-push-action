@@ -1,6 +1,10 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { parseInputData, parseEventData, setClientMarker } from '../helpers';
+import {
+  parseInputData,
+  parseEventData,
+  setRedoclyEnvironment,
+} from '../helpers';
 import { WebhookPayload } from '@actions/github/lib/interfaces';
 
 let getInputMock: jest.SpiedFunction<typeof core.getInput>;
@@ -73,21 +77,21 @@ describe('helpers', () => {
     process.env = OLD_ENV; // Restore old environment
   });
 
-  describe('setClientMarker', () => {
-    it('should mark the client with the action ref', () => {
+  describe('setRedoclyEnvironment', () => {
+    it('should set the action and its ref', () => {
       process.env.GITHUB_ACTION_REF = 'v1.4.0';
 
-      setClientMarker();
+      setRedoclyEnvironment();
 
       expect(process.env.REDOCLY_ENVIRONMENT).toEqual(
         'redocly-reunite-push-action/v1.4.0',
       );
     });
 
-    it('should mark the client without a ref when the action runs from a local path', () => {
+    it('should set the action without a ref when it runs from a local path', () => {
       delete process.env.GITHUB_ACTION_REF;
 
-      setClientMarker();
+      setRedoclyEnvironment();
 
       expect(process.env.REDOCLY_ENVIRONMENT).toEqual(
         'redocly-reunite-push-action',

@@ -50309,7 +50309,7 @@ async function parseEventData(defaultBranchOverride) {
     commit
   };
 }
-function setClientMarker() {
+function setRedoclyEnvironment() {
   const ref = process.env.GITHUB_ACTION_REF;
   process.env.REDOCLY_ENVIRONMENT = ref ? `redocly-reunite-push-action/${ref}` : "redocly-reunite-push-action";
 }
@@ -59329,7 +59329,7 @@ async function run() {
     sunsetWarnings.push(warning4);
   };
   try {
-    setClientMarker();
+    setRedoclyEnvironment();
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
     console.debug("Parsed input data", inputData);

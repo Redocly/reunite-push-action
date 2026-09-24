@@ -130,7 +130,7 @@ export async function parseEventData(
   };
 }
 
-export function setClientMarker(): void {
+export function setRedoclyEnvironment(): void {
   const ref = process.env.GITHUB_ACTION_REF;
 
   process.env.REDOCLY_ENVIRONMENT = ref
