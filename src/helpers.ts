@@ -133,7 +133,7 @@ export async function parseEventData(
 export function setClientMarker(): void {
   const ref = process.env.GITHUB_ACTION_REF;
 
-  process.env.REDOCLY_CLIENT = ref
+  process.env.REDOCLY_ENVIRONMENT = ref
     ? `redocly-reunite-push-action/${ref}`
     : 'redocly-reunite-push-action';
 }

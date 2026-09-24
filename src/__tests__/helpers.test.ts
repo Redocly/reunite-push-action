@@ -79,7 +79,7 @@ describe('helpers', () => {
 
       setClientMarker();
 
-      expect(process.env.REDOCLY_CLIENT).toEqual(
+      expect(process.env.REDOCLY_ENVIRONMENT).toEqual(
         'redocly-reunite-push-action/v1.4.0',
       );
     });
@@ -89,7 +89,9 @@ describe('helpers', () => {
 
       setClientMarker();
 
-      expect(process.env.REDOCLY_CLIENT).toEqual('redocly-reunite-push-action');
+      expect(process.env.REDOCLY_ENVIRONMENT).toEqual(
+        'redocly-reunite-push-action',
+      );
     });
   });
 

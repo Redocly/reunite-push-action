@@ -50311,7 +50311,7 @@ async function parseEventData(defaultBranchOverride) {
 }
 function setClientMarker() {
   const ref = process.env.GITHUB_ACTION_REF;
-  process.env.REDOCLY_CLIENT = ref ? `redocly-reunite-push-action/${ref}` : "redocly-reunite-push-action";
+  process.env.REDOCLY_ENVIRONMENT = ref ? `redocly-reunite-push-action/${ref}` : "redocly-reunite-push-action";
 }
 function getCommitSha() {
   if (github2.context.eventName === "push") {
