@@ -50309,6 +50309,10 @@ async function parseEventData(defaultBranchOverride) {
     commit
   };
 }
+function setClientMarker() {
+  const ref = process.env.GITHUB_ACTION_REF;
+  process.env.REDOCLY_CLIENT = ref ? `redocly-reunite-push-action/${ref}` : "redocly-reunite-push-action";
+}
 function getCommitSha() {
   if (github2.context.eventName === "push") {
     return github2.context.payload.after;
@@ -59325,6 +59329,7 @@ async function run() {
     sunsetWarnings.push(warning4);
   };
   try {
+    setClientMarker();
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
     console.debug("Parsed input data", inputData);
