@@ -50309,6 +50309,10 @@ async function parseEventData(defaultBranchOverride) {
     commit
   };
 }
+function setRedoclyEnvironment() {
+  const ref = process.env.GITHUB_ACTION_REF;
+  process.env.REDOCLY_ENVIRONMENT = ref ? `redocly-reunite-push-action/${ref}` : "redocly-reunite-push-action";
+}
 function getCommitSha() {
   if (github2.context.eventName === "push") {
     return github2.context.payload.after;
@@ -50380,6 +50384,13 @@ var fetch_with_timeout_default = async (url2, { timeout, ...options2 } = {}) => 
   return res;
 };
 
+// node_modules/@redocly/reunite-integration/lib/utils/redocly-environment.js
+var REDOCLY_ENVIRONMENT_PATTERN = /^[\x21-\x7e]+( [\x21-\x7e]+)*$/;
+function getRedoclyEnvironment() {
+  const value = process.env.REDOCLY_ENVIRONMENT?.trim();
+  return value && REDOCLY_ENVIRONMENT_PATTERN.test(value) ? value : void 0;
+}
+
 // node_modules/@redocly/reunite-integration/lib/api/api-client.js
 var ReuniteApiError = class extends Error {
   status;
@@ -50397,9 +50408,10 @@ var ReuniteApiClient = class {
     this.version = version;
   }
   async request(url2, options2) {
+    const environment = getRedoclyEnvironment();
     const headers = {
       ...options2.headers,
-      "user-agent": `redocly-cli/${this.version} ${this.command}`
+      "user-agent": `redocly-cli/${this.version} ${this.command}${environment ? ` ${environment}` : ""}`
     };
     try {
       const response = await fetch_with_timeout_default(url2, {
@@ -50549,25 +50561,6 @@ var RemotesApi = class {
       return await this.getParsedResponse(response);
     } catch (err) {
       const message = `Failed to push. ${err.message}`;
-      if (err instanceof ReuniteApiError) {
-        throw new ReuniteApiError(message, err.status);
-      }
-      throw new Error(message);
-    }
-  }
-  async getRemotesList({ organizationId, projectId, mountPath }) {
-    try {
-      const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/remotes?filter=mountPath:/${mountPath}/`, {
-        timeout: DEFAULT_FETCH_TIMEOUT,
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`
-        }
-      });
-      return await this.getParsedResponse(response);
-    } catch (err) {
-      const message = `Failed to get remote list. ${err.message}`;
       if (err instanceof ReuniteApiError) {
         throw new ReuniteApiError(message, err.status);
       }
@@ -59325,6 +59318,7 @@ async function run() {
     sunsetWarnings.push(warning4);
   };
   try {
+    setRedoclyEnvironment();
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
     console.debug("Parsed input data", inputData);

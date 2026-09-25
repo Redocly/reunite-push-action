@@ -130,6 +130,14 @@ export async function parseEventData(
   };
 }
 
+export function setRedoclyEnvironment(): void {
+  const ref = process.env.GITHUB_ACTION_REF;
+
+  process.env.REDOCLY_ENVIRONMENT = ref
+    ? `redocly-reunite-push-action/${ref}`
+    : 'redocly-reunite-push-action';
+}
+
 export function getCommitSha(): string | undefined {
   if (github.context.eventName === 'push') {
     return github.context.payload.after;

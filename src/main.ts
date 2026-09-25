@@ -2,7 +2,11 @@ import * as core from '@actions/core';
 import type { SunsetWarning } from '@redocly/reunite-integration';
 
 import { setCommitStatuses } from './set-commit-statuses';
-import { parseEventData, parseInputData } from './helpers';
+import {
+  parseEventData,
+  parseInputData,
+  setRedoclyEnvironment,
+} from './helpers';
 import { pushToReunite } from './push';
 import { waitForDeployment } from './push-status';
 import { reportSunsetWarning } from './sunset-warning';
@@ -16,6 +20,8 @@ export async function run(): Promise<void> {
   };
 
   try {
+    setRedoclyEnvironment();
+
     const inputData = parseInputData();
     const ghEvent = await parseEventData(inputData.defaultBranch);
 
