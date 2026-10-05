@@ -28,12 +28,16 @@ export async function run(): Promise<void> {
     console.debug('Parsed input data', inputData);
     console.debug('Parsed GitHub event', ghEvent);
 
-    const pushId = await pushToReunite({ inputData, ghEvent, onSunsetWarning });
+    const { pushId, organizationId, projectId } = await pushToReunite({
+      inputData,
+      ghEvent,
+      onSunsetWarning,
+    });
 
     const pushStatusData = await waitForDeployment({
       domain: inputData.redoclyDomain,
-      organization: inputData.redoclyOrgSlug,
-      project: inputData.redoclyProjectSlug,
+      organization: organizationId,
+      project: projectId,
       pushId,
       maxExecutionTime: inputData.maxExecutionTime,
       onSunsetWarning,

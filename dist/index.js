@@ -28247,7 +28247,7 @@ var require_exec = __commonJS({
     exports.getExecOutput = exports.exec = void 0;
     var string_decoder_1 = __require("string_decoder");
     var tr = __importStar(require_toolrunner());
-    function exec(commandLine, args, options2) {
+    function exec2(commandLine, args, options2) {
       return __awaiter(this, void 0, void 0, function* () {
         const commandArgs = tr.argStringToArray(commandLine);
         if (commandArgs.length === 0) {
@@ -28259,7 +28259,7 @@ var require_exec = __commonJS({
         return runner.exec();
       });
     }
-    exports.exec = exec;
+    exports.exec = exec2;
     function getExecOutput(commandLine, args, options2) {
       var _a, _b;
       return __awaiter(this, void 0, void 0, function* () {
@@ -28282,7 +28282,7 @@ var require_exec = __commonJS({
           }
         };
         const listeners = Object.assign(Object.assign({}, options2 === null || options2 === void 0 ? void 0 : options2.listeners), { stdout: stdOutListener, stderr: stdErrListener });
-        const exitCode = yield exec(commandLine, args, Object.assign(Object.assign({}, options2), { listeners }));
+        const exitCode = yield exec2(commandLine, args, Object.assign(Object.assign({}, options2), { listeners }));
         stdout += stdoutDecoder.end();
         stderr += stderrDecoder.end();
         return {
@@ -28360,12 +28360,12 @@ var require_platform = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getDetails = exports.isLinux = exports.isMacOS = exports.isWindows = exports.arch = exports.platform = void 0;
     var os_1 = __importDefault(__require("os"));
-    var exec = __importStar(require_exec());
+    var exec2 = __importStar(require_exec());
     var getWindowsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
-      const { stdout: version } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
+      const { stdout: version } = yield exec2.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Version"', void 0, {
         silent: true
       });
-      const { stdout: name } = yield exec.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
+      const { stdout: name } = yield exec2.getExecOutput('powershell -command "(Get-CimInstance -ClassName Win32_OperatingSystem).Caption"', void 0, {
         silent: true
       });
       return {
@@ -28375,7 +28375,7 @@ var require_platform = __commonJS({
     });
     var getMacOsInfo = () => __awaiter(void 0, void 0, void 0, function* () {
       var _a, _b, _c, _d;
-      const { stdout } = yield exec.getExecOutput("sw_vers", void 0, {
+      const { stdout } = yield exec2.getExecOutput("sw_vers", void 0, {
         silent: true
       });
       const version = (_b = (_a = stdout.match(/ProductVersion:\s*(.+)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : "";
@@ -28386,7 +28386,7 @@ var require_platform = __commonJS({
       };
     });
     var getLinuxInfo = () => __awaiter(void 0, void 0, void 0, function* () {
-      const { stdout } = yield exec.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
+      const { stdout } = yield exec2.getExecOutput("lsb_release", ["-i", "-r", "-s"], {
         silent: true
       });
       const [name, version] = stdout.trim().split("\n");
@@ -29009,7 +29009,7 @@ var require_dist_node2 = __commonJS({
         return newObj;
       }, {});
     }
-    function isPlainObject3(value) {
+    function isPlainObject4(value) {
       if (typeof value !== "object" || value === null)
         return false;
       if (Object.prototype.toString.call(value) !== "[object Object]")
@@ -29023,7 +29023,7 @@ var require_dist_node2 = __commonJS({
     function mergeDeep(defaults, options2) {
       const result = Object.assign({}, defaults);
       Object.keys(options2).forEach((key) => {
-        if (isPlainObject3(options2[key])) {
+        if (isPlainObject4(options2[key])) {
           if (!(key in defaults))
             Object.assign(result, { [key]: options2[key] });
           else
@@ -29519,7 +29519,7 @@ var require_dist_node5 = __commonJS({
     var import_endpoint = require_dist_node2();
     var import_universal_user_agent = require_dist_node();
     var VERSION = "8.4.1";
-    function isPlainObject3(value) {
+    function isPlainObject4(value) {
       if (typeof value !== "object" || value === null)
         return false;
       if (Object.prototype.toString.call(value) !== "[object Object]")
@@ -29538,7 +29538,7 @@ var require_dist_node5 = __commonJS({
       var _a, _b, _c, _d;
       const log = requestOptions.request && requestOptions.request.log ? requestOptions.request.log : console;
       const parseSuccessResponseBody = ((_a = requestOptions.request) == null ? void 0 : _a.parseSuccessResponseBody) !== false;
-      if (isPlainObject3(requestOptions.body) || Array.isArray(requestOptions.body)) {
+      if (isPlainObject4(requestOptions.body) || Array.isArray(requestOptions.body)) {
         requestOptions.body = JSON.stringify(requestOptions.body);
       }
       let headers = {};
@@ -37409,7 +37409,7 @@ var require_core2 = __commonJS({
     };
     var MAX_EXPRESSION = 200;
     function requiredOptions(o2) {
-      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _0;
+      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s2, _t2, _u, _v, _w, _x, _y, _z, _0;
       const s2 = o2.strict;
       const _optz = (_a = o2.code) === null || _a === void 0 ? void 0 : _a.optimize;
       const optimize = _optz === true || _optz === void 0 ? 1 : _optz || 0;
@@ -37424,7 +37424,7 @@ var require_core2 = __commonJS({
         code: o2.code ? { ...o2.code, optimize, regExp } : { optimize, regExp },
         loopRequired: (_q = o2.loopRequired) !== null && _q !== void 0 ? _q : MAX_EXPRESSION,
         loopEnum: (_r = o2.loopEnum) !== null && _r !== void 0 ? _r : MAX_EXPRESSION,
-        meta: (_s = o2.meta) !== null && _s !== void 0 ? _s : true,
+        meta: (_s2 = o2.meta) !== null && _s2 !== void 0 ? _s2 : true,
         messages: (_t2 = o2.messages) !== null && _t2 !== void 0 ? _t2 : true,
         inlineRefs: (_u = o2.inlineRefs) !== null && _u !== void 0 ? _u : true,
         schemaId: (_v = o2.schemaId) !== null && _v !== void 0 ? _v : "$id",
@@ -37436,7 +37436,7 @@ var require_core2 = __commonJS({
         uriResolver
       };
     }
-    var Ajv2 = class {
+    var Ajv = class {
       constructor(opts = {}) {
         this.schemas = {};
         this.refs = {};
@@ -37814,9 +37814,9 @@ var require_core2 = __commonJS({
         }
       }
     };
-    Ajv2.ValidationError = validation_error_1.default;
-    Ajv2.MissingRefError = ref_error_1.default;
-    exports.default = Ajv2;
+    Ajv.ValidationError = validation_error_1.default;
+    Ajv.MissingRefError = ref_error_1.default;
+    exports.default = Ajv;
     function checkOptions(checkOpts, options2, msg, log = "error") {
       for (const key in checkOpts) {
         const opt = key;
@@ -40620,7 +40620,7 @@ var require__ = __commonJS({
     var discriminator_1 = require_discriminator();
     var json_schema_2020_12_1 = require_json_schema_2020_12();
     var META_SCHEMA_ID = "https://json-schema.org/draft/2020-12/schema";
-    var Ajv2020 = class extends core_1.default {
+    var Ajv20202 = class extends core_1.default {
       constructor(opts = {}) {
         super({
           ...opts,
@@ -40647,11 +40647,11 @@ var require__ = __commonJS({
         return this.opts.defaultMeta = super.defaultMeta() || (this.getSchema(META_SCHEMA_ID) ? META_SCHEMA_ID : void 0);
       }
     };
-    exports.Ajv2020 = Ajv2020;
-    module2.exports = exports = Ajv2020;
-    module2.exports.Ajv2020 = Ajv2020;
+    exports.Ajv2020 = Ajv20202;
+    module2.exports = exports = Ajv20202;
+    module2.exports.Ajv2020 = Ajv20202;
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Ajv2020;
+    exports.default = Ajv20202;
     var validate_1 = require_validate();
     Object.defineProperty(exports, "KeywordCxt", { enumerable: true, get: function() {
       return validate_1.KeywordCxt;
@@ -40692,8 +40692,8 @@ var require_formats = __commonJS({
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.formatNames = exports.fastFormats = exports.fullFormats = void 0;
-    function fmtDef(validate, compare) {
-      return { validate, compare };
+    function fmtDef(validate, compare2) {
+      return { validate, compare: compare2 };
     }
     exports.fullFormats = {
       // date: http://tools.ietf.org/html/rfc3339#section-5.6
@@ -43992,7 +43992,7 @@ var require_core5 = __commonJS({
     };
     var MAX_EXPRESSION = 200;
     function requiredOptions(o2) {
-      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _0;
+      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s2, _t2, _u, _v, _w, _x, _y, _z, _0;
       const s2 = o2.strict;
       const _optz = (_a = o2.code) === null || _a === void 0 ? void 0 : _a.optimize;
       const optimize = _optz === true || _optz === void 0 ? 1 : _optz || 0;
@@ -44007,7 +44007,7 @@ var require_core5 = __commonJS({
         code: o2.code ? { ...o2.code, optimize, regExp } : { optimize, regExp },
         loopRequired: (_q = o2.loopRequired) !== null && _q !== void 0 ? _q : MAX_EXPRESSION,
         loopEnum: (_r = o2.loopEnum) !== null && _r !== void 0 ? _r : MAX_EXPRESSION,
-        meta: (_s = o2.meta) !== null && _s !== void 0 ? _s : true,
+        meta: (_s2 = o2.meta) !== null && _s2 !== void 0 ? _s2 : true,
         messages: (_t2 = o2.messages) !== null && _t2 !== void 0 ? _t2 : true,
         inlineRefs: (_u = o2.inlineRefs) !== null && _u !== void 0 ? _u : true,
         schemaId: (_v = o2.schemaId) !== null && _v !== void 0 ? _v : "$id",
@@ -44019,7 +44019,7 @@ var require_core5 = __commonJS({
         uriResolver
       };
     }
-    var Ajv2 = class {
+    var Ajv = class {
       constructor(opts = {}) {
         this.schemas = {};
         this.refs = {};
@@ -44397,9 +44397,9 @@ var require_core5 = __commonJS({
         }
       }
     };
-    Ajv2.ValidationError = validation_error_1.default;
-    Ajv2.MissingRefError = ref_error_1.default;
-    exports.default = Ajv2;
+    Ajv.ValidationError = validation_error_1.default;
+    Ajv.MissingRefError = ref_error_1.default;
+    exports.default = Ajv;
     function checkOptions(checkOpts, options2, msg, log = "error") {
       for (const key in checkOpts) {
         const opt = key;
@@ -46625,7 +46625,7 @@ var require_ajv = __commonJS({
     var draft7MetaSchema = require_json_schema_draft_07();
     var META_SUPPORT_DATA = ["/properties"];
     var META_SCHEMA_ID = "http://json-schema.org/draft-07/schema";
-    var Ajv2 = class extends core_1.default {
+    var Ajv = class extends core_1.default {
       _addVocabularies() {
         super._addVocabularies();
         draft7_1.default.forEach((v2) => this.addVocabulary(v2));
@@ -46644,11 +46644,11 @@ var require_ajv = __commonJS({
         return this.opts.defaultMeta = super.defaultMeta() || (this.getSchema(META_SCHEMA_ID) ? META_SCHEMA_ID : void 0);
       }
     };
-    exports.Ajv = Ajv2;
-    module2.exports = exports = Ajv2;
-    module2.exports.Ajv = Ajv2;
+    exports.Ajv = Ajv;
+    module2.exports = exports = Ajv;
+    module2.exports.Ajv = Ajv;
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.default = Ajv2;
+    exports.default = Ajv;
     var validate_1 = require_validate2();
     Object.defineProperty(exports, "KeywordCxt", { enumerable: true, get: function() {
       return validate_1.KeywordCxt;
@@ -46797,15 +46797,15 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/@redocly/openapi-core/lib/utils/is-defined.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-defined.js
 var init_is_defined = __esm({
-  "node_modules/@redocly/openapi-core/lib/utils/is-defined.js"() {
+  "node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-defined.js"() {
   }
 });
 
-// node_modules/@redocly/openapi-core/lib/config/rules.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/rules.js
 var init_rules = __esm({
-  "node_modules/@redocly/openapi-core/lib/config/rules.js"() {
+  "node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/rules.js"() {
     init_is_defined();
   }
 });
@@ -50219,8 +50219,8 @@ var core2 = __toESM(require_core(), 1);
 var github2 = __toESM(require_github(), 1);
 import path from "path";
 function parseInputData() {
-  const redoclyOrgSlug = core2.getInput("organization", { required: true });
-  const redoclyProjectSlug = core2.getInput("project", { required: true });
+  const organization = core2.getInput("organization", { required: true });
+  const project = core2.getInput("project", { required: true });
   const mountPath = core2.getInput("mountPath", { required: true });
   const files = core2.getInput("files", { required: true }).split(" ");
   const redoclyDomain = core2.getInput("domain") || "https://app.cloud.redocly.com";
@@ -50230,8 +50230,8 @@ function parseInputData() {
     (_path) => path.join(process.env.GITHUB_WORKSPACE || "", _path)
   );
   return {
-    redoclyOrgSlug,
-    redoclyProjectSlug,
+    organization,
+    project,
     mountPath,
     files: absoluteFilePaths,
     redoclyDomain,
@@ -50460,7 +50460,7 @@ var ReuniteApiClient = class {
     return Date.parse(sunsetDate);
   }
 };
-var RemotesApi = class {
+var ResourceApi = class {
   client;
   domain;
   apiKey;
@@ -50476,6 +50476,33 @@ var RemotesApi = class {
     }
     throw new ReuniteApiError(`${responseBody.title || response.statusText || "Unknown error"}.`, response.status);
   }
+};
+var ProjectsApi = class extends ResourceApi {
+  // Both segments accept an id or a slug; the response carries the ids.
+  async find(organization, project) {
+    try {
+      const response = await this.client.request(`${this.domain}/api/orgs/${encodeURIComponent(organization)}/projects/${encodeURIComponent(project)}`, {
+        timeout: DEFAULT_FETCH_TIMEOUT,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.apiKey}`
+        }
+      });
+      if (response.status === 404) {
+        return void 0;
+      }
+      return await this.getParsedResponse(response);
+    } catch (err) {
+      const message = `Failed to fetch project. ${err.message}`;
+      if (err instanceof ReuniteApiError) {
+        throw new ReuniteApiError(message, err.status);
+      }
+      throw new Error(message);
+    }
+  }
+};
+var RemotesApi = class extends ResourceApi {
   async getDefaultBranch(organizationId, projectId) {
     try {
       const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/source`, {
@@ -50550,6 +50577,9 @@ var RemotesApi = class {
     if (payload.isMainBranch) {
       formData.append("isMainBranch", "true");
     }
+    if (payload.replace) {
+      formData.append("replace", "true");
+    }
     try {
       const response = await this.client.request(`${this.domain}/api/orgs/${organizationId}/projects/${projectId}/pushes`, {
         method: "POST",
@@ -50589,9 +50619,11 @@ var RemotesApi = class {
 };
 var ReuniteApi = class {
   apiClient;
+  projects;
   remotes;
   constructor({ domain, apiKey, command, version }) {
     this.apiClient = new ReuniteApiClient(command, version);
+    this.projects = new ProjectsApi(this.apiClient, domain, apiKey);
     this.remotes = new RemotesApi(this.apiClient, domain, apiKey);
   }
   // The most urgent sunset warning the Reunite API sent through this client so far, if any.
@@ -50624,34 +50656,34 @@ function getApiKeys() {
   throw new Error("No api key provided, please use environment variable REDOCLY_AUTHORIZATION.");
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/is-plain-object.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-plain-object.js
 function isPlainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/is-string.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-string.js
 function isString(value) {
   return typeof value === "string";
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/is-truthy.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-truthy.js
 function isTruthy(value) {
   return !!value;
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/pause.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/pause.js
 async function pause(ms) {
   return new Promise((resolve3) => setTimeout(resolve3, ms));
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/pluralize.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/pluralize.js
 var import_pluralize = __toESM(require_pluralize(), 1);
 
-// node_modules/@redocly/openapi-core/lib/env.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/env.js
 var isBrowser = typeof window !== "undefined" || typeof process === "undefined" || process?.platform === "browser";
 var env = isBrowser ? {} : process.env || {};
 
-// node_modules/@redocly/openapi-core/lib/utils/slash.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/slash.js
 function slash(path6) {
   const isExtendedLengthPath = /^\\\\\?\\/.test(path6);
   if (isExtendedLengthPath) {
@@ -50660,7 +50692,7 @@ function slash(path6) {
   return path6.replace(/\\/g, "/");
 }
 
-// node_modules/@redocly/openapi-core/lib/types/index.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/index.js
 function listOf(typeName, opts = {}) {
   return {
     name: `${typeName}List`,
@@ -50743,7 +50775,7 @@ function isNamedType(t2) {
   return typeof t2?.name === "string";
 }
 
-// node_modules/@redocly/openapi-core/lib/types/oas2.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas2.js
 var responseCodeRegexp = /^[0-9][0-9Xx]{2}$/;
 var Root = {
   properties: {
@@ -51201,11 +51233,14 @@ var Oas2Types = {
   XServer
 };
 
-// node_modules/@redocly/openapi-core/lib/ref-utils.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/ref-utils.js
 function joinPointer(base, key) {
   if (base === "")
     base = "#/";
   return base[base.length - 1] === "/" ? base + key : base + "/" + key;
+}
+function isRef(node) {
+  return isPlainObject(node) && typeof node.$ref === "string";
 }
 var Location = class _Location {
   source;
@@ -51248,7 +51283,7 @@ function replaceRef(ref, resolved, ctx) {
   }
 }
 
-// node_modules/@redocly/openapi-core/lib/types/oas3.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3.js
 var responseCodeRegexp2 = /^[0-9][0-9Xx]{2}$/;
 var Root2 = {
   properties: {
@@ -52082,7 +52117,7 @@ var Oas3Types = {
   WebhooksMap
 };
 
-// node_modules/@redocly/openapi-core/lib/types/oas3_1.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3_1.js
 var Root3 = {
   properties: {
     openapi: null,
@@ -52368,7 +52403,7 @@ var Oas3_1Types = {
   DependentRequired
 };
 
-// node_modules/@redocly/openapi-core/lib/types/oas3_2.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3_2.js
 var Root4 = {
   ...Oas3_1Types.Root,
   properties: {
@@ -52692,7 +52727,7 @@ var Oas3_2Types = {
   NamedMediaTypes: mapOf("MediaTypesMap")
 };
 
-// node_modules/@redocly/openapi-core/lib/types/asyncapi-bindings.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi-bindings.js
 var HttpChannelBinding = {
   properties: {},
   // empty object
@@ -53681,7 +53716,7 @@ var Ros2Bindings = {
   Ros2MessageBinding
 };
 
-// node_modules/@redocly/openapi-core/lib/types/json-schema-draft7.shared.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/json-schema-draft7.shared.js
 var Schema5 = {
   extensionsPrefix: "x-",
   properties: {
@@ -53779,7 +53814,7 @@ var Discriminator3 = {
   required: ["propertyName"]
 };
 
-// node_modules/@redocly/openapi-core/lib/types/asyncapi2.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi2.js
 var Root5 = {
   extensionsPrefix: "x-",
   properties: {
@@ -54361,7 +54396,7 @@ var AsyncApi2Types = {
   Dependencies
 };
 
-// node_modules/@redocly/openapi-core/lib/types/asyncapi3.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi3.js
 var Root6 = {
   extensionsPrefix: "x-",
   properties: {
@@ -54910,7 +54945,7 @@ var AsyncApi3Types = {
   TagList: listOf("Tag")
 };
 
-// node_modules/@redocly/openapi-core/lib/types/arazzo.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/arazzo.js
 var Root7 = {
   properties: {
     arazzo: {
@@ -55386,7 +55421,7 @@ var Arazzo1Types = {
   DeviceAuthorization: Oas3_2Types.DeviceAuthorization
 };
 
-// node_modules/@redocly/openapi-core/lib/types/arazzo1_1.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/arazzo1_1.js
 var Root8 = {
   ...Arazzo1Types.Root,
   properties: {
@@ -55603,19 +55638,33 @@ var Arazzo1_1Types = {
   FailureActionObject: FailureActionObject2
 };
 
-// node_modules/@redocly/openapi-core/lib/types/overlay.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/omit.js
+function omit(obj, keys) {
+  const result = { ...obj };
+  keys.forEach((key) => {
+    delete result[key];
+  });
+  return result;
+}
+
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/overlay.js
 var Root9 = {
   properties: {
     overlay: {
       type: "string",
       description: "REQUIRED. This string MUST be the version number of the Overlay Specification that the Overlay document uses. The overlay field SHOULD be used by tooling to interpret the Overlay document."
     },
+    $self: {
+      type: "string",
+      description: "A URI-reference for the Overlay document. It is also the base URI for resolving relative references within this document."
+    },
     info: "Info",
     extends: {
       type: "string",
       description: "URI reference that identifies the target document (such as an [OpenAPI] document) this overlay applies to."
     },
-    actions: "Actions"
+    actions: "Actions",
+    components: "Components"
   },
   required: ["overlay", "info", "actions"],
   extensionsPrefix: "x-",
@@ -55630,13 +55679,21 @@ var Info7 = {
     version: {
       type: "string",
       description: "REQUIRED. A version identifer for indicating changes to the Overlay document."
+    },
+    description: {
+      type: "string",
+      description: "A description of the Overlay. [CommonMark] syntax MAY be used for rich text representation."
     }
   },
   required: ["title", "version"],
   extensionsPrefix: "x-",
   description: "The object provides metadata about the Overlay. The metadata MAY be used by the clients if needed."
 };
-var Actions = listOf("Action");
+var Actions = {
+  properties: {},
+  // An item with `$ref` references a reusable action from `components.actions`.
+  items: (value) => isRef(value) ? "ReusableAction" : "Action"
+};
 var Action = {
   properties: {
     target: {
@@ -55649,6 +55706,10 @@ var Action = {
     },
     update: {},
     // any
+    copy: {
+      type: "string",
+      description: "A JSONPath expression selecting a single node to copy into the target nodes. The copied value is merged with the target nodes like an `update` value."
+    },
     remove: {
       type: "boolean",
       description: "A boolean value that indicates that the target object or array MUST be removed from the the map or array it is contained in. The default value is false."
@@ -55658,14 +55719,42 @@ var Action = {
   extensionsPrefix: "x-",
   description: "This object represents one or more changes to be applied to the target document at the location defined by the target JSONPath expression"
 };
+var Components7 = {
+  properties: {
+    actions: "ReusableActions"
+  },
+  extensionsPrefix: "x-",
+  description: "A set of components to reuse across the Overlay document."
+};
+var ReusableActions = mapOf("ReusableAction");
+var ReusableAction = {
+  properties: {
+    description: {
+      type: "string",
+      description: "A description of the reusable action. [CommonMark] syntax MAY be used for rich text representation."
+    },
+    fields: "ReusableActionFields"
+  },
+  extensionsPrefix: "x-",
+  description: "A reusable action. An action in `actions` references it with `$ref` and supplies the `target`."
+};
+var ReusableActionFields = {
+  properties: omit(Action.properties, ["target"]),
+  extensionsPrefix: "x-",
+  description: "The fields of a reusable action: an action without a `target`."
+};
 var Overlay1Types = {
   Root: Root9,
   Info: Info7,
   Actions,
-  Action
+  Action,
+  Components: Components7,
+  ReusableActions,
+  ReusableAction,
+  ReusableActionFields
 };
 
-// node_modules/@redocly/openapi-core/lib/types/openrpc.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/openrpc.js
 var Root10 = {
   properties: {
     openrpc: {
@@ -55938,7 +56027,7 @@ var ErrorObject = {
   extensionsPrefix: "x-",
   description: "Defines an application level error."
 };
-var Components7 = {
+var Components8 = {
   properties: {
     contentDescriptors: "NamedContentDescriptors",
     schemas: "NamedSchemas",
@@ -56007,7 +56096,7 @@ var OpenRpcTypes = {
   LinkList: listOf("Link"),
   ErrorObject,
   ErrorList: listOf("ErrorObject"),
-  Components: Components7,
+  Components: Components8,
   Tag: Tag5,
   TagList: listOf("Tag"),
   ExternalDocs: ExternalDocs4,
@@ -56025,72 +56114,72 @@ var OpenRpcTypes = {
   NamedTags: mapOf("Tag")
 };
 
-// node_modules/@redocly/config/lib-esm/index.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/config/lib-esm/index.js
 var ue = { hide: { type: "boolean" }, component: { type: "string", enum: ["radio", "checkbox"] }, label: { type: "string" }, items: { type: "array", items: { type: "string" } } };
 var N = { type: "object", properties: ue, additionalProperties: false };
-var ze = { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, placeholder: { type: "string" } }, additionalProperties: false };
-var c = { type: "object", properties: { hide: { type: "boolean" }, type: { type: "string", enum: ["rating", "sentiment", "comment", "reasons", "mood", "scale"] }, settings: { type: "object", properties: { label: { type: "string" }, submitText: { type: "string" }, buttonText: { type: "string" }, component: { type: "string", enum: ["radio", "checkbox"] }, items: { type: "array", items: { type: "string" }, minItems: 1 }, leftScaleLabel: { type: "string" }, rightScaleLabel: { type: "string" }, reasons: { type: "object", properties: { ...ue, like: N, dislike: N, satisfied: N, neutral: N, dissatisfied: N }, additionalProperties: false }, comment: { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, likeLabel: { type: "string" }, dislikeLabel: { type: "string" }, satisfiedLabel: { type: "string" }, neutralLabel: { type: "string" }, dissatisfiedLabel: { type: "string" } }, additionalProperties: false }, optionalEmail: ze }, additionalProperties: false } }, additionalProperties: false };
-var Ye = { type: "object", properties: { languages: { type: "array", items: { type: "object", properties: { lang: { type: "string" }, label: { type: "string" }, options: { type: "object", properties: { indent: { type: "string" }, withImports: { type: "boolean" }, withComments: { type: "boolean" }, binary: { type: "boolean" }, credentials: { type: "string", enum: ["omit", "same-origin", "include"] } }, additionalProperties: false } }, required: ["lang"], additionalProperties: false } }, skipOptionalParameters: { type: "boolean" }, withOAuth2Call: { type: "boolean" } }, additionalProperties: false };
+var Ye = { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, placeholder: { type: "string" } }, additionalProperties: false };
+var c = { type: "object", properties: { hide: { type: "boolean" }, type: { type: "string", enum: ["rating", "sentiment", "comment", "reasons", "mood", "scale"] }, settings: { type: "object", properties: { label: { type: "string" }, submitText: { type: "string" }, buttonText: { type: "string" }, component: { type: "string", enum: ["radio", "checkbox"] }, items: { type: "array", items: { type: "string" }, minItems: 1 }, leftScaleLabel: { type: "string" }, rightScaleLabel: { type: "string" }, reasons: { type: "object", properties: { ...ue, like: N, dislike: N, satisfied: N, neutral: N, dissatisfied: N }, additionalProperties: false }, comment: { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, likeLabel: { type: "string" }, dislikeLabel: { type: "string" }, satisfiedLabel: { type: "string" }, neutralLabel: { type: "string" }, dissatisfiedLabel: { type: "string" } }, additionalProperties: false }, optionalEmail: Ye }, additionalProperties: false } }, additionalProperties: false };
+var Ve = { type: "object", properties: { languages: { type: "array", items: { type: "object", properties: { lang: { type: "string" }, label: { type: "string" }, options: { type: "object", properties: { indent: { type: "string" }, withImports: { type: "boolean" }, withComments: { type: "boolean" }, binary: { type: "boolean" }, credentials: { type: "string", enum: ["omit", "same-origin", "include"] } }, additionalProperties: false } }, required: ["lang"], additionalProperties: false } }, skipOptionalParameters: { type: "boolean" }, withOAuth2Call: { type: "boolean" } }, additionalProperties: false };
 var x = { type: "array", items: { type: "object", properties: { title: { type: "string" }, url: { type: "string" } }, required: ["url"], additionalProperties: false } };
-var S = { type: "object", properties: { licenseKey: { type: "string" }, hideLoading: { type: "boolean" }, feedback: c, hideReplay: { type: "boolean" }, oAuth2RedirectURI: { type: "string" }, corsProxyUrl: { type: "string" }, sortRequiredPropsFirst: { type: "boolean" }, sanitize: { type: "boolean" }, hideDownloadButtons: { type: "boolean" }, downloadUrls: x, onlyRequiredInSamples: { type: "boolean" }, generatedSamplesMaxDepth: { oneOf: [{ type: "number" }, { type: "string" }] }, showExtensions: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "array", items: { type: "string" } }] }, hideSchemaTitles: { type: "boolean" }, jsonSamplesExpandLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, schemasExpansionLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, mockServer: { type: "object", properties: { url: { type: "string" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, description: { type: "string" } } }, maxDisplayedEnumValues: { type: "number" }, schemaDefinitionsTagName: { type: "string" }, layout: { type: "string", enum: ["stacked", "three-panel"] }, hideInfoMetadata: { type: "boolean" }, events: { type: "object" }, skipBundle: { type: "boolean" }, routingBasePath: { type: "string" }, codeSamples: Ye, ignoreNamedSchemas: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, hidePropertiesPrefix: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, showSchemaCatalogLinks: { type: "boolean" } }, additionalProperties: false };
+var S = { type: "object", properties: { licenseKey: { type: "string" }, hideLoading: { type: "boolean" }, feedback: c, hideReplay: { type: "boolean" }, oAuth2RedirectURI: { type: "string" }, corsProxyUrl: { type: "string" }, sortRequiredPropsFirst: { type: "boolean" }, sanitize: { type: "boolean" }, hideDownloadButtons: { type: "boolean" }, downloadUrls: x, onlyRequiredInSamples: { type: "boolean" }, generatedSamplesMaxDepth: { oneOf: [{ type: "number" }, { type: "string" }] }, showExtensions: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "array", items: { type: "string" } }] }, hideSchemaTitles: { type: "boolean" }, jsonSamplesExpandLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, schemasExpansionLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, mockServer: { type: "object", properties: { url: { type: "string" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, description: { type: "string" } } }, maxDisplayedEnumValues: { type: "number" }, schemaDefinitionsTagName: { type: "string" }, layout: { type: "string", enum: ["stacked", "three-panel"] }, hideInfoMetadata: { type: "boolean" }, events: { type: "object" }, skipBundle: { type: "boolean" }, routingBasePath: { type: "string" }, codeSamples: Ve, ignoreNamedSchemas: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, hidePropertiesPrefix: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, showSchemaCatalogLinks: { type: "boolean" } }, additionalProperties: false };
 var h = { type: "object", properties: { includeByName: { type: "array", items: { type: "string" } }, excludeByName: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var Ve = { type: "object", properties: { name: { type: "string" }, items: h, queries: h, mutations: h, subscriptions: h, types: h, directives: h }, required: ["name"], additionalProperties: false };
-var He = { type: "object", properties: { requireExactGroups: { type: "boolean" }, groups: { type: "array", items: Ve }, otherItemsGroupName: { type: "string" } }, required: ["requireExactGroups", "groups", "otherItemsGroupName"], additionalProperties: false };
-var Ke = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, email: { type: "string", format: "email" } }, additionalProperties: false };
-var We = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, identifier: { type: "string" } }, additionalProperties: false };
-var $e = { type: "object", properties: { title: { type: "string" }, version: { type: "string" }, description: { type: "string" }, termsOfService: { type: "string", format: "uri" }, contact: Ke, license: We }, additionalProperties: false };
-var b = { type: "object", properties: { menu: { type: "object", properties: { ...He.properties }, additionalProperties: false }, downloadUrls: x, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, samplesMaxInlineArgs: { type: "number" }, licenseKey: { type: "string" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, metadata: { type: "object", properties: { apiId: { type: "string" } }, additionalProperties: true }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] }, showBuiltInScalars: { type: "boolean" }, showBuiltInDirectives: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, info: $e }, additionalProperties: false };
+var He = { type: "object", properties: { name: { type: "string" }, items: h, queries: h, mutations: h, subscriptions: h, types: h, directives: h }, required: ["name"], additionalProperties: false };
+var Ke = { type: "object", properties: { requireExactGroups: { type: "boolean" }, groups: { type: "array", items: He }, otherItemsGroupName: { type: "string" } }, required: ["requireExactGroups", "groups", "otherItemsGroupName"], additionalProperties: false };
+var We = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, email: { type: "string", format: "email" } }, additionalProperties: false };
+var $e = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, identifier: { type: "string" } }, additionalProperties: false };
+var Xe = { type: "object", properties: { title: { type: "string" }, version: { type: "string" }, description: { type: "string" }, termsOfService: { type: "string", format: "uri" }, contact: We, license: $e }, additionalProperties: false };
+var b = { type: "object", properties: { menu: { type: "object", properties: { ...Ke.properties }, additionalProperties: false }, downloadUrls: x, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, samplesMaxInlineArgs: { type: "number" }, licenseKey: { type: "string" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, metadata: { type: "object", properties: { apiId: { type: "string" } }, additionalProperties: true }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] }, showBuiltInScalars: { type: "boolean" }, showBuiltInDirectives: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, info: Xe }, additionalProperties: false };
 var Ce = { type: "object", properties: { downloadUrls: x, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, excludeFromSearch: { type: "boolean" }, samplesMaxInlineArgs: { type: "number" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] } }, additionalProperties: false };
-var Xe = { type: "object", properties: { label: { type: "string" }, lang: { type: "string", enum: ["curl", "C#", "Go", "Java", "Java8+Apache", "JavaScript", "Node.js", "PHP", "Python", "R", "Ruby"] } }, required: ["lang"] };
-var Qe = { type: "object", properties: { enum: { type: "string" }, enumSingleValue: { type: "string" }, enumArray: { type: "string" }, default: { type: "string" }, deprecated: { type: "string" }, example: { type: "string" }, examples: { type: "string" }, nullable: { type: "string" }, recursive: { type: "string" }, arrayOf: { type: "string" }, webhook: { type: "string" }, authorizations: { type: "string" }, tryItAuthBasicUsername: { type: "string" }, tryItAuthBasicPassword: { type: "string" } } };
+var Qe = { type: "object", properties: { label: { type: "string" }, lang: { type: "string", enum: ["curl", "C#", "Go", "Java", "Java8+Apache", "JavaScript", "Node.js", "PHP", "Python", "R", "Ruby"] } }, required: ["lang"] };
+var Ze = { type: "object", properties: { enum: { type: "string" }, enumSingleValue: { type: "string" }, enumArray: { type: "string" }, default: { type: "string" }, deprecated: { type: "string" }, example: { type: "string" }, examples: { type: "string" }, nullable: { type: "string" }, recursive: { type: "string" }, arrayOf: { type: "string" }, webhook: { type: "string" }, authorizations: { type: "string" }, tryItAuthBasicUsername: { type: "string" }, tryItAuthBasicPassword: { type: "string" } } };
 var Re = { type: "object", properties: { label: { type: "string" }, link: { type: "string" }, target: { type: "string" } }, required: ["label", "link"] };
-var Ze = { type: "object", properties: { beforeInfo: { type: "array", items: Re }, end: { type: "array", items: Re } } };
+var et = { type: "object", properties: { beforeInfo: { type: "array", items: Re }, end: { type: "array", items: Re } } };
 var m = { type: "object", properties: { main: { type: "string" }, light: { type: "string" }, dark: { type: "string" }, contrastText: { type: "string" } } };
 var T = { type: "object", properties: { backgroundColor: { type: "string" }, borderColor: { type: "string" }, color: { type: "string" }, tabTextColor: { type: "string" } } };
-var et = { type: "object", properties: J(m.properties, ["light", "dark"]) };
-var tt = { type: "object", properties: { basic: { type: "string" }, delete: { type: "string" }, get: { type: "string" }, head: { type: "string" }, link: { type: "string" }, options: { type: "string" }, patch: { type: "string" }, post: { type: "string" }, put: { type: "string" } } };
-var ot = { type: "object", properties: { error: T, info: T, redirect: T, success: T } };
-var it = { type: "object", properties: u(m.properties, ["dark"]) };
-var st = { type: "object", properties: { primary: { type: "string" }, secondary: { type: "string" }, light: { type: "string" } } };
-var rt = { type: "object", properties: { accent: m, border: et, error: m, http: tt, primary: m, responses: ot, secondary: it, success: m, text: st, tonalOffset: { type: "number" }, warning: m } };
+var tt = { type: "object", properties: J(m.properties, ["light", "dark"]) };
+var ot = { type: "object", properties: { basic: { type: "string" }, delete: { type: "string" }, get: { type: "string" }, head: { type: "string" }, link: { type: "string" }, options: { type: "string" }, patch: { type: "string" }, post: { type: "string" }, put: { type: "string" } } };
+var it = { type: "object", properties: { error: T, info: T, redirect: T, success: T } };
+var st = { type: "object", properties: u(m.properties, ["dark"]) };
+var rt = { type: "object", properties: { primary: { type: "string" }, secondary: { type: "string" }, light: { type: "string" } } };
+var at = { type: "object", properties: { accent: m, border: tt, error: m, http: ot, primary: m, responses: it, secondary: st, success: m, text: rt, tonalOffset: { type: "number" }, warning: m } };
 var v = { type: "object", properties: { fontSize: { type: "string" }, padding: { type: "string" }, minWidth: { type: "string" } } };
-var at = { type: "object", properties: { small: v, medium: v, large: v, xlarge: v } };
+var nt = { type: "object", properties: { small: v, medium: v, large: v, xlarge: v } };
 var y = { type: "object", properties: { fontFamily: { type: "string" }, fontSize: { type: "string" }, fontWeight: { type: "string" }, lineHeight: { type: "string" } } };
-var nt = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, hoverStyle: { type: "string" }, boxShadow: { type: "string" }, hoverBoxShadow: { type: "string" }, sizes: at } };
+var pt = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, hoverStyle: { type: "string" }, boxShadow: { type: "string" }, hoverBoxShadow: { type: "string" }, sizes: nt } };
 var Pe = { type: "object", properties: J(y.properties, ["fontSize", "lineHeight"]) };
-var pt = { type: "object", properties: { medium: Pe, small: Pe } };
-var ct = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, color: { type: "string" }, sizes: pt } };
-var yt = { type: "object", properties: { top: { type: "string" }, width: { type: "string" }, height: { type: "string" } } };
-var lt = { type: "object", properties: { borderRadius: { type: "string" }, backgroundColor: { type: "string" } } };
+var ct = { type: "object", properties: { medium: Pe, small: Pe } };
+var yt = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, color: { type: "string" }, sizes: ct } };
+var lt = { type: "object", properties: { top: { type: "string" }, width: { type: "string" }, height: { type: "string" } } };
+var dt = { type: "object", properties: { borderRadius: { type: "string" }, backgroundColor: { type: "string" } } };
 var Oe = { type: "object", properties: { fullWidth: { type: "boolean" } } };
-var dt = { type: "object", properties: { buttons: nt, httpBadges: ct, layoutControls: yt, panels: lt, tryItButton: Oe, tryItSendButton: Oe } };
+var gt = { type: "object", properties: { buttons: pt, httpBadges: yt, layoutControls: lt, panels: dt, tryItButton: Oe, tryItSendButton: Oe } };
 var I = { type: "object", properties: { small: { type: "string" }, medium: { type: "string" }, large: { type: "string" } } };
-var gt = { type: "object", properties: { maxWidth: I } };
-var mt = { type: "object", properties: { maxWidth: I, middlePanelMaxWidth: I } };
-var ft = { type: "object", properties: { showDarkRightPanel: { type: "boolean" }, stacked: gt, "three-panel": mt } };
+var mt = { type: "object", properties: { maxWidth: I } };
+var ft = { type: "object", properties: { maxWidth: I, middlePanelMaxWidth: I } };
+var St = { type: "object", properties: { showDarkRightPanel: { type: "boolean" }, stacked: mt, "three-panel": ft } };
 var Ne = { type: "object", properties: { backgroundColor: { type: "string" }, border: { type: "string" } } };
-var St = { type: "object", properties: { breakFieldNames: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, constraints: Ne, defaultDetailsWidth: { type: "string" }, examples: Ne, labelsTextSize: { type: "string" }, linesColor: { type: "string" }, nestedBackground: { type: "string" }, nestingSpacing: { type: "string" }, requireLabelColor: { type: "string" }, typeNameColor: { type: "string" }, typeTitleColor: { type: "string" } } };
+var ht = { type: "object", properties: { breakFieldNames: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, constraints: Ne, defaultDetailsWidth: { type: "string" }, examples: Ne, labelsTextSize: { type: "string" }, linesColor: { type: "string" }, nestedBackground: { type: "string" }, nestingSpacing: { type: "string" }, requireLabelColor: { type: "string" }, typeNameColor: { type: "string" }, typeTitleColor: { type: "string" } } };
 var je = { type: "object", properties: { subItemsColor: { type: "string" }, textTransform: { type: "string" }, fontWeight: { type: "string" } } };
-var ht = { type: "object", properties: J(je.properties, ["textTransform"]) };
-var bt = { type: "object", properties: { unit: { type: "number" }, paddingHorizontal: { type: "string" }, paddingVertical: { type: "string" }, offsetTop: { type: "string" }, offsetLeft: { type: "string" }, offsetNesting: { type: "string" } } };
-var ut = { type: "object", properties: { ...u(y.properties, ["fontWeight", "lineHeight"]), activeBgColor: { type: "string" }, activeTextColor: { type: "string" }, backgroundColor: { type: "string" }, borderRadius: { type: "string" }, breakPath: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, groupItems: je, level1items: ht, rightLineColor: { type: "string" }, separatorLabelColor: { type: "string" }, showAtBreakpoint: { type: "string" }, spacing: bt, textColor: { type: "string" }, width: { type: "string" } } };
+var bt = { type: "object", properties: J(je.properties, ["textTransform"]) };
+var ut = { type: "object", properties: { unit: { type: "number" }, paddingHorizontal: { type: "string" }, paddingVertical: { type: "string" }, offsetTop: { type: "string" }, offsetLeft: { type: "string" }, offsetNesting: { type: "string" } } };
+var Ct = { type: "object", properties: { ...u(y.properties, ["fontWeight", "lineHeight"]), activeBgColor: { type: "string" }, activeTextColor: { type: "string" }, backgroundColor: { type: "string" }, borderRadius: { type: "string" }, breakPath: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, groupItems: je, level1items: bt, rightLineColor: { type: "string" }, separatorLabelColor: { type: "string" }, showAtBreakpoint: { type: "string" }, spacing: ut, textColor: { type: "string" }, width: { type: "string" } } };
 var k = { type: "object", properties: { ...y.properties, color: { type: "string" }, transform: { type: "string" } } };
-var Ct = { type: "object", properties: { ...y.properties, backgroundColor: { type: "string" }, color: { type: "string" }, wordBreak: { type: "string", enum: ["break-all", "break-word", "keep-all", "normal", "revert", "unset", "inherit", "initial"] }, wrap: { type: "boolean" } } };
-var Rt = { type: "object", properties: u(y.properties, ["fontSize"]) };
-var Pt = { type: "object", properties: { color: { type: "string" }, hover: { type: "string" }, textDecoration: { type: "string" }, hoverTextDecoration: { type: "string" }, visited: { type: "string" } } };
-var Ot = { type: "object", properties: { code: Ct, fieldName: y, ...J(y.properties, ["fontSize", "fontFamily"]), fontWeightBold: { type: "string" }, fontWeightLight: { type: "string" }, fontWeightRegular: { type: "string" }, heading1: k, heading2: k, heading3: k, headings: Rt, lineHeight: { type: "string" }, links: Pt, optimizeSpeed: { type: "boolean" }, rightPanelHeading: k, smoothing: { type: "string", enum: ["auto", "none", "antialiased", "subpixel-antialiased", "grayscale"] } } };
-var Nt = { type: "object", properties: { color: { type: "string" }, ...u(y.properties, ["fontWeight"]) } };
-var xt = { type: "object", properties: { backgroundColor: { type: "string" }, borderRadius: { type: "string" }, tokens: Nt } };
-var jt = { type: "object", properties: { gutter: { type: "string" }, maxHeight: { type: "string" }, maxWidth: { type: "string" } } };
-var Et = { type: "object", properties: { backgroundColor: { type: "string" }, color: { type: "string" } } };
+var Rt = { type: "object", properties: { ...y.properties, backgroundColor: { type: "string" }, color: { type: "string" }, wordBreak: { type: "string", enum: ["break-all", "break-word", "keep-all", "normal", "revert", "unset", "inherit", "initial"] }, wrap: { type: "boolean" } } };
+var Pt = { type: "object", properties: u(y.properties, ["fontSize"]) };
+var Ot = { type: "object", properties: { color: { type: "string" }, hover: { type: "string" }, textDecoration: { type: "string" }, hoverTextDecoration: { type: "string" }, visited: { type: "string" } } };
+var Nt = { type: "object", properties: { code: Rt, fieldName: y, ...J(y.properties, ["fontSize", "fontFamily"]), fontWeightBold: { type: "string" }, fontWeightLight: { type: "string" }, fontWeightRegular: { type: "string" }, heading1: k, heading2: k, heading3: k, headings: Pt, lineHeight: { type: "string" }, links: Ot, optimizeSpeed: { type: "boolean" }, rightPanelHeading: k, smoothing: { type: "string", enum: ["auto", "none", "antialiased", "subpixel-antialiased", "grayscale"] } } };
+var xt = { type: "object", properties: { color: { type: "string" }, ...u(y.properties, ["fontWeight"]) } };
+var jt = { type: "object", properties: { backgroundColor: { type: "string" }, borderRadius: { type: "string" }, tokens: xt } };
+var Et = { type: "object", properties: { gutter: { type: "string" }, maxHeight: { type: "string" }, maxWidth: { type: "string" } } };
+var Tt = { type: "object", properties: { backgroundColor: { type: "string" }, color: { type: "string" } } };
 var xe = { type: "object", properties: { custom: { type: "string" } } };
-var Tt = { type: "object", properties: { DownloadButton: xe, NextSectionButton: xe } };
-var vt = { type: "object", properties: { backgroundColor: { type: "string" }, panelBackgroundColor: { type: "string" }, panelControlsBackgroundColor: { type: "string" }, showAtBreakpoint: { type: "string" }, textColor: { type: "string" }, width: { type: "string" } } };
-var kt = { type: "object", properties: { borderRadius: { type: "string" } } };
-var It = { type: "object", properties: { sectionHorizontal: { type: "number" }, sectionVertical: { type: "number" }, unit: { type: "number" } } };
-var Jt = { type: "object", properties: { breakpoints: I, codeBlock: xt, colors: rt, components: dt, layout: ft, logo: jt, fab: Et, overrides: Tt, rightPanel: vt, schema: St, shape: kt, sidebar: ut, spacing: It, typography: Ot, links: { type: "object", properties: { color: { type: "string" } } }, codeSample: { type: "object", properties: { backgroundColor: { type: "string" } } } } };
-var Lt = { type: "object", properties: { skipOptionalParameters: { type: "boolean" }, languages: { type: "array", items: Xe } }, required: ["languages"] };
-var se = { type: "object", properties: { theme: Jt, ctrlFHijack: { type: "boolean" }, defaultSampleLanguage: { type: "string" }, disableDeepLinks: { type: "boolean" }, disableSearch: { type: "boolean" }, disableSidebar: { type: "boolean" }, downloadDefinitionUrl: { type: "string" }, expandDefaultServerVariables: { type: "boolean" }, enumSkipQuotes: { type: "boolean" }, expandDefaultRequest: { type: "boolean" }, expandDefaultResponse: { type: "boolean" }, expandResponses: { type: "string" }, expandSingleSchemaField: { type: "boolean" }, generateCodeSamples: Lt, generatedPayloadSamplesMaxDepth: { type: "number" }, hideDownloadButton: { type: "boolean" }, hideHostname: { type: "boolean" }, hideInfoSection: { type: "boolean" }, hideLogo: { type: "boolean" }, hideRequestPayloadSample: { type: "boolean" }, hideRightPanel: { type: "boolean" }, hideSchemaPattern: { type: "boolean" }, hideSingleRequestSampleTab: { type: "boolean" }, hideSecuritySection: { type: "boolean" }, hideTryItPanel: { type: "boolean" }, hideFab: { type: "boolean" }, hideOneOfDescription: { type: "boolean" }, htmlTemplate: { type: "string" }, jsonSampleExpandLevel: { oneOf: [{ type: "number", minimum: 1 }, { type: "string" }] }, labels: Qe, menuToggle: { type: "boolean" }, nativeScrollbars: { type: "boolean" }, noAutoAuth: { type: "boolean" }, onDeepLinkClick: { type: "object" }, pagination: { type: "string", enum: ["none", "section", "item"] }, pathInMiddlePanel: { type: "boolean" }, payloadSampleIdx: { type: "number", minimum: 0 }, requiredPropsFirst: { type: "boolean" }, routingStrategy: { type: "string" }, samplesTabsMaxCount: { type: "number" }, schemaExpansionLevel: { oneOf: [{ type: "number", minimum: 0 }, { type: "string" }] }, minCharacterLengthToInitSearch: { type: "number", minimum: 1 }, maxResponseHeadersToShowInTryIt: { type: "number", minimum: 0 }, scrollYOffset: { oneOf: [{ type: "number" }, { type: "string" }] }, searchAutoExpand: { type: "boolean" }, searchFieldLevelBoost: { type: "number", minimum: 0 }, searchMaxDepth: { type: "number", minimum: 1 }, searchMode: { type: "string", enum: ["default", "path-only"] }, searchOperationTitleBoost: { type: "number" }, searchTagTitleBoost: { type: "number" }, sendXUserAgentInTryIt: { type: "boolean" }, showChangeLayoutButton: { type: "boolean" }, showConsole: { type: "boolean" }, showNextButton: { type: "boolean" }, showRightPanelToggle: { type: "boolean" }, showSecuritySchemeType: { type: "boolean" }, showWebhookVerb: { type: "boolean" }, showObjectSchemaExamples: { type: "boolean" }, disableTryItRequestUrlEncoding: { type: "boolean" }, sidebarLinks: Ze, sideNavStyle: { type: "string", enum: ["summary-only", "path-first", "id-only", "path-only"] }, simpleOneOfTypeLabel: { type: "boolean" }, sortEnumValuesAlphabetically: { type: "boolean" }, sortOperationsAlphabetically: { type: "boolean" }, sortPropsAlphabetically: { type: "boolean" }, sortTagsAlphabetically: { type: "boolean" }, suppressWarnings: { type: "boolean" }, unstable_externalDescription: { type: "boolean" }, unstable_ignoreMimeParameters: { type: "boolean" }, untrustedDefinition: { type: "boolean" }, showAccessMode: { type: "boolean" }, preserveOriginalExtensionsName: { type: "boolean" }, markdownHeadingsAnchorLevel: { type: "number" } }, additionalProperties: false };
+var vt = { type: "object", properties: { DownloadButton: xe, NextSectionButton: xe } };
+var kt = { type: "object", properties: { backgroundColor: { type: "string" }, panelBackgroundColor: { type: "string" }, panelControlsBackgroundColor: { type: "string" }, showAtBreakpoint: { type: "string" }, textColor: { type: "string" }, width: { type: "string" } } };
+var It = { type: "object", properties: { borderRadius: { type: "string" } } };
+var Jt = { type: "object", properties: { sectionHorizontal: { type: "number" }, sectionVertical: { type: "number" }, unit: { type: "number" } } };
+var Lt = { type: "object", properties: { breakpoints: I, codeBlock: jt, colors: at, components: gt, layout: St, logo: Et, fab: Tt, overrides: vt, rightPanel: kt, schema: ht, shape: It, sidebar: Ct, spacing: Jt, typography: Nt, links: { type: "object", properties: { color: { type: "string" } } }, codeSample: { type: "object", properties: { backgroundColor: { type: "string" } } } } };
+var Dt = { type: "object", properties: { skipOptionalParameters: { type: "boolean" }, languages: { type: "array", items: Qe } }, required: ["languages"] };
+var se = { type: "object", properties: { theme: Lt, ctrlFHijack: { type: "boolean" }, defaultSampleLanguage: { type: "string" }, disableDeepLinks: { type: "boolean" }, disableSearch: { type: "boolean" }, disableSidebar: { type: "boolean" }, downloadDefinitionUrl: { type: "string" }, expandDefaultServerVariables: { type: "boolean" }, enumSkipQuotes: { type: "boolean" }, expandDefaultRequest: { type: "boolean" }, expandDefaultResponse: { type: "boolean" }, expandResponses: { type: "string" }, expandSingleSchemaField: { type: "boolean" }, generateCodeSamples: Dt, generatedPayloadSamplesMaxDepth: { type: "number" }, hideDownloadButton: { type: "boolean" }, hideHostname: { type: "boolean" }, hideInfoSection: { type: "boolean" }, hideLogo: { type: "boolean" }, hideRequestPayloadSample: { type: "boolean" }, hideRightPanel: { type: "boolean" }, hideSchemaPattern: { type: "boolean" }, hideSingleRequestSampleTab: { type: "boolean" }, hideSecuritySection: { type: "boolean" }, hideTryItPanel: { type: "boolean" }, hideFab: { type: "boolean" }, hideOneOfDescription: { type: "boolean" }, htmlTemplate: { type: "string" }, jsonSampleExpandLevel: { oneOf: [{ type: "number", minimum: 1 }, { type: "string" }] }, labels: Ze, menuToggle: { type: "boolean" }, nativeScrollbars: { type: "boolean" }, noAutoAuth: { type: "boolean" }, onDeepLinkClick: { type: "object" }, pagination: { type: "string", enum: ["none", "section", "item"] }, pathInMiddlePanel: { type: "boolean" }, payloadSampleIdx: { type: "number", minimum: 0 }, requiredPropsFirst: { type: "boolean" }, routingStrategy: { type: "string" }, samplesTabsMaxCount: { type: "number" }, schemaExpansionLevel: { oneOf: [{ type: "number", minimum: 0 }, { type: "string" }] }, minCharacterLengthToInitSearch: { type: "number", minimum: 1 }, maxResponseHeadersToShowInTryIt: { type: "number", minimum: 0 }, scrollYOffset: { oneOf: [{ type: "number" }, { type: "string" }] }, searchAutoExpand: { type: "boolean" }, searchFieldLevelBoost: { type: "number", minimum: 0 }, searchMaxDepth: { type: "number", minimum: 1 }, searchMode: { type: "string", enum: ["default", "path-only"] }, searchOperationTitleBoost: { type: "number" }, searchTagTitleBoost: { type: "number" }, sendXUserAgentInTryIt: { type: "boolean" }, showChangeLayoutButton: { type: "boolean" }, showConsole: { type: "boolean" }, showNextButton: { type: "boolean" }, showRightPanelToggle: { type: "boolean" }, showSecuritySchemeType: { type: "boolean" }, showWebhookVerb: { type: "boolean" }, showObjectSchemaExamples: { type: "boolean" }, disableTryItRequestUrlEncoding: { type: "boolean" }, sidebarLinks: et, sideNavStyle: { type: "string", enum: ["summary-only", "path-first", "id-only", "path-only"] }, simpleOneOfTypeLabel: { type: "boolean" }, sortEnumValuesAlphabetically: { type: "boolean" }, sortOperationsAlphabetically: { type: "boolean" }, sortPropsAlphabetically: { type: "boolean" }, sortTagsAlphabetically: { type: "boolean" }, suppressWarnings: { type: "boolean" }, unstable_externalDescription: { type: "boolean" }, unstable_ignoreMimeParameters: { type: "boolean" }, untrustedDefinition: { type: "boolean" }, showAccessMode: { type: "boolean" }, preserveOriginalExtensionsName: { type: "boolean" }, markdownHeadingsAnchorLevel: { type: "number" } }, additionalProperties: false };
 function J(d, ie) {
   return Object.fromEntries(ie.filter((i) => i in d).map((i) => [i, d[i]]));
 }
@@ -56098,175 +56187,176 @@ function u(d, ie) {
   return Object.fromEntries(Object.entries(d).filter(([i]) => !ie.includes(i)));
 }
 var r = { nodeTypeName: void 0, type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object" }] }, description: "The rules configuration blocks set up linting rules and their severity. You can configure built-in rules, add configurable rules, and rules from plugins.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/rules#rules" };
-var Dt = { rules: r, oas2Rules: r, oas3_0Rules: r, oas3_1Rules: r, oas3_2Rules: r, async2Rules: r, async3Rules: r, arazzo1Rules: r, arazzo1_1Rules: r, overlay1Rules: r, openrpc1Rules: r, graphqlRules: r };
+var _t = { rules: r, oas2Rules: r, oas3_0Rules: r, oas3_1Rules: r, oas3_2Rules: r, async2Rules: r, async3Rules: r, arazzo1Rules: r, arazzo1_1Rules: r, overlay1Rules: r, openrpc1Rules: r, graphqlRules: r };
 var n = { nodeTypeName: void 0, type: "object", additionalProperties: true };
-var _t = { preprocessors: n, oas2Preprocessors: n, oas3_0Preprocessors: n, oas3_1Preprocessors: n, oas3_2Preprocessors: n, async2Preprocessors: n, async3Preprocessors: n, arazzo1Preprocessors: n, arazzo1_1Preprocessors: n, overlay1Preprocessors: n, openrpc1Preprocessors: n };
+var At = { preprocessors: n, oas2Preprocessors: n, oas3_0Preprocessors: n, oas3_1Preprocessors: n, oas3_2Preprocessors: n, async2Preprocessors: n, async3Preprocessors: n, arazzo1Preprocessors: n, arazzo1_1Preprocessors: n, overlay1Preprocessors: n, openrpc1Preprocessors: n };
 var p = { nodeTypeName: void 0, type: "object", additionalProperties: true };
-var At = { decorators: p, oas2Decorators: p, oas3_0Decorators: p, oas3_1Decorators: p, oas3_2Decorators: p, async2Decorators: p, async3Decorators: p, arazzo1Decorators: p, arazzo1_1Decorators: p, overlay1Decorators: p, openrpc1Decorators: p };
-var qt = { nodeTypeName: void 0, type: "array", items: { type: "string" }, description: "Use extends to inherit rules and their configurations from other rulesets.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/extends" };
-var f = { ...Dt, ...At, ..._t, extends: qt };
+var qt = { decorators: p, oas2Decorators: p, oas3_0Decorators: p, oas3_1Decorators: p, oas3_2Decorators: p, async2Decorators: p, async3Decorators: p, arazzo1Decorators: p, arazzo1_1Decorators: p, overlay1Decorators: p, openrpc1Decorators: p };
+var wt = { nodeTypeName: void 0, type: "array", items: { type: "string" }, description: "Use extends to inherit rules and their configurations from other rulesets.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/extends" };
+var f = { ..._t, ...qt, ...At, extends: wt };
 var L = (d) => d;
 var s = L({ RedirectSource: "RedirectSource", Redirects: "Redirects", ScorecardClassic: "ScorecardClassic", ScorecardClassicLevelList: "ScorecardClassicLevelList", ScorecardClassicLevel: "ScorecardClassicLevel", ScorecardClassicTargetList: "ScorecardClassicTargetList", ScorecardClassicTarget: "ScorecardClassicTarget", ScorecardClassicTargetWhere: "ScorecardClassicTargetWhere", ScorecardClassicTargetWhereMetadata: "ScorecardClassicTargetWhereMetadata", ScorecardClassicTeamMetadataProperty: "ScorecardClassicTeamMetadataProperty" });
 var o = { type: "object", properties: { hide: { type: "boolean" } }, additionalProperties: false };
-var Ee = { type: "object", properties: { src: { type: "string" }, async: { type: "boolean" }, crossorigin: { type: "string" }, defer: { type: "boolean" }, fetchpriority: { type: "string" }, integrity: { type: "string" }, module: { type: "boolean" }, nomodule: { type: "boolean" }, nonce: { type: "string" }, referrerpolicy: { type: "string" }, type: { type: "string" } }, required: ["src"], additionalProperties: true };
+var Ee = { type: "object", properties: { src: { type: "string" }, async: { type: "boolean" }, crossorigin: { type: "string" }, defer: { type: "boolean" }, fetchpriority: { type: "string" }, integrity: { type: "string" }, module: { type: "boolean" }, nomodule: { type: "boolean" }, nonce: { type: "string" }, referrerpolicy: { type: "string" }, type: { type: "string" }, consent: { type: "string", enum: ["analytics", "marketing"] } }, required: ["src"], additionalProperties: true };
 var re = { type: "object", properties: { page: { type: "string", uiHint: "file" }, directory: { type: "string", uiHint: "file" }, disconnect: { type: "boolean" }, group: { type: "string" }, label: { type: "string" }, href: { type: "string" }, external: { type: "boolean" }, labelTranslationKey: { type: "string" }, groupTranslationKey: { type: "string" }, icon: { oneOf: [{ type: "string" }, { type: "object", properties: { srcSet: { type: "string" } }, required: ["srcSet"] }] }, separator: { type: "string" }, separatorLine: { type: "boolean" }, linePosition: { type: "string", enum: ["top", "bottom"] }, version: { type: "string" }, menuStyle: { type: "string", enum: ["drilldown"] }, expanded: { type: "string", const: "always" }, selectFirstItemOnExpand: { type: "boolean" }, flatten: { type: "boolean" }, linkedSidebars: { type: "array", items: { type: "string" } }, items: { type: "array", items: { type: "object", additionalProperties: true } }, rbac: { type: "object", additionalProperties: { type: "string" } }, additionalProps: { type: "object", additionalProperties: true } } };
 var ae = { type: "array", items: { ...re, properties: { ...re.properties, items: { type: "array", items: re } } } };
-var wt = { type: "object", properties: { name: { type: "string" }, icon: { type: "string" }, folder: { type: "string" } }, additionalProperties: false, required: ["name", "folder"] };
-var Mt = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" } }, additionalProperties: false };
-var Ut = { type: "array", items: { type: "object", required: ["name", "field", "type"], properties: { name: { type: "string" }, field: { type: "string" }, type: { type: "string", enum: ["multi-select", "select", "tags"] } }, additionalProperties: false } };
-var Bt = { type: "object", properties: { facets: Ut, ...o.properties }, additionalProperties: false };
-var Gt = { type: "object", properties: { page: { type: "string", uiHint: "file" }, label: { type: "string" }, labelTranslationKey: { type: "string" } }, required: ["page"] };
+var Mt = { type: "object", properties: { name: { type: "string" }, icon: { type: "string" }, folder: { type: "string" } }, additionalProperties: false, required: ["name", "folder"] };
+var Ut = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" } }, additionalProperties: false };
+var Bt = { type: "array", items: { type: "object", required: ["name", "field", "type"], properties: { name: { type: "string" }, field: { type: "string" }, type: { type: "string", enum: ["multi-select", "select", "tags"] } }, additionalProperties: false } };
+var Gt = { type: "object", properties: { facets: Bt, ...o.properties }, additionalProperties: false };
+var Ft = { type: "object", properties: { page: { type: "string", uiHint: "file" }, label: { type: "string" }, labelTranslationKey: { type: "string" } }, required: ["page"] };
 var D = { type: "object", properties: { image: { type: "string", uiHint: "file" }, srcSet: { type: "string" }, altText: { type: "string" }, link: { type: "string" }, favicon: { type: "string", uiHint: "file" } }, additionalProperties: false };
 var _ = { type: "object", properties: { items: ae, ...o.properties }, additionalProperties: false };
-var A = { type: "object", additionalProperties: wt };
+var A = { type: "object", additionalProperties: Mt };
 var q = { type: "object", properties: { items: ae, copyrightText: { type: "string" }, logo: o, ...o.properties }, additionalProperties: false };
 var w = { type: "object", properties: { separatorLine: { type: "boolean" }, linePosition: { type: "string", enum: ["top", "bottom"] }, ...o.properties }, additionalProperties: false };
 var M = { type: "object", properties: { head: { type: "array", items: Ee }, body: { type: "array", items: Ee } }, additionalProperties: false };
 var U = { type: "array", items: { type: "object", properties: { href: { type: "string" }, as: { type: "string" }, crossorigin: { type: "string" }, fetchpriority: { type: "string" }, hreflang: { type: "string" }, imagesizes: { type: "string" }, imagesrcset: { type: "string" }, integrity: { type: "string" }, media: { type: "string" }, prefetch: { type: "string" }, referrerpolicy: { type: "string" }, rel: { type: "string" }, sizes: { type: "string" }, title: { type: "string" }, type: { type: "string" } }, required: ["href"], additionalProperties: true } };
-var B = { type: "object", properties: { engine: { type: "string", enum: ["flexsearch", "typesense"] }, ai: Mt, filters: Bt, placement: { type: "string" }, shortcuts: { type: "array", items: { type: "string" } }, suggestedPages: { type: "array", items: Gt }, ...o.properties }, additionalProperties: false };
+var B = { type: "object", properties: { engine: { type: "string", enum: ["flexsearch", "typesense"] }, ai: Ut, filters: Gt, placement: { type: "string" }, shortcuts: { type: "array", items: { type: "string" } }, suggestedPages: { type: "array", items: Ft }, ...o.properties }, additionalProperties: false };
 var G = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" }, trigger: { type: "object", properties: { hide: { type: "boolean" }, inputType: { type: "string", enum: ["button", "icon"] }, inputIcon: { type: "string", enum: ["chat", "sparkles", "redocly"] } }, additionalProperties: false } }, additionalProperties: false };
 var F = { type: "object", properties: { ignoreDetection: { type: "boolean" }, modes: { type: "array", items: { type: "string" } }, ...o.properties }, additionalProperties: false };
 var C = { type: "string", enum: ["slate", "pink", "coral", "amber", "jade", "cyan", "ocean", "indigo", "iris"] };
-var Ft = { type: "object", properties: { ...o.properties, items: { type: "array", items: { type: "string", enum: ["copy", "view", "chatgpt", "claude", "docs-mcp-cursor", "docs-mcp-vscode"] } } }, additionalProperties: false };
-var z = { type: "object", properties: { nextButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, previousButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, actions: Ft }, additionalProperties: false };
+var zt = { type: "object", properties: { ...o.properties, items: { type: "array", items: { type: "string", enum: ["copy", "view", "chatgpt", "claude", "docs-mcp-cursor", "docs-mcp-vscode"] } } }, additionalProperties: false };
+var z = { type: "object", properties: { nextButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, previousButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, actions: zt }, additionalProperties: false };
 var Y = { type: "object", properties: { elementFormat: { type: "string" }, copy: { type: "object", properties: { ...o.properties }, additionalProperties: false }, report: { type: "object", properties: { tooltipText: { type: "string" }, buttonText: { type: "string" }, label: { type: "string" }, ...o.properties }, additionalProperties: false }, expand: { type: "object", properties: { ...o.properties }, additionalProperties: false }, collapse: { type: "object", properties: { ...o.properties }, additionalProperties: false } }, additionalProperties: false };
 var V = { type: "object", properties: { frontMatterKeysToResolve: { type: "array", items: { type: "string" } }, partialsFolders: { type: "array", items: { type: "string" } }, lastUpdatedBlock: { type: "object", properties: { format: { type: "string", enum: ["timeago", "iso", "long", "short"] }, locale: { type: "string" }, ...o.properties }, additionalProperties: false }, toc: { type: "object", properties: { header: { type: "string" }, depth: { type: "integer", minimum: 1 }, ...o.properties }, additionalProperties: false }, editPage: { type: "object", properties: { baseUrl: { type: "string" }, ...o.properties }, additionalProperties: false }, template: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
 var R = { ...S, properties: { ...S.properties, ...se.properties } };
-var Fi = { ...S, properties: { ...S.properties, ...se.properties } };
-var zt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, scriptUrl: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["scriptUrl"] };
-var Yt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, apiKey: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, outboundClickEventName: { type: "string" }, pageViewEventName: { type: "string" }, amplitudeConfig: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["apiKey"] };
-var Vt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, orgId: { type: "string" } }, additionalProperties: false, required: ["orgId"] };
-var Ht = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, appId: { type: "string" } }, additionalProperties: false, required: ["appId"] };
-var Kt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, dataPlaneUrl: { type: "string" }, controlPlaneUrl: { type: "string" }, sdkUrl: { type: "string" }, loadOptions: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["writeKey"] };
-var Wt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, includeTitleInPageCall: { type: "boolean" }, host: { type: "string" } }, additionalProperties: false, required: ["writeKey"] };
-var $t = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, gtmAuth: { type: "string" }, gtmPreview: { type: "string" }, defaultDataLayer: { type: "object", additionalProperties: true }, dataLayerName: { type: "string" }, enableWebVitalsTracking: { type: "boolean" }, selfHostedOrigin: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["trackingId"] };
+var zi = { ...S, properties: { ...S.properties, ...se.properties } };
+var Yt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, scriptUrl: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["scriptUrl"] };
+var Vt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, apiKey: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, outboundClickEventName: { type: "string" }, pageViewEventName: { type: "string" }, amplitudeConfig: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["apiKey"] };
+var Ht = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, orgId: { type: "string" } }, additionalProperties: false, required: ["orgId"] };
+var Kt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, appId: { type: "string" } }, additionalProperties: false, required: ["appId"] };
+var Wt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, dataPlaneUrl: { type: "string" }, controlPlaneUrl: { type: "string" }, sdkUrl: { type: "string" }, loadOptions: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["writeKey"] };
+var $t = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, includeTitleInPageCall: { type: "boolean" }, host: { type: "string" } }, additionalProperties: false, required: ["writeKey"] };
+var Xt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, gtmAuth: { type: "string" }, gtmPreview: { type: "string" }, defaultDataLayer: { type: "object", additionalProperties: true }, dataLayerName: { type: "string" }, enableWebVitalsTracking: { type: "boolean" }, selfHostedOrigin: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["trackingId"] };
 var ne = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, optimizeId: { type: "string" }, exclude: { type: "array", items: { type: "string" } } }, additionalProperties: false, required: ["trackingId"] };
-var Xt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, optimizeId: { type: "string" }, anonymizeIp: { type: "boolean" }, cookieExpires: { type: "number" }, trackers: { type: "object", additionalProperties: ne } }, additionalProperties: false, required: ["trackingId"] };
-var H = { type: "object", properties: { adobe: zt, amplitude: Yt, fullstory: Vt, heap: Ht, rudderstack: Kt, segment: Wt, gtm: $t, ga: Xt } };
+var Qt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, optimizeId: { type: "string" }, anonymizeIp: { type: "boolean" }, cookieExpires: { type: "number" }, trackers: { type: "object", additionalProperties: ne } }, additionalProperties: false, required: ["trackingId"] };
+var H = { type: "object", properties: { adobe: Yt, amplitude: Vt, fullstory: Ht, heap: Kt, rudderstack: Wt, segment: $t, gtm: Xt, ga: Qt } };
+var Te = { type: "object", properties: { mode: { type: "string", enum: ["auto", "opt-in", "opt-out", "none", "onetrust", "cookiebot", "trustarc", "tcf"] }, privacyPolicyUrl: { type: "string" }, expires: { type: "number" }, settingsLink: { type: "string", enum: ["auto", "footer", "none"] } }, additionalProperties: false };
 var K = { type: "object", properties: { items: { type: "array", items: { type: "object", properties: { label: { type: "string" }, external: { type: "boolean" }, link: { type: "string" }, separatorLine: { type: "boolean" } }, additionalProperties: true } }, hideLoginButton: { type: "boolean" }, ...o.properties }, additionalProperties: false };
 var W = { type: "object", properties: { hide: { type: "boolean" }, showForUnversioned: { type: "boolean" } } };
 var $ = { type: "object", properties: { hide: { type: "boolean" }, prefixItems: { type: "array", items: { type: "object", properties: { label: { type: "string" }, labelTranslationKey: { type: "string" }, page: { type: "string" }, icon: { type: "string" } }, additionalProperties: false } } }, additionalProperties: false };
-var Qt = { type: "object", additionalProperties: false, required: ["title", "property"], properties: { type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, property: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } }, missingCategoryName: { type: "string" }, missingCategoryNameTranslationKey: { type: "string" }, options: { type: "array", items: { type: "string" } } } };
-var Zt = { type: "object", additionalProperties: true, required: ["slug", "items"], properties: { show: { type: "boolean" }, slug: { type: "string" }, filters: { type: "array", items: Qt }, groupByFirstFilter: { type: "boolean" }, filterValuesCasing: { type: "string", enum: ["sentence", "original", "lowercase", "uppercase"] }, items: ae, requiredPermission: { type: "string" }, separateVersions: { type: "boolean" }, title: { type: "string" }, titleTranslationKey: { type: "string" }, description: { type: "string" }, descriptionTranslationKey: { type: "string" } } };
-var P = { type: "object", patternProperties: { ".*": Zt } };
+var Zt = { type: "object", additionalProperties: false, required: ["title", "property"], properties: { type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, property: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } }, missingCategoryName: { type: "string" }, missingCategoryNameTranslationKey: { type: "string" }, options: { type: "array", items: { type: "string" } } } };
+var eo = { type: "object", additionalProperties: true, required: ["slug", "items"], properties: { show: { type: "boolean" }, slug: { type: "string" }, filters: { type: "array", items: Zt }, groupByFirstFilter: { type: "boolean" }, filterValuesCasing: { type: "string", enum: ["sentence", "original", "lowercase", "uppercase"] }, items: ae, requiredPermission: { type: "string" }, separateVersions: { type: "boolean" }, title: { type: "string" }, titleTranslationKey: { type: "string" }, description: { type: "string" }, descriptionTranslationKey: { type: "string" } } };
+var P = { type: "object", patternProperties: { ".*": eo } };
 var O = { nodeTypeName: s.ScorecardClassic, description: "Add and create sets of rules and test your API description files against them. With these rules you can maintain quality across your existing APIs and ensure that newly-added or updated APIs match your criteria. An API scorecard can include multiple sets of rules, corresponding to different quality levels.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic", type: "object", additionalProperties: true, required: [], properties: { ignoreNonCompliant: { type: "boolean" }, teamMetadataProperty: { nodeTypeName: s.ScorecardClassicTeamMetadataProperty, description: "Provide custom team label and team metadata property.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#team-metadata-object", type: "object", properties: { property: { type: "string" }, label: { type: "string" }, default: { type: "string" } } }, levels: { nodeTypeName: s.ScorecardClassicLevelList, description: "List of levels to score against.", type: "array", items: { nodeTypeName: s.ScorecardClassicLevel, documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#level-object", type: "object", required: ["name"], properties: { name: { type: "string" }, color: { type: "string" }, ...f }, additionalProperties: false } }, targets: { nodeTypeName: s.ScorecardClassicTargetList, description: "Provide custom `minimumLevel` for specific targets.", type: "array", items: { nodeTypeName: s.ScorecardClassicTarget, type: "object", required: ["where"], properties: { minimumLevel: { type: "string" }, rules: { type: "object", additionalProperties: true }, where: { nodeTypeName: s.ScorecardClassicTargetWhere, description: "Specify which API descriptions to apply the `minimumLevel` to based on the metadata.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#where-object", type: "object", required: ["metadata"], properties: { metadata: { nodeTypeName: s.ScorecardClassicTargetWhereMetadata, type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false } }, additionalProperties: false } }, ignore: { type: "array", items: { type: "string" } }, fromProjectUrl: { type: "string", format: "uri" } } };
-var eo = { type: "object", required: ["key"], properties: { key: { type: "string" } }, additionalProperties: false };
-var to = { type: "object", required: ["type"], properties: { type: { type: "string" } }, additionalProperties: false };
-var oo = { type: "object", required: ["property", "title"], properties: { property: { type: "string" }, hide: { type: "boolean" }, label: { type: "string" }, options: { type: "array", items: { type: "string" } }, type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
-var l = { type: "object", properties: { slug: { type: "string" }, hide: { type: "boolean" }, includes: { type: "array", items: to }, excludes: { type: "array", items: eo }, filters: { type: "array", items: oo }, titleTranslationKey: { type: "string" }, descriptionTranslationKey: { type: "string" }, catalogSwitcherLabelTranslationKey: { type: "string" } }, additionalProperties: false };
-var io = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean", "array", "object"] }, description: { type: "string" }, example: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }, { type: "array" }, { type: "object" }] }, enum: { type: "array", items: { type: "string" } }, pattern: { type: "string" }, format: { type: "string" }, minimum: { type: "number" }, maximum: { type: "number" }, items: { type: "object" } }, additionalProperties: true };
-var so = { type: "object", required: ["type", "properties"], properties: { type: { type: "string", enum: ["object"] }, description: { type: "string" }, properties: { type: "object", additionalProperties: io }, required: { type: "array", items: { type: "string" } }, additionalProperties: { type: "boolean" } }, additionalProperties: true };
-var ro = { type: "object", required: ["name", "description", "metadataSchema"], properties: { name: { type: "string", description: "Display name of the entity type" }, description: { type: "string", description: "Description of the entity type" }, metadataSchema: so, icon: { type: "object", properties: { src: { type: "string" }, srcSet: { type: "string" } }, additionalProperties: false } }, additionalProperties: false };
-var ao = { type: "object", additionalProperties: ro };
-var X = { type: "object", properties: { show: { type: "boolean" }, entityTypes: ao, catalogs: { type: "object", properties: { all: l, services: l, domains: l, teams: l, users: l, apiDescriptions: l, dataSchemas: l, apiOperations: l }, additionalProperties: l } }, additionalProperties: false };
-var Te = { type: "string", enum: ["eq", "in", "gt", "gte", "lt", "lte", "contains", "startsWith", "endsWith", "exists", "isEmpty", "between", "matches", "some", "every", "none"] };
+var to = { type: "object", required: ["key"], properties: { key: { type: "string" } }, additionalProperties: false };
+var oo = { type: "object", required: ["type"], properties: { type: { type: "string" } }, additionalProperties: false };
+var io = { type: "object", required: ["property", "title"], properties: { property: { type: "string" }, hide: { type: "boolean" }, label: { type: "string" }, options: { type: "array", items: { type: "string" } }, type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
+var l = { type: "object", properties: { slug: { type: "string" }, hide: { type: "boolean" }, includes: { type: "array", items: oo }, excludes: { type: "array", items: to }, filters: { type: "array", items: io }, titleTranslationKey: { type: "string" }, descriptionTranslationKey: { type: "string" }, catalogSwitcherLabelTranslationKey: { type: "string" } }, additionalProperties: false };
+var so = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean", "array", "object"] }, description: { type: "string" }, example: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }, { type: "array" }, { type: "object" }] }, enum: { type: "array", items: { type: "string" } }, pattern: { type: "string" }, format: { type: "string" }, minimum: { type: "number" }, maximum: { type: "number" }, items: { type: "object" } }, additionalProperties: true };
+var ro = { type: "object", required: ["type", "properties"], properties: { type: { type: "string", enum: ["object"] }, description: { type: "string" }, properties: { type: "object", additionalProperties: so }, required: { type: "array", items: { type: "string" } }, additionalProperties: { type: "boolean" } }, additionalProperties: true };
+var ao = { type: "object", required: ["name", "description", "metadataSchema"], properties: { name: { type: "string", description: "Display name of the entity type" }, description: { type: "string", description: "Description of the entity type" }, metadataSchema: ro, icon: { type: "object", properties: { src: { type: "string" }, srcSet: { type: "string" } }, additionalProperties: false } }, additionalProperties: false };
+var no = { type: "object", additionalProperties: ao };
+var X = { type: "object", properties: { show: { type: "boolean" }, entityTypes: no, catalogs: { type: "object", properties: { all: l, services: l, domains: l, teams: l, users: l, apiDescriptions: l, dataSchemas: l, apiOperations: l }, additionalProperties: l } }, additionalProperties: false };
+var ve = { type: "string", enum: ["eq", "in", "gt", "gte", "lt", "lte", "contains", "startsWith", "endsWith", "exists", "isEmpty", "between", "matches", "some", "every", "none"] };
 var ce = { type: "string", enum: ["and", "or"] };
-var pe = { type: "object", properties: { field: { type: "string" }, operator: Te, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] }, match: { type: "array", items: { type: "object", properties: { field: { type: "string" }, operator: Te, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] } } } } } };
-var no = { type: "object", properties: { operator: ce, conditions: { type: "array", items: pe } }, required: ["operator", "conditions"], additionalProperties: false };
-var ve = { type: "array", items: { oneOf: [pe, { type: "object", properties: { operator: ce, conditions: { type: "array", items: { oneOf: [pe, no] } } }, required: ["operator", "conditions"], additionalProperties: false }] } };
-var Ie = { type: "object", properties: { defined: { type: "boolean" }, nonEmpty: { type: "boolean" }, eq: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, gt: { type: "number" }, gte: { type: "number" }, lt: { type: "number" }, lte: { type: "number" }, const: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] } }, additionalProperties: false };
-var po = { type: "array", items: { type: "object", properties: { subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, assertions: Ie }, required: ["subject", "assertions"], additionalProperties: false } };
-var co = { type: "object", properties: { title: { type: "string" }, subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, severity: { type: "string", enum: ["error", "warn", "off"] }, message: { type: "string" }, assertions: Ie, where: po, weight: { type: "number" } }, required: ["subject", "assertions"], additionalProperties: false };
-var yo = { type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object", properties: { severity: { type: "string", enum: ["error", "warn", "off"] }, weight: { type: "number" } }, additionalProperties: true }, co] } };
-var lo = { type: "object", properties: { name: { type: "string" }, extends: f.extends, rules: yo }, required: ["name"], additionalProperties: false };
-var ke = { type: "object", properties: { event: { type: "string", enum: ["runtime", "manual"] } }, required: ["event"], additionalProperties: false };
-var go = { oneOf: [ke, { type: "array", items: ke }] };
-var mo = { type: "object", properties: { name: { type: "string" }, key: { type: "string" }, description: { type: "string" }, entities: { oneOf: [ve, { type: "object", properties: { operator: ce, conditions: ve }, required: ["operator", "conditions"], additionalProperties: false }] }, levels: { type: "array", items: lo, minItems: 1 }, trigger: go }, required: ["name", "key", "entities", "levels"], additionalProperties: false };
-var Q = { type: "array", items: mo };
+var pe = { type: "object", properties: { field: { type: "string" }, operator: ve, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] }, match: { type: "array", items: { type: "object", properties: { field: { type: "string" }, operator: ve, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] } } } } } };
+var po = { type: "object", properties: { operator: ce, conditions: { type: "array", items: pe } }, required: ["operator", "conditions"], additionalProperties: false };
+var ke = { type: "array", items: { oneOf: [pe, { type: "object", properties: { operator: ce, conditions: { type: "array", items: { oneOf: [pe, po] } } }, required: ["operator", "conditions"], additionalProperties: false }] } };
+var Je = { type: "object", properties: { defined: { type: "boolean" }, nonEmpty: { type: "boolean" }, eq: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, gt: { type: "number" }, gte: { type: "number" }, lt: { type: "number" }, lte: { type: "number" }, const: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] } }, additionalProperties: false };
+var co = { type: "array", items: { type: "object", properties: { subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, assertions: Je }, required: ["subject", "assertions"], additionalProperties: false } };
+var yo = { type: "object", properties: { title: { type: "string" }, subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, severity: { type: "string", enum: ["error", "warn", "off"] }, message: { type: "string" }, assertions: Je, where: co, weight: { type: "number" } }, required: ["subject", "assertions"], additionalProperties: false };
+var lo = { type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object", properties: { severity: { type: "string", enum: ["error", "warn", "off"] }, weight: { type: "number" } }, additionalProperties: true }, yo] } };
+var go = { type: "object", properties: { name: { type: "string" }, extends: f.extends, rules: lo }, required: ["name"], additionalProperties: false };
+var Ie = { type: "object", properties: { event: { type: "string", enum: ["runtime", "manual"] } }, required: ["event"], additionalProperties: false };
+var mo = { oneOf: [Ie, { type: "array", items: Ie }] };
+var fo = { type: "object", properties: { name: { type: "string" }, key: { type: "string" }, description: { type: "string" }, entities: { oneOf: [ke, { type: "object", properties: { operator: ce, conditions: ke }, required: ["operator", "conditions"], additionalProperties: false }] }, levels: { type: "array", items: go, minItems: 1 }, trigger: mo }, required: ["name", "key", "entities", "levels"], additionalProperties: false };
+var Q = { type: "array", items: fo };
 var a = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, logo: D, navbar: _, products: A, footer: q, sidebar: w, scripts: M, links: U, feedback: c, search: B, aiAssistant: G, colorMode: F, palette: C, navigation: z, codeSnippet: Y, markdown: V, openapi: R, asyncapi: Ce, graphql: b, analytics: H, userMenu: K, versionPicker: W, breadcrumbs: $, catalog: P, entitiesCatalog: X, catalogClassic: P, scorecard: O, scorecardClassic: O, scorecards: Q }, additionalProperties: true };
 var ye = ((i) => (i.OIDC = "OIDC", i.SAML2 = "SAML2", i))(ye || {});
 var le = ((i) => (i.SERVICE_ACCOUNT = "SERVICE_ACCOUNT", i.OAUTH2 = "OAUTH2", i))(le || {});
-var Je = ((i) => (i.STACKED = "stacked", i.THREE_PANEL = "three-panel", i))(Je || {});
+var Le = ((i) => (i.STACKED = "stacked", i.THREE_PANEL = "three-panel", i))(Le || {});
 var Z = "^[a-z0-9]+(?:-[a-z0-9]+)*$";
-var uo = new RegExp(Z);
-var Le = 63;
-var Ro = `Unique ID cannot exceed ${Le} characters`;
+var Co = new RegExp(Z);
+var De = 63;
+var Po = `Unique ID cannot exceed ${De} characters`;
 var ee = "redocly";
 var te = [ee, "corporate", "guest"];
-var Po = `Unique ID cannot be a reserved word (${te.join(", ")})`;
+var Oo = `Unique ID cannot be a reserved word (${te.join(", ")})`;
 var de = ["REDOCLY", "CORPORATE", "GUEST"];
-var Oo = { type: "object", additionalProperties: { type: "string" } };
-var No = { type: "object", additionalProperties: false, patternProperties: { "^[a-zA-Z0-9_-]+$": { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" } } };
+var No = { type: "object", additionalProperties: { type: "string" } };
+var xo = { type: "object", additionalProperties: false, patternProperties: { "^[a-zA-Z0-9_-]+$": { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" } } };
 var oe = { type: "string", enum: ["error", "warn", "off"] };
-var xo = { type: "object", additionalProperties: false, properties: { schemaCheck: oe, statusCodeCheck: oe, contentTypeCheck: oe, successCriteriaCheck: oe } };
-var jo = { type: "object", properties: { event: { type: "string", enum: ["schedule"] }, interval: { type: "string", enum: ["1m", "2m", "5m", "10m", "15m", "30m", "1h", "3h", "6h", "12h", "1d", "7d"] } }, required: ["event"], additionalProperties: false };
-var Eo = { type: "object", properties: { event: { type: "string", enum: ["build"] } }, required: ["event"], additionalProperties: false };
-var To = { type: "object", properties: { warn: { type: "number" }, error: { type: "number" } }, additionalProperties: false };
-var vo = { type: "object", additionalProperties: { type: "object", properties: { type: { type: "string", enum: ["http"] }, url: { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" }, description: { type: "string" }, headers: { type: "object", additionalProperties: { type: "string" } } }, required: ["url"], additionalProperties: false } };
-var De = { type: "object", properties: { ignoreLint: { oneOf: [{ type: "boolean" }, { type: "object", additionalProperties: { type: "boolean" } }] }, ignoreLinkChecker: { type: "boolean" }, ignoreMarkdocErrors: { type: "boolean" }, ignoreRespectMonitoring: { type: "boolean" }, jobs: { type: "array", items: { type: "object", properties: { path: { type: "string", pattern: "^(?!\\/|\\.\\./)" }, agent: { type: "string", enum: ["respect"] }, trigger: { oneOf: [jo, Eo] }, inputs: Oo, servers: No, severity: xo, slo: To }, required: ["path", "trigger", "agent"], additionalProperties: false } }, mcpServers: vo }, additionalProperties: false };
-var Ae = { type: "string", enum: ["off", "info", "warn", "error"] };
+var jo = { type: "object", additionalProperties: false, properties: { schemaCheck: oe, statusCodeCheck: oe, contentTypeCheck: oe, successCriteriaCheck: oe } };
+var Eo = { type: "object", properties: { event: { type: "string", enum: ["schedule"] }, interval: { type: "string", enum: ["1m", "2m", "5m", "10m", "15m", "30m", "1h", "3h", "6h", "12h", "1d", "7d"] } }, required: ["event"], additionalProperties: false };
+var To = { type: "object", properties: { event: { type: "string", enum: ["build"] } }, required: ["event"], additionalProperties: false };
+var vo = { type: "object", properties: { warn: { type: "number" }, error: { type: "number" } }, additionalProperties: false };
+var ko = { type: "object", additionalProperties: { type: "object", properties: { type: { type: "string", enum: ["http"] }, url: { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" }, description: { type: "string" }, headers: { type: "object", additionalProperties: { type: "string" } } }, required: ["url"], additionalProperties: false } };
+var _e = { type: "object", properties: { ignoreLint: { oneOf: [{ type: "boolean" }, { type: "object", additionalProperties: { type: "boolean" } }] }, ignoreLinkChecker: { type: "boolean" }, ignoreMarkdocErrors: { type: "boolean" }, ignoreRespectMonitoring: { type: "boolean" }, jobs: { type: "array", items: { type: "object", properties: { path: { type: "string", pattern: "^(?!\\/|\\.\\./)" }, agent: { type: "string", enum: ["respect"] }, trigger: { oneOf: [Eo, To] }, inputs: No, servers: xo, severity: jo, slo: vo }, required: ["path", "trigger", "agent"], additionalProperties: false } }, mcpServers: ko }, additionalProperties: false };
+var qe = { type: "string", enum: ["off", "info", "warn", "error"] };
 var j = { type: "array", items: { type: "string" } };
-var ko = { type: "object", properties: { severity: Ae, message: { type: "string", minLength: 1 }, fix: { type: "boolean" }, tags: j, description: { type: "string" }, link: { type: "string" }, scope: { oneOf: [{ type: "string", minLength: 1 }, { type: "array", items: { type: "string", minLength: 1 }, minItems: 1 }] }, appliesTo: j, excludes: j, exceptions: { type: "object", properties: { files: j, lines: j }, additionalProperties: false }, assertions: { type: "object", additionalProperties: true } }, additionalProperties: false };
-var Io = { oneOf: [Ae, ko] };
-var _e = { type: "object", additionalProperties: Io };
-var Jo = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean"] }, required: { type: "boolean" }, default: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }] }, enum: { type: "array", items: { type: "string" }, minItems: 1 }, dynamic: { type: "boolean" } }, required: ["type"], additionalProperties: false };
-var Lo = { type: "object", properties: { selfClosing: { type: "boolean" }, attributes: { type: "object", additionalProperties: Jo } }, additionalProperties: false };
-var Do = { type: "object", properties: { schema: { oneOf: [{ type: "string", enum: ["realm"] }, { type: "boolean" }] }, extend: { type: "object", properties: { tags: { type: "object", additionalProperties: Lo }, tagsFile: { type: "string", minLength: 1 } }, additionalProperties: false } }, required: ["schema"], additionalProperties: false };
-var ge = { type: "object", properties: { rules: _e, excludes: { type: "array", items: { type: "string", minLength: 1 } }, baseline: { type: "string", minLength: 1 }, markdoc: { oneOf: [{ type: "boolean" }, Do] }, apiDescriptions: { type: "object", properties: { rules: _e }, additionalProperties: false } }, additionalProperties: false };
-var _o = { type: "object", properties: { end_session_endpoint: { type: "string" }, token_endpoint: { type: "string" }, authorization_endpoint: { type: "string" }, jwks_uri: { type: "string" } }, required: ["token_endpoint", "authorization_endpoint"], additionalProperties: true };
-var Ao = { type: "object", properties: { type: { type: "string", const: "OIDC" }, title: { type: "string" }, pkce: { type: "boolean" }, configurationUrl: { type: "string", minLength: 1 }, configuration: _o, clientId: { type: "string", minLength: 1 }, clientSecret: { type: "string" }, teamsClaimName: { type: "string" }, teamsClaimMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } }, scopes: { type: "array", items: { type: "string" } }, tokenExpirationTime: { type: "number" }, authorizationRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, introspectEndpoint: { type: "string" }, tokenRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, audience: { type: "array", items: { type: "string" } } }, required: ["type", "clientId"], oneOf: [{ required: ["configurationUrl"] }, { required: ["configuration"] }], additionalProperties: false };
-var qo = { type: "object", properties: { type: { type: "string", const: "SAML2" }, title: { type: "string" }, issuerId: { type: "string" }, entityId: { type: "string" }, ssoUrl: { type: "string" }, x509PublicCert: { type: "string" }, teamsAttributeName: { type: "string" }, teamsAttributeMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } } }, additionalProperties: false, required: ["type", "issuerId", "ssoUrl", "x509PublicCert"] };
-var wo = { oneOf: [Ao, qo], discriminator: { propertyName: "type" } };
-var Mo = { type: "object", additionalProperties: wo };
-var Me = { oneOf: [{ type: "array", items: { type: "string", enum: de }, uniqueItems: true }, { type: "string", enum: de }] };
-var qe = { type: "string", pattern: Z, not: { enum: te.filter((d) => d !== ee) } };
-var Ue = { oneOf: [{ type: "array", items: qe, uniqueItems: true }, qe] };
-var Be = { type: "boolean" };
-var Ge = { type: "string", pattern: "^https?://.*" };
+var Io = { type: "object", properties: { severity: qe, message: { type: "string", minLength: 1 }, fix: { type: "boolean" }, tags: j, description: { type: "string" }, link: { type: "string" }, scope: { oneOf: [{ type: "string", minLength: 1 }, { type: "array", items: { type: "string", minLength: 1 }, minItems: 1 }] }, appliesTo: j, excludes: j, exceptions: { type: "object", properties: { files: j, lines: j }, additionalProperties: false }, assertions: { type: "object", additionalProperties: true } }, additionalProperties: false };
+var Jo = { oneOf: [qe, Io] };
+var Ae = { type: "object", additionalProperties: Jo };
+var Lo = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean"] }, required: { type: "boolean" }, default: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }] }, enum: { type: "array", items: { type: "string" }, minItems: 1 }, dynamic: { type: "boolean" } }, required: ["type"], additionalProperties: false };
+var Do = { type: "object", properties: { selfClosing: { type: "boolean" }, attributes: { type: "object", additionalProperties: Lo } }, additionalProperties: false };
+var _o = { type: "object", properties: { schema: { oneOf: [{ type: "string", enum: ["realm"] }, { type: "boolean" }] }, extend: { type: "object", properties: { tags: { type: "object", additionalProperties: Do }, tagsFile: { type: "string", minLength: 1 } }, additionalProperties: false } }, required: ["schema"], additionalProperties: false };
+var ge = { type: "object", properties: { rules: Ae, excludes: { type: "array", items: { type: "string", minLength: 1 } }, baseline: { type: "string", minLength: 1 }, markdoc: { oneOf: [{ type: "boolean" }, _o] }, apiDescriptions: { type: "object", properties: { rules: Ae }, additionalProperties: false } }, additionalProperties: false };
+var Ao = { type: "object", properties: { end_session_endpoint: { type: "string" }, token_endpoint: { type: "string" }, authorization_endpoint: { type: "string" }, jwks_uri: { type: "string" } }, required: ["token_endpoint", "authorization_endpoint"], additionalProperties: true };
+var qo = { type: "object", properties: { type: { type: "string", const: "OIDC" }, title: { type: "string" }, pkce: { type: "boolean" }, configurationUrl: { type: "string", minLength: 1 }, configuration: Ao, clientId: { type: "string", minLength: 1 }, clientSecret: { type: "string" }, teamsClaimName: { type: "string" }, teamsClaimMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } }, scopes: { type: "array", items: { type: "string" } }, tokenExpirationTime: { type: "number" }, authorizationRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, introspectEndpoint: { type: "string" }, tokenRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, audience: { type: "array", items: { type: "string" } } }, required: ["type", "clientId"], oneOf: [{ required: ["configurationUrl"] }, { required: ["configuration"] }], additionalProperties: false };
+var wo = { type: "object", properties: { type: { type: "string", const: "SAML2" }, title: { type: "string" }, issuerId: { type: "string" }, entityId: { type: "string" }, ssoUrl: { type: "string" }, x509PublicCert: { type: "string" }, teamsAttributeName: { type: "string" }, teamsAttributeMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } } }, additionalProperties: false, required: ["type", "issuerId", "ssoUrl", "x509PublicCert"] };
+var Mo = { oneOf: [qo, wo], discriminator: { propertyName: "type" } };
+var Uo = { type: "object", additionalProperties: Mo };
+var Ue = { oneOf: [{ type: "array", items: { type: "string", enum: de }, uniqueItems: true }, { type: "string", enum: de }] };
+var we = { type: "string", pattern: Z, not: { enum: te.filter((d) => d !== ee) } };
+var Be = { oneOf: [{ type: "array", items: we, uniqueItems: true }, we] };
+var Ge = { type: "boolean" };
 var Fe = { type: "string", pattern: "^https?://.*" };
-var Uo = { type: "object", properties: { to: { type: "string" }, type: { type: "number" } }, additionalProperties: false, nodeTypeName: s.RedirectSource, description: "Source is an absolute path that must start with a forward slash.", documentationLink: "https://redocly.com/docs/realm/config/redirects#sources-map" };
-var Bo = { type: "object", additionalProperties: Uo, nodeTypeName: s.Redirects, description: "Use redirects to change which resource a URL points to, maintaining working links when you move, rename, or restructure content.", documentationLink: "https://redocly.com/docs/realm/config/redirects" };
-var Go = { type: "string", enum: ["info", "success", "warning", "error"] };
+var ze = { type: "string", pattern: "^https?://.*" };
+var Bo = { type: "object", properties: { to: { type: "string" }, type: { type: "number" } }, additionalProperties: false, nodeTypeName: s.RedirectSource, description: "Source is an absolute path that must start with a forward slash.", documentationLink: "https://redocly.com/docs/realm/config/redirects#sources-map" };
+var Go = { type: "object", additionalProperties: Bo, nodeTypeName: s.Redirects, description: "Use redirects to change which resource a URL points to, maintaining working links when you move, rename, or restructure content.", documentationLink: "https://redocly.com/docs/realm/config/redirects" };
+var Fo = { type: "string", enum: ["info", "success", "warning", "error"] };
 var e = { type: "object", additionalProperties: { type: "string" } };
-var Fo = { type: "object", properties: { trackingId: { type: "string" }, content: { type: "string", uiHint: "textarea" }, dismissible: { type: "boolean" }, target: { type: "string" }, color: Go, rbac: e, startAt: { type: "string", format: "date-time" }, endAt: { type: "string", format: "date-time" } }, required: ["content"], additionalProperties: false };
-var zo = { type: "array", items: Fo };
-var fe = { type: "object", properties: { root: { type: "string" }, output: { type: "string", pattern: "(.ya?ml|.json)$" }, rbac: e, openapi: R, graphql: b, theme: { type: "object", properties: { openapi: R, graphql: b }, additionalProperties: false }, title: { type: "string" }, metadata: { type: "object", additionalProperties: true }, ...f }, required: ["root"] };
-var Yo = { type: "object", additionalProperties: true };
-var Vo = { type: "object", additionalProperties: { type: "object", additionalProperties: true } };
-var Ho = { type: "object", properties: { hide: { type: "boolean" }, title: { type: "string" }, description: { type: "string" }, details: { type: "object", properties: { path: { type: "string" }, content: { type: "string" } }, additionalProperties: false }, excludeFiles: { type: "array", items: { type: "string" } }, sections: { type: "array", items: { type: "object", properties: { title: { type: "string" }, description: { type: "string" }, includeFiles: { type: "array", items: { type: "string" } }, excludeFiles: { type: "array", items: { type: "string" } } }, required: ["title"], additionalProperties: false } } }, additionalProperties: false };
-var Ko = { type: "object", properties: { title: { type: "string" }, projectTitle: { type: "string" }, description: { type: "string", uiHint: "textarea" }, siteUrl: { type: "string" }, image: { type: "string", uiHint: "file" }, keywords: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, lang: { type: "string" }, jsonLd: { type: "object" }, meta: { type: "array", items: { type: "object", properties: { name: { type: "string" }, content: { type: "string" } }, required: ["name", "content"], additionalProperties: false } }, llmstxt: Ho }, additionalProperties: false };
-var Wo = { type: "object", properties: { folders: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var $o = { type: "object", properties: { catalogs: { type: "object", properties: { all: e, services: e, domains: e, teams: e, users: e, apiDescriptions: e, dataSchemas: e, apiOperations: e }, additionalProperties: e }, entitiesTypes: { type: "object", properties: { service: e, domain: e, team: e, user: e, apiDescription: e, apiOperation: e, dataSchema: e }, additionalProperties: e }, entitiesGroups: { type: "array", items: { type: "object", properties: { entities: { type: "array", items: { type: "string" } }, config: e }, additionalProperties: false } }, entities: { type: "object", properties: { "**": e }, additionalProperties: e } }, additionalProperties: false };
-var Se = { type: "object", properties: { teamNamePatterns: { type: "array", items: { type: "string" } }, teamFolders: { type: "array", items: { type: "string" } }, teamFoldersBaseRoles: e, cms: e, reunite: e, features: { type: "object", properties: { aiSearch: e, mcp: e }, additionalProperties: false }, content: { type: "object", properties: { "**": e }, additionalProperties: e }, entitiesCatalog: $o }, additionalProperties: e };
-var Xo = { type: "object", properties: { static: { type: "string" } }, additionalProperties: false, required: ["static"] };
-var Qo = { type: "object", properties: { idp: { type: "string" } }, additionalProperties: false, required: ["idp"] };
-var Zo = { type: "object", properties: { type: { type: "string", const: "GRAVITEE" }, apiBaseUrl: { type: "string" }, env: { type: "string" }, allowApiProductsOutsideCatalog: { type: "boolean" }, stage: { type: "string" }, auth: { oneOf: [Xo, Qo] } }, additionalProperties: false, required: ["type", "apiBaseUrl"] };
-var ei = { type: "object", properties: { type: { type: "string", const: "OAUTH2" }, tokenEndpoint: { type: "string" }, clientId: { type: "string" }, clientSecret: { type: "string" } }, additionalProperties: false, required: ["type", "tokenEndpoint", "clientId", "clientSecret"] };
-var ti = { type: "object", properties: { type: { type: "string", const: "SERVICE_ACCOUNT" }, serviceAccountEmail: { type: "string" }, serviceAccountPrivateKey: { type: "string" } }, additionalProperties: false, required: ["type", "serviceAccountEmail", "serviceAccountPrivateKey"] };
-var me = { type: "object", properties: { type: { type: "string", const: "APIGEE_X" }, apiUrl: { type: "string" }, stage: { type: "string" }, organizationName: { type: "string" }, ignoreApiProducts: { type: "array", items: { type: "string" } }, allowApiProductsOutsideCatalog: { type: "boolean" }, auth: { type: "object", oneOf: [ei, ti], discriminator: { propertyName: "type" } } }, additionalProperties: false, required: ["type", "organizationName", "auth"] };
-var oi = { ...me, properties: { ...me.properties, type: { type: "string", const: "APIGEE_EDGE" } } };
-var ii = { type: "object", oneOf: [me, oi, Zo], discriminator: { propertyName: "type" } };
-var si = { type: "object", required: ["adapters"], additionalProperties: false, properties: { adapters: { type: "array", items: ii } } };
-var we = { type: "object", properties: { defaultLocale: { type: "string" }, locales: { type: "array", items: { type: "object", properties: { code: { type: "string" }, name: { type: "string" } }, required: ["code"] } } }, additionalProperties: false, required: ["defaultLocale"] };
-var ri = { type: "object", properties: { name: { type: "string" }, value: { type: "string" } }, additionalProperties: false, required: ["name", "value"] };
-var ai = { type: "object", properties: { hide: { type: "boolean" }, docs: { type: "object", properties: { hide: { type: "boolean" }, name: { type: "string" }, ignore: { type: "array", items: { type: "string" } }, publicEndpoint: { type: "boolean" } }, additionalProperties: false } }, additionalProperties: false };
-var ni = { type: "object", properties: { hide: { type: "boolean" }, excludeFiles: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var pi = { type: "object", properties: { requiresLogin: Be, logoutReturnUrl: Ge, residency: Fe, sso: Me, idps: Ue, rbac: Se }, additionalProperties: false, not: { required: ["sso", "idps"] }, description: "Use either `access.sso` (filter by category) or `access.idps` (filter by slug), not both." };
-var E = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, licenseKey: { type: "string" }, redirects: Bo, seo: Ko, rbac: Se, apiFunctions: Wo, requiresLogin: Be, responseHeaders: { type: "object", additionalProperties: { type: "array", items: ri } }, mockServer: { type: "object", properties: { off: { type: "boolean" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, strictExamples: { type: "boolean" }, errorIfForcedExampleNotFound: { type: "boolean" }, description: { type: "string" } } }, apis: { type: "object", additionalProperties: fe }, ...f, ssoDirect: Mo, sso: Me, idps: Ue, residency: Fe, logoutReturnUrl: Ge, access: pi, developerOnboarding: si, removeAttribution: { type: "boolean" }, i18n: we, l10n: we, metadata: Yo, metadataGlobs: Vo, ignore: { type: "array", items: { type: "string" } }, theme: a, reunite: De, logo: D, navbar: _, products: A, footer: q, sidebar: w, scripts: M, links: U, feedback: c, search: B, aiAssistant: G, colorMode: F, palette: C, navigation: z, codeSnippet: Y, markdown: V, openapi: R, graphql: b, analytics: H, userMenu: K, versionPicker: W, breadcrumbs: $, catalog: P, entitiesCatalog: X, catalogClassic: P, scorecard: O, scorecardClassic: O, scorecards: Q, mcp: ai, skills: ni, recheck: ge, corsProxy: { type: "object", properties: { allowedTargets: { type: "array", items: { type: "string" } } }, additionalProperties: false }, banner: zo }, not: { required: ["sso", "idps"] }, additionalProperties: true };
-var ci = { ...E, additionalProperties: false };
-var yi = { $id: "root-redocly-config", ...E, properties: { plugins: { type: "array", items: { type: "string" } }, ...E.properties, env: { type: "object", additionalProperties: ci } }, additionalProperties: false };
+var zo = { type: "object", properties: { trackingId: { type: "string" }, content: { type: "string", uiHint: "textarea" }, dismissible: { type: "boolean" }, target: { type: "string" }, color: Fo, rbac: e, startAt: { type: "string", format: "date-time" }, endAt: { type: "string", format: "date-time" } }, required: ["content"], additionalProperties: false };
+var Yo = { type: "array", items: zo };
+var fe = { type: "object", properties: { root: { type: "string" }, output: { type: "string", pattern: "(.ya?ml|.json)$" }, overlays: { type: "array", items: { type: "string" } }, rbac: e, openapi: R, graphql: b, theme: { type: "object", properties: { openapi: R, graphql: b }, additionalProperties: false }, title: { type: "string" }, metadata: { type: "object", additionalProperties: true }, ...f }, required: ["root"] };
+var Vo = { type: "object", additionalProperties: true };
+var Ho = { type: "object", additionalProperties: { type: "object", additionalProperties: true } };
+var Ko = { type: "object", properties: { hide: { type: "boolean" }, title: { type: "string" }, description: { type: "string" }, details: { type: "object", properties: { path: { type: "string" }, content: { type: "string" } }, additionalProperties: false }, excludeFiles: { type: "array", items: { type: "string" } }, sections: { type: "array", items: { type: "object", properties: { title: { type: "string" }, description: { type: "string" }, includeFiles: { type: "array", items: { type: "string" } }, excludeFiles: { type: "array", items: { type: "string" } } }, required: ["title"], additionalProperties: false } } }, additionalProperties: false };
+var Wo = { type: "object", properties: { title: { type: "string" }, projectTitle: { type: "string" }, description: { type: "string", uiHint: "textarea" }, siteUrl: { type: "string" }, image: { type: "string", uiHint: "file" }, keywords: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, lang: { type: "string" }, jsonLd: { type: "object" }, meta: { type: "array", items: { type: "object", properties: { name: { type: "string" }, content: { type: "string" } }, required: ["name", "content"], additionalProperties: false } }, llmstxt: Ko }, additionalProperties: false };
+var $o = { type: "object", properties: { folders: { type: "array", items: { type: "string" } } }, additionalProperties: false };
+var Xo = { type: "object", properties: { catalogs: { type: "object", properties: { all: e, services: e, domains: e, teams: e, users: e, apiDescriptions: e, dataSchemas: e, apiOperations: e }, additionalProperties: e }, entitiesTypes: { type: "object", properties: { service: e, domain: e, team: e, user: e, apiDescription: e, apiOperation: e, dataSchema: e }, additionalProperties: e }, entitiesGroups: { type: "array", items: { type: "object", properties: { entities: { type: "array", items: { type: "string" } }, config: e }, additionalProperties: false } }, entities: { type: "object", properties: { "**": e }, additionalProperties: e } }, additionalProperties: false };
+var Se = { type: "object", properties: { teamNamePatterns: { type: "array", items: { type: "string" } }, teamFolders: { type: "array", items: { type: "string" } }, teamFoldersBaseRoles: e, cms: e, reunite: e, features: { type: "object", properties: { aiSearch: e, mcp: e }, additionalProperties: false }, content: { type: "object", properties: { "**": e }, additionalProperties: e }, entitiesCatalog: Xo }, additionalProperties: e };
+var Qo = { type: "object", properties: { static: { type: "string" } }, additionalProperties: false, required: ["static"] };
+var Zo = { type: "object", properties: { idp: { type: "string" } }, additionalProperties: false, required: ["idp"] };
+var ei = { type: "object", properties: { type: { type: "string", const: "GRAVITEE" }, apiBaseUrl: { type: "string" }, env: { type: "string" }, allowApiProductsOutsideCatalog: { type: "boolean" }, stage: { type: "string" }, auth: { oneOf: [Qo, Zo] } }, additionalProperties: false, required: ["type", "apiBaseUrl"] };
+var ti = { type: "object", properties: { type: { type: "string", const: "OAUTH2" }, tokenEndpoint: { type: "string" }, clientId: { type: "string" }, clientSecret: { type: "string" } }, additionalProperties: false, required: ["type", "tokenEndpoint", "clientId", "clientSecret"] };
+var oi = { type: "object", properties: { type: { type: "string", const: "SERVICE_ACCOUNT" }, serviceAccountEmail: { type: "string" }, serviceAccountPrivateKey: { type: "string" } }, additionalProperties: false, required: ["type", "serviceAccountEmail", "serviceAccountPrivateKey"] };
+var me = { type: "object", properties: { type: { type: "string", const: "APIGEE_X" }, apiUrl: { type: "string" }, stage: { type: "string" }, organizationName: { type: "string" }, ignoreApiProducts: { type: "array", items: { type: "string" } }, allowApiProductsOutsideCatalog: { type: "boolean" }, auth: { type: "object", oneOf: [ti, oi], discriminator: { propertyName: "type" } } }, additionalProperties: false, required: ["type", "organizationName", "auth"] };
+var ii = { ...me, properties: { ...me.properties, type: { type: "string", const: "APIGEE_EDGE" } } };
+var si = { type: "object", oneOf: [me, ii, ei], discriminator: { propertyName: "type" } };
+var ri = { type: "object", required: ["adapters"], additionalProperties: false, properties: { adapters: { type: "array", items: si } } };
+var Me = { type: "object", properties: { defaultLocale: { type: "string" }, locales: { type: "array", items: { type: "object", properties: { code: { type: "string" }, name: { type: "string" } }, required: ["code"] } } }, additionalProperties: false, required: ["defaultLocale"] };
+var ai = { type: "object", properties: { name: { type: "string" }, value: { type: "string" } }, additionalProperties: false, required: ["name", "value"] };
+var ni = { type: "object", properties: { hide: { type: "boolean" }, docs: { type: "object", properties: { hide: { type: "boolean" }, name: { type: "string" }, ignore: { type: "array", items: { type: "string" } }, publicEndpoint: { type: "boolean" } }, additionalProperties: false } }, additionalProperties: false };
+var pi = { type: "object", properties: { hide: { type: "boolean" }, excludeFiles: { type: "array", items: { type: "string" } } }, additionalProperties: false };
+var ci = { type: "object", properties: { requiresLogin: Ge, logoutReturnUrl: Fe, residency: ze, sso: Ue, idps: Be, rbac: Se }, additionalProperties: false, not: { required: ["sso", "idps"] }, description: "Use either `access.sso` (filter by category) or `access.idps` (filter by slug), not both." };
+var E = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, licenseKey: { type: "string" }, redirects: Go, seo: Wo, rbac: Se, apiFunctions: $o, requiresLogin: Ge, responseHeaders: { type: "object", additionalProperties: { type: "array", items: ai } }, mockServer: { type: "object", properties: { off: { type: "boolean" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, strictExamples: { type: "boolean" }, errorIfForcedExampleNotFound: { type: "boolean" }, description: { type: "string" } } }, apis: { type: "object", additionalProperties: fe }, ...f, ssoDirect: Uo, sso: Ue, idps: Be, residency: ze, logoutReturnUrl: Fe, access: ci, developerOnboarding: ri, removeAttribution: { type: "boolean" }, i18n: Me, l10n: Me, metadata: Vo, metadataGlobs: Ho, ignore: { type: "array", items: { type: "string" } }, theme: a, reunite: _e, logo: D, navbar: _, products: A, footer: q, sidebar: w, scripts: M, links: U, feedback: c, search: B, aiAssistant: G, colorMode: F, palette: C, navigation: z, codeSnippet: Y, markdown: V, openapi: R, graphql: b, analytics: H, consent: Te, userMenu: K, versionPicker: W, breadcrumbs: $, catalog: P, entitiesCatalog: X, catalogClassic: P, scorecard: O, scorecardClassic: O, scorecards: Q, mcp: ni, skills: pi, recheck: ge, corsProxy: { type: "object", properties: { allowedTargets: { type: "array", items: { type: "string" } } }, additionalProperties: false }, banner: Yo }, not: { required: ["sso", "idps"] }, additionalProperties: true };
+var yi = { ...E, additionalProperties: false };
+var li = { $id: "root-redocly-config", ...E, properties: { plugins: { type: "array", items: { type: "string" } }, ...E.properties, env: { type: "object", additionalProperties: yi } }, additionalProperties: false };
 var he = { type: "object", properties: { logo: a.properties.logo, navbar: a.properties.navbar, footer: a.properties.footer, sidebar: a.properties.sidebar, search: a.properties.search, codeSnippet: a.properties.codeSnippet, breadcrumbs: a.properties.breadcrumbs, openapi: a.properties.openapi, feedback: a.properties.feedback, palette: C, mockServer: E.properties.mockServer, analytics: { type: "object", properties: { ga: ne } } }, additionalProperties: true };
-var li = { $id: "product-config-override", type: "object", properties: { ...he.properties, apis: { type: "object", additionalProperties: fe }, theme: he }, additionalProperties: false };
+var di = { $id: "product-config-override", type: "object", properties: { ...he.properties, apis: { type: "object", additionalProperties: fe }, theme: he }, additionalProperties: false };
 var be = ["partOf", "hasParts", "creates", "createdBy", "owns", "ownedBy", "implements", "implementedBy", "dependsOn", "dependencyOf", "uses", "usedBy", "produces", "consumes", "linksTo", "supersedes", "supersededBy", "compatibleWith", "extends", "extendedBy", "relatesTo", "hasMember", "memberOf", "triggers", "triggeredBy", "returns", "returnedBy"];
 var t = L({ UserEntity: "UserEntity", UserEntityMetadata: "UserEntityMetadata", ApiDescriptionEntity: "ApiDescriptionEntity", ApiDescriptionEntityMetadata: "ApiDescriptionEntityMetadata", ApiOperationEntity: "ApiOperationEntity", ApiOperationEntityMetadata: "ApiOperationEntityMetadata", DataSchemaEntity: "DataSchemaEntity", DataSchemaEntityMetadata: "DataSchemaEntityMetadata", ServiceEntity: "ServiceEntity", DomainEntity: "DomainEntity", TeamEntity: "TeamEntity", Entity: "Entity", EntityMetadata: "EntityMetadata", EntityLinkList: "EntityLinkList", EntityLink: "EntityLink", EntityRelation: "EntityRelation", EntityRelationList: "EntityRelationList", EntityContact: "EntityContact", EntitySlackContact: "EntitySlackContact", EntitySlackChannel: "EntitySlackChannel" });
-var di = { type: "object", nodeTypeName: t.UserEntityMetadata, properties: { email: { type: "string", description: "Email of the user" } }, required: ["email"], additionalProperties: true };
-var gi = { type: "object", nodeTypeName: t.ApiDescriptionEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Type of the API description" }, descriptionFile: { type: "string", description: "Path to the file containing the API description" } }, required: ["specType", "descriptionFile"], additionalProperties: true };
-var mi = { type: "object", nodeTypeName: t.ApiOperationEntityMetadata, properties: { method: { type: "string", enum: ["GET", "POST", "PUT", "DELETE", "PATCH", "MUTATION", "QUERY", "SUBSCRIBE", "PUBLISH"], description: "HTTP method of the API operation" }, path: { type: "string", description: "Path of the API operation" }, payload: { type: "array", items: { type: "string", description: "Related dataSchema name" } }, responses: { type: "array", items: { type: "string", description: "Related dataSchema name" } } }, required: ["method", "path"], additionalProperties: true };
-var fi = { type: "object", nodeTypeName: t.DataSchemaEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Specification type of the data schema" }, schema: { type: "string", description: "Inline schema of the data structure" }, sdl: { type: "string", description: "SDL of the data structure" } }, required: ["specType"], additionalProperties: true };
-var Si = { type: "object", properties: {}, nodeTypeName: t.EntityMetadata, additionalProperties: true };
-var hi = { type: "object", nodeTypeName: t.EntitySlackChannel, properties: { name: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["name"], additionalProperties: false };
-var bi = { type: "object", nodeTypeName: t.EntitySlackContact, properties: { channels: { type: "array", items: hi } }, required: ["channels"], additionalProperties: false };
-var ui = { type: "object", nodeTypeName: t.EntityContact, properties: { slack: bi }, additionalProperties: false };
-var Ci = { type: "object", nodeTypeName: t.EntityLink, properties: { label: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["label", "url"], additionalProperties: false };
-var Ri = { type: "object", nodeTypeName: t.EntityRelation, properties: { type: { type: "string", enum: be }, key: { type: "string", minLength: 2, maxLength: 100 }, version: { type: "string" }, revision: { type: "string" } }, required: ["type", "key"], additionalProperties: false };
-var g = { version: { type: "string" }, key: { type: "string", pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$", minLength: 2, maxLength: 150 }, type: { type: "string", enum: ["user", "data-schema", "api-operation", "api-description", "service", "domain", "team"] }, title: { type: "string", minLength: 2, maxLength: 200 }, summary: { type: "string", minLength: 1, maxLength: 500 }, tags: { type: "array", items: { type: "string", minLength: 1, maxLength: 50 } }, git: { type: "array", items: { type: "string" } }, contact: ui, links: { type: "array", nodeTypeName: t.EntityLinkList, items: Ci }, relations: { type: "array", nodeTypeName: t.EntityRelationList, items: Ri }, metadata: Si };
-var Ls = { type: "object", discriminator: { propertyName: "type" }, oneOf: [{ type: "object", properties: { ...g, type: { type: "string", const: "user" }, metadata: di }, required: ["key", "title", "type", "metadata"], additionalProperties: false, nodeTypeName: t.UserEntity }, { type: "object", nodeTypeName: t.ApiOperationEntity, properties: { ...g, type: { type: "string", const: "api-operation" }, metadata: mi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.DataSchemaEntity, properties: { ...g, type: { type: "string", const: "data-schema" }, metadata: fi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ApiDescriptionEntity, properties: { ...g, type: { type: "string", const: "api-description" }, metadata: gi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ServiceEntity, properties: { ...g, type: { type: "string", const: "service" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.DomainEntity, properties: { ...g, type: { type: "string", const: "domain" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.TeamEntity, properties: { ...g, type: { type: "string", const: "team" } }, required: ["key", "title", "type"], additionalProperties: false }] };
-var Ds = { type: "object", nodeTypeName: t.Entity, properties: { ...g }, required: ["key", "title", "type"], additionalProperties: false };
+var gi = { type: "object", nodeTypeName: t.UserEntityMetadata, properties: { email: { type: "string", description: "Email of the user" } }, required: ["email"], additionalProperties: true };
+var mi = { type: "object", nodeTypeName: t.ApiDescriptionEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Type of the API description" }, descriptionFile: { type: "string", description: "Path to the file containing the API description" } }, required: ["specType", "descriptionFile"], additionalProperties: true };
+var fi = { type: "object", nodeTypeName: t.ApiOperationEntityMetadata, properties: { method: { type: "string", enum: ["GET", "POST", "PUT", "DELETE", "PATCH", "MUTATION", "QUERY", "SUBSCRIBE", "PUBLISH"], description: "HTTP method of the API operation" }, path: { type: "string", description: "Path of the API operation" }, payload: { type: "array", items: { type: "string", description: "Related dataSchema name" } }, responses: { type: "array", items: { type: "string", description: "Related dataSchema name" } } }, required: ["method", "path"], additionalProperties: true };
+var Si = { type: "object", nodeTypeName: t.DataSchemaEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Specification type of the data schema" }, schema: { type: "string", description: "Inline schema of the data structure" }, sdl: { type: "string", description: "SDL of the data structure" } }, required: ["specType"], additionalProperties: true };
+var hi = { type: "object", properties: {}, nodeTypeName: t.EntityMetadata, additionalProperties: true };
+var bi = { type: "object", nodeTypeName: t.EntitySlackChannel, properties: { name: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["name"], additionalProperties: false };
+var ui = { type: "object", nodeTypeName: t.EntitySlackContact, properties: { channels: { type: "array", items: bi } }, required: ["channels"], additionalProperties: false };
+var Ci = { type: "object", nodeTypeName: t.EntityContact, properties: { slack: ui }, additionalProperties: false };
+var Ri = { type: "object", nodeTypeName: t.EntityLink, properties: { label: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["label", "url"], additionalProperties: false };
+var Pi = { type: "object", nodeTypeName: t.EntityRelation, properties: { type: { type: "string", enum: be }, key: { type: "string", minLength: 2, maxLength: 100 }, version: { type: "string" }, revision: { type: "string" } }, required: ["type", "key"], additionalProperties: false };
+var g = { version: { type: "string" }, key: { type: "string", pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$", minLength: 2, maxLength: 150 }, type: { type: "string", enum: ["user", "data-schema", "api-operation", "api-description", "service", "domain", "team"] }, title: { type: "string", minLength: 2, maxLength: 200 }, summary: { type: "string", minLength: 1, maxLength: 500 }, tags: { type: "array", items: { type: "string", minLength: 1, maxLength: 50 } }, git: { type: "array", items: { type: "string" } }, contact: Ci, links: { type: "array", nodeTypeName: t.EntityLinkList, items: Ri }, relations: { type: "array", nodeTypeName: t.EntityRelationList, items: Pi }, metadata: hi };
+var Ds = { type: "object", discriminator: { propertyName: "type" }, oneOf: [{ type: "object", properties: { ...g, type: { type: "string", const: "user" }, metadata: gi }, required: ["key", "title", "type", "metadata"], additionalProperties: false, nodeTypeName: t.UserEntity }, { type: "object", nodeTypeName: t.ApiOperationEntity, properties: { ...g, type: { type: "string", const: "api-operation" }, metadata: fi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.DataSchemaEntity, properties: { ...g, type: { type: "string", const: "data-schema" }, metadata: Si }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ApiDescriptionEntity, properties: { ...g, type: { type: "string", const: "api-description" }, metadata: mi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ServiceEntity, properties: { ...g, type: { type: "string", const: "service" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.DomainEntity, properties: { ...g, type: { type: "string", const: "domain" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.TeamEntity, properties: { ...g, type: { type: "string", const: "team" } }, required: ["key", "title", "type"], additionalProperties: false }] };
+var _s = { type: "object", nodeTypeName: t.Entity, properties: { ...g }, required: ["key", "title", "type"], additionalProperties: false };
 
-// node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
 import path2 from "node:path";
 
-// node_modules/@redocly/openapi-core/lib/graphql/node-kinds.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/graphql/node-kinds.js
 var graphqlNodeKinds = [
   "Name",
   "Document",
@@ -56319,7 +56409,7 @@ var graphqlNodeKinds = [
   "DirectiveArgumentCoordinate"
 ];
 
-// node_modules/@redocly/openapi-core/lib/oas-types.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/oas-types.js
 var specVersions = [
   "oas2",
   "oas3_0",
@@ -56351,37 +56441,34 @@ function getTypes(spec) {
   return typesMap[spec];
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/is-custom-rule-id.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-custom-rule-id.js
 function isCustomRuleId(id) {
   return id.includes("/");
 }
 
-// node_modules/@redocly/openapi-core/lib/utils/omit.js
-function omit(obj, keys) {
-  const result = { ...obj };
-  keys.forEach((key) => {
-    delete result[key];
-  });
-  return result;
-}
-
-// node_modules/@redocly/openapi-core/lib/types/json-schema-adapter.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/json-schema-adapter.js
 var import__ = __toESM(require__(), 1);
-var ajv = new import__.default({
-  strictSchema: false,
-  allowUnionTypes: true,
-  useDefaults: true,
-  allErrors: true,
-  discriminator: true,
-  strictTypes: false,
-  verbose: true
-});
+var ajv;
+function getAjv() {
+  if (!ajv) {
+    ajv = new import__.Ajv2020({
+      strictSchema: false,
+      allowUnionTypes: true,
+      useDefaults: true,
+      allErrors: true,
+      discriminator: true,
+      strictTypes: false,
+      verbose: true
+    });
+  }
+  return ajv;
+}
 function findOneOf(schemaOneOf, oneOfs) {
   if (oneOfs.some((option) => typeof option === "function")) {
     throw new Error("Unexpected oneOf inside oneOf.");
   }
   return (value) => {
-    let index = schemaOneOf.findIndex((option) => ajv.validate(option, value));
+    let index = schemaOneOf.findIndex((option) => getAjv().validate(option, value));
     if (index === -1) {
       index = 0;
     }
@@ -56524,7 +56611,7 @@ function getNodeTypesFromJSONSchema(schemaName, entrySchema) {
   };
 }
 
-// node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
 var builtInOAS2Rules = [
   "info-contact",
   "operation-operationId",
@@ -56705,7 +56792,7 @@ var builtInArazzo1Rules = [
   "no-schema-type-mismatch",
   "x-security-scheme-name-reference"
 ];
-var builtInOverlay1Rules = ["info-contact"];
+var builtInOverlay1Rules = ["info-contact", "spec-ref-siblings"];
 var builtInOpenRpc1Rules = [
   "info-contact",
   "info-license",
@@ -57264,15 +57351,15 @@ var CoreConfigTypes = {
   Preprocessors,
   Assertions
 };
-var { theme: _2, ...propertiesWithoutTheme } = yi.properties;
+var { theme: _2, ...propertiesWithoutTheme } = li.properties;
 var redoclyConfigSchemaWithoutTheme = {
-  ...yi,
+  ...li,
   properties: propertiesWithoutTheme
 };
 var ConfigTypes = createConfigTypes(redoclyConfigSchemaWithoutTheme);
 var NormalizedConfigTypes = normalizeTypes(ConfigTypes);
 
-// node_modules/@redocly/openapi-core/node_modules/js-yaml/dist/js-yaml.mjs
+// node_modules/@redocly/reunite-integration/node_modules/js-yaml/dist/js-yaml.mjs
 var NOT_RESOLVED = /* @__PURE__ */ Symbol("NOT_RESOLVED");
 function defineScalarTag(tagName, options2) {
   return {
@@ -58338,14 +58425,14 @@ var CHOMPING_CLIP = CHOMPING_MODE.CLIP;
 var CHOMPING_STRIP = CHOMPING_MODE.STRIP;
 var CHOMPING_KEEP = CHOMPING_MODE.KEEP;
 
-// node_modules/@redocly/openapi-core/lib/js-yaml/index.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/js-yaml/index.js
 var DEFAULT_SCHEMA_WITHOUT_TIMESTAMP = CORE_SCHEMA.withTags(mergeTag, binaryTag, omapTag, pairsTag, setTag);
 
-// node_modules/@redocly/openapi-core/lib/config/constants.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/constants.js
 var CONFIG_BUNDLER_VISITOR_ID = "configBundler";
 var PLUGINS_COLLECTOR_VISITOR_ID = "pluginsCollector";
 
-// node_modules/@redocly/openapi-core/lib/resolve.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/resolve.js
 var Source = class {
   absoluteRef;
   body;
@@ -58377,13 +58464,13 @@ var Source = class {
   }
 };
 
-// node_modules/@redocly/openapi-core/lib/rules/ajv.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/ajv.js
 var import_ajv_formats = __toESM(require_dist(), 1);
 
-// node_modules/@redocly/openapi-core/lib/rules/common/assertions/asserts.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/assertions/asserts.js
 var assertionSchemaLocation = new Location(new Source("assertion", ""), "#/schema");
 
-// node_modules/@redocly/openapi-core/lib/config/index.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/index.js
 init_rules();
 
 // node_modules/colorette/index.js
@@ -58495,12 +58582,12 @@ var bgMagentaBright = init(105, 49);
 var bgCyanBright = init(106, 49);
 var bgWhiteBright = init(107, 49);
 
-// node_modules/@redocly/openapi-core/lib/utils/identity.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/identity.js
 function identity(value) {
   return value;
 }
 
-// node_modules/@redocly/openapi-core/lib/logger.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/logger.js
 var colorize = new Proxy(colorette_exports, {
   get(target, prop) {
     if (isBrowser) {
@@ -58542,20 +58629,20 @@ var Logger = class {
 };
 var logger = new Logger();
 
-// node_modules/@redocly/openapi-core/lib/rules/utils.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/utils.js
 var import_js_levenshtein = __toESM(require_js_levenshtein(), 1);
 init_is_defined();
 
-// node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-parameter-examples.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-parameter-examples.js
 init_is_defined();
 
-// node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-schema-examples.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-schema-examples.js
 init_is_defined();
 
-// node_modules/@redocly/openapi-core/lib/rules/common/path-segment-plural.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/path-segment-plural.js
 var import_pluralize2 = __toESM(require_pluralize(), 1);
 
-// node_modules/@redocly/openapi-core/lib/rules/oas3/component-name-unique.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/component-name-unique.js
 var TYPE_NAME_SCHEMA = "Schema";
 var TYPE_NAME_PARAMETER = "Parameter";
 var TYPE_NAME_RESPONSE = "Response";
@@ -58567,19 +58654,19 @@ var TYPE_NAME_TO_OPTION_COMPONENT_NAME = {
   [TYPE_NAME_REQUEST_BODY]: "requestBodies"
 };
 
-// node_modules/@redocly/openapi-core/lib/rules/oas3/no-illogical-composition-keywords.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/no-illogical-composition-keywords.js
 init_is_defined();
 
-// node_modules/@redocly/openapi-core/lib/rules/oas3/no-invalid-media-type-examples.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/no-invalid-media-type-examples.js
 init_is_defined();
 
-// node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
 import * as fs from "node:fs";
 import module from "node:module";
 import * as path4 from "node:path";
 import * as url from "node:url";
 
-// node_modules/@redocly/openapi-core/lib/visitors.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/visitors.js
 var legacyTypesMap = {
   Root: "DefinitionRoot",
   ServerVariablesMap: "ServerVariableMap",
@@ -58750,10 +58837,10 @@ function normalizeVisitors(visitorsConfig, types) {
   }
 }
 
-// node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
 import path3 from "node:path";
 
-// node_modules/@redocly/openapi-core/lib/utils/assign-config.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/assign-config.js
 var assignConfig = (target, obj) => {
   if (!obj)
     return;
@@ -58779,7 +58866,7 @@ function assignOnlyExistingConfig(target, obj) {
   }
 }
 
-// node_modules/@redocly/openapi-core/lib/config/utils.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/utils.js
 function parsePresetName(presetName) {
   if (presetName.indexOf("/") > -1) {
     const [pluginId, configName] = presetName.split("/");
@@ -58899,7 +58986,7 @@ ${JSON.stringify(rulesConf, null, 2)}`);
   return result;
 }
 
-// node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
 function bundleExtends({ node, ctx, plugins }) {
   if (!node.extends) {
     return node;
@@ -58920,7 +59007,7 @@ function bundleExtends({ node, ctx, plugins }) {
   ]);
 }
 
-// node_modules/@redocly/openapi-core/lib/config/visitors.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/visitors.js
 function collectorHandleNode(node, ctx) {
   if (isPlainObject(node) && Array.isArray(node.plugins)) {
     const { plugins, rootConfigDir } = ctx.getVisitorData();
@@ -59008,10 +59095,135 @@ var configBundlerVisitor = normalizeVisitors([
   }
 ], NormalizedConfigTypes);
 
-// node_modules/@redocly/openapi-core/lib/bundle/bundle-document.js
+// node_modules/jsonpath-rfc9535/dist/esm/parser/parser.js
+function peg$subclass(child, parent) {
+  function C2() {
+    this.constructor = child;
+  }
+  C2.prototype = parent.prototype;
+  child.prototype = new C2();
+}
+function peg$SyntaxError(message, expected, found, location) {
+  var self = Error.call(this, message);
+  if (Object.setPrototypeOf) {
+    Object.setPrototypeOf(self, peg$SyntaxError.prototype);
+  }
+  self.expected = expected;
+  self.found = found;
+  self.location = location;
+  self.name = "SyntaxError";
+  return self;
+}
+peg$subclass(peg$SyntaxError, Error);
+function peg$padEnd(str, targetLength, padString) {
+  padString = padString || " ";
+  if (str.length > targetLength) {
+    return str;
+  }
+  targetLength -= str.length;
+  padString += padString.repeat(targetLength);
+  return str + padString.slice(0, targetLength);
+}
+peg$SyntaxError.prototype.format = function(sources) {
+  var str = "Error: " + this.message;
+  if (this.location) {
+    var src = null;
+    var k2;
+    for (k2 = 0; k2 < sources.length; k2++) {
+      if (sources[k2].source === this.location.source) {
+        src = sources[k2].text.split(/\r\n|\n|\r/g);
+        break;
+      }
+    }
+    var s2 = this.location.start;
+    var offset_s = this.location.source && typeof this.location.source.offset === "function" ? this.location.source.offset(s2) : s2;
+    var loc = this.location.source + ":" + offset_s.line + ":" + offset_s.column;
+    if (src) {
+      var e2 = this.location.end;
+      var filler = peg$padEnd("", offset_s.line.toString().length, " ");
+      var line = src[s2.line - 1];
+      var last = s2.line === e2.line ? e2.column : line.length + 1;
+      var hatLen = last - s2.column || 1;
+      str += "\n --> " + loc + "\n" + filler + " |\n" + offset_s.line + " | " + line + "\n" + filler + " | " + peg$padEnd("", s2.column - 1, " ") + peg$padEnd("", hatLen, "^");
+    } else {
+      str += "\n at " + loc;
+    }
+  }
+  return str;
+};
+peg$SyntaxError.buildMessage = function(expected, found) {
+  var DESCRIBE_EXPECTATION_FNS = {
+    literal: function(expectation) {
+      return '"' + literalEscape(expectation.text) + '"';
+    },
+    class: function(expectation) {
+      var escapedParts = expectation.parts.map(function(part) {
+        return Array.isArray(part) ? classEscape(part[0]) + "-" + classEscape(part[1]) : classEscape(part);
+      });
+      return "[" + (expectation.inverted ? "^" : "") + escapedParts.join("") + "]";
+    },
+    any: function() {
+      return "any character";
+    },
+    end: function() {
+      return "end of input";
+    },
+    other: function(expectation) {
+      return expectation.description;
+    }
+  };
+  function hex(ch) {
+    return ch.charCodeAt(0).toString(16).toUpperCase();
+  }
+  function literalEscape(s2) {
+    return s2.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+      return "\\x0" + hex(ch);
+    }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
+      return "\\x" + hex(ch);
+    });
+  }
+  function classEscape(s2) {
+    return s2.replace(/\\/g, "\\\\").replace(/\]/g, "\\]").replace(/\^/g, "\\^").replace(/-/g, "\\-").replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+      return "\\x0" + hex(ch);
+    }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
+      return "\\x" + hex(ch);
+    });
+  }
+  function describeExpectation(expectation) {
+    return DESCRIBE_EXPECTATION_FNS[expectation.type](expectation);
+  }
+  function describeExpected(expected2) {
+    var descriptions = expected2.map(describeExpectation);
+    var i, j2;
+    descriptions.sort();
+    if (descriptions.length > 0) {
+      for (i = 1, j2 = 1; i < descriptions.length; i++) {
+        if (descriptions[i - 1] !== descriptions[i]) {
+          descriptions[j2] = descriptions[i];
+          j2++;
+        }
+      }
+      descriptions.length = j2;
+    }
+    switch (descriptions.length) {
+      case 1:
+        return descriptions[0];
+      case 2:
+        return descriptions[0] + " or " + descriptions[1];
+      default:
+        return descriptions.slice(0, -1).join(", ") + ", or " + descriptions[descriptions.length - 1];
+    }
+  }
+  function describeFound(found2) {
+    return found2 ? '"' + literalEscape(found2) + '"' : "end of input";
+  }
+  return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";
+};
+
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/bundle/bundle-document.js
 init_rules();
 
-// node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
 init_is_defined();
 var preResolvePluginPath = (plugin, base, rootConfigDir) => {
   if (!isString(plugin)) {
@@ -59051,10 +59263,10 @@ function resolvePreset(presetName, plugins) {
   return preset;
 }
 
-// node_modules/@redocly/openapi-core/lib/format/codeframes.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/format/codeframes.js
 var yamlAst = __toESM(require_src(), 1);
 
-// node_modules/@redocly/openapi-core/lib/format/format.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/format/format.js
 var BG_COLORS = {
   warn: (str) => colorize.bgYellow(colorize.black(str)),
   error: colorize.bgRed
@@ -59065,32 +59277,76 @@ var COLORS = {
 };
 var MAX_SUGGEST = +(env.REDOCLY_CLI_LINT_MAX_SUGGESTIONS ?? 5);
 
-// node_modules/@redocly/openapi-core/lib/lint.js
+// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/lint.js
 init_rules();
-var { theme: _3, ...propertiesWithoutTheme2 } = yi.properties;
+var { theme: _3, ...propertiesWithoutTheme2 } = li.properties;
 var redoclyConfigSchemaWithoutTheme2 = {
-  ...yi,
+  ...li,
   properties: propertiesWithoutTheme2
 };
 
 // node_modules/@redocly/reunite-integration/lib/push.js
 import * as fs2 from "node:fs";
 import * as path5 from "node:path";
-async function pushFiles({ domain, apiKey, organization, project, mountPath, files, defaultBranch, commit, version, onUploadStart, onSunsetWarning }) {
+
+// node_modules/@redocly/reunite-integration/lib/resolve-project-ref.js
+var ORGANIZATION_IN_URI = /\/orgs\/([^/]+)\/projects\//;
+var DENIED_STATUSES = [401, 403];
+async function resolveProjectRef(client, { organization, project, onSlugDeprecated }) {
+  const found = await lookUp(client, organization, project);
+  if (!found) {
+    return { organizationId: organization, projectId: project };
+  }
+  const resolution = { organizationId: organizationIdOf(found.uri), projectId: found.id };
+  if (resolution.organizationId !== organization || resolution.projectId !== project) {
+    onSlugDeprecated?.(resolution);
+  }
+  return resolution;
+}
+async function lookUp(client, organization, project) {
+  try {
+    const found = await client.projects.find(organization, project);
+    if (!found) {
+      throw new ReuniteApiError(`Project "${project}" was not found in organization "${organization}". Use the IDs from the organization and project settings in Reunite.`, 404);
+    }
+    return found;
+  } catch (err) {
+    if (err instanceof ReuniteApiError && DENIED_STATUSES.includes(err.status)) {
+      return void 0;
+    }
+    throw err;
+  }
+}
+function organizationIdOf(uri) {
+  const organizationId = uri.match(ORGANIZATION_IN_URI)?.[1];
+  if (!organizationId) {
+    throw new Error(`Could not read the organization ID from the project URI "${uri}".`);
+  }
+  return organizationId;
+}
+
+// node_modules/@redocly/reunite-integration/lib/push.js
+async function pushFiles({ domain, apiKey, organization, project, mountPath, files, defaultBranch, commit, version, replace, onUploadStart, onSunsetWarning, onSlugDeprecated }) {
   const client = new ReuniteApi({ domain, apiKey, command: "push", version });
   try {
-    const projectDefaultBranch = await client.remotes.getDefaultBranch(organization, project);
-    const remote = await client.remotes.upsert(organization, project, {
+    const { organizationId, projectId } = await resolveProjectRef(client, {
+      organization,
+      project,
+      onSlugDeprecated
+    });
+    const projectDefaultBranch = await client.remotes.getDefaultBranch(organizationId, projectId);
+    const remote = await client.remotes.upsert(organizationId, projectId, {
       mountBranchName: projectDefaultBranch,
       mountPath
     });
     onUploadStart?.(remote);
-    const { id } = await client.remotes.push(organization, project, {
+    const { id } = await client.remotes.push(organizationId, projectId, {
       remoteId: remote.id,
       commit,
-      isMainBranch: defaultBranch === commit.branchName
+      isMainBranch: defaultBranch === commit.branchName,
+      replace
     }, files.map((file) => ({ path: slash(file.name), stream: fs2.createReadStream(file.path) })));
-    return { pushId: id };
+    return { pushId: id, organizationId, projectId };
   } finally {
     const sunsetWarning = client.getSunsetWarning();
     if (sunsetWarning) {
@@ -59167,8 +59423,9 @@ var PENDING_DEPLOYMENT_STATUSES = ["pending", "running"];
 async function waitForDeployment({ buildType, maxExecutionTime = DEFAULT_MAX_EXECUTION_TIME, retryIntervalMs = DEFAULT_RETRY_INTERVAL_MS, startTime = Date.now(), onRetry, ...options2 }) {
   const client = createClient(options2);
   try {
+    const ref = await resolveProjectRef(client, options2);
     return await retryUntilConditionMet({
-      operation: () => getPush(client, options2),
+      operation: () => getPush(client, ref, options2.pushId),
       condition: (result) => !PENDING_DEPLOYMENT_STATUSES.includes(result.status[buildType].deploy.status),
       onConditionNotMet: onRetry,
       startTime,
@@ -59188,8 +59445,8 @@ function reportSunsetWarning(client, { onSunsetWarning }) {
     onSunsetWarning?.(sunsetWarning);
   }
 }
-function getPush(client, { organization, project, pushId }) {
-  return client.remotes.getPush({ organizationId: organization, projectId: project, pushId });
+function getPush(client, { organizationId, projectId }, pushId) {
+  return client.remotes.getPush({ organizationId, projectId, pushId });
 }
 
 // src/push.ts
@@ -59207,11 +59464,11 @@ async function pushToReunite({
   if (files.length === 0) {
     throw new Error("No files to upload.");
   }
-  const { pushId } = await pushFiles({
+  const push = await pushFiles({
     domain: inputData.redoclyDomain,
     apiKey: getApiKeys(),
-    organization: inputData.redoclyOrgSlug,
-    project: inputData.redoclyProjectSlug,
+    organization: inputData.organization,
+    project: inputData.project,
     mountPath: inputData.mountPath,
     files,
     defaultBranch: ghEvent.defaultBranch,
@@ -59231,10 +59488,19 @@ async function pushToReunite({
         core3.info(`  ${file.name}`);
       }
     },
-    onSunsetWarning
+    onSunsetWarning,
+    onSlugDeprecated: reportSlugDeprecation
   });
-  core3.info(`Push ID: ${pushId}`);
-  return pushId;
+  core3.info(`Push ID: ${push.pushId}`);
+  return push;
+}
+function reportSlugDeprecation({
+  organizationId,
+  projectId
+}) {
+  core3.warning(
+    `Organization and project slugs are deprecated. Use the IDs in the action inputs instead: organization: ${organizationId}, project: ${projectId}.`
+  );
 }
 
 // src/push-status.ts
@@ -59323,11 +59589,15 @@ async function run() {
     const ghEvent = await parseEventData(inputData.defaultBranch);
     console.debug("Parsed input data", inputData);
     console.debug("Parsed GitHub event", ghEvent);
-    const pushId = await pushToReunite({ inputData, ghEvent, onSunsetWarning });
+    const { pushId, organizationId, projectId } = await pushToReunite({
+      inputData,
+      ghEvent,
+      onSunsetWarning
+    });
     const pushStatusData = await waitForDeployment2({
       domain: inputData.redoclyDomain,
-      organization: inputData.redoclyOrgSlug,
-      project: inputData.redoclyProjectSlug,
+      organization: organizationId,
+      project: projectId,
       pushId,
       maxExecutionTime: inputData.maxExecutionTime,
       onSunsetWarning,

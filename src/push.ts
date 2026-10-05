@@ -3,6 +3,8 @@ import {
   collectFilesToPush,
   getApiKeys,
   pushFiles,
+  type ProjectRefResolution,
+  type PushResult,
   type SunsetWarning,
 } from '@redocly/reunite-integration';
 import type { ParsedEventData, ParsedInputData } from './types';
@@ -15,7 +17,7 @@ export async function pushToReunite({
   inputData: ParsedInputData;
   ghEvent: ParsedEventData;
   onSunsetWarning?: (warning: SunsetWarning) => void;
-}): Promise<string> {
+}): Promise<PushResult> {
   const files = collectFilesToPush(
     inputData.files,
     (existingPath, replacementPath) => {
@@ -27,11 +29,11 @@ export async function pushToReunite({
     throw new Error('No files to upload.');
   }
 
-  const { pushId } = await pushFiles({
+  const push = await pushFiles({
     domain: inputData.redoclyDomain,
     apiKey: getApiKeys(),
-    organization: inputData.redoclyOrgSlug,
-    project: inputData.redoclyProjectSlug,
+    organization: inputData.organization,
+    project: inputData.project,
     mountPath: inputData.mountPath,
     files,
     defaultBranch: ghEvent.defaultBranch,
@@ -52,9 +54,19 @@ export async function pushToReunite({
       }
     },
     onSunsetWarning,
+    onSlugDeprecated: reportSlugDeprecation,
   });
 
-  core.info(`Push ID: ${pushId}`);
+  core.info(`Push ID: ${push.pushId}`);
 
-  return pushId;
+  return push;
+}
+
+function reportSlugDeprecation({
+  organizationId,
+  projectId,
+}: ProjectRefResolution): void {
+  core.warning(
+    `Organization and project slugs are deprecated. Use the IDs in the action inputs instead: organization: ${organizationId}, project: ${projectId}.`,
+  );
 }

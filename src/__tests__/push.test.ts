@@ -12,6 +12,12 @@ import { parsedEventPushDataMock, parsedInputDataStub } from './fixtures';
 const collectFilesToPushMock = jest.mocked(collectFilesToPush);
 const pushFilesMock = jest.mocked(pushFiles);
 
+const pushResultStub = {
+  pushId: 'test-push-id',
+  organizationId: 'org_01hksn7dgmb6jpak0tzzepreq1',
+  projectId: 'prj_01hksn7dhbmf3nby0aeax6bkvf',
+};
+
 const collectedFiles = [
   { name: 'openapi.yaml', path: '/workspace/openapi.yaml' },
   { name: 'docs/index.md', path: '/workspace/docs/index.md' },
@@ -23,17 +29,17 @@ describe('push', () => {
   beforeEach(() => {
     jest.mocked(getApiKeys).mockReturnValue('test-api-key');
     collectFilesToPushMock.mockReturnValue(collectedFiles);
-    pushFilesMock.mockResolvedValue({ pushId: 'test-push-id' });
+    pushFilesMock.mockResolvedValue(pushResultStub);
     infoMock = jest.spyOn(core, 'info').mockImplementation();
   });
 
-  it('pushes the collected files with the commit details and resolves with the push id', async () => {
-    const pushId = await pushToReunite({
+  it('pushes the collected files with the commit details and resolves with the push and the ids', async () => {
+    const push = await pushToReunite({
       inputData: parsedInputDataStub,
       ghEvent: parsedEventPushDataMock,
     });
 
-    expect(pushId).toBe('test-push-id');
+    expect(push).toEqual(pushResultStub);
     expect(collectFilesToPushMock).toHaveBeenCalledWith(
       parsedInputDataStub.files,
       expect.any(Function),
@@ -41,8 +47,8 @@ describe('push', () => {
     expect(pushFilesMock).toHaveBeenCalledWith({
       domain: parsedInputDataStub.redoclyDomain,
       apiKey: 'test-api-key',
-      organization: parsedInputDataStub.redoclyOrgSlug,
-      project: parsedInputDataStub.redoclyProjectSlug,
+      organization: parsedInputDataStub.organization,
+      project: parsedInputDataStub.project,
       mountPath: parsedInputDataStub.mountPath,
       files: collectedFiles,
       defaultBranch: parsedEventPushDataMock.defaultBranch,
@@ -57,8 +63,26 @@ describe('push', () => {
         repository: parsedEventPushDataMock.repository,
       },
       onUploadStart: expect.any(Function),
+      onSlugDeprecated: expect.any(Function),
     });
     expect(infoMock).toHaveBeenCalledWith('Push ID: test-push-id');
+  });
+
+  it('warns with the ids when the organization or project input is a slug', async () => {
+    const warningMock = jest.spyOn(core, 'warning').mockImplementation();
+    pushFilesMock.mockImplementation(async ({ onSlugDeprecated }) => {
+      onSlugDeprecated?.(pushResultStub);
+      return pushResultStub;
+    });
+
+    await pushToReunite({
+      inputData: parsedInputDataStub,
+      ghEvent: parsedEventPushDataMock,
+    });
+
+    expect(warningMock).toHaveBeenCalledWith(
+      'Organization and project slugs are deprecated. Use the IDs in the action inputs instead: organization: org_01hksn7dgmb6jpak0tzzepreq1, project: prj_01hksn7dhbmf3nby0aeax6bkvf.',
+    );
   });
 
   it('logs the upload target and the files once the remote is ready', async () => {

@@ -13,6 +13,12 @@ import {
   pushStatusSummaryStub,
 } from './fixtures';
 
+const pushResultStub = {
+  pushId: 'test-push-id',
+  organizationId: 'org_01hksn7dgmb6jpak0tzzepreq1',
+  projectId: 'prj_01hksn7dhbmf3nby0aeax6bkvf',
+};
+
 const runMock = jest.spyOn(main, 'run');
 
 let parseInputDataMock: jest.SpiedFunction<typeof helpers.parseInputData>;
@@ -42,7 +48,7 @@ describe('action', () => {
 
     pushToReuniteMock = jest
       .spyOn(push, 'pushToReunite')
-      .mockResolvedValue('test-push-id');
+      .mockResolvedValue(pushResultStub);
 
     waitForDeploymentMock = jest
       .spyOn(pushStatus, 'waitForDeployment')
@@ -70,8 +76,8 @@ describe('action', () => {
     expect(waitForDeploymentMock).toHaveBeenCalledWith(
       expect.objectContaining({
         domain: parsedInputDataStub.redoclyDomain,
-        organization: parsedInputDataStub.redoclyOrgSlug,
-        project: parsedInputDataStub.redoclyProjectSlug,
+        organization: pushResultStub.organizationId,
+        project: pushResultStub.projectId,
         pushId: 'test-push-id',
         maxExecutionTime: parsedInputDataStub.maxExecutionTime,
       }),
@@ -126,7 +132,7 @@ describe('action', () => {
     const warningMock = jest.spyOn(core, 'warning').mockImplementation();
     pushToReuniteMock.mockImplementation(async ({ onSunsetWarning }) => {
       onSunsetWarning?.(sunsetWarning);
-      return 'test-push-id';
+      return pushResultStub;
     });
     waitForDeploymentMock.mockImplementation(async ({ onSunsetWarning }) => {
       onSunsetWarning?.(sunsetWarning);
