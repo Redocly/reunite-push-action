@@ -116,11 +116,11 @@ var require_command = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.issue = exports.issueCommand = void 0;
-    var os = __importStar(__require("os"));
+    var os2 = __importStar(__require("os"));
     var utils_1 = require_utils();
     function issueCommand(command, properties, message) {
       const cmd = new Command(command, properties, message);
-      process.stdout.write(cmd.toString() + os.EOL);
+      process.stdout.write(cmd.toString() + os2.EOL);
     }
     exports.issueCommand = issueCommand;
     function issue(name, message = "") {
@@ -160,11 +160,11 @@ var require_command = __commonJS({
         return cmdStr;
       }
     };
-    function escapeData(s2) {
-      return (0, utils_1.toCommandValue)(s2).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
+    function escapeData(s) {
+      return (0, utils_1.toCommandValue)(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A");
     }
-    function escapeProperty(s2) {
-      return (0, utils_1.toCommandValue)(s2).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
+    function escapeProperty(s) {
+      return (0, utils_1.toCommandValue)(s).replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A").replace(/:/g, "%3A").replace(/,/g, "%2C");
     }
   }
 });
@@ -203,18 +203,18 @@ var require_file_command = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
     var crypto = __importStar(__require("crypto"));
-    var fs3 = __importStar(__require("fs"));
-    var os = __importStar(__require("os"));
+    var fs4 = __importStar(__require("fs"));
+    var os2 = __importStar(__require("os"));
     var utils_1 = require_utils();
     function issueFileCommand(command, message) {
       const filePath = process.env[`GITHUB_${command}`];
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command}`);
       }
-      if (!fs3.existsSync(filePath)) {
+      if (!fs4.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs3.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os.EOL}`, {
+      fs4.appendFileSync(filePath, `${(0, utils_1.toCommandValue)(message)}${os2.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -228,7 +228,7 @@ var require_file_command = __commonJS({
       if (convertedValue.includes(delimiter)) {
         throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
       }
-      return `${key}<<${delimiter}${os.EOL}${convertedValue}${os.EOL}${delimiter}`;
+      return `${key}<<${delimiter}${os2.EOL}${convertedValue}${os2.EOL}${delimiter}`;
     }
     exports.prepareKeyValueMessage = prepareKeyValueMessage;
   }
@@ -364,10 +364,10 @@ var require_tunnel = __commonJS({
       self.sockets = [];
       self.on("free", function onFree(socket, host, port, localAddress) {
         var options3 = toOptions(host, port, localAddress);
-        for (var i = 0, len = self.requests.length; i < len; ++i) {
-          var pending = self.requests[i];
+        for (var i2 = 0, len = self.requests.length; i2 < len; ++i2) {
+          var pending = self.requests[i2];
           if (pending.host === options3.host && pending.port === options3.port) {
-            self.requests.splice(i, 1);
+            self.requests.splice(i2, 1);
             pending.request.onSocket(socket);
             return;
           }
@@ -513,8 +513,8 @@ var require_tunnel = __commonJS({
       return host;
     }
     function mergeOptions(target) {
-      for (var i = 1, len = arguments.length; i < len; ++i) {
-        var overrides = arguments[i];
+      for (var i2 = 1, len = arguments.length; i2 < len; ++i2) {
+        var overrides = arguments[i2];
         if (typeof overrides === "object") {
           var keys = Object.keys(overrides);
           for (var j2 = 0, keyLen = keys.length; j2 < keyLen; ++j2) {
@@ -1386,8 +1386,8 @@ var require_constants = __commonJS({
       }
       return buffer;
     }
-    for (let i = 0; i < wellknownHeaderNames.length; ++i) {
-      const key = wellknownHeaderNames[i];
+    for (let i2 = 0; i2 < wellknownHeaderNames.length; ++i2) {
+      const key = wellknownHeaderNames[i2];
       const lowerCasedKey = key.toLowerCase();
       headerNameLowerCasedRecord[key] = headerNameLowerCasedRecord[lowerCasedKey] = lowerCasedKey;
     }
@@ -1530,8 +1530,8 @@ var require_tree = __commonJS({
       }
     };
     var tree = new TernarySearchTree();
-    for (let i = 0; i < wellknownHeaderNames.length; ++i) {
-      const key = headerNameLowerCasedRecord[wellknownHeaderNames[i]];
+    for (let i2 = 0; i2 < wellknownHeaderNames.length; ++i2) {
+      const key = headerNameLowerCasedRecord[wellknownHeaderNames[i2]];
       tree.insert(key, key);
     }
     module2.exports = {
@@ -1764,12 +1764,12 @@ var require_util = __commonJS({
     }
     function parseHeaders(headers, obj) {
       if (obj === void 0) obj = {};
-      for (let i = 0; i < headers.length; i += 2) {
-        const key = headerNameToString(headers[i]);
+      for (let i2 = 0; i2 < headers.length; i2 += 2) {
+        const key = headerNameToString(headers[i2]);
         let val = obj[key];
         if (val !== void 0) {
           if (!Object.hasOwn(obj, key)) {
-            const headersValue = typeof headers[i + 1] === "string" ? headers[i + 1] : Array.isArray(headers[i + 1]) ? headers[i + 1].map((x2) => x2.toString("latin1")) : headers[i + 1].toString("latin1");
+            const headersValue = typeof headers[i2 + 1] === "string" ? headers[i2 + 1] : Array.isArray(headers[i2 + 1]) ? headers[i2 + 1].map((x2) => x2.toString("latin1")) : headers[i2 + 1].toString("latin1");
             if (key === "__proto__") {
               Object.defineProperty(obj, key, {
                 value: headersValue,
@@ -1785,10 +1785,10 @@ var require_util = __commonJS({
               val = [val];
               obj[key] = val;
             }
-            val.push(headers[i + 1].toString("latin1"));
+            val.push(headers[i2 + 1].toString("latin1"));
           }
         } else {
-          const headersValue = typeof headers[i + 1] === "string" ? headers[i + 1] : Array.isArray(headers[i + 1]) ? headers[i + 1].map((x2) => x2.toString("latin1")) : headers[i + 1].toString("latin1");
+          const headersValue = typeof headers[i2 + 1] === "string" ? headers[i2 + 1] : Array.isArray(headers[i2 + 1]) ? headers[i2 + 1].map((x2) => x2.toString("latin1")) : headers[i2 + 1].toString("latin1");
           obj[key] = headersValue;
         }
       }
@@ -2188,8 +2188,8 @@ var require_util = __commonJS({
     function isValidHTTPToken(characters) {
       if (characters.length >= 12) return tokenRegExp.test(characters);
       if (characters.length === 0) return false;
-      for (let i = 0; i < characters.length; i++) {
-        if (validTokenChars[characters.charCodeAt(i)] !== 1) {
+      for (let i2 = 0; i2 < characters.length; i2++) {
+        if (validTokenChars[characters.charCodeAt(i2)] !== 1) {
           return false;
         }
       }
@@ -2645,8 +2645,8 @@ var require_request = __commonJS({
       if (typeof val !== "string" || val.length === 0) {
         return false;
       }
-      for (let i = 0; i < val.length; i++) {
-        const charCode = val.charCodeAt(i);
+      for (let i2 = 0; i2 < val.length; i2++) {
+        const charCode = val.charCodeAt(i2);
         if (charCode < 48 || charCode > 57) {
           return false;
         }
@@ -2767,8 +2767,8 @@ var require_request = __commonJS({
           if (headers.length % 2 !== 0) {
             throw new InvalidArgumentError("headers array must be even");
           }
-          for (let i = 0; i < headers.length; i += 2) {
-            processHeader(this, headers[i], headers[i + 1]);
+          for (let i2 = 0; i2 < headers.length; i2 += 2) {
+            processHeader(this, headers[i2], headers[i2 + 1]);
           }
         } else if (headers && typeof headers === "object") {
           if (hasSafeIterator(headers)) {
@@ -2780,8 +2780,8 @@ var require_request = __commonJS({
             }
           } else {
             const keys = Object.keys(headers);
-            for (let i = 0; i < keys.length; ++i) {
-              processHeader(this, keys[i], headers[keys[i]]);
+            for (let i2 = 0; i2 < keys.length; ++i2) {
+              processHeader(this, keys[i2], headers[keys[i2]]);
             }
           }
         } else if (headers != null) {
@@ -2916,18 +2916,18 @@ var require_request = __commonJS({
       }
       if (Array.isArray(val)) {
         const arr = [];
-        for (let i = 0; i < val.length; i++) {
-          if (typeof val[i] === "string") {
-            if (!isValidHeaderValue(val[i])) {
+        for (let i2 = 0; i2 < val.length; i2++) {
+          if (typeof val[i2] === "string") {
+            if (!isValidHeaderValue(val[i2])) {
               throw new InvalidArgumentError(`invalid ${key} header`);
             }
-            arr.push(val[i]);
-          } else if (val[i] === null) {
+            arr.push(val[i2]);
+          } else if (val[i2] === null) {
             arr.push("");
-          } else if (typeof val[i] === "object") {
+          } else if (typeof val[i2] === "object") {
             throw new InvalidArgumentError(`invalid ${key} header`);
           } else {
-            const str = `${val[i]}`;
+            const str = `${val[i2]}`;
             if (!isValidHeaderValue(str)) {
               throw new InvalidArgumentError(`invalid ${key} header`);
             }
@@ -3284,8 +3284,8 @@ var require_dispatcher_base = __commonJS({
         const onClosed = () => {
           const callbacks = this[kOnClosed];
           this[kOnClosed] = null;
-          for (let i = 0; i < callbacks.length; i++) {
-            callbacks[i](null, null);
+          for (let i2 = 0; i2 < callbacks.length; i2++) {
+            callbacks[i2](null, null);
           }
         };
         this[kClose]().then(() => this.destroy()).then(() => queueMicrotask(onClosed));
@@ -3322,8 +3322,8 @@ var require_dispatcher_base = __commonJS({
         const onDestroyed = () => {
           const callbacks = this[kOnDestroyed];
           this[kOnDestroyed] = null;
-          for (let i = 0; i < callbacks.length; i++) {
-            callbacks[i](null, null);
+          for (let i2 = 0; i2 < callbacks.length; i2++) {
+            callbacks[i2](null, null);
           }
         };
         this[kDestroy](err).then(() => queueMicrotask(onDestroyed));
@@ -3952,9 +3952,9 @@ var require_constants2 = __commonJS({
       exports.STATUSES.NETWORK_CONNECT_TIMEOUT
     ];
     exports.ALPHA = [];
-    for (let i = "A".charCodeAt(0); i <= "Z".charCodeAt(0); i++) {
-      exports.ALPHA.push(String.fromCharCode(i));
-      exports.ALPHA.push(String.fromCharCode(i + 32));
+    for (let i2 = "A".charCodeAt(0); i2 <= "Z".charCodeAt(0); i2++) {
+      exports.ALPHA.push(String.fromCharCode(i2));
+      exports.ALPHA.push(String.fromCharCode(i2 + 32));
     }
     exports.NUM_MAP = {
       0: 0,
@@ -4058,24 +4058,24 @@ var require_constants2 = __commonJS({
       "~"
     ].concat(exports.ALPHANUM);
     exports.HEADER_CHARS = ["	"];
-    for (let i = 32; i <= 255; i++) {
-      if (i !== 127) {
-        exports.HEADER_CHARS.push(i);
+    for (let i2 = 32; i2 <= 255; i2++) {
+      if (i2 !== 127) {
+        exports.HEADER_CHARS.push(i2);
       }
     }
     exports.CONNECTION_TOKEN_CHARS = exports.HEADER_CHARS.filter((c2) => c2 !== 44);
     exports.QUOTED_STRING = ["	", " "];
-    for (let i = 33; i <= 255; i++) {
-      if (i !== 34 && i !== 92) {
-        exports.QUOTED_STRING.push(i);
+    for (let i2 = 33; i2 <= 255; i2++) {
+      if (i2 !== 34 && i2 !== 92) {
+        exports.QUOTED_STRING.push(i2);
       }
     }
     exports.HTAB_SP_VCHAR_OBS_TEXT = ["	", " "];
-    for (let i = 33; i <= 126; i++) {
-      exports.HTAB_SP_VCHAR_OBS_TEXT.push(i);
+    for (let i2 = 33; i2 <= 126; i2++) {
+      exports.HTAB_SP_VCHAR_OBS_TEXT.push(i2);
     }
-    for (let i = 128; i <= 255; i++) {
-      exports.HTAB_SP_VCHAR_OBS_TEXT.push(i);
+    for (let i2 = 128; i2 <= 255; i2++) {
+      exports.HTAB_SP_VCHAR_OBS_TEXT.push(i2);
     }
     exports.MAJOR = exports.NUM_MAP;
     exports.MINOR = exports.MAJOR;
@@ -4491,13 +4491,13 @@ var require_infra = __commonJS({
         return String.fromCharCode.apply(null, input);
       }
       let result = "";
-      let i = 0;
+      let i2 = 0;
       let addition = (2 << 15) - 1;
-      while (i < length) {
-        if (i + addition > length) {
-          addition = length - i;
+      while (i2 < length) {
+        if (i2 + addition > length) {
+          addition = length - i2;
         }
-        result += String.fromCharCode.apply(null, input.subarray(i, i += addition));
+        result += String.fromCharCode.apply(null, input.subarray(i2, i2 += addition));
       }
       return result;
     }
@@ -4622,18 +4622,18 @@ var require_data_url = __commonJS({
       const length = input.length;
       const output = new Uint8Array(length);
       let j2 = 0;
-      let i = 0;
-      while (i < length) {
-        const byte = input[i];
+      let i2 = 0;
+      while (i2 < length) {
+        const byte = input[i2];
         if (byte !== 37) {
           output[j2++] = byte;
-        } else if (byte === 37 && !(isHexCharByte(input[i + 1]) && isHexCharByte(input[i + 2]))) {
+        } else if (byte === 37 && !(isHexCharByte(input[i2 + 1]) && isHexCharByte(input[i2 + 2]))) {
           output[j2++] = 37;
         } else {
-          output[j2++] = hexByteToNumber(input[i + 1]) << 4 | hexByteToNumber(input[i + 2]);
-          i += 2;
+          output[j2++] = hexByteToNumber(input[i2 + 1]) << 4 | hexByteToNumber(input[i2 + 2]);
+          i2 += 2;
         }
-        ++i;
+        ++i2;
       }
       return length === j2 ? output : output.subarray(0, j2);
     }
@@ -5566,8 +5566,8 @@ var require_util2 = __commonJS({
       return location;
     }
     function isValidEncodedURL(url2) {
-      for (let i = 0; i < url2.length; ++i) {
-        const code = url2.charCodeAt(i);
+      for (let i2 = 0; i2 < url2.length; ++i2) {
+        const code = url2.charCodeAt(i2);
         if (code > 126 || // Non-US-ASCII + DEL
         code < 32) {
           return false;
@@ -5592,8 +5592,8 @@ var require_util2 = __commonJS({
       return object instanceof Error || (object?.constructor?.name === "Error" || object?.constructor?.name === "DOMException");
     }
     function isValidReasonPhrase(statusText) {
-      for (let i = 0; i < statusText.length; ++i) {
-        const c2 = statusText.charCodeAt(i);
+      for (let i2 = 0; i2 < statusText.length; ++i2) {
+        const c2 = statusText.charCodeAt(i2);
         if (!(c2 === 9 || // HTAB
         c2 >= 32 && c2 <= 126 || // SP / VCHAR
         c2 >= 128 && c2 <= 255)) {
@@ -5610,8 +5610,8 @@ var require_util2 = __commonJS({
       const policyHeader = (actualResponse.headersList.get("referrer-policy", true) ?? "").split(",");
       let policy = "";
       if (policyHeader.length) {
-        for (let i = policyHeader.length; i !== 0; i--) {
-          const token = policyHeader[i - 1].trim();
+        for (let i2 = policyHeader.length; i2 !== 0; i2--) {
+          const token = policyHeader[i2 - 1].trim();
           if (referrerPolicyTokens.has(token)) {
             policy = token;
             break;
@@ -6472,8 +6472,8 @@ var require_formdata_parser = __commonJS({
     var decoder = new TextDecoder();
     var decoderIgnoreBOM = new TextDecoder("utf-8", { ignoreBOM: true });
     function isAsciiString(chars) {
-      for (let i = 0; i < chars.length; ++i) {
-        if ((chars.charCodeAt(i) & ~127) !== 0) {
+      for (let i2 = 0; i2 < chars.length; ++i2) {
+        if ((chars.charCodeAt(i2) & ~127) !== 0) {
           return false;
         }
       }
@@ -6484,8 +6484,8 @@ var require_formdata_parser = __commonJS({
       if (length < 27 || length > 70) {
         return false;
       }
-      for (let i = 0; i < length; ++i) {
-        const cp = boundary.charCodeAt(i);
+      for (let i2 = 0; i2 < length; ++i2) {
+        const cp = boundary.charCodeAt(i2);
         if (!(cp >= 48 && cp <= 57 || cp >= 65 && cp <= 90 || cp >= 97 && cp <= 122 || cp === 39 || cp === 45 || cp === 95)) {
           return false;
         }
@@ -6746,8 +6746,8 @@ var require_formdata_parser = __commonJS({
       if (buffer.length < start.length) {
         return false;
       }
-      for (let i = 0; i < start.length; i++) {
-        if (start[i] !== buffer[position.position + i]) {
+      for (let i2 = 0; i2 < start.length; i2++) {
+        if (start[i2] !== buffer[position.position + i2]) {
           return false;
         }
       }
@@ -7848,8 +7848,8 @@ var require_client_h1 = __commonJS({
       if (client.destroyed) {
         assert(client[kPending] === 0);
         const requests = client[kQueue].splice(client[kRunningIdx]);
-        for (let i = 0; i < requests.length; i++) {
-          const request = requests[i];
+        for (let i2 = 0; i2 < requests.length; i2++) {
+          const request = requests[i2];
           util.errorRequest(client, request, err);
         }
       } else if (client[kRunning] > 0 && err.code !== "UND_ERR_INFO") {
@@ -8035,8 +8035,8 @@ upgrade: ${upgrade}\r
           const key = headers[n2 + 0];
           const val = headers[n2 + 1];
           if (Array.isArray(val)) {
-            for (let i = 0; i < val.length; i++) {
-              header += `${key}: ${val[i]}\r
+            for (let i2 = 0; i2 < val.length; i2++) {
+              header += `${key}: ${val[i2]}\r
 `;
             }
           } else {
@@ -8630,8 +8630,8 @@ var require_client_h2 = __commonJS({
       if (client.destroyed) {
         assert(client[kPending] === 0);
         const requests = client[kQueue].splice(client[kRunningIdx]);
-        for (let i = 0; i < requests.length; i++) {
-          const request = requests[i];
+        for (let i2 = 0; i2 < requests.length; i2++) {
+          const request = requests[i2];
           util.errorRequest(client, request, err);
         }
       }
@@ -8685,11 +8685,11 @@ var require_client_h2 = __commonJS({
           continue;
         }
         if (Array.isArray(val)) {
-          for (let i = 0; i < val.length; i++) {
+          for (let i2 = 0; i2 < val.length; i2++) {
             if (headers[key]) {
-              headers[key] += `, ${val[i]}`;
+              headers[key] += `, ${val[i2]}`;
             } else {
-              headers[key] = val[i];
+              headers[key] = val[i2];
             }
           }
         } else if (headers[key]) {
@@ -9382,8 +9382,8 @@ var require_client = __commonJS({
       [kDestroy](err) {
         return new Promise((resolve3) => {
           const requests = this[kQueue].splice(this[kPendingIdx]);
-          for (let i = 0; i < requests.length; i++) {
-            const request = requests[i];
+          for (let i2 = 0; i2 < requests.length; i2++) {
+            const request = requests[i2];
             util.errorRequest(this, request, err);
           }
           const callback = () => {
@@ -9407,8 +9407,8 @@ var require_client = __commonJS({
       if (client[kRunning] === 0 && err.code !== "UND_ERR_INFO" && err.code !== "UND_ERR_SOCKET") {
         assert(client[kPendingIdx] === client[kRunningIdx]);
         const requests = client[kQueue].splice(client[kRunningIdx]);
-        for (let i = 0; i < requests.length; i++) {
-          const request = requests[i];
+        for (let i2 = 0; i2 < requests.length; i2++) {
+          const request = requests[i2];
           util.errorRequest(client, request, err);
         }
         assert(client[kSize] === 0);
@@ -9726,8 +9726,8 @@ var require_pool_base = __commonJS({
         }
         if (this[kClosedResolve] && queue.isEmpty()) {
           const closeAll = [];
-          for (let i = 0; i < this[kClients].length; i++) {
-            const client2 = this[kClients][i];
+          for (let i2 = 0; i2 < this[kClients].length; i2++) {
+            const client2 = this[kClients][i2];
             if (!client2.destroyed) {
               closeAll.push(client2.close());
             }
@@ -9788,8 +9788,8 @@ var require_pool_base = __commonJS({
       [kClose]() {
         if (this[kQueue].isEmpty()) {
           const closeAll = [];
-          for (let i = 0; i < this[kClients].length; i++) {
-            const client = this[kClients][i];
+          for (let i2 = 0; i2 < this[kClients].length; i2++) {
+            const client = this[kClients][i2];
             if (!client.destroyed) {
               closeAll.push(client.close());
             }
@@ -9810,8 +9810,8 @@ var require_pool_base = __commonJS({
           item.handler.onError(err);
         }
         const destroyAll = new Array(this[kClients].length);
-        for (let i = 0; i < this[kClients].length; i++) {
-          destroyAll[i] = this[kClients][i].destroy(err);
+        for (let i2 = 0; i2 < this[kClients].length; i2++) {
+          destroyAll[i2] = this[kClients][i2].destroy(err);
         }
         return Promise.all(destroyAll);
       }
@@ -10051,8 +10051,8 @@ var require_balanced_pool = __commonJS({
       }
       _updateBalancedPoolStats() {
         let result = 0;
-        for (let i = 0; i < this[kClients].length; i++) {
-          result = getGreatestCommonDivisor(this[kClients][i][kWeight], result);
+        for (let i2 = 0; i2 < this[kClients].length; i2++) {
+          result = getGreatestCommonDivisor(this[kClients][i2][kWeight], result);
         }
         this[kGreatestCommonDivisor] = result;
       }
@@ -10424,8 +10424,8 @@ var require_socks5_utils = __commonJS({
         }
       } else {
         const parts = normalizedAddress.split(":");
-        for (let i = 0; i < parts.length; i++) {
-          buffer.writeUInt16BE(parseInt(parts[i], 16), i * 2);
+        for (let i2 = 0; i2 < parts.length; i2++) {
+          buffer.writeUInt16BE(parseInt(parts[i2], 16), i2 * 2);
         }
       }
       return buffer;
@@ -10473,8 +10473,8 @@ var require_socks5_utils = __commonJS({
             throw new InvalidArgumentError("Buffer too small for IPv6 address");
           }
           const parts = [];
-          for (let i = 0; i < 8; i++) {
-            const value = buffer.readUInt16BE(currentOffset + i * 2);
+          for (let i2 = 0; i2 < 8; i2++) {
+            const value = buffer.readUInt16BE(currentOffset + i2 * 2);
             parts.push(value.toString(16));
           }
           address = parts.join(":");
@@ -10655,8 +10655,8 @@ var require_socks5_client = __commonJS({
         const request = Buffer2.alloc(2 + this.authMethods.length);
         request[0] = SOCKS_VERSION;
         request[1] = this.authMethods.length;
-        this.authMethods.forEach((method, i) => {
-          request[2 + i] = method;
+        this.authMethods.forEach((method, i2) => {
+          request[2 + i2] = method;
         });
         this.socket.write(request);
       }
@@ -10803,8 +10803,8 @@ var require_socks5_client = __commonJS({
           offset += domainLength;
         } else if (addressType === ADDRESS_TYPES.IPV6) {
           const parts = [];
-          for (let i = 0; i < 8; i++) {
-            const value = this.buffer.readUInt16BE(offset + i * 2);
+          for (let i2 = 0; i2 < 8; i2++) {
+            const value = this.buffer.readUInt16BE(offset + i2 * 2);
             parts.push(value.toString(16));
           }
           boundAddress = parts.join(":");
@@ -11297,8 +11297,8 @@ var require_proxy_agent = __commonJS({
     function buildHeaders(headers) {
       if (Array.isArray(headers)) {
         const headersPair = {};
-        for (let i = 0; i < headers.length; i += 2) {
-          headersPair[headers[i]] = headers[i + 1];
+        for (let i2 = 0; i2 < headers.length; i2 += 2) {
+          headersPair[headers[i2]] = headers[i2 + 1];
         }
         return headersPair;
       }
@@ -11390,8 +11390,8 @@ var require_env_http_proxy_agent = __commonJS({
         if (this.#noProxyValue === "*") {
           return false;
         }
-        for (let i = 0; i < this.#noProxyEntries.length; i++) {
-          const entry = this.#noProxyEntries[i];
+        for (let i2 = 0; i2 < this.#noProxyEntries.length; i2++) {
+          const entry = this.#noProxyEntries[i2];
           if (entry.port && entry.port !== port) {
             continue;
           }
@@ -11408,8 +11408,8 @@ var require_env_http_proxy_agent = __commonJS({
         const noProxyValue = this.#opts.noProxy ?? this.#noProxyEnv;
         const noProxySplit = noProxyValue.split(/[,\s]/);
         const noProxyEntries = [];
-        for (let i = 0; i < noProxySplit.length; i++) {
-          const entry = noProxySplit[i];
+        for (let i2 = 0; i2 < noProxySplit.length; i2++) {
+          const entry = noProxySplit[i2];
           if (!entry) {
             continue;
           }
@@ -12192,8 +12192,8 @@ var require_readable = __commonJS({
       }
       const buffer = new Uint8Array(Buffer.allocUnsafeSlow(length).buffer);
       let offset = 0;
-      for (let i = 0; i < chunks.length; ++i) {
-        const chunk = chunks[i];
+      for (let i2 = 0; i2 < chunks.length; ++i2) {
+        const chunk = chunks[i2];
         buffer.set(chunk, offset);
         offset += chunk.length;
       }
@@ -13139,9 +13139,9 @@ var require_mock_utils = __commonJS({
     }
     function getHeaderByName(headers, key) {
       if (Array.isArray(headers)) {
-        for (let i = 0; i < headers.length; i += 2) {
-          if (headers[i].toLocaleLowerCase() === key.toLocaleLowerCase()) {
-            return headers[i + 1];
+        for (let i2 = 0; i2 < headers.length; i2 += 2) {
+          if (headers[i2].toLocaleLowerCase() === key.toLocaleLowerCase()) {
+            return headers[i2 + 1];
           }
         }
         return void 0;
@@ -13304,8 +13304,8 @@ var require_mock_utils = __commonJS({
     function generateKeyValues(data) {
       const keys = Object.keys(data);
       const result = [];
-      for (let i = 0; i < keys.length; ++i) {
-        const key = keys[i];
+      for (let i2 = 0; i2 < keys.length; ++i2) {
+        const key = keys[i2];
         const value = data[key];
         const name = Buffer.from(`${key}`);
         if (Array.isArray(value)) {
@@ -14231,9 +14231,9 @@ var require_snapshot_utils = __commonJS({
       const normalizedHeaders = {};
       if (!headers) return normalizedHeaders;
       if (isUndiciHeaders(headers)) {
-        for (let i = 0; i < headers.length; i += 2) {
-          const key = headers[i];
-          const value = headers[i + 1];
+        for (let i2 = 0; i2 < headers.length; i2 += 2) {
+          const key = headers[i2];
+          const value = headers[i2 + 1];
           if (key && value !== void 0) {
             const keyStr = Buffer.isBuffer(key) ? key.toString() : key;
             const valueStr = Buffer.isBuffer(value) ? value.toString() : value;
@@ -15183,9 +15183,9 @@ var require_redirect_handler = __commonJS({
     function cleanRequestHeaders(headers, removeContent, unknownOrigin) {
       const ret = [];
       if (Array.isArray(headers)) {
-        for (let i = 0; i < headers.length; i += 2) {
-          if (!shouldRemoveHeader(headers[i], removeContent, unknownOrigin)) {
-            ret.push(headers[i], headers[i + 1]);
+        for (let i2 = 0; i2 < headers.length; i2 += 2) {
+          if (!shouldRemoveHeader(headers[i2], removeContent, unknownOrigin)) {
+            ret.push(headers[i2], headers[i2 + 1]);
           }
         }
       } else if (headers && typeof headers === "object") {
@@ -15474,8 +15474,8 @@ var require_dns = __commonJS({
         if (headers.length === 0) {
           return false;
         }
-        for (let i = 0; i < headers.length; i += 2) {
-          if (isHostHeader(headers[i])) {
+        for (let i2 = 0; i2 < headers.length; i2 += 2) {
+          if (isHostHeader(headers[i2])) {
             return true;
           }
         }
@@ -15875,8 +15875,8 @@ var require_cache = __commonJS({
       return value.replace(/^[\t ]+|[\t ]+$/g, "");
     }
     function arrayIncludes(array, value) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i] === value) {
+      for (let i2 = 0; i2 < array.length; i2++) {
+        if (array[i2] === value) {
           return true;
         }
       }
@@ -15890,13 +15890,13 @@ var require_cache = __commonJS({
     }
     function findUnescapedQuote(value, start) {
       let escaped = false;
-      for (let i = start; i < value.length; i++) {
+      for (let i2 = start; i2 < value.length; i2++) {
         if (escaped) {
           escaped = false;
-        } else if (value[i] === "\\") {
+        } else if (value[i2] === "\\") {
           escaped = true;
-        } else if (value[i] === '"') {
-          return i;
+        } else if (value[i2] === '"') {
+          return i2;
         }
       }
       return -1;
@@ -15907,22 +15907,22 @@ var require_cache = __commonJS({
       let quoteStart = -1;
       let inQuote = false;
       let escaped = false;
-      for (let i = 0; i < value.length; i++) {
+      for (let i2 = 0; i2 < value.length; i2++) {
         if (inQuote) {
           if (escaped) {
             escaped = false;
-          } else if (value[i] === "\\") {
+          } else if (value[i2] === "\\") {
             escaped = true;
-          } else if (value[i] === '"') {
+          } else if (value[i2] === '"') {
             inQuote = false;
             quoteStart = -1;
           }
-        } else if (value[i] === '"') {
+        } else if (value[i2] === '"') {
           inQuote = true;
-          quoteStart = i;
-        } else if (value[i] === ",") {
-          directives.push({ value: value.substring(start, i), fromMalformedQuote: false });
-          start = i + 1;
+          quoteStart = i2;
+        } else if (value[i2] === ",") {
+          directives.push({ value: value.substring(start, i2), fromMalformedQuote: false });
+          start = i2 + 1;
         }
       }
       if (!inQuote) {
@@ -15932,13 +15932,13 @@ var require_cache = __commonJS({
       const tail = value.substring(start);
       const quoteOffset = quoteStart - start;
       let tailStart = 0;
-      for (let i = 0; i < tail.length; i++) {
-        if (tail[i] === ",") {
+      for (let i2 = 0; i2 < tail.length; i2++) {
+        if (tail[i2] === ",") {
           directives.push({
-            value: tail.substring(tailStart, i),
+            value: tail.substring(tailStart, i2),
             fromMalformedQuote: tailStart > quoteOffset
           });
-          tailStart = i + 1;
+          tailStart = i2 + 1;
         }
       }
       directives.push({
@@ -15968,9 +15968,9 @@ var require_cache = __commonJS({
       }
       let tokenOnlyKey = "";
       let hasInvalidTokenChar = false;
-      for (let i = 0; i < key.length; i++) {
-        if (isValidHTTPToken(key[i])) {
-          tokenOnlyKey += key[i];
+      for (let i2 = 0; i2 < key.length; i2++) {
+        if (isValidHTTPToken(key[i2])) {
+          tokenOnlyKey += key[i2];
         } else {
           hasInvalidTokenChar = true;
         }
@@ -16073,8 +16073,8 @@ var require_cache = __commonJS({
       const invalidNumericDirectives = /* @__PURE__ */ new Set();
       const invalidNoArgumentDirectives = /* @__PURE__ */ new Set();
       const directives = splitCacheControlHeaderValue(Array.isArray(header) ? header.join(",") : header);
-      for (let i = 0; i < directives.length; i++) {
-        const directiveRecord = directives[i];
+      for (let i2 = 0; i2 < directives.length; i2++) {
+        const directiveRecord = directives[i2];
         const directive = directiveRecord.value.toLowerCase();
         const fromMalformedQuote = directiveRecord.fromMalformedQuote;
         const keyValueDelimiter = directive.indexOf("=");
@@ -16146,7 +16146,7 @@ var require_cache = __commonJS({
               if (value[0] === '"') {
                 value = trimOWSEnd(value);
                 let fieldList = "";
-                let lastQuotedPart = i;
+                let lastQuotedPart = i2;
                 let foundEndingQuote = false;
                 const closingQuote = findUnescapedQuote(value, 1);
                 if (closingQuote !== -1) {
@@ -16154,7 +16154,7 @@ var require_cache = __commonJS({
                   foundEndingQuote = true;
                 } else {
                   const fieldListParts = [value.substring(1)];
-                  for (let j2 = i + 1; j2 < directives.length; j2++) {
+                  for (let j2 = i2 + 1; j2 < directives.length; j2++) {
                     const nextPart = trimOWS(directives[j2].value);
                     const closingQuote2 = findUnescapedQuote(nextPart, 0);
                     lastQuotedPart = j2;
@@ -16171,7 +16171,7 @@ var require_cache = __commonJS({
                   output[key] = true;
                   break;
                 }
-                i = lastQuotedPart;
+                i2 = lastQuotedPart;
                 const headers = fieldList.split(",");
                 let validFieldNames = true;
                 for (let j2 = 0; j2 < headers.length; j2++) {
@@ -16234,8 +16234,8 @@ var require_cache = __commonJS({
     function splitVaryHeader(varyHeader) {
       const values = Array.isArray(varyHeader) ? varyHeader : [varyHeader];
       const output = [];
-      for (let i = 0; i < values.length; i++) {
-        const parts = values[i].split(",");
+      for (let i2 = 0; i2 < values.length; i2++) {
+        const parts = values[i2].split(",");
         for (let j2 = 0; j2 < parts.length; j2++) {
           output.push(parts[j2]);
         }
@@ -16244,8 +16244,8 @@ var require_cache = __commonJS({
     }
     function hasVaryStar(varyHeader) {
       const values = splitVaryHeader(varyHeader);
-      for (let i = 0; i < values.length; i++) {
-        if (trimOWS(values[i]).indexOf("*") !== -1) {
+      for (let i2 = 0; i2 < values.length; i2++) {
+        if (trimOWS(values[i2]).indexOf("*") !== -1) {
           return true;
         }
       }
@@ -16880,8 +16880,8 @@ var require_cache_handler = __commonJS({
       return value.replace(/^[\t ]+|[\t ]+$/g, "");
     }
     function arrayIncludes(array, value) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i] === value) {
+      for (let i2 = 0; i2 < array.length; i2++) {
+        if (array[i2] === value) {
           return true;
         }
       }
@@ -16889,8 +16889,8 @@ var require_cache_handler = __commonJS({
     }
     function appendConnectionHeaderTokens(headersToRemove, connectionHeader) {
       const values = Array.isArray(connectionHeader) ? connectionHeader : [connectionHeader];
-      for (let i = 0; i < values.length; i++) {
-        const tokens = values[i].split(",");
+      for (let i2 = 0; i2 < values.length; i2++) {
+        const tokens = values[i2].split(",");
         for (let j2 = 0; j2 < tokens.length; j2++) {
           headersToRemove.push(trimOWS(tokens[j2]).toLowerCase());
         }
@@ -16920,8 +16920,8 @@ var require_cache_handler = __commonJS({
         ...cacheKey,
         path: path6
       });
-      for (let i = 0; i < util.safeHTTPMethods.length; i++) {
-        const method = util.safeHTTPMethods[i];
+      for (let i2 = 0; i2 < util.safeHTTPMethods.length; i2++) {
+        const method = util.safeHTTPMethods[i2];
         if (method !== cacheKey.method) {
           deleteCachedValue(store, {
             ...cacheKey,
@@ -16936,8 +16936,8 @@ var require_cache_handler = __commonJS({
         return;
       }
       const values = Array.isArray(headerValue) ? headerValue : [headerValue];
-      for (let i = 0; i < values.length; i++) {
-        const path6 = getSameOriginPath(cacheKey, values[i]);
+      for (let i2 = 0; i2 < values.length; i2++) {
+        const path6 = getSameOriginPath(cacheKey, values[i2]);
         if (path6 !== void 0) {
           deleteCachedUri(store, cacheKey, path6);
         }
@@ -17524,8 +17524,8 @@ var require_memory_cache_store = __commonJS({
       }
     };
     function findEntry(key, entries, now) {
-      for (let i = 0; i < entries.length; i++) {
-        const entry = entries[i];
+      for (let i2 = 0; i2 < entries.length; i2++) {
+        const entry = entries[i2];
         if (entry.deleteAt > now && entry.method === key.method && varyMatches(key, entry)) {
           return entry;
         }
@@ -17553,8 +17553,8 @@ var require_memory_cache_store = __commonJS({
         if (lhs.length !== rhs.length) {
           return false;
         }
-        for (let i = 0; i < lhs.length; i++) {
-          if (lhs[i] !== rhs[i]) {
+        for (let i2 = 0; i2 < lhs.length; i2++) {
+          if (lhs[i2] !== rhs[i2]) {
             return false;
           }
         }
@@ -17671,10 +17671,10 @@ var require_cache2 = __commonJS({
       if (!Array.isArray(origins)) {
         throw new TypeError(`expected ${name} to be an array or undefined, got ${typeof origins}`);
       }
-      for (let i = 0; i < origins.length; i++) {
-        const origin = origins[i];
+      for (let i2 = 0; i2 < origins.length; i2++) {
+        const origin = origins[i2];
         if (typeof origin !== "string" && !(origin instanceof RegExp)) {
-          throw new TypeError(`expected ${name}[${i}] to be a string or RegExp, got ${typeof origin}`);
+          throw new TypeError(`expected ${name}[${i2}] to be a string or RegExp, got ${typeof origin}`);
         }
       }
     }
@@ -17684,8 +17684,8 @@ var require_cache2 = __commonJS({
       return value.replace(/^[\t ]+|[\t ]+$/g, "");
     }
     function arrayIncludes(array, value) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i] === value) {
+      for (let i2 = 0; i2 < array.length; i2++) {
+        if (array[i2] === value) {
           return true;
         }
       }
@@ -17697,8 +17697,8 @@ var require_cache2 = __commonJS({
         return false;
       }
       const values = Array.isArray(pragma) ? pragma : [pragma];
-      for (let i = 0; i < values.length; i++) {
-        const value = values[i];
+      for (let i2 = 0; i2 < values.length; i2++) {
+        const value = values[i2];
         if (typeof value !== "string") {
           continue;
         }
@@ -17994,8 +17994,8 @@ var require_cache2 = __commonJS({
         type
       };
       const safeMethodsToNotCache = [];
-      for (let i = 0; i < util.safeHTTPMethods.length; i++) {
-        const method = util.safeHTTPMethods[i];
+      for (let i2 = 0; i2 < util.safeHTTPMethods.length; i2++) {
+        const method = util.safeHTTPMethods[i2];
         if (!arrayIncludes(methods, method)) {
           safeMethodsToNotCache.push(method);
         }
@@ -18008,8 +18008,8 @@ var require_cache2 = __commonJS({
           if (origins !== void 0) {
             const requestOrigin = opts2.origin.toString().toLowerCase();
             let isAllowed = false;
-            for (let i = 0; i < origins.length; i++) {
-              const allowed = origins[i];
+            for (let i2 = 0; i2 < origins.length; i2++) {
+              const allowed = origins[i2];
               if (typeof allowed === "string") {
                 if (allowed.toLowerCase() === requestOrigin) {
                   isAllowed = true;
@@ -18124,8 +18124,8 @@ var require_decompress = __commonJS({
           throw new Error(`too many content-encodings in response: ${parts.length}, maximum allowed is ${maxContentEncodings}`);
         }
         const decompressors = [];
-        for (let i = parts.length - 1; i >= 0; i--) {
-          const encoding = parts[i].trim();
+        for (let i2 = parts.length - 1; i2 >= 0; i2--) {
+          const encoding = parts[i2].trim();
           if (!encoding) continue;
           if (!supportedEncodings[encoding]) {
             decompressors.length = 0;
@@ -19071,8 +19071,8 @@ var require_sqlite_cache_store = __commonJS({
         if (lhs.length !== rhs.length) {
           return false;
         }
-        for (let i = 0; i < lhs.length; i++) {
-          if (lhs[i] !== rhs[i]) {
+        for (let i2 = 0; i2 < lhs.length; i2++) {
+          if (lhs[i2] !== rhs[i2]) {
             return false;
           }
         }
@@ -19101,16 +19101,16 @@ var require_headers = __commonJS({
       return code === 10 || code === 13 || code === 9 || code === 32;
     }
     function headerValueNormalize(potentialValue) {
-      let i = 0;
+      let i2 = 0;
       let j2 = potentialValue.length;
-      while (j2 > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j2 - 1))) --j2;
-      while (j2 > i && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i))) ++i;
-      return i === 0 && j2 === potentialValue.length ? potentialValue : potentialValue.substring(i, j2);
+      while (j2 > i2 && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(j2 - 1))) --j2;
+      while (j2 > i2 && isHTTPWhiteSpaceCharCode(potentialValue.charCodeAt(i2))) ++i2;
+      return i2 === 0 && j2 === potentialValue.length ? potentialValue : potentialValue.substring(i2, j2);
     }
     function fill(headers, object) {
       if (Array.isArray(object)) {
-        for (let i = 0; i < object.length; ++i) {
-          const header = object[i];
+        for (let i2 = 0; i2 < object.length; ++i2) {
+          const header = object[i2];
           if (header.length !== 2) {
             throw webidl.errors.exception({
               header: "Headers constructor",
@@ -19121,8 +19121,8 @@ var require_headers = __commonJS({
         }
       } else if (typeof object === "object" && object !== null) {
         const keys = Object.keys(object);
-        for (let i = 0; i < keys.length; ++i) {
-          appendHeader(headers, keys[i], object[keys[i]]);
+        for (let i2 = 0; i2 < keys.length; ++i2) {
+          appendHeader(headers, keys[i2], object[keys[i2]]);
         }
       } else {
         throw webidl.errors.conversionFailed({
@@ -19166,8 +19166,8 @@ var require_headers = __commonJS({
       if (cookies === null || cookies.length === 1) {
         return headersList.sortedMap = names;
       }
-      for (let i = 0; i < names.length; ++i) {
-        const { 0: name, 1: value } = names[i];
+      for (let i2 = 0; i2 < names.length; ++i2) {
+        const { 0: name, 1: value } = names[i2];
         if (name === "set-cookie") {
           for (let j2 = 0; j2 < cookies.length; ++j2) {
             headers.push([name, cookies[j2]]);
@@ -19312,12 +19312,12 @@ var require_headers = __commonJS({
           const firstValue = iterator.next().value;
           array[0] = [firstValue[0], firstValue[1].value];
           assert(firstValue[1].value !== null);
-          for (let i = 1, j2 = 0, right = 0, left = 0, pivot = 0, x2, value; i < size; ++i) {
+          for (let i2 = 1, j2 = 0, right = 0, left = 0, pivot = 0, x2, value; i2 < size; ++i2) {
             value = iterator.next().value;
-            x2 = array[i] = [value[0], value[1].value];
+            x2 = array[i2] = [value[0], value[1].value];
             assert(x2[1] !== null);
             left = 0;
-            right = i;
+            right = i2;
             while (left < right) {
               pivot = left + (right - left >> 1);
               if (array[pivot][0] <= x2[0]) {
@@ -19326,8 +19326,8 @@ var require_headers = __commonJS({
                 right = pivot;
               }
             }
-            if (i !== pivot) {
-              j2 = i;
+            if (i2 !== pivot) {
+              j2 = i2;
               while (j2 > left) {
                 array[j2] = array[--j2];
               }
@@ -19339,9 +19339,9 @@ var require_headers = __commonJS({
           }
           return array;
         } else {
-          let i = 0;
+          let i2 = 0;
           for (const { 0: name, 1: { value } } of this.headersMap) {
-            array[i++] = [name, value];
+            array[i2++] = [name, value];
             assert(value !== null);
           }
           return array.sort(compareHeaderName);
@@ -20842,8 +20842,8 @@ var require_subresource_integrity = __commonJS({
       if (actualValueLength !== expectedValueLength) {
         return false;
       }
-      for (let i = 0; i < actualValueLength; ++i) {
-        if (actualValue[i] === expectedValue[i] || actualValue[i] === "+" && expectedValue[i] === "-" || actualValue[i] === "/" && expectedValue[i] === "_") {
+      for (let i2 = 0; i2 < actualValueLength; ++i2) {
+        if (actualValue[i2] === expectedValue[i2] || actualValue[i2] === "+" && expectedValue[i2] === "-" || actualValue[i2] === "/" && expectedValue[i2] === "_") {
           continue;
         }
         return false;
@@ -21851,10 +21851,10 @@ var require_fetch = __commonJS({
                 return false;
               }
               const headersList = new HeadersList();
-              for (let i = 0; i < rawHeaders.length; i += 2) {
-                const nameStr = bufferToLowerCasedHeaderName(rawHeaders[i]);
-                const value = rawHeaders[i + 1];
-                if (Array.isArray(value) && !Buffer.isBuffer(rawHeaders[i + 1])) {
+              for (let i2 = 0; i2 < rawHeaders.length; i2 += 2) {
+                const nameStr = bufferToLowerCasedHeaderName(rawHeaders[i2]);
+                const value = rawHeaders[i2 + 1];
+                if (Array.isArray(value) && !Buffer.isBuffer(rawHeaders[i2 + 1])) {
                   for (const val of value) {
                     headersList.append(nameStr, val.toString("latin1"), true);
                   }
@@ -21874,8 +21874,8 @@ var require_fetch = __commonJS({
                   reject(new Error(`too many content-encodings in response: ${codings.length}, maximum allowed is ${maxContentEncodings}`));
                   return true;
                 }
-                for (let i = codings.length - 1; i >= 0; --i) {
-                  const coding = codings[i].trim();
+                for (let i2 = codings.length - 1; i2 >= 0; --i2) {
+                  const coding = codings[i2].trim();
                   if (coding === "x-gzip" || coding === "gzip") {
                     decoders.push(zlib.createGunzip({
                       // Be less strict when decoding compressed responses, since sometimes
@@ -21973,10 +21973,10 @@ var require_fetch = __commonJS({
                 return false;
               }
               const headersList = new HeadersList();
-              for (let i = 0; i < rawHeaders.length; i += 2) {
-                const nameStr = bufferToLowerCasedHeaderName(rawHeaders[i]);
-                const value = rawHeaders[i + 1];
-                if (Array.isArray(value) && !Buffer.isBuffer(rawHeaders[i + 1])) {
+              for (let i2 = 0; i2 < rawHeaders.length; i2 += 2) {
+                const nameStr = bufferToLowerCasedHeaderName(rawHeaders[i2]);
+                const value = rawHeaders[i2 + 1];
+                if (Array.isArray(value) && !Buffer.isBuffer(rawHeaders[i2 + 1])) {
                   for (const val of value) {
                     headersList.append(nameStr, val.toString("latin1"), true);
                   }
@@ -22712,8 +22712,8 @@ var require_util4 = __commonJS({
   "node_modules/undici/lib/web/cookies/util.js"(exports, module2) {
     "use strict";
     function isCTLExcludingHtab(value) {
-      for (let i = 0; i < value.length; ++i) {
-        const code = value.charCodeAt(i);
+      for (let i2 = 0; i2 < value.length; ++i2) {
+        const code = value.charCodeAt(i2);
         if (code >= 0 && code <= 8 || code >= 10 && code <= 31 || code === 127) {
           return true;
         }
@@ -22721,8 +22721,8 @@ var require_util4 = __commonJS({
       return false;
     }
     function validateCookieName(name) {
-      for (let i = 0; i < name.length; ++i) {
-        const code = name.charCodeAt(i);
+      for (let i2 = 0; i2 < name.length; ++i2) {
+        const code = name.charCodeAt(i2);
         if (code < 33 || // exclude CTLs (0-31), SP and HT
         code > 126 || // exclude non-ascii and DEL
         code === 34 || // "
@@ -22748,16 +22748,16 @@ var require_util4 = __commonJS({
     }
     function validateCookieValue(value) {
       let len = value.length;
-      let i = 0;
+      let i2 = 0;
       if (value[0] === '"') {
         if (len === 1 || value[len - 1] !== '"') {
           throw new Error("Invalid cookie value");
         }
         --len;
-        ++i;
+        ++i2;
       }
-      while (i < len) {
-        const code = value.charCodeAt(i++);
+      while (i2 < len) {
+        const code = value.charCodeAt(i2++);
         if (code < 33 || // exclude CTLs (0-31)
         code > 126 || // non-ascii and DEL (127)
         code === 34 || // "
@@ -22769,8 +22769,8 @@ var require_util4 = __commonJS({
       }
     }
     function validateCookiePath(path6) {
-      for (let i = 0; i < path6.length; ++i) {
-        const code = path6.charCodeAt(i);
+      for (let i2 = 0; i2 < path6.length; ++i2) {
+        const code = path6.charCodeAt(i2);
         if (code < 32 || // exclude CTLs (0-31)
         code > 126 || // exclude DEL and non-ascii
         code === 59) {
@@ -22791,13 +22791,13 @@ var require_util4 = __commonJS({
         throw new Error("Invalid cookie domain");
       }
       let labelLength = 0;
-      for (let i = 0; i < domain.length; ++i) {
-        const code = domain.charCodeAt(i);
+      for (let i2 = 0; i2 < domain.length; ++i2) {
+        const code = domain.charCodeAt(i2);
         if (code === 46) {
           if (labelLength === 0) {
             throw new Error("Invalid cookie domain");
           }
-          if (domain.charCodeAt(i - 1) === 45) {
+          if (domain.charCodeAt(i2 - 1) === 45) {
             throw new Error("Invalid cookie domain");
           }
           labelLength = 0;
@@ -22840,7 +22840,7 @@ var require_util4 = __commonJS({
       "Nov",
       "Dec"
     ];
-    var IMFPaddedNumbers = Array(61).fill(0).map((_4, i) => i.toString().padStart(2, "0"));
+    var IMFPaddedNumbers = Array(61).fill(0).map((_4, i2) => i2.toString().padStart(2, "0"));
     function toIMFDate(date) {
       if (typeof date === "number") {
         date = new Date(date);
@@ -23547,8 +23547,8 @@ var require_util5 = __commonJS({
       if (protocol.length === 0) {
         return false;
       }
-      for (let i = 0; i < protocol.length; ++i) {
-        const code = protocol.charCodeAt(i);
+      for (let i2 = 0; i2 < protocol.length; ++i2) {
+        const code = protocol.charCodeAt(i2);
         if (code < 33 || // CTL, contains SP (0x20) and HT (0x09)
         code > 126 || code === 34 || // "
         code === 40 || // (
@@ -23610,8 +23610,8 @@ var require_util5 = __commonJS({
       if (value.length === 0) {
         return false;
       }
-      for (let i = 0; i < value.length; i++) {
-        const byte = value.charCodeAt(i);
+      for (let i2 = 0; i2 < value.length; i2++) {
+        const byte = value.charCodeAt(i2);
         if (byte < 48 || byte > 57) {
           return false;
         }
@@ -23697,8 +23697,8 @@ var require_frame = __commonJS({
     var buffer = null;
     var bufIdx = BUFFER_SIZE;
     var randomFillSync = runtimeFeatures.has("crypto") ? __require("node:crypto").randomFillSync : function randomFillSync2(buffer2, _offset, _size) {
-      for (let i = 0; i < buffer2.length; ++i) {
-        buffer2[i] = Math.random() * 255 | 0;
+      for (let i2 = 0; i2 < buffer2.length; ++i2) {
+        buffer2[i2] = Math.random() * 255 | 0;
       }
       return buffer2;
     };
@@ -23745,8 +23745,8 @@ var require_frame = __commonJS({
           buffer2.writeUIntBE(bodyLength, 4, 6);
         }
         buffer2[1] |= 128;
-        for (let i = 0; i < bodyLength; ++i) {
-          buffer2[offset + i] = frameData[i] ^ maskKey[i & 3];
+        for (let i2 = 0; i2 < bodyLength; ++i2) {
+          buffer2[offset + i2] = frameData[i2] ^ maskKey[i2 & 3];
         }
         return buffer2;
       }
@@ -23756,8 +23756,8 @@ var require_frame = __commonJS({
       static createFastTextFrame(buffer2) {
         const maskKey = generateMask();
         const bodyLength = buffer2.length;
-        for (let i = 0; i < bodyLength; ++i) {
-          buffer2[i] ^= maskKey[i & 3];
+        for (let i2 = 0; i2 < bodyLength; ++i2) {
+          buffer2[i2] ^= maskKey[i2 & 3];
         }
         let payloadLength = bodyLength;
         let offset = 6;
@@ -24308,8 +24308,8 @@ var require_receiver = __commonJS({
         }
         let offset = 0;
         const output = Buffer.allocUnsafeSlow(this.#fragmentsBytes);
-        for (let i = 0; i < fragments.length; ++i) {
-          const buffer = fragments[i];
+        for (let i2 = 0; i2 < fragments.length; ++i2) {
+          const buffer = fragments[i2];
           output.set(buffer, offset);
           offset += buffer.length;
         }
@@ -25365,8 +25365,8 @@ var require_util6 = __commonJS({
     }
     function isASCIINumber(value) {
       if (value.length === 0) return false;
-      for (let i = 0; i < value.length; i++) {
-        if (value.charCodeAt(i) < 48 || value.charCodeAt(i) > 57) return false;
+      for (let i2 = 0; i2 < value.length; i2++) {
+        if (value.charCodeAt(i2) < 48 || value.charCodeAt(i2) > 57) return false;
       }
       return true;
     }
@@ -26675,8 +26675,8 @@ var require_lib = __commonJS({
       _performExponentialBackoff(retryNumber) {
         return __awaiter(this, void 0, void 0, function* () {
           retryNumber = Math.min(ExponentialBackoffCeiling, retryNumber);
-          const ms = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
-          return new Promise((resolve3) => setTimeout(() => resolve3(), ms));
+          const ms2 = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
+          return new Promise((resolve3) => setTimeout(() => resolve3(), ms2));
         });
       }
       _processResponse(res, options2) {
@@ -27341,12 +27341,12 @@ var require_io_util = __commonJS({
     var _a;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
-    var fs3 = __importStar(__require("fs"));
+    var fs4 = __importStar(__require("fs"));
     var path6 = __importStar(__require("path"));
-    _a = fs3.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+    _a = fs4.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
     exports.IS_WINDOWS = process.platform === "win32";
     exports.UV_FS_O_EXLOCK = 268435456;
-    exports.READONLY = fs3.constants.O_RDONLY;
+    exports.READONLY = fs4.constants.O_RDONLY;
     function exists(fsPath) {
       return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -27761,7 +27761,7 @@ var require_toolrunner = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.argStringToArray = exports.ToolRunner = void 0;
-    var os = __importStar(__require("os"));
+    var os2 = __importStar(__require("os"));
     var events = __importStar(__require("events"));
     var child = __importStar(__require("child_process"));
     var path6 = __importStar(__require("path"));
@@ -27815,15 +27815,15 @@ var require_toolrunner = __commonJS({
       }
       _processLineBuffer(data, strBuffer, onLine) {
         try {
-          let s2 = strBuffer + data.toString();
-          let n2 = s2.indexOf(os.EOL);
+          let s = strBuffer + data.toString();
+          let n2 = s.indexOf(os2.EOL);
           while (n2 > -1) {
-            const line = s2.substring(0, n2);
+            const line = s.substring(0, n2);
             onLine(line);
-            s2 = s2.substring(n2 + os.EOL.length);
-            n2 = s2.indexOf(os.EOL);
+            s = s.substring(n2 + os2.EOL.length);
+            n2 = s.indexOf(os2.EOL);
           }
-          return s2;
+          return s;
         } catch (err) {
           this._debug(`error processing line. Failed with error ${err}`);
           return "";
@@ -27901,11 +27901,11 @@ var require_toolrunner = __commonJS({
         }
         let reverse = '"';
         let quoteHit = true;
-        for (let i = arg.length; i > 0; i--) {
-          reverse += arg[i - 1];
-          if (quoteHit && arg[i - 1] === "\\") {
+        for (let i2 = arg.length; i2 > 0; i2--) {
+          reverse += arg[i2 - 1];
+          if (quoteHit && arg[i2 - 1] === "\\") {
             reverse += "\\";
-          } else if (arg[i - 1] === '"') {
+          } else if (arg[i2 - 1] === '"') {
             quoteHit = true;
             reverse += '"';
           } else {
@@ -27927,11 +27927,11 @@ var require_toolrunner = __commonJS({
         }
         let reverse = '"';
         let quoteHit = true;
-        for (let i = arg.length; i > 0; i--) {
-          reverse += arg[i - 1];
-          if (quoteHit && arg[i - 1] === "\\") {
+        for (let i2 = arg.length; i2 > 0; i2--) {
+          reverse += arg[i2 - 1];
+          if (quoteHit && arg[i2 - 1] === "\\") {
             reverse += "\\";
-          } else if (arg[i - 1] === '"') {
+          } else if (arg[i2 - 1] === '"') {
             quoteHit = true;
             reverse += "\\";
           } else {
@@ -27990,7 +27990,7 @@ var require_toolrunner = __commonJS({
             }
             const optionsNonNull = this._cloneExecOptions(this.options);
             if (!optionsNonNull.silent && optionsNonNull.outStream) {
-              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os.EOL);
+              optionsNonNull.outStream.write(this._getCommandString(optionsNonNull) + os2.EOL);
             }
             const state = new ExecState(optionsNonNull, this.toolPath);
             state.on("debug", (message) => {
@@ -28025,8 +28025,8 @@ var require_toolrunner = __commonJS({
                   this.options.listeners.stderr(data);
                 }
                 if (!optionsNonNull.silent && optionsNonNull.errStream && optionsNonNull.outStream) {
-                  const s2 = optionsNonNull.failOnStdErr ? optionsNonNull.errStream : optionsNonNull.outStream;
-                  s2.write(data);
+                  const s = optionsNonNull.failOnStdErr ? optionsNonNull.errStream : optionsNonNull.outStream;
+                  s.write(data);
                 }
                 errbuffer = this._processLineBuffer(data, errbuffer, (line) => {
                   if (this.options.listeners && this.options.listeners.errline) {
@@ -28091,8 +28091,8 @@ var require_toolrunner = __commonJS({
         arg += c2;
         escaped = false;
       }
-      for (let i = 0; i < argString.length; i++) {
-        const c2 = argString.charAt(i);
+      for (let i2 = 0; i2 < argString.length; i2++) {
+        const c2 = argString.charAt(i2);
         if (c2 === '"') {
           if (!escaped) {
             inQuotes = !inQuotes;
@@ -28478,7 +28478,7 @@ var require_core = __commonJS({
     var command_1 = require_command();
     var file_command_1 = require_file_command();
     var utils_1 = require_utils();
-    var os = __importStar(__require("os"));
+    var os2 = __importStar(__require("os"));
     var path6 = __importStar(__require("path"));
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
@@ -28546,7 +28546,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
-      process.stdout.write(os.EOL);
+      process.stdout.write(os2.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
     exports.setOutput = setOutput2;
@@ -28580,7 +28580,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.notice = notice;
     function info3(message) {
-      process.stdout.write(message + os.EOL);
+      process.stdout.write(message + os2.EOL);
     }
     exports.info = info3;
     function startGroup(name) {
@@ -29338,8 +29338,8 @@ var require_wrappy = __commonJS({
       return wrapper;
       function wrapper() {
         var args = new Array(arguments.length);
-        for (var i = 0; i < args.length; i++) {
-          args[i] = arguments[i];
+        for (var i2 = 0; i2 < args.length; i2++) {
+          args[i2] = arguments[i2];
         }
         var ret = fn.apply(this, args);
         var cb2 = args[args.length - 1];
@@ -30066,8 +30066,8 @@ var require_dist_node8 = __commonJS({
           this.auth = auth;
         }
         const classConstructor = this.constructor;
-        for (let i = 0; i < classConstructor.plugins.length; ++i) {
-          Object.assign(this, classConstructor.plugins[i](this, options2));
+        for (let i2 = 0; i2 < classConstructor.plugins.length; ++i2) {
+          Object.assign(this, classConstructor.plugins[i2](this, options2));
         }
       }
     };
@@ -33075,11 +33075,11 @@ var require_code = __commonJS({
     exports._CodeOrName = _CodeOrName;
     exports.IDENTIFIER = /^[a-z$_][a-z$_0-9]*$/i;
     var Name = class extends _CodeOrName {
-      constructor(s2) {
+      constructor(s) {
         super();
-        if (!exports.IDENTIFIER.test(s2))
+        if (!exports.IDENTIFIER.test(s))
           throw new Error("CodeGen: name must be a valid identifier");
-        this.str = s2;
+        this.str = s;
       }
       toString() {
         return this.str;
@@ -33108,7 +33108,7 @@ var require_code = __commonJS({
       }
       get str() {
         var _a;
-        return (_a = this._str) !== null && _a !== void 0 ? _a : this._str = this._items.reduce((s2, c2) => `${s2}${c2}`, "");
+        return (_a = this._str) !== null && _a !== void 0 ? _a : this._str = this._items.reduce((s, c2) => `${s}${c2}`, "");
       }
       get names() {
         var _a;
@@ -33123,10 +33123,10 @@ var require_code = __commonJS({
     exports.nil = new _Code("");
     function _4(strs, ...args) {
       const code = [strs[0]];
-      let i = 0;
-      while (i < args.length) {
-        addCodeArg(code, args[i]);
-        code.push(strs[++i]);
+      let i2 = 0;
+      while (i2 < args.length) {
+        addCodeArg(code, args[i2]);
+        code.push(strs[++i2]);
       }
       return new _Code(code);
     }
@@ -33134,11 +33134,11 @@ var require_code = __commonJS({
     var plus = new _Code("+");
     function str(strs, ...args) {
       const expr = [safeStringify(strs[0])];
-      let i = 0;
-      while (i < args.length) {
+      let i2 = 0;
+      while (i2 < args.length) {
         expr.push(plus);
-        addCodeArg(expr, args[i]);
-        expr.push(plus, safeStringify(strs[++i]));
+        addCodeArg(expr, args[i2]);
+        expr.push(plus, safeStringify(strs[++i2]));
       }
       optimize(expr);
       return new _Code(expr);
@@ -33154,17 +33154,17 @@ var require_code = __commonJS({
     }
     exports.addCodeArg = addCodeArg;
     function optimize(expr) {
-      let i = 1;
-      while (i < expr.length - 1) {
-        if (expr[i] === plus) {
-          const res = mergeExprItems(expr[i - 1], expr[i + 1]);
+      let i2 = 1;
+      while (i2 < expr.length - 1) {
+        if (expr[i2] === plus) {
+          const res = mergeExprItems(expr[i2 - 1], expr[i2 + 1]);
           if (res !== void 0) {
-            expr.splice(i - 1, 3, res);
+            expr.splice(i2 - 1, 3, res);
             continue;
           }
-          expr[i++] = "+";
+          expr[i2++] = "+";
         }
-        i++;
+        i2++;
       }
     }
     function mergeExprItems(a2, b2) {
@@ -33307,9 +33307,9 @@ var require_scope = __commonJS({
           vs = this._values[prefix] = /* @__PURE__ */ new Map();
         }
         vs.set(valueKey, name);
-        const s2 = this._scope[prefix] || (this._scope[prefix] = []);
-        const itemIndex = s2.length;
-        s2[itemIndex] = value.ref;
+        const s = this._scope[prefix] || (this._scope[prefix] = []);
+        const itemIndex = s.length;
+        s[itemIndex] = value.ref;
         name.setValue(value, { property: prefix, itemIndex });
         return name;
       }
@@ -33544,27 +33544,27 @@ var require_codegen = __commonJS({
       }
       optimizeNodes() {
         const { nodes } = this;
-        let i = nodes.length;
-        while (i--) {
-          const n2 = nodes[i].optimizeNodes();
+        let i2 = nodes.length;
+        while (i2--) {
+          const n2 = nodes[i2].optimizeNodes();
           if (Array.isArray(n2))
-            nodes.splice(i, 1, ...n2);
+            nodes.splice(i2, 1, ...n2);
           else if (n2)
-            nodes[i] = n2;
+            nodes[i2] = n2;
           else
-            nodes.splice(i, 1);
+            nodes.splice(i2, 1);
         }
         return nodes.length > 0 ? this : void 0;
       }
       optimizeNames(names, constants) {
         const { nodes } = this;
-        let i = nodes.length;
-        while (i--) {
-          const n2 = nodes[i];
+        let i2 = nodes.length;
+        while (i2--) {
+          const n2 = nodes[i2];
           if (n2.optimizeNames(names, constants))
             continue;
           subtractNames(names, n2.names);
-          nodes.splice(i, 1);
+          nodes.splice(i2, 1);
         }
         return nodes.length > 0 ? this : void 0;
       }
@@ -33600,8 +33600,8 @@ var require_codegen = __commonJS({
           return this.nodes;
         let e2 = this.else;
         if (e2) {
-          const ns = e2.optimizeNodes();
-          e2 = this.else = Array.isArray(ns) ? new Else(ns) : ns;
+          const ns2 = e2.optimizeNodes();
+          e2 = this.else = Array.isArray(ns2) ? new Else(ns2) : ns2;
         }
         if (e2) {
           if (cond === false)
@@ -33891,8 +33891,8 @@ var require_codegen = __commonJS({
         const name = this._scope.toName(nameOrPrefix);
         if (this.opts.es5) {
           const arr = iterable instanceof code_1.Name ? iterable : this.var("_arr", iterable);
-          return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i) => {
-            this.var(name, (0, code_1._)`${arr}[${i}]`);
+          return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i2) => {
+            this.var(name, (0, code_1._)`${arr}[${i2}]`);
             forBody(name);
           });
         }
@@ -34014,12 +34014,12 @@ var require_codegen = __commonJS({
         return this._nodes[0];
       }
       get _currNode() {
-        const ns = this._nodes;
-        return ns[ns.length - 1];
+        const ns2 = this._nodes;
+        return ns2[ns2.length - 1];
       }
       set _currNode(node) {
-        const ns = this._nodes;
-        ns[ns.length - 1] = node;
+        const ns2 = this._nodes;
+        ns2[ns2.length - 1] = node;
       }
     };
     exports.CodeGen = CodeGen;
@@ -34204,17 +34204,17 @@ var require_util7 = __commonJS({
         resultToName: (gen, items) => gen.var("items", items)
       })
     };
-    function evaluatedPropsToName(gen, ps) {
-      if (ps === true)
+    function evaluatedPropsToName(gen, ps2) {
+      if (ps2 === true)
         return gen.var("props", true);
       const props = gen.var("props", (0, codegen_1._)`{}`);
-      if (ps !== void 0)
-        setEvaluated(gen, props, ps);
+      if (ps2 !== void 0)
+        setEvaluated(gen, props, ps2);
       return props;
     }
     exports.evaluatedPropsToName = evaluatedPropsToName;
-    function setEvaluated(gen, props, ps) {
-      Object.keys(ps).forEach((p2) => gen.assign((0, codegen_1._)`${props}${(0, codegen_1.getProperty)(p2)}`, true));
+    function setEvaluated(gen, props, ps2) {
+      Object.keys(ps2).forEach((p2) => gen.assign((0, codegen_1._)`${props}${(0, codegen_1.getProperty)(p2)}`, true));
     }
     exports.setEvaluated = setEvaluated;
     var snippets = {};
@@ -34336,8 +34336,8 @@ var require_errors2 = __commonJS({
       if (errsCount === void 0)
         throw new Error("ajv implementation error");
       const err = gen.name("err");
-      gen.forRange("i", errsCount, names_1.default.errors, (i) => {
-        gen.const(err, (0, codegen_1._)`${names_1.default.vErrors}[${i}]`);
+      gen.forRange("i", errsCount, names_1.default.errors, (i2) => {
+        gen.const(err, (0, codegen_1._)`${names_1.default.vErrors}[${i2}]`);
         gen.if((0, codegen_1._)`${err}.instancePath === undefined`, () => gen.assign((0, codegen_1._)`${err}.instancePath`, (0, codegen_1.strConcat)(names_1.default.instancePath, it2.errorPath)));
         gen.assign((0, codegen_1._)`${err}.schemaPath`, (0, codegen_1.str)`${it2.errSchemaPath}/${keyword}`);
         if (it2.opts.verbose) {
@@ -34550,8 +34550,8 @@ var require_dataType = __commonJS({
       return types;
     }
     exports.getSchemaTypes = getSchemaTypes;
-    function getJSONTypes(ts) {
-      const types = Array.isArray(ts) ? ts : ts ? [ts] : [];
+    function getJSONTypes(ts2) {
+      const types = Array.isArray(ts2) ? ts2 : ts2 ? [ts2] : [];
       if (types.every(rules_1.isJSONType))
         return types;
       throw new Error("type must be JSONType or JSONType[]: " + types.join(","));
@@ -34717,7 +34717,7 @@ var require_defaults = __commonJS({
           assignDefault(it2, key, properties[key].default);
         }
       } else if (ty === "array" && Array.isArray(items)) {
-        items.forEach((sch, i) => assignDefault(it2, i, sch.default));
+        items.forEach((sch, i2) => assignDefault(it2, i2, sch.default));
       }
     }
     exports.assignDefaults = assignDefaults;
@@ -34871,10 +34871,10 @@ var require_code2 = __commonJS({
       return valid;
       function validateItems(notValid) {
         const len = gen.const("len", (0, codegen_1._)`${data}.length`);
-        gen.forRange("i", 0, len, (i) => {
+        gen.forRange("i", 0, len, (i2) => {
           cxt.subschema({
             keyword,
-            dataProp: i,
+            dataProp: i2,
             dataPropType: util_1.Type.Num
           }, valid);
           gen.if((0, codegen_1.not)(valid), notValid);
@@ -34893,10 +34893,10 @@ var require_code2 = __commonJS({
         return;
       const valid = gen.let("valid", false);
       const schValid = gen.name("_valid");
-      gen.block(() => schema.forEach((_sch, i) => {
+      gen.block(() => schema.forEach((_sch, i2) => {
         const schCxt = cxt.subschema({
           keyword,
-          schemaProp: i,
+          schemaProp: i2,
           compositeRule: true
         }, schValid);
         gen.assign(valid, (0, codegen_1._)`${valid} || ${schValid}`);
@@ -35119,12 +35119,12 @@ var require_fast_deep_equal = __commonJS({
       if (a2 === b2) return true;
       if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
         if (a2.constructor !== b2.constructor) return false;
-        var length, i, keys;
+        var length, i2, keys;
         if (Array.isArray(a2)) {
           length = a2.length;
           if (length != b2.length) return false;
-          for (i = length; i-- !== 0; )
-            if (!equal(a2[i], b2[i])) return false;
+          for (i2 = length; i2-- !== 0; )
+            if (!equal(a2[i2], b2[i2])) return false;
           return true;
         }
         if (a2.constructor === RegExp) return a2.source === b2.source && a2.flags === b2.flags;
@@ -35133,10 +35133,10 @@ var require_fast_deep_equal = __commonJS({
         keys = Object.keys(a2);
         length = keys.length;
         if (length !== Object.keys(b2).length) return false;
-        for (i = length; i-- !== 0; )
-          if (!Object.prototype.hasOwnProperty.call(b2, keys[i])) return false;
-        for (i = length; i-- !== 0; ) {
-          var key = keys[i];
+        for (i2 = length; i2-- !== 0; )
+          if (!Object.prototype.hasOwnProperty.call(b2, keys[i2])) return false;
+        for (i2 = length; i2-- !== 0; ) {
+          var key = keys[i2];
           if (!equal(a2[key], b2[key])) return false;
         }
         return true;
@@ -35213,8 +35213,8 @@ var require_json_schema_traverse = __commonJS({
           var sch = schema[key];
           if (Array.isArray(sch)) {
             if (key in traverse.arrayKeywords) {
-              for (var i = 0; i < sch.length; i++)
-                _traverse(opts, pre, post, sch[i], jsonPtr + "/" + key + "/" + i, rootSchema, jsonPtr, key, schema, i);
+              for (var i2 = 0; i2 < sch.length; i2++)
+                _traverse(opts, pre, post, sch[i2], jsonPtr + "/" + key + "/" + i2, rootSchema, jsonPtr, key, schema, i2);
             }
           } else if (key in traverse.propsKeywords) {
             if (sch && typeof sch == "object") {
@@ -35636,18 +35636,18 @@ var require_validate = __commonJS({
       });
       narrowSchemaTypes(it2, types);
     }
-    function checkMultipleTypes(it2, ts) {
-      if (ts.length > 1 && !(ts.length === 2 && ts.includes("null"))) {
+    function checkMultipleTypes(it2, ts2) {
+      if (ts2.length > 1 && !(ts2.length === 2 && ts2.includes("null"))) {
         strictTypesError(it2, "use allowUnionTypes to allow union type keyword");
       }
     }
-    function checkKeywordTypes(it2, ts) {
+    function checkKeywordTypes(it2, ts2) {
       const rules9 = it2.self.RULES.all;
       for (const keyword in rules9) {
         const rule = rules9[keyword];
         if (typeof rule == "object" && (0, applicability_1.shouldUseRule)(it2.schema, rule)) {
           const { type } = rule.definition;
-          if (type.length && !type.some((t2) => hasApplicableType(ts, t2))) {
+          if (type.length && !type.some((t2) => hasApplicableType(ts2, t2))) {
             strictTypesError(it2, `missing type "${type.join(",")}" for keyword "${keyword}"`);
           }
         }
@@ -35656,18 +35656,18 @@ var require_validate = __commonJS({
     function hasApplicableType(schTs, kwdT) {
       return schTs.includes(kwdT) || kwdT === "number" && schTs.includes("integer");
     }
-    function includesType(ts, t2) {
-      return ts.includes(t2) || t2 === "integer" && ts.includes("number");
+    function includesType(ts2, t2) {
+      return ts2.includes(t2) || t2 === "integer" && ts2.includes("number");
     }
     function narrowSchemaTypes(it2, withTypes) {
-      const ts = [];
+      const ts2 = [];
       for (const t2 of it2.dataTypes) {
         if (includesType(withTypes, t2))
-          ts.push(t2);
+          ts2.push(t2);
         else if (withTypes.includes("integer") && t2 === "number")
-          ts.push("integer");
+          ts2.push("integer");
       }
-      it2.dataTypes = ts;
+      it2.dataTypes = ts2;
     }
     function strictTypesError(it2, msg) {
       const schemaPath = it2.schemaEnv.baseId + it2.errSchemaPath;
@@ -36207,8 +36207,8 @@ var require_utils5 = __commonJS({
     var BYTE_HEX = new Array(256);
     {
       const HEX_DIGITS = "0123456789ABCDEF";
-      for (let i = 0; i < 256; i++) {
-        BYTE_HEX[i] = "%" + HEX_DIGITS[i >> 4] + HEX_DIGITS[i & 15];
+      for (let i2 = 0; i2 < 256; i2++) {
+        BYTE_HEX[i2] = "%" + HEX_DIGITS[i2 >> 4] + HEX_DIGITS[i2 & 15];
       }
     }
     function percentEncodeNonAscii(cp) {
@@ -36223,24 +36223,24 @@ var require_utils5 = __commonJS({
     function stringArrayToHexStripped(input) {
       let acc = "";
       let code = 0;
-      let i = 0;
-      for (i = 0; i < input.length; i++) {
-        code = input[i].charCodeAt(0);
+      let i2 = 0;
+      for (i2 = 0; i2 < input.length; i2++) {
+        code = input[i2].charCodeAt(0);
         if (code === 48) {
           continue;
         }
         if (!(code >= 48 && code <= 57 || code >= 65 && code <= 70 || code >= 97 && code <= 102)) {
           return "";
         }
-        acc += input[i];
+        acc += input[i2];
         break;
       }
-      for (i += 1; i < input.length; i++) {
-        code = input[i].charCodeAt(0);
+      for (i2 += 1; i2 < input.length; i2++) {
+        code = input[i2].charCodeAt(0);
         if (!(code >= 48 && code <= 57 || code >= 65 && code <= 70 || code >= 97 && code <= 102)) {
           return "";
         }
-        acc += input[i];
+        acc += input[i2];
       }
       return acc;
     }
@@ -36250,10 +36250,10 @@ var require_utils5 = __commonJS({
     var nonSimpleDomain = RegExp.prototype.test.bind(/[^!"$&'()*+,\-.;=_`a-z{}~]/u);
     function isZoneIdentifier(zone) {
       if (zone.length === 0) return false;
-      for (let i = 0; i < zone.length; i++) {
-        if (isZoneCharacter(zone[i])) continue;
-        if (zone[i] === "%" && i + 2 < zone.length && isHexPair(zone.slice(i + 1, i + 3))) {
-          i += 2;
+      for (let i2 = 0; i2 < zone.length; i2++) {
+        if (isZoneCharacter(zone[i2])) continue;
+        if (zone[i2] === "%" && i2 + 2 < zone.length && isHexPair(zone.slice(i2 + 1, i2 + 3))) {
+          i2 += 2;
           continue;
         }
         return false;
@@ -36265,9 +36265,9 @@ var require_utils5 = __commonJS({
       let bestLength = 0;
       let runStart = -1;
       let runLength = 0;
-      for (let i = 0; i < hextets.length; i++) {
-        if (hextets[i] === "0") {
-          if (runStart === -1) runStart = i;
+      for (let i2 = 0; i2 < hextets.length; i2++) {
+        if (hextets[i2] === "0") {
+          if (runStart === -1) runStart = i2;
           runLength++;
           if (runLength > bestLength) {
             bestLength = runLength;
@@ -36294,16 +36294,16 @@ var require_utils5 = __commonJS({
       }
       const parts = left.concat(right);
       let hextetCount = 0;
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
+      for (let i2 = 0; i2 < parts.length; i2++) {
+        const part = parts[i2];
         if (part === "") return void 0;
         if (part.indexOf(".") !== -1) {
-          if (i !== parts.length - 1 || compression !== -1 && right.length === 0 || !isIPv4(part)) return void 0;
+          if (i2 !== parts.length - 1 || compression !== -1 && right.length === 0 || !isIPv4(part)) return void 0;
           hextetCount += 2;
           continue;
         }
         if (!isHextet(part)) return void 0;
-        parts[i] = parseInt(part, 16).toString(16);
+        parts[i2] = parseInt(part, 16).toString(16);
         hextetCount++;
       }
       if (compression === -1) {
@@ -36312,8 +36312,8 @@ var require_utils5 = __commonJS({
       }
       if (hextetCount >= 8) return void 0;
       const expanded = parts.slice(0, left.length);
-      for (let i = hextetCount; i < 8; i++) expanded.push("0");
-      for (let i = left.length; i < parts.length; i++) expanded.push(parts[i]);
+      for (let i2 = hextetCount; i2 < 8; i2++) expanded.push("0");
+      for (let i2 = left.length; i2 < parts.length; i2++) expanded.push(parts[i2]);
       return compressIPv6ZeroRun(expanded);
     }
     function normalizeIPv6(host) {
@@ -36346,8 +36346,8 @@ var require_utils5 = __commonJS({
     }
     function findToken(str, token) {
       let ind = 0;
-      for (let i = 0; i < str.length; i++) {
-        if (str[i] === token) ind++;
+      for (let i2 = 0; i2 < str.length; i2++) {
+        if (str[i2] === token) ind++;
       }
       return ind;
     }
@@ -36439,9 +36439,9 @@ var require_utils5 = __commonJS({
         return input;
       }
       let output = "";
-      for (let i = 0; i < input.length; i++) {
-        if (input[i] === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        if (input[i2] === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             const normalizedHex = hex.toUpperCase();
             const decoded = String.fromCharCode(parseInt(normalizedHex, 16));
@@ -36450,20 +36450,20 @@ var require_utils5 = __commonJS({
             } else {
               output += "%" + normalizedHex;
             }
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
-        output += input[i];
+        output += input[i2];
       }
       return output;
     }
     function normalizePathEncoding(input) {
       let output = "";
-      for (let i = 0; i < input.length; i++) {
-        const ch = input[i];
-        if (ch === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        const ch = input[i2];
+        if (ch === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             const normalizedHex = hex.toUpperCase();
             const decoded = String.fromCharCode(parseInt(normalizedHex, 16));
@@ -36472,23 +36472,23 @@ var require_utils5 = __commonJS({
             } else {
               output += "%" + normalizedHex;
             }
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
         if (isPathCharacter(ch)) {
           output += ch;
         } else {
-          const code = input.charCodeAt(i);
+          const code = input.charCodeAt(i2);
           if (code < 128) {
             output += isEscapeSafe(code) ? ch : BYTE_HEX[code];
           } else if (code < 55296 || code > 57343) {
             output += percentEncodeNonAscii(code);
-          } else if (code <= 56319 && i + 1 < input.length) {
-            const low = input.charCodeAt(i + 1);
+          } else if (code <= 56319 && i2 + 1 < input.length) {
+            const low = input.charCodeAt(i2 + 1);
             if (low >= 56320 && low <= 57343) {
               output += percentEncodeNonAscii(65536 + (code - 55296 << 10) + (low - 56320));
-              i++;
+              i2++;
             } else {
               output += percentEncodeNonAscii(65533);
             }
@@ -36502,13 +36502,13 @@ var require_utils5 = __commonJS({
     function serializePathEncoding(input, pathNoScheme = false) {
       let output = "";
       let firstSegment = pathNoScheme && input[0] !== "/";
-      for (let i = 0; i < input.length; i++) {
-        const ch = input[i];
-        if (ch === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        const ch = input[i2];
+        if (ch === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             output += "%" + hex.toUpperCase();
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
@@ -36518,16 +36518,16 @@ var require_utils5 = __commonJS({
         if (isPathCharacter(ch) && (ch !== ":" || !firstSegment)) {
           output += ch;
         } else {
-          const code = input.charCodeAt(i);
+          const code = input.charCodeAt(i2);
           if (code < 128) {
             output += BYTE_HEX[code];
           } else if (code < 55296 || code > 57343) {
             output += percentEncodeNonAscii(code);
-          } else if (code <= 56319 && i + 1 < input.length) {
-            const low = input.charCodeAt(i + 1);
+          } else if (code <= 56319 && i2 + 1 < input.length) {
+            const low = input.charCodeAt(i2 + 1);
             if (low >= 56320 && low <= 57343) {
               output += percentEncodeNonAscii(65536 + (code - 55296 << 10) + (low - 56320));
-              i++;
+              i2++;
             } else {
               output += percentEncodeNonAscii(65533);
             }
@@ -36540,29 +36540,29 @@ var require_utils5 = __commonJS({
     }
     function encodeComponent(input, isAllowed) {
       let output = "";
-      for (let i = 0; i < input.length; i++) {
-        const ch = input[i];
-        if (ch === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        const ch = input[i2];
+        if (ch === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             output += "%" + hex.toUpperCase();
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
         if (isAllowed(ch)) {
           output += ch;
         } else {
-          const code = input.charCodeAt(i);
+          const code = input.charCodeAt(i2);
           if (code < 128) {
             output += BYTE_HEX[code];
           } else if (code < 55296 || code > 57343) {
             output += percentEncodeNonAscii(code);
-          } else if (code <= 56319 && i + 1 < input.length) {
-            const low = input.charCodeAt(i + 1);
+          } else if (code <= 56319 && i2 + 1 < input.length) {
+            const low = input.charCodeAt(i2 + 1);
             if (low >= 56320 && low <= 57343) {
               output += percentEncodeNonAscii(65536 + (code - 55296 << 10) + (low - 56320));
-              i++;
+              i2++;
             } else {
               output += percentEncodeNonAscii(65533);
             }
@@ -36587,10 +36587,10 @@ var require_utils5 = __commonJS({
     }
     function normalizeQueryFragmentEncoding(input) {
       let output = "";
-      for (let i = 0; i < input.length; i++) {
-        const ch = input[i];
-        if (ch === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        const ch = input[i2];
+        if (ch === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             const normalizedHex = hex.toUpperCase();
             const decoded = String.fromCharCode(parseInt(normalizedHex, 16));
@@ -36599,23 +36599,23 @@ var require_utils5 = __commonJS({
             } else {
               output += "%" + normalizedHex;
             }
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
         if (isQueryFragmentCharacter(ch)) {
           output += ch;
         } else {
-          const code = input.charCodeAt(i);
+          const code = input.charCodeAt(i2);
           if (code < 128) {
             output += isEscapeSafe(code) ? ch : BYTE_HEX[code];
           } else if (code < 55296 || code > 57343) {
             output += percentEncodeNonAscii(code);
-          } else if (code <= 56319 && i + 1 < input.length) {
-            const low = input.charCodeAt(i + 1);
+          } else if (code <= 56319 && i2 + 1 < input.length) {
+            const low = input.charCodeAt(i2 + 1);
             if (low >= 56320 && low <= 57343) {
               output += percentEncodeNonAscii(65536 + (code - 55296 << 10) + (low - 56320));
-              i++;
+              i2++;
             } else {
               output += percentEncodeNonAscii(65533);
             }
@@ -36628,16 +36628,16 @@ var require_utils5 = __commonJS({
     }
     function escapePreservingEscapes(input) {
       let output = "";
-      for (let i = 0; i < input.length; i++) {
-        if (input[i] === "%" && i + 2 < input.length) {
-          const hex = input.slice(i + 1, i + 3);
+      for (let i2 = 0; i2 < input.length; i2++) {
+        if (input[i2] === "%" && i2 + 2 < input.length) {
+          const hex = input.slice(i2 + 1, i2 + 3);
           if (isHexPair(hex)) {
             output += "%" + hex.toUpperCase();
-            i += 2;
+            i2 += 2;
             continue;
           }
         }
-        output += escape(input[i]);
+        output += escape(input[i2]);
       }
       return output;
     }
@@ -37069,17 +37069,17 @@ var require_fast_uri = __commonJS({
         }
       }
       if (component.path !== void 0) {
-        let s2 = component.path;
+        let s = component.path;
         if (!options2.absolutePath && (!schemeHandler || !schemeHandler.absolutePath)) {
-          s2 = removeDotSegments(s2);
+          s = removeDotSegments(s);
         }
         if (pathNoScheme) {
-          s2 = serializePathEncoding(s2, true);
+          s = serializePathEncoding(s, true);
         }
-        if (authority === void 0 && s2[0] === "/" && s2[1] === "/") {
-          s2 = "/%2F" + s2.slice(2);
+        if (authority === void 0 && s[0] === "/" && s[1] === "/") {
+          s = "/%2F" + s.slice(2);
         }
-        uriTokens.push(s2);
+        uriTokens.push(s);
       }
       if (component.query !== void 0) {
         uriTokens.push("?", encodeQuery(component.query));
@@ -37409,22 +37409,22 @@ var require_core2 = __commonJS({
     };
     var MAX_EXPRESSION = 200;
     function requiredOptions(o2) {
-      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s2, _t2, _u, _v, _w, _x, _y, _z, _0;
-      const s2 = o2.strict;
+      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _0;
+      const s = o2.strict;
       const _optz = (_a = o2.code) === null || _a === void 0 ? void 0 : _a.optimize;
       const optimize = _optz === true || _optz === void 0 ? 1 : _optz || 0;
       const regExp = (_c = (_b = o2.code) === null || _b === void 0 ? void 0 : _b.regExp) !== null && _c !== void 0 ? _c : defaultRegExp;
       const uriResolver = (_d = o2.uriResolver) !== null && _d !== void 0 ? _d : uri_1.default;
       return {
-        strictSchema: (_f = (_e2 = o2.strictSchema) !== null && _e2 !== void 0 ? _e2 : s2) !== null && _f !== void 0 ? _f : true,
-        strictNumbers: (_h = (_g = o2.strictNumbers) !== null && _g !== void 0 ? _g : s2) !== null && _h !== void 0 ? _h : true,
-        strictTypes: (_k = (_j = o2.strictTypes) !== null && _j !== void 0 ? _j : s2) !== null && _k !== void 0 ? _k : "log",
-        strictTuples: (_m = (_l = o2.strictTuples) !== null && _l !== void 0 ? _l : s2) !== null && _m !== void 0 ? _m : "log",
-        strictRequired: (_p = (_o2 = o2.strictRequired) !== null && _o2 !== void 0 ? _o2 : s2) !== null && _p !== void 0 ? _p : false,
+        strictSchema: (_f = (_e2 = o2.strictSchema) !== null && _e2 !== void 0 ? _e2 : s) !== null && _f !== void 0 ? _f : true,
+        strictNumbers: (_h = (_g = o2.strictNumbers) !== null && _g !== void 0 ? _g : s) !== null && _h !== void 0 ? _h : true,
+        strictTypes: (_k = (_j = o2.strictTypes) !== null && _j !== void 0 ? _j : s) !== null && _k !== void 0 ? _k : "log",
+        strictTuples: (_m = (_l = o2.strictTuples) !== null && _l !== void 0 ? _l : s) !== null && _m !== void 0 ? _m : "log",
+        strictRequired: (_p = (_o2 = o2.strictRequired) !== null && _o2 !== void 0 ? _o2 : s) !== null && _p !== void 0 ? _p : false,
         code: o2.code ? { ...o2.code, optimize, regExp } : { optimize, regExp },
         loopRequired: (_q = o2.loopRequired) !== null && _q !== void 0 ? _q : MAX_EXPRESSION,
         loopEnum: (_r = o2.loopEnum) !== null && _r !== void 0 ? _r : MAX_EXPRESSION,
-        meta: (_s2 = o2.meta) !== null && _s2 !== void 0 ? _s2 : true,
+        meta: (_s = o2.meta) !== null && _s !== void 0 ? _s : true,
         messages: (_t2 = o2.messages) !== null && _t2 !== void 0 ? _t2 : true,
         inlineRefs: (_u = o2.inlineRefs) !== null && _u !== void 0 ? _u : true,
         schemaId: (_v = o2.schemaId) !== null && _v !== void 0 ? _v : "$id",
@@ -37712,9 +37712,9 @@ var require_core2 = __commonJS({
         delete RULES.keywords[keyword];
         delete RULES.all[keyword];
         for (const group of RULES.rules) {
-          const i = group.rules.findIndex((rule) => rule.keyword === keyword);
-          if (i >= 0)
-            group.rules.splice(i, 1);
+          const i2 = group.rules.findIndex((rule) => rule.keyword === keyword);
+          if (i2 >= 0)
+            group.rules.splice(i2, 1);
         }
         return this;
       }
@@ -37922,9 +37922,9 @@ var require_core2 = __commonJS({
       (_a = definition.implements) === null || _a === void 0 ? void 0 : _a.forEach((kwd) => this.addKeyword(kwd));
     }
     function addBeforeRule(ruleGroup, rule, before) {
-      const i = ruleGroup.rules.findIndex((_rule) => _rule.keyword === before);
-      if (i >= 0) {
-        ruleGroup.rules.splice(i, 0, rule);
+      const i2 = ruleGroup.rules.findIndex((_rule) => _rule.keyword === before);
+      if (i2 >= 0) {
+        ruleGroup.rules.splice(i2, 0, rule);
       } else {
         ruleGroup.rules.push(rule);
         this.logger.warn(`rule ${before} is not defined`);
@@ -38488,8 +38488,8 @@ var require_uniqueItems = __commonJS({
     var util_1 = require_util7();
     var equal_1 = require_equal();
     var error3 = {
-      message: ({ params: { i, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i} are identical)`,
-      params: ({ params: { i, j: j2 } }) => (0, codegen_1._)`{i: ${i}, j: ${j2}}`
+      message: ({ params: { i: i2, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i2} are identical)`,
+      params: ({ params: { i: i2, j: j2 } }) => (0, codegen_1._)`{i: ${i2}, j: ${j2}}`
     };
     var def = {
       keyword: "uniqueItems",
@@ -38506,21 +38506,21 @@ var require_uniqueItems = __commonJS({
         cxt.block$data(valid, validateUniqueItems, (0, codegen_1._)`${schemaCode} === false`);
         cxt.ok(valid);
         function validateUniqueItems() {
-          const i = gen.let("i", (0, codegen_1._)`${data}.length`);
+          const i2 = gen.let("i", (0, codegen_1._)`${data}.length`);
           const j2 = gen.let("j");
-          cxt.setParams({ i, j: j2 });
+          cxt.setParams({ i: i2, j: j2 });
           gen.assign(valid, true);
-          gen.if((0, codegen_1._)`${i} > 1`, () => (canOptimize() ? loopN : loopN2)(i, j2));
+          gen.if((0, codegen_1._)`${i2} > 1`, () => (canOptimize() ? loopN : loopN2)(i2, j2));
         }
         function canOptimize() {
           return itemTypes.length > 0 && !itemTypes.some((t2) => t2 === "object" || t2 === "array");
         }
-        function loopN(i, j2) {
+        function loopN(i2, j2) {
           const item = gen.name("item");
           const wrongType = (0, dataType_1.checkDataTypes)(itemTypes, item, it2.opts.strictNumbers, dataType_1.DataType.Wrong);
           const indices = gen.const("indices", (0, codegen_1._)`{}`);
-          gen.for((0, codegen_1._)`;${i}--;`, () => {
-            gen.let(item, (0, codegen_1._)`${data}[${i}]`);
+          gen.for((0, codegen_1._)`;${i2}--;`, () => {
+            gen.let(item, (0, codegen_1._)`${data}[${i2}]`);
             gen.if(wrongType, (0, codegen_1._)`continue`);
             if (itemTypes.length > 1)
               gen.if((0, codegen_1._)`typeof ${item} == "string"`, (0, codegen_1._)`${item} += "_"`);
@@ -38528,13 +38528,13 @@ var require_uniqueItems = __commonJS({
               gen.assign(j2, (0, codegen_1._)`${indices}[${item}]`);
               cxt.error();
               gen.assign(valid, false).break();
-            }).code((0, codegen_1._)`${indices}[${item}] = ${i}`);
+            }).code((0, codegen_1._)`${indices}[${item}] = ${i2}`);
           });
         }
-        function loopN2(i, j2) {
+        function loopN2(i2, j2) {
           const eql = (0, util_1.useFunc)(gen, equal_1.default);
           const outer = gen.name("outer");
-          gen.label(outer).for((0, codegen_1._)`;${i}--;`, () => gen.for((0, codegen_1._)`${j2} = ${i}; ${j2}--;`, () => gen.if((0, codegen_1._)`${eql}(${data}[${i}], ${data}[${j2}])`, () => {
+          gen.label(outer).for((0, codegen_1._)`;${i2}--;`, () => gen.for((0, codegen_1._)`${j2} = ${i2}; ${j2}--;`, () => gen.if((0, codegen_1._)`${eql}(${data}[${i2}], ${data}[${j2}])`, () => {
             cxt.error();
             gen.assign(valid, false).break(outer);
           })));
@@ -38606,16 +38606,16 @@ var require_enum = __commonJS({
           if (!Array.isArray(schema))
             throw new Error("ajv implementation error");
           const vSchema = gen.const("vSchema", schemaCode);
-          valid = (0, codegen_1.or)(...schema.map((_x, i) => equalCode(vSchema, i)));
+          valid = (0, codegen_1.or)(...schema.map((_x, i2) => equalCode(vSchema, i2)));
         }
         cxt.pass(valid);
         function loopEnum() {
           gen.assign(valid, false);
           gen.forOf("v", schemaCode, (v2) => gen.if((0, codegen_1._)`${getEql()}(${data}, ${v2})`, () => gen.assign(valid, true).break()));
         }
-        function equalCode(vSchema, i) {
-          const sch = schema[i];
-          return typeof sch === "object" && sch !== null ? (0, codegen_1._)`${getEql()}(${data}, ${vSchema}[${i}])` : (0, codegen_1._)`${data} === ${sch}`;
+        function equalCode(vSchema, i2) {
+          const sch = schema[i2];
+          return typeof sch === "object" && sch !== null ? (0, codegen_1._)`${getEql()}(${data}, ${vSchema}[${i2}])` : (0, codegen_1._)`${data} === ${sch}`;
         }
       }
     };
@@ -38706,8 +38706,8 @@ var require_additionalItems = __commonJS({
         cxt.ok(valid);
       }
       function validateItems(valid) {
-        gen.forRange("i", items.length, len, (i) => {
-          cxt.subschema({ keyword, dataProp: i, dataPropType: util_1.Type.Num }, valid);
+        gen.forRange("i", items.length, len, (i2) => {
+          cxt.subschema({ keyword, dataProp: i2, dataPropType: util_1.Type.Num }, valid);
           if (!it2.allErrors)
             gen.if((0, codegen_1.not)(valid), () => gen.break());
         });
@@ -38750,13 +38750,13 @@ var require_items = __commonJS({
       }
       const valid = gen.name("valid");
       const len = gen.const("len", (0, codegen_1._)`${data}.length`);
-      schArr.forEach((sch, i) => {
+      schArr.forEach((sch, i2) => {
         if ((0, util_1.alwaysValidSchema)(it2, sch))
           return;
-        gen.if((0, codegen_1._)`${len} > ${i}`, () => cxt.subschema({
+        gen.if((0, codegen_1._)`${len} > ${i2}`, () => cxt.subschema({
           keyword,
-          schemaProp: i,
-          dataProp: i
+          schemaProp: i2,
+          dataProp: i2
         }, valid));
         cxt.ok(valid);
       });
@@ -38893,10 +38893,10 @@ var require_contains = __commonJS({
           validateItems(schValid, () => gen.if(schValid, () => checkLimits(count)));
         }
         function validateItems(_valid, block) {
-          gen.forRange("i", 0, len, (i) => {
+          gen.forRange("i", 0, len, (i2) => {
             cxt.subschema({
               keyword: "contains",
-              dataProp: i,
+              dataProp: i2,
               dataPropType: util_1.Type.Num,
               compositeRule: true
             }, _valid);
@@ -39375,23 +39375,23 @@ var require_oneOf = __commonJS({
         gen.block(validateOneOf);
         cxt.result(valid, () => cxt.reset(), () => cxt.error(true));
         function validateOneOf() {
-          schArr.forEach((sch, i) => {
+          schArr.forEach((sch, i2) => {
             let schCxt;
             if ((0, util_1.alwaysValidSchema)(it2, sch)) {
               gen.var(schValid, true);
             } else {
               schCxt = cxt.subschema({
                 keyword: "oneOf",
-                schemaProp: i,
+                schemaProp: i2,
                 compositeRule: true
               }, schValid);
             }
-            if (i > 0) {
-              gen.if((0, codegen_1._)`${schValid} && ${valid}`).assign(valid, false).assign(passing, (0, codegen_1._)`[${passing}, ${i}]`).else();
+            if (i2 > 0) {
+              gen.if((0, codegen_1._)`${schValid} && ${valid}`).assign(valid, false).assign(passing, (0, codegen_1._)`[${passing}, ${i2}]`).else();
             }
             gen.if(schValid, () => {
               gen.assign(valid, true);
-              gen.assign(passing, i);
+              gen.assign(passing, i2);
               if (schCxt)
                 cxt.mergeEvaluated(schCxt, codegen_1.Name);
             });
@@ -39417,10 +39417,10 @@ var require_allOf = __commonJS({
         if (!Array.isArray(schema))
           throw new Error("ajv implementation error");
         const valid = gen.name("valid");
-        schema.forEach((sch, i) => {
+        schema.forEach((sch, i2) => {
           if ((0, util_1.alwaysValidSchema)(it2, sch))
             return;
-          const schCxt = cxt.subschema({ keyword: "allOf", schemaProp: i }, valid, true);
+          const schCxt = cxt.subschema({ keyword: "allOf", schemaProp: i2 }, valid, true);
           cxt.ok(valid);
           cxt.mergeEvaluated(schCxt);
         });
@@ -39826,12 +39826,12 @@ var require_unevaluatedProperties = __commonJS({
           return (0, codegen_1._)`!${evaluatedProps} || !${evaluatedProps}[${key}]`;
         }
         function unevaluatedStatic(evaluatedProps, key) {
-          const ps = [];
+          const ps2 = [];
           for (const p2 in evaluatedProps) {
             if (evaluatedProps[p2] === true)
-              ps.push((0, codegen_1._)`${key} !== ${p2}`);
+              ps2.push((0, codegen_1._)`${key} !== ${p2}`);
           }
-          return (0, codegen_1.and)(...ps);
+          return (0, codegen_1.and)(...ps2);
         }
       }
     };
@@ -39871,8 +39871,8 @@ var require_unevaluatedItems = __commonJS({
         }
         it2.items = true;
         function validateItems(valid, from) {
-          gen.forRange("i", from, len, (i) => {
-            cxt.subschema({ keyword: "unevaluatedItems", dataProp: i, dataPropType: util_1.Type.Num }, valid);
+          gen.forRange("i", from, len, (i2) => {
+            cxt.subschema({ keyword: "unevaluatedItems", dataProp: i2, dataPropType: util_1.Type.Num }, valid);
             if (!it2.allErrors)
               gen.if((0, codegen_1.not)(valid), () => gen.break());
           });
@@ -40138,15 +40138,15 @@ var require_discriminator = __commonJS({
           const discriminatorMapping = {};
           const topRequired = hasRequired(parentSchema);
           let tagRequired = true;
-          for (let i = 0; i < parentSchemaVariants.length; i++) {
-            let sch = parentSchemaVariants[i];
+          for (let i2 = 0; i2 < parentSchemaVariants.length; i2++) {
+            let sch = parentSchemaVariants[i2];
             const schRef = sch === null || sch === void 0 ? void 0 : sch.$ref;
             if (schRef && schema.mapping) {
               const { mapping } = schema;
               const matchedKeys = Object.keys(mapping).filter((key) => mapping[key] === sch.$ref);
               if (matchedKeys.length) {
                 for (const key of matchedKeys) {
-                  addMapping(key, i);
+                  addMapping(key, i2);
                 }
                 continue;
               }
@@ -40166,7 +40166,7 @@ var require_discriminator = __commonJS({
               throw new Error(`discriminator: ${keyword} subschemas (or referenced schemas) must have "properties/${tagName}" or match mapping`);
             }
             tagRequired = tagRequired && (topRequired || hasRequired(sch));
-            addMappings(propSch, i);
+            addMappings(propSch, i2);
           }
           if (!tagRequired)
             throw new Error(`discriminator: "${tagName}" must be required`);
@@ -40185,22 +40185,22 @@ var require_discriminator = __commonJS({
             }
             return false;
           }
-          function addMappings(sch, i) {
+          function addMappings(sch, i2) {
             if (sch.const) {
-              addMapping(sch.const, i);
+              addMapping(sch.const, i2);
             } else if (sch.enum) {
               for (const tagValue of sch.enum) {
-                addMapping(tagValue, i);
+                addMapping(tagValue, i2);
               }
             } else {
               throw new Error(`discriminator: "properties/${tagName}" must have "const" or "enum"`);
             }
           }
-          function addMapping(tagValue, i) {
+          function addMapping(tagValue, i2) {
             if (typeof tagValue != "string" || tagValue in discriminatorMapping) {
               throw new Error(`discriminator: "${tagName}" values must be unique strings`);
             }
-            discriminatorMapping[tagValue] = i;
+            discriminatorMapping[tagValue] = i2;
           }
         }
       }
@@ -40900,11 +40900,11 @@ var require_code3 = __commonJS({
     exports._CodeOrName = _CodeOrName;
     exports.IDENTIFIER = /^[a-z$_][a-z$_0-9]*$/i;
     var Name = class extends _CodeOrName {
-      constructor(s2) {
+      constructor(s) {
         super();
-        if (!exports.IDENTIFIER.test(s2))
+        if (!exports.IDENTIFIER.test(s))
           throw new Error("CodeGen: name must be a valid identifier");
-        this.str = s2;
+        this.str = s;
       }
       toString() {
         return this.str;
@@ -40933,7 +40933,7 @@ var require_code3 = __commonJS({
       }
       get str() {
         var _a;
-        return (_a = this._str) !== null && _a !== void 0 ? _a : this._str = this._items.reduce((s2, c2) => `${s2}${c2}`, "");
+        return (_a = this._str) !== null && _a !== void 0 ? _a : this._str = this._items.reduce((s, c2) => `${s}${c2}`, "");
       }
       get names() {
         var _a;
@@ -40948,10 +40948,10 @@ var require_code3 = __commonJS({
     exports.nil = new _Code("");
     function _4(strs, ...args) {
       const code = [strs[0]];
-      let i = 0;
-      while (i < args.length) {
-        addCodeArg(code, args[i]);
-        code.push(strs[++i]);
+      let i2 = 0;
+      while (i2 < args.length) {
+        addCodeArg(code, args[i2]);
+        code.push(strs[++i2]);
       }
       return new _Code(code);
     }
@@ -40959,11 +40959,11 @@ var require_code3 = __commonJS({
     var plus = new _Code("+");
     function str(strs, ...args) {
       const expr = [safeStringify(strs[0])];
-      let i = 0;
-      while (i < args.length) {
+      let i2 = 0;
+      while (i2 < args.length) {
         expr.push(plus);
-        addCodeArg(expr, args[i]);
-        expr.push(plus, safeStringify(strs[++i]));
+        addCodeArg(expr, args[i2]);
+        expr.push(plus, safeStringify(strs[++i2]));
       }
       optimize(expr);
       return new _Code(expr);
@@ -40979,17 +40979,17 @@ var require_code3 = __commonJS({
     }
     exports.addCodeArg = addCodeArg;
     function optimize(expr) {
-      let i = 1;
-      while (i < expr.length - 1) {
-        if (expr[i] === plus) {
-          const res = mergeExprItems(expr[i - 1], expr[i + 1]);
+      let i2 = 1;
+      while (i2 < expr.length - 1) {
+        if (expr[i2] === plus) {
+          const res = mergeExprItems(expr[i2 - 1], expr[i2 + 1]);
           if (res !== void 0) {
-            expr.splice(i - 1, 3, res);
+            expr.splice(i2 - 1, 3, res);
             continue;
           }
-          expr[i++] = "+";
+          expr[i2++] = "+";
         }
-        i++;
+        i2++;
       }
     }
     function mergeExprItems(a2, b2) {
@@ -41132,9 +41132,9 @@ var require_scope2 = __commonJS({
           vs = this._values[prefix] = /* @__PURE__ */ new Map();
         }
         vs.set(valueKey, name);
-        const s2 = this._scope[prefix] || (this._scope[prefix] = []);
-        const itemIndex = s2.length;
-        s2[itemIndex] = value.ref;
+        const s = this._scope[prefix] || (this._scope[prefix] = []);
+        const itemIndex = s.length;
+        s[itemIndex] = value.ref;
         name.setValue(value, { property: prefix, itemIndex });
         return name;
       }
@@ -41369,27 +41369,27 @@ var require_codegen2 = __commonJS({
       }
       optimizeNodes() {
         const { nodes } = this;
-        let i = nodes.length;
-        while (i--) {
-          const n2 = nodes[i].optimizeNodes();
+        let i2 = nodes.length;
+        while (i2--) {
+          const n2 = nodes[i2].optimizeNodes();
           if (Array.isArray(n2))
-            nodes.splice(i, 1, ...n2);
+            nodes.splice(i2, 1, ...n2);
           else if (n2)
-            nodes[i] = n2;
+            nodes[i2] = n2;
           else
-            nodes.splice(i, 1);
+            nodes.splice(i2, 1);
         }
         return nodes.length > 0 ? this : void 0;
       }
       optimizeNames(names, constants) {
         const { nodes } = this;
-        let i = nodes.length;
-        while (i--) {
-          const n2 = nodes[i];
+        let i2 = nodes.length;
+        while (i2--) {
+          const n2 = nodes[i2];
           if (n2.optimizeNames(names, constants))
             continue;
           subtractNames(names, n2.names);
-          nodes.splice(i, 1);
+          nodes.splice(i2, 1);
         }
         return nodes.length > 0 ? this : void 0;
       }
@@ -41425,8 +41425,8 @@ var require_codegen2 = __commonJS({
           return this.nodes;
         let e2 = this.else;
         if (e2) {
-          const ns = e2.optimizeNodes();
-          e2 = this.else = Array.isArray(ns) ? new Else(ns) : ns;
+          const ns2 = e2.optimizeNodes();
+          e2 = this.else = Array.isArray(ns2) ? new Else(ns2) : ns2;
         }
         if (e2) {
           if (cond === false)
@@ -41716,8 +41716,8 @@ var require_codegen2 = __commonJS({
         const name = this._scope.toName(nameOrPrefix);
         if (this.opts.es5) {
           const arr = iterable instanceof code_1.Name ? iterable : this.var("_arr", iterable);
-          return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i) => {
-            this.var(name, (0, code_1._)`${arr}[${i}]`);
+          return this.forRange("_i", 0, (0, code_1._)`${arr}.length`, (i2) => {
+            this.var(name, (0, code_1._)`${arr}[${i2}]`);
             forBody(name);
           });
         }
@@ -41839,12 +41839,12 @@ var require_codegen2 = __commonJS({
         return this._nodes[0];
       }
       get _currNode() {
-        const ns = this._nodes;
-        return ns[ns.length - 1];
+        const ns2 = this._nodes;
+        return ns2[ns2.length - 1];
       }
       set _currNode(node) {
-        const ns = this._nodes;
-        ns[ns.length - 1] = node;
+        const ns2 = this._nodes;
+        ns2[ns2.length - 1] = node;
       }
     };
     exports.CodeGen = CodeGen;
@@ -42029,17 +42029,17 @@ var require_util8 = __commonJS({
         resultToName: (gen, items) => gen.var("items", items)
       })
     };
-    function evaluatedPropsToName(gen, ps) {
-      if (ps === true)
+    function evaluatedPropsToName(gen, ps2) {
+      if (ps2 === true)
         return gen.var("props", true);
       const props = gen.var("props", (0, codegen_1._)`{}`);
-      if (ps !== void 0)
-        setEvaluated(gen, props, ps);
+      if (ps2 !== void 0)
+        setEvaluated(gen, props, ps2);
       return props;
     }
     exports.evaluatedPropsToName = evaluatedPropsToName;
-    function setEvaluated(gen, props, ps) {
-      Object.keys(ps).forEach((p2) => gen.assign((0, codegen_1._)`${props}${(0, codegen_1.getProperty)(p2)}`, true));
+    function setEvaluated(gen, props, ps2) {
+      Object.keys(ps2).forEach((p2) => gen.assign((0, codegen_1._)`${props}${(0, codegen_1.getProperty)(p2)}`, true));
     }
     exports.setEvaluated = setEvaluated;
     var snippets = {};
@@ -42161,8 +42161,8 @@ var require_errors3 = __commonJS({
       if (errsCount === void 0)
         throw new Error("ajv implementation error");
       const err = gen.name("err");
-      gen.forRange("i", errsCount, names_1.default.errors, (i) => {
-        gen.const(err, (0, codegen_1._)`${names_1.default.vErrors}[${i}]`);
+      gen.forRange("i", errsCount, names_1.default.errors, (i2) => {
+        gen.const(err, (0, codegen_1._)`${names_1.default.vErrors}[${i2}]`);
         gen.if((0, codegen_1._)`${err}.instancePath === undefined`, () => gen.assign((0, codegen_1._)`${err}.instancePath`, (0, codegen_1.strConcat)(names_1.default.instancePath, it2.errorPath)));
         gen.assign((0, codegen_1._)`${err}.schemaPath`, (0, codegen_1.str)`${it2.errSchemaPath}/${keyword}`);
         if (it2.opts.verbose) {
@@ -42375,8 +42375,8 @@ var require_dataType2 = __commonJS({
       return types;
     }
     exports.getSchemaTypes = getSchemaTypes;
-    function getJSONTypes(ts) {
-      const types = Array.isArray(ts) ? ts : ts ? [ts] : [];
+    function getJSONTypes(ts2) {
+      const types = Array.isArray(ts2) ? ts2 : ts2 ? [ts2] : [];
       if (types.every(rules_1.isJSONType))
         return types;
       throw new Error("type must be JSONType or JSONType[]: " + types.join(","));
@@ -42542,7 +42542,7 @@ var require_defaults2 = __commonJS({
           assignDefault(it2, key, properties[key].default);
         }
       } else if (ty === "array" && Array.isArray(items)) {
-        items.forEach((sch, i) => assignDefault(it2, i, sch.default));
+        items.forEach((sch, i2) => assignDefault(it2, i2, sch.default));
       }
     }
     exports.assignDefaults = assignDefaults;
@@ -42696,10 +42696,10 @@ var require_code4 = __commonJS({
       return valid;
       function validateItems(notValid) {
         const len = gen.const("len", (0, codegen_1._)`${data}.length`);
-        gen.forRange("i", 0, len, (i) => {
+        gen.forRange("i", 0, len, (i2) => {
           cxt.subschema({
             keyword,
-            dataProp: i,
+            dataProp: i2,
             dataPropType: util_1.Type.Num
           }, valid);
           gen.if((0, codegen_1.not)(valid), notValid);
@@ -42718,10 +42718,10 @@ var require_code4 = __commonJS({
         return;
       const valid = gen.let("valid", false);
       const schValid = gen.name("_valid");
-      gen.block(() => schema.forEach((_sch, i) => {
+      gen.block(() => schema.forEach((_sch, i2) => {
         const schCxt = cxt.subschema({
           keyword,
-          schemaProp: i,
+          schemaProp: i2,
           compositeRule: true
         }, schValid);
         gen.assign(valid, (0, codegen_1._)`${valid} || ${schValid}`);
@@ -43338,18 +43338,18 @@ var require_validate2 = __commonJS({
       });
       narrowSchemaTypes(it2, types);
     }
-    function checkMultipleTypes(it2, ts) {
-      if (ts.length > 1 && !(ts.length === 2 && ts.includes("null"))) {
+    function checkMultipleTypes(it2, ts2) {
+      if (ts2.length > 1 && !(ts2.length === 2 && ts2.includes("null"))) {
         strictTypesError(it2, "use allowUnionTypes to allow union type keyword");
       }
     }
-    function checkKeywordTypes(it2, ts) {
+    function checkKeywordTypes(it2, ts2) {
       const rules9 = it2.self.RULES.all;
       for (const keyword in rules9) {
         const rule = rules9[keyword];
         if (typeof rule == "object" && (0, applicability_1.shouldUseRule)(it2.schema, rule)) {
           const { type } = rule.definition;
-          if (type.length && !type.some((t2) => hasApplicableType(ts, t2))) {
+          if (type.length && !type.some((t2) => hasApplicableType(ts2, t2))) {
             strictTypesError(it2, `missing type "${type.join(",")}" for keyword "${keyword}"`);
           }
         }
@@ -43358,18 +43358,18 @@ var require_validate2 = __commonJS({
     function hasApplicableType(schTs, kwdT) {
       return schTs.includes(kwdT) || kwdT === "number" && schTs.includes("integer");
     }
-    function includesType(ts, t2) {
-      return ts.includes(t2) || t2 === "integer" && ts.includes("number");
+    function includesType(ts2, t2) {
+      return ts2.includes(t2) || t2 === "integer" && ts2.includes("number");
     }
     function narrowSchemaTypes(it2, withTypes) {
-      const ts = [];
+      const ts2 = [];
       for (const t2 of it2.dataTypes) {
         if (includesType(withTypes, t2))
-          ts.push(t2);
+          ts2.push(t2);
         else if (withTypes.includes("integer") && t2 === "number")
-          ts.push("integer");
+          ts2.push("integer");
       }
-      it2.dataTypes = ts;
+      it2.dataTypes = ts2;
     }
     function strictTypesError(it2, msg) {
       const schemaPath = it2.schemaEnv.baseId + it2.errSchemaPath;
@@ -43992,22 +43992,22 @@ var require_core5 = __commonJS({
     };
     var MAX_EXPRESSION = 200;
     function requiredOptions(o2) {
-      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s2, _t2, _u, _v, _w, _x, _y, _z, _0;
-      const s2 = o2.strict;
+      var _a, _b, _c, _d, _e2, _f, _g, _h, _j, _k, _l, _m, _o2, _p, _q, _r, _s, _t2, _u, _v, _w, _x, _y, _z, _0;
+      const s = o2.strict;
       const _optz = (_a = o2.code) === null || _a === void 0 ? void 0 : _a.optimize;
       const optimize = _optz === true || _optz === void 0 ? 1 : _optz || 0;
       const regExp = (_c = (_b = o2.code) === null || _b === void 0 ? void 0 : _b.regExp) !== null && _c !== void 0 ? _c : defaultRegExp;
       const uriResolver = (_d = o2.uriResolver) !== null && _d !== void 0 ? _d : uri_1.default;
       return {
-        strictSchema: (_f = (_e2 = o2.strictSchema) !== null && _e2 !== void 0 ? _e2 : s2) !== null && _f !== void 0 ? _f : true,
-        strictNumbers: (_h = (_g = o2.strictNumbers) !== null && _g !== void 0 ? _g : s2) !== null && _h !== void 0 ? _h : true,
-        strictTypes: (_k = (_j = o2.strictTypes) !== null && _j !== void 0 ? _j : s2) !== null && _k !== void 0 ? _k : "log",
-        strictTuples: (_m = (_l = o2.strictTuples) !== null && _l !== void 0 ? _l : s2) !== null && _m !== void 0 ? _m : "log",
-        strictRequired: (_p = (_o2 = o2.strictRequired) !== null && _o2 !== void 0 ? _o2 : s2) !== null && _p !== void 0 ? _p : false,
+        strictSchema: (_f = (_e2 = o2.strictSchema) !== null && _e2 !== void 0 ? _e2 : s) !== null && _f !== void 0 ? _f : true,
+        strictNumbers: (_h = (_g = o2.strictNumbers) !== null && _g !== void 0 ? _g : s) !== null && _h !== void 0 ? _h : true,
+        strictTypes: (_k = (_j = o2.strictTypes) !== null && _j !== void 0 ? _j : s) !== null && _k !== void 0 ? _k : "log",
+        strictTuples: (_m = (_l = o2.strictTuples) !== null && _l !== void 0 ? _l : s) !== null && _m !== void 0 ? _m : "log",
+        strictRequired: (_p = (_o2 = o2.strictRequired) !== null && _o2 !== void 0 ? _o2 : s) !== null && _p !== void 0 ? _p : false,
         code: o2.code ? { ...o2.code, optimize, regExp } : { optimize, regExp },
         loopRequired: (_q = o2.loopRequired) !== null && _q !== void 0 ? _q : MAX_EXPRESSION,
         loopEnum: (_r = o2.loopEnum) !== null && _r !== void 0 ? _r : MAX_EXPRESSION,
-        meta: (_s2 = o2.meta) !== null && _s2 !== void 0 ? _s2 : true,
+        meta: (_s = o2.meta) !== null && _s !== void 0 ? _s : true,
         messages: (_t2 = o2.messages) !== null && _t2 !== void 0 ? _t2 : true,
         inlineRefs: (_u = o2.inlineRefs) !== null && _u !== void 0 ? _u : true,
         schemaId: (_v = o2.schemaId) !== null && _v !== void 0 ? _v : "$id",
@@ -44295,9 +44295,9 @@ var require_core5 = __commonJS({
         delete RULES.keywords[keyword];
         delete RULES.all[keyword];
         for (const group of RULES.rules) {
-          const i = group.rules.findIndex((rule) => rule.keyword === keyword);
-          if (i >= 0)
-            group.rules.splice(i, 1);
+          const i2 = group.rules.findIndex((rule) => rule.keyword === keyword);
+          if (i2 >= 0)
+            group.rules.splice(i2, 1);
         }
         return this;
       }
@@ -44505,9 +44505,9 @@ var require_core5 = __commonJS({
       (_a = definition.implements) === null || _a === void 0 ? void 0 : _a.forEach((kwd) => this.addKeyword(kwd));
     }
     function addBeforeRule(ruleGroup, rule, before) {
-      const i = ruleGroup.rules.findIndex((_rule) => _rule.keyword === before);
-      if (i >= 0) {
-        ruleGroup.rules.splice(i, 0, rule);
+      const i2 = ruleGroup.rules.findIndex((_rule) => _rule.keyword === before);
+      if (i2 >= 0) {
+        ruleGroup.rules.splice(i2, 0, rule);
       } else {
         ruleGroup.rules.push(rule);
         this.logger.warn(`rule ${before} is not defined`);
@@ -45071,8 +45071,8 @@ var require_uniqueItems2 = __commonJS({
     var util_1 = require_util8();
     var equal_1 = require_equal2();
     var error3 = {
-      message: ({ params: { i, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i} are identical)`,
-      params: ({ params: { i, j: j2 } }) => (0, codegen_1._)`{i: ${i}, j: ${j2}}`
+      message: ({ params: { i: i2, j: j2 } }) => (0, codegen_1.str)`must NOT have duplicate items (items ## ${j2} and ${i2} are identical)`,
+      params: ({ params: { i: i2, j: j2 } }) => (0, codegen_1._)`{i: ${i2}, j: ${j2}}`
     };
     var def = {
       keyword: "uniqueItems",
@@ -45089,21 +45089,21 @@ var require_uniqueItems2 = __commonJS({
         cxt.block$data(valid, validateUniqueItems, (0, codegen_1._)`${schemaCode} === false`);
         cxt.ok(valid);
         function validateUniqueItems() {
-          const i = gen.let("i", (0, codegen_1._)`${data}.length`);
+          const i2 = gen.let("i", (0, codegen_1._)`${data}.length`);
           const j2 = gen.let("j");
-          cxt.setParams({ i, j: j2 });
+          cxt.setParams({ i: i2, j: j2 });
           gen.assign(valid, true);
-          gen.if((0, codegen_1._)`${i} > 1`, () => (canOptimize() ? loopN : loopN2)(i, j2));
+          gen.if((0, codegen_1._)`${i2} > 1`, () => (canOptimize() ? loopN : loopN2)(i2, j2));
         }
         function canOptimize() {
           return itemTypes.length > 0 && !itemTypes.some((t2) => t2 === "object" || t2 === "array");
         }
-        function loopN(i, j2) {
+        function loopN(i2, j2) {
           const item = gen.name("item");
           const wrongType = (0, dataType_1.checkDataTypes)(itemTypes, item, it2.opts.strictNumbers, dataType_1.DataType.Wrong);
           const indices = gen.const("indices", (0, codegen_1._)`{}`);
-          gen.for((0, codegen_1._)`;${i}--;`, () => {
-            gen.let(item, (0, codegen_1._)`${data}[${i}]`);
+          gen.for((0, codegen_1._)`;${i2}--;`, () => {
+            gen.let(item, (0, codegen_1._)`${data}[${i2}]`);
             gen.if(wrongType, (0, codegen_1._)`continue`);
             if (itemTypes.length > 1)
               gen.if((0, codegen_1._)`typeof ${item} == "string"`, (0, codegen_1._)`${item} += "_"`);
@@ -45111,13 +45111,13 @@ var require_uniqueItems2 = __commonJS({
               gen.assign(j2, (0, codegen_1._)`${indices}[${item}]`);
               cxt.error();
               gen.assign(valid, false).break();
-            }).code((0, codegen_1._)`${indices}[${item}] = ${i}`);
+            }).code((0, codegen_1._)`${indices}[${item}] = ${i2}`);
           });
         }
-        function loopN2(i, j2) {
+        function loopN2(i2, j2) {
           const eql = (0, util_1.useFunc)(gen, equal_1.default);
           const outer = gen.name("outer");
-          gen.label(outer).for((0, codegen_1._)`;${i}--;`, () => gen.for((0, codegen_1._)`${j2} = ${i}; ${j2}--;`, () => gen.if((0, codegen_1._)`${eql}(${data}[${i}], ${data}[${j2}])`, () => {
+          gen.label(outer).for((0, codegen_1._)`;${i2}--;`, () => gen.for((0, codegen_1._)`${j2} = ${i2}; ${j2}--;`, () => gen.if((0, codegen_1._)`${eql}(${data}[${i2}], ${data}[${j2}])`, () => {
             cxt.error();
             gen.assign(valid, false).break(outer);
           })));
@@ -45189,16 +45189,16 @@ var require_enum2 = __commonJS({
           if (!Array.isArray(schema))
             throw new Error("ajv implementation error");
           const vSchema = gen.const("vSchema", schemaCode);
-          valid = (0, codegen_1.or)(...schema.map((_x, i) => equalCode(vSchema, i)));
+          valid = (0, codegen_1.or)(...schema.map((_x, i2) => equalCode(vSchema, i2)));
         }
         cxt.pass(valid);
         function loopEnum() {
           gen.assign(valid, false);
           gen.forOf("v", schemaCode, (v2) => gen.if((0, codegen_1._)`${getEql()}(${data}, ${v2})`, () => gen.assign(valid, true).break()));
         }
-        function equalCode(vSchema, i) {
-          const sch = schema[i];
-          return typeof sch === "object" && sch !== null ? (0, codegen_1._)`${getEql()}(${data}, ${vSchema}[${i}])` : (0, codegen_1._)`${data} === ${sch}`;
+        function equalCode(vSchema, i2) {
+          const sch = schema[i2];
+          return typeof sch === "object" && sch !== null ? (0, codegen_1._)`${getEql()}(${data}, ${vSchema}[${i2}])` : (0, codegen_1._)`${data} === ${sch}`;
         }
       }
     };
@@ -45289,8 +45289,8 @@ var require_additionalItems2 = __commonJS({
         cxt.ok(valid);
       }
       function validateItems(valid) {
-        gen.forRange("i", items.length, len, (i) => {
-          cxt.subschema({ keyword, dataProp: i, dataPropType: util_1.Type.Num }, valid);
+        gen.forRange("i", items.length, len, (i2) => {
+          cxt.subschema({ keyword, dataProp: i2, dataPropType: util_1.Type.Num }, valid);
           if (!it2.allErrors)
             gen.if((0, codegen_1.not)(valid), () => gen.break());
         });
@@ -45333,13 +45333,13 @@ var require_items2 = __commonJS({
       }
       const valid = gen.name("valid");
       const len = gen.const("len", (0, codegen_1._)`${data}.length`);
-      schArr.forEach((sch, i) => {
+      schArr.forEach((sch, i2) => {
         if ((0, util_1.alwaysValidSchema)(it2, sch))
           return;
-        gen.if((0, codegen_1._)`${len} > ${i}`, () => cxt.subschema({
+        gen.if((0, codegen_1._)`${len} > ${i2}`, () => cxt.subschema({
           keyword,
-          schemaProp: i,
-          dataProp: i
+          schemaProp: i2,
+          dataProp: i2
         }, valid));
         cxt.ok(valid);
       });
@@ -45476,10 +45476,10 @@ var require_contains2 = __commonJS({
           validateItems(schValid, () => gen.if(schValid, () => checkLimits(count)));
         }
         function validateItems(_valid, block) {
-          gen.forRange("i", 0, len, (i) => {
+          gen.forRange("i", 0, len, (i2) => {
             cxt.subschema({
               keyword: "contains",
-              dataProp: i,
+              dataProp: i2,
               dataPropType: util_1.Type.Num,
               compositeRule: true
             }, _valid);
@@ -45958,23 +45958,23 @@ var require_oneOf2 = __commonJS({
         gen.block(validateOneOf);
         cxt.result(valid, () => cxt.reset(), () => cxt.error(true));
         function validateOneOf() {
-          schArr.forEach((sch, i) => {
+          schArr.forEach((sch, i2) => {
             let schCxt;
             if ((0, util_1.alwaysValidSchema)(it2, sch)) {
               gen.var(schValid, true);
             } else {
               schCxt = cxt.subschema({
                 keyword: "oneOf",
-                schemaProp: i,
+                schemaProp: i2,
                 compositeRule: true
               }, schValid);
             }
-            if (i > 0) {
-              gen.if((0, codegen_1._)`${schValid} && ${valid}`).assign(valid, false).assign(passing, (0, codegen_1._)`[${passing}, ${i}]`).else();
+            if (i2 > 0) {
+              gen.if((0, codegen_1._)`${schValid} && ${valid}`).assign(valid, false).assign(passing, (0, codegen_1._)`[${passing}, ${i2}]`).else();
             }
             gen.if(schValid, () => {
               gen.assign(valid, true);
-              gen.assign(passing, i);
+              gen.assign(passing, i2);
               if (schCxt)
                 cxt.mergeEvaluated(schCxt, codegen_1.Name);
             });
@@ -46000,10 +46000,10 @@ var require_allOf2 = __commonJS({
         if (!Array.isArray(schema))
           throw new Error("ajv implementation error");
         const valid = gen.name("valid");
-        schema.forEach((sch, i) => {
+        schema.forEach((sch, i2) => {
           if ((0, util_1.alwaysValidSchema)(it2, sch))
             return;
-          const schCxt = cxt.subschema({ keyword: "allOf", schemaProp: i }, valid, true);
+          const schCxt = cxt.subschema({ keyword: "allOf", schemaProp: i2 }, valid, true);
           cxt.ok(valid);
           cxt.mergeEvaluated(schCxt);
         });
@@ -46385,15 +46385,15 @@ var require_discriminator2 = __commonJS({
           const discriminatorMapping = {};
           const topRequired = hasRequired(parentSchema);
           let tagRequired = true;
-          for (let i = 0; i < parentSchemaVariants.length; i++) {
-            let sch = parentSchemaVariants[i];
+          for (let i2 = 0; i2 < parentSchemaVariants.length; i2++) {
+            let sch = parentSchemaVariants[i2];
             const schRef = sch === null || sch === void 0 ? void 0 : sch.$ref;
             if (schRef && schema.mapping) {
               const { mapping } = schema;
               const matchedKeys = Object.keys(mapping).filter((key) => mapping[key] === sch.$ref);
               if (matchedKeys.length) {
                 for (const key of matchedKeys) {
-                  addMapping(key, i);
+                  addMapping(key, i2);
                 }
                 continue;
               }
@@ -46413,7 +46413,7 @@ var require_discriminator2 = __commonJS({
               throw new Error(`discriminator: ${keyword} subschemas (or referenced schemas) must have "properties/${tagName}" or match mapping`);
             }
             tagRequired = tagRequired && (topRequired || hasRequired(sch));
-            addMappings(propSch, i);
+            addMappings(propSch, i2);
           }
           if (!tagRequired)
             throw new Error(`discriminator: "${tagName}" must be required`);
@@ -46432,22 +46432,22 @@ var require_discriminator2 = __commonJS({
             }
             return false;
           }
-          function addMappings(sch, i) {
+          function addMappings(sch, i2) {
             if (sch.const) {
-              addMapping(sch.const, i);
+              addMapping(sch.const, i2);
             } else if (sch.enum) {
               for (const tagValue of sch.enum) {
-                addMapping(tagValue, i);
+                addMapping(tagValue, i2);
               }
             } else {
               throw new Error(`discriminator: "properties/${tagName}" must have "const" or "enum"`);
             }
           }
-          function addMapping(tagValue, i) {
+          function addMapping(tagValue, i2) {
             if (typeof tagValue != "string" || tagValue in discriminatorMapping) {
               throw new Error(`discriminator: "${tagName}" values must be unique strings`);
             }
-            discriminatorMapping[tagValue] = i;
+            discriminatorMapping[tagValue] = i2;
           }
         }
       }
@@ -46784,12 +46784,12 @@ var require_dist = __commonJS({
         throw new Error(`Unknown format "${name}"`);
       return f2;
     };
-    function addFormats2(ajv2, list, fs3, exportName) {
+    function addFormats2(ajv2, list, fs4, exportName) {
       var _a;
       var _b;
       (_a = (_b = ajv2.opts.code).formats) !== null && _a !== void 0 ? _a : _b.formats = (0, codegen_1._)`require("ajv-formats/dist/formats").${exportName}`;
       for (const f2 of list)
-        ajv2.addFormat(f2, fs3[f2]);
+        ajv2.addFormat(f2, fs4[f2]);
     }
     module2.exports = exports = formatsPlugin;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -46797,15 +46797,15 @@ var require_dist = __commonJS({
   }
 });
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-defined.js
+// node_modules/@redocly/openapi-core/lib/utils/is-defined.js
 var init_is_defined = __esm({
-  "node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-defined.js"() {
+  "node_modules/@redocly/openapi-core/lib/utils/is-defined.js"() {
   }
 });
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/rules.js
+// node_modules/@redocly/openapi-core/lib/config/rules.js
 var init_rules = __esm({
-  "node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/rules.js"() {
+  "node_modules/@redocly/openapi-core/lib/config/rules.js"() {
     init_is_defined();
   }
 });
@@ -48256,15 +48256,15 @@ var require_loader = __commonJS({
     var simpleEscapeMap2 = new Array(256);
     var customEscapeCheck = new Array(256);
     var customEscapeMap = new Array(256);
-    for (i = 0; i < 256; i++) {
-      customEscapeMap[i] = simpleEscapeMap2[i] = simpleEscapeSequence2(i);
-      simpleEscapeCheck2[i] = simpleEscapeMap2[i] ? 1 : 0;
-      customEscapeCheck[i] = 1;
-      if (!simpleEscapeCheck2[i]) {
-        customEscapeMap[i] = "\\" + String.fromCharCode(i);
+    for (i2 = 0; i2 < 256; i2++) {
+      customEscapeMap[i2] = simpleEscapeMap2[i2] = simpleEscapeSequence2(i2);
+      simpleEscapeCheck2[i2] = simpleEscapeMap2[i2] ? 1 : 0;
+      customEscapeCheck[i2] = 1;
+      if (!simpleEscapeCheck2[i2]) {
+        customEscapeMap[i2] = "\\" + String.fromCharCode(i2);
       }
     }
-    var i;
+    var i2;
     var State = /* @__PURE__ */ (function() {
       function State2(input, options2) {
         this.errorMap = {};
@@ -48472,11 +48472,11 @@ var require_loader = __commonJS({
     }
     function positionToLine(state, position) {
       var line;
-      for (var i2 = 0; i2 < state.lines.length; i2++) {
-        if (state.lines[i2].start > position) {
+      for (var i3 = 0; i3 < state.lines.length; i3++) {
+        if (state.lines[i3].start > position) {
           break;
         }
-        line = state.lines[i2];
+        line = state.lines[i3];
       }
       if (!line) {
         return {
@@ -48885,22 +48885,22 @@ var require_loader = __commonJS({
         captureSegment(state, captureStart, state.position, false);
       }
       sc.endPosition = state.position;
-      var i2 = state.position - 1;
+      var i3 = state.position - 1;
       var needMinus = false;
       while (true) {
-        var c2 = state.input[i2];
+        var c2 = state.input[i3];
         if (c2 == "\r" || c2 == "\n") {
           if (needMinus) {
-            i2--;
+            i3--;
           }
           break;
         }
         if (c2 != " " && c2 != "	") {
           break;
         }
-        i2--;
+        i3--;
       }
-      sc.endPosition = i2;
+      sc.endPosition = i3;
       sc.rawValue = state.input.substring(sc.startPosition, sc.endPosition);
       return true;
     }
@@ -50656,34 +50656,34 @@ function getApiKeys() {
   throw new Error("No api key provided, please use environment variable REDOCLY_AUTHORIZATION.");
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-plain-object.js
+// node_modules/@redocly/openapi-core/lib/utils/is-plain-object.js
 function isPlainObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-string.js
+// node_modules/@redocly/openapi-core/lib/utils/is-string.js
 function isString(value) {
   return typeof value === "string";
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-truthy.js
+// node_modules/@redocly/openapi-core/lib/utils/is-truthy.js
 function isTruthy(value) {
   return !!value;
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/pause.js
-async function pause(ms) {
-  return new Promise((resolve3) => setTimeout(resolve3, ms));
+// node_modules/@redocly/openapi-core/lib/utils/pause.js
+async function pause(ms2) {
+  return new Promise((resolve3) => setTimeout(resolve3, ms2));
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/pluralize.js
+// node_modules/@redocly/openapi-core/lib/utils/pluralize.js
 var import_pluralize = __toESM(require_pluralize(), 1);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/env.js
+// node_modules/@redocly/openapi-core/lib/env.js
 var isBrowser = typeof window !== "undefined" || typeof process === "undefined" || process?.platform === "browser";
 var env = isBrowser ? {} : process.env || {};
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/slash.js
+// node_modules/@redocly/openapi-core/lib/utils/slash.js
 function slash(path6) {
   const isExtendedLengthPath = /^\\\\\?\\/.test(path6);
   if (isExtendedLengthPath) {
@@ -50692,7 +50692,7 @@ function slash(path6) {
   return path6.replace(/\\/g, "/");
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/index.js
+// node_modules/@redocly/openapi-core/lib/types/index.js
 function listOf(typeName, opts = {}) {
   return {
     name: `${typeName}List`,
@@ -50775,7 +50775,7 @@ function isNamedType(t2) {
   return typeof t2?.name === "string";
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas2.js
+// node_modules/@redocly/openapi-core/lib/types/oas2.js
 var responseCodeRegexp = /^[0-9][0-9Xx]{2}$/;
 var Root = {
   properties: {
@@ -51233,7 +51233,7 @@ var Oas2Types = {
   XServer
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/ref-utils.js
+// node_modules/@redocly/openapi-core/lib/ref-utils.js
 function joinPointer(base, key) {
   if (base === "")
     base = "#/";
@@ -51283,7 +51283,7 @@ function replaceRef(ref, resolved, ctx) {
   }
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3.js
+// node_modules/@redocly/openapi-core/lib/types/oas3.js
 var responseCodeRegexp2 = /^[0-9][0-9Xx]{2}$/;
 var Root2 = {
   properties: {
@@ -52117,7 +52117,7 @@ var Oas3Types = {
   WebhooksMap
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3_1.js
+// node_modules/@redocly/openapi-core/lib/types/oas3_1.js
 var Root3 = {
   properties: {
     openapi: null,
@@ -52403,7 +52403,7 @@ var Oas3_1Types = {
   DependentRequired
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/oas3_2.js
+// node_modules/@redocly/openapi-core/lib/types/oas3_2.js
 var Root4 = {
   ...Oas3_1Types.Root,
   properties: {
@@ -52727,7 +52727,7 @@ var Oas3_2Types = {
   NamedMediaTypes: mapOf("MediaTypesMap")
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi-bindings.js
+// node_modules/@redocly/openapi-core/lib/types/asyncapi-bindings.js
 var HttpChannelBinding = {
   properties: {},
   // empty object
@@ -53716,7 +53716,7 @@ var Ros2Bindings = {
   Ros2MessageBinding
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/json-schema-draft7.shared.js
+// node_modules/@redocly/openapi-core/lib/types/json-schema-draft7.shared.js
 var Schema5 = {
   extensionsPrefix: "x-",
   properties: {
@@ -53814,7 +53814,7 @@ var Discriminator3 = {
   required: ["propertyName"]
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi2.js
+// node_modules/@redocly/openapi-core/lib/types/asyncapi2.js
 var Root5 = {
   extensionsPrefix: "x-",
   properties: {
@@ -54396,7 +54396,7 @@ var AsyncApi2Types = {
   Dependencies
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/asyncapi3.js
+// node_modules/@redocly/openapi-core/lib/types/asyncapi3.js
 var Root6 = {
   extensionsPrefix: "x-",
   properties: {
@@ -54945,7 +54945,7 @@ var AsyncApi3Types = {
   TagList: listOf("Tag")
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/arazzo.js
+// node_modules/@redocly/openapi-core/lib/types/arazzo.js
 var Root7 = {
   properties: {
     arazzo: {
@@ -55421,7 +55421,7 @@ var Arazzo1Types = {
   DeviceAuthorization: Oas3_2Types.DeviceAuthorization
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/arazzo1_1.js
+// node_modules/@redocly/openapi-core/lib/types/arazzo1_1.js
 var Root8 = {
   ...Arazzo1Types.Root,
   properties: {
@@ -55638,7 +55638,7 @@ var Arazzo1_1Types = {
   FailureActionObject: FailureActionObject2
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/omit.js
+// node_modules/@redocly/openapi-core/lib/utils/omit.js
 function omit(obj, keys) {
   const result = { ...obj };
   keys.forEach((key) => {
@@ -55647,7 +55647,7 @@ function omit(obj, keys) {
   return result;
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/overlay.js
+// node_modules/@redocly/openapi-core/lib/types/overlay.js
 var Root9 = {
   properties: {
     overlay: {
@@ -55754,7 +55754,7 @@ var Overlay1Types = {
   ReusableActionFields
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/openrpc.js
+// node_modules/@redocly/openapi-core/lib/types/openrpc.js
 var Root10 = {
   properties: {
     openrpc: {
@@ -56114,249 +56114,250 @@ var OpenRpcTypes = {
   NamedTags: mapOf("Tag")
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/config/lib-esm/index.js
-var ue = { hide: { type: "boolean" }, component: { type: "string", enum: ["radio", "checkbox"] }, label: { type: "string" }, items: { type: "array", items: { type: "string" } } };
-var N = { type: "object", properties: ue, additionalProperties: false };
-var Ye = { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, placeholder: { type: "string" } }, additionalProperties: false };
-var c = { type: "object", properties: { hide: { type: "boolean" }, type: { type: "string", enum: ["rating", "sentiment", "comment", "reasons", "mood", "scale"] }, settings: { type: "object", properties: { label: { type: "string" }, submitText: { type: "string" }, buttonText: { type: "string" }, component: { type: "string", enum: ["radio", "checkbox"] }, items: { type: "array", items: { type: "string" }, minItems: 1 }, leftScaleLabel: { type: "string" }, rightScaleLabel: { type: "string" }, reasons: { type: "object", properties: { ...ue, like: N, dislike: N, satisfied: N, neutral: N, dissatisfied: N }, additionalProperties: false }, comment: { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, likeLabel: { type: "string" }, dislikeLabel: { type: "string" }, satisfiedLabel: { type: "string" }, neutralLabel: { type: "string" }, dissatisfiedLabel: { type: "string" } }, additionalProperties: false }, optionalEmail: Ye }, additionalProperties: false } }, additionalProperties: false };
-var Ve = { type: "object", properties: { languages: { type: "array", items: { type: "object", properties: { lang: { type: "string" }, label: { type: "string" }, options: { type: "object", properties: { indent: { type: "string" }, withImports: { type: "boolean" }, withComments: { type: "boolean" }, binary: { type: "boolean" }, credentials: { type: "string", enum: ["omit", "same-origin", "include"] } }, additionalProperties: false } }, required: ["lang"], additionalProperties: false } }, skipOptionalParameters: { type: "boolean" }, withOAuth2Call: { type: "boolean" } }, additionalProperties: false };
-var x = { type: "array", items: { type: "object", properties: { title: { type: "string" }, url: { type: "string" } }, required: ["url"], additionalProperties: false } };
-var S = { type: "object", properties: { licenseKey: { type: "string" }, hideLoading: { type: "boolean" }, feedback: c, hideReplay: { type: "boolean" }, oAuth2RedirectURI: { type: "string" }, corsProxyUrl: { type: "string" }, sortRequiredPropsFirst: { type: "boolean" }, sanitize: { type: "boolean" }, hideDownloadButtons: { type: "boolean" }, downloadUrls: x, onlyRequiredInSamples: { type: "boolean" }, generatedSamplesMaxDepth: { oneOf: [{ type: "number" }, { type: "string" }] }, showExtensions: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "array", items: { type: "string" } }] }, hideSchemaTitles: { type: "boolean" }, jsonSamplesExpandLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, schemasExpansionLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, mockServer: { type: "object", properties: { url: { type: "string" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, description: { type: "string" } } }, maxDisplayedEnumValues: { type: "number" }, schemaDefinitionsTagName: { type: "string" }, layout: { type: "string", enum: ["stacked", "three-panel"] }, hideInfoMetadata: { type: "boolean" }, events: { type: "object" }, skipBundle: { type: "boolean" }, routingBasePath: { type: "string" }, codeSamples: Ve, ignoreNamedSchemas: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, hidePropertiesPrefix: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, showSchemaCatalogLinks: { type: "boolean" } }, additionalProperties: false };
+// node_modules/@redocly/config/lib-esm/index.js
+var be = { hide: { type: "boolean" }, component: { type: "string", enum: ["radio", "checkbox"] }, label: { type: "string" }, items: { type: "array", items: { type: "string" } } };
+var N = { type: "object", properties: be, additionalProperties: false };
+var Xe = { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, placeholder: { type: "string" } }, additionalProperties: false };
+var c = { type: "object", properties: { hide: { type: "boolean" }, type: { type: "string", enum: ["rating", "sentiment", "comment", "reasons", "mood", "scale"] }, settings: { type: "object", properties: { label: { type: "string" }, submitText: { type: "string" }, buttonText: { type: "string" }, component: { type: "string", enum: ["radio", "checkbox"] }, items: { type: "array", items: { type: "string" }, minItems: 1 }, leftScaleLabel: { type: "string" }, rightScaleLabel: { type: "string" }, reasons: { type: "object", properties: { ...be, like: N, dislike: N, satisfied: N, neutral: N, dissatisfied: N }, additionalProperties: false }, comment: { type: "object", properties: { hide: { type: "boolean" }, label: { type: "string" }, likeLabel: { type: "string" }, dislikeLabel: { type: "string" }, satisfiedLabel: { type: "string" }, neutralLabel: { type: "string" }, dissatisfiedLabel: { type: "string" } }, additionalProperties: false }, optionalEmail: Xe }, additionalProperties: false } }, additionalProperties: false };
+var Qe = { type: "object", properties: { languages: { type: "array", items: { type: "object", properties: { lang: { type: "string" }, label: { type: "string" }, options: { type: "object", properties: { indent: { type: "string" }, withImports: { type: "boolean" }, withComments: { type: "boolean" }, binary: { type: "boolean" }, credentials: { type: "string", enum: ["omit", "same-origin", "include"] } }, additionalProperties: false } }, required: ["lang"], additionalProperties: false } }, skipOptionalParameters: { type: "boolean" }, withOAuth2Call: { type: "boolean" } }, additionalProperties: false };
+var j = { type: "array", items: { type: "object", properties: { title: { type: "string" }, url: { type: "string" } }, required: ["url"], additionalProperties: false } };
+var S = { type: "object", properties: { licenseKey: { type: "string" }, hideLoading: { type: "boolean" }, feedback: c, hideReplay: { type: "boolean" }, oAuth2RedirectURI: { type: "string" }, corsProxyUrl: { type: "string" }, sortRequiredPropsFirst: { type: "boolean" }, sanitize: { type: "boolean" }, hideDownloadButtons: { type: "boolean" }, downloadUrls: j, onlyRequiredInSamples: { type: "boolean" }, generatedSamplesMaxDepth: { oneOf: [{ type: "number" }, { type: "string" }] }, showExtensions: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "array", items: { type: "string" } }] }, hideSchemaTitles: { type: "boolean" }, jsonSamplesExpandLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, schemasExpansionLevel: { oneOf: [{ type: "number" }, { type: "string" }] }, mockServer: { type: "object", properties: { url: { type: "string" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, description: { type: "string" } } }, maxDisplayedEnumValues: { type: "number" }, schemaDefinitionsTagName: { type: "string" }, layout: { type: "string", enum: ["stacked", "three-panel"] }, hideInfoMetadata: { type: "boolean" }, events: { type: "object" }, skipBundle: { type: "boolean" }, routingBasePath: { type: "string" }, codeSamples: Qe, ignoreNamedSchemas: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, hidePropertiesPrefix: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, showSchemaCatalogLinks: { type: "boolean" } }, additionalProperties: false };
 var h = { type: "object", properties: { includeByName: { type: "array", items: { type: "string" } }, excludeByName: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var He = { type: "object", properties: { name: { type: "string" }, items: h, queries: h, mutations: h, subscriptions: h, types: h, directives: h }, required: ["name"], additionalProperties: false };
-var Ke = { type: "object", properties: { requireExactGroups: { type: "boolean" }, groups: { type: "array", items: He }, otherItemsGroupName: { type: "string" } }, required: ["requireExactGroups", "groups", "otherItemsGroupName"], additionalProperties: false };
-var We = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, email: { type: "string", format: "email" } }, additionalProperties: false };
-var $e = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, identifier: { type: "string" } }, additionalProperties: false };
-var Xe = { type: "object", properties: { title: { type: "string" }, version: { type: "string" }, description: { type: "string" }, termsOfService: { type: "string", format: "uri" }, contact: We, license: $e }, additionalProperties: false };
-var b = { type: "object", properties: { menu: { type: "object", properties: { ...Ke.properties }, additionalProperties: false }, downloadUrls: x, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, samplesMaxInlineArgs: { type: "number" }, licenseKey: { type: "string" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, metadata: { type: "object", properties: { apiId: { type: "string" } }, additionalProperties: true }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] }, showBuiltInScalars: { type: "boolean" }, showBuiltInDirectives: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, info: Xe }, additionalProperties: false };
-var Ce = { type: "object", properties: { downloadUrls: x, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, excludeFromSearch: { type: "boolean" }, samplesMaxInlineArgs: { type: "number" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] } }, additionalProperties: false };
-var Qe = { type: "object", properties: { label: { type: "string" }, lang: { type: "string", enum: ["curl", "C#", "Go", "Java", "Java8+Apache", "JavaScript", "Node.js", "PHP", "Python", "R", "Ruby"] } }, required: ["lang"] };
-var Ze = { type: "object", properties: { enum: { type: "string" }, enumSingleValue: { type: "string" }, enumArray: { type: "string" }, default: { type: "string" }, deprecated: { type: "string" }, example: { type: "string" }, examples: { type: "string" }, nullable: { type: "string" }, recursive: { type: "string" }, arrayOf: { type: "string" }, webhook: { type: "string" }, authorizations: { type: "string" }, tryItAuthBasicUsername: { type: "string" }, tryItAuthBasicPassword: { type: "string" } } };
+var Ze = { type: "object", properties: { name: { type: "string" }, items: h, queries: h, mutations: h, subscriptions: h, types: h, directives: h }, required: ["name"], additionalProperties: false };
+var et = { type: "object", properties: { requireExactGroups: { type: "boolean" }, groups: { type: "array", items: Ze }, otherItemsGroupName: { type: "string" } }, required: ["requireExactGroups", "groups", "otherItemsGroupName"], additionalProperties: false };
+var tt = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, email: { type: "string", format: "email" } }, additionalProperties: false };
+var ot = { type: "object", properties: { name: { type: "string" }, url: { type: "string", format: "uri" }, identifier: { type: "string" } }, additionalProperties: false };
+var st = { type: "object", properties: { title: { type: "string" }, version: { type: "string" }, description: { type: "string" }, termsOfService: { type: "string", format: "uri" }, contact: tt, license: ot }, additionalProperties: false };
+var u = { type: "object", properties: { menu: { type: "object", properties: { ...et.properties }, additionalProperties: false }, downloadUrls: j, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, samplesMaxInlineArgs: { type: "number" }, licenseKey: { type: "string" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, metadata: { type: "object", properties: { apiId: { type: "string" } }, additionalProperties: true }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] }, showBuiltInScalars: { type: "boolean" }, showBuiltInDirectives: { type: "boolean" }, excludeFromSearch: { type: "boolean" }, info: st }, additionalProperties: false };
+var Ce = { type: "object", properties: { downloadUrls: j, apiLogo: { type: "object", properties: { imageUrl: { type: "string" }, href: { type: "string" }, altText: { type: "string" }, backgroundColor: { type: "string" } } }, jsonSamplesDepth: { type: "number" }, excludeFromSearch: { type: "boolean" }, samplesMaxInlineArgs: { type: "number" }, fieldExpandLevel: { type: "number" }, baseUrlPath: { type: "string" }, feedback: c, layout: { type: "string", enum: ["stacked", "three-panel"] } }, additionalProperties: false };
+var it = { type: "object", properties: { label: { type: "string" }, lang: { type: "string", enum: ["curl", "C#", "Go", "Java", "Java8+Apache", "JavaScript", "Node.js", "PHP", "Python", "R", "Ruby"] } }, required: ["lang"] };
+var rt = { type: "object", properties: { enum: { type: "string" }, enumSingleValue: { type: "string" }, enumArray: { type: "string" }, default: { type: "string" }, deprecated: { type: "string" }, example: { type: "string" }, examples: { type: "string" }, nullable: { type: "string" }, recursive: { type: "string" }, arrayOf: { type: "string" }, webhook: { type: "string" }, authorizations: { type: "string" }, tryItAuthBasicUsername: { type: "string" }, tryItAuthBasicPassword: { type: "string" } } };
 var Re = { type: "object", properties: { label: { type: "string" }, link: { type: "string" }, target: { type: "string" } }, required: ["label", "link"] };
-var et = { type: "object", properties: { beforeInfo: { type: "array", items: Re }, end: { type: "array", items: Re } } };
-var m = { type: "object", properties: { main: { type: "string" }, light: { type: "string" }, dark: { type: "string" }, contrastText: { type: "string" } } };
+var at = { type: "object", properties: { beforeInfo: { type: "array", items: Re }, end: { type: "array", items: Re } } };
+var g = { type: "object", properties: { main: { type: "string" }, light: { type: "string" }, dark: { type: "string" }, contrastText: { type: "string" } } };
 var T = { type: "object", properties: { backgroundColor: { type: "string" }, borderColor: { type: "string" }, color: { type: "string" }, tabTextColor: { type: "string" } } };
-var tt = { type: "object", properties: J(m.properties, ["light", "dark"]) };
-var ot = { type: "object", properties: { basic: { type: "string" }, delete: { type: "string" }, get: { type: "string" }, head: { type: "string" }, link: { type: "string" }, options: { type: "string" }, patch: { type: "string" }, post: { type: "string" }, put: { type: "string" } } };
-var it = { type: "object", properties: { error: T, info: T, redirect: T, success: T } };
-var st = { type: "object", properties: u(m.properties, ["dark"]) };
-var rt = { type: "object", properties: { primary: { type: "string" }, secondary: { type: "string" }, light: { type: "string" } } };
-var at = { type: "object", properties: { accent: m, border: tt, error: m, http: ot, primary: m, responses: it, secondary: st, success: m, text: rt, tonalOffset: { type: "number" }, warning: m } };
-var v = { type: "object", properties: { fontSize: { type: "string" }, padding: { type: "string" }, minWidth: { type: "string" } } };
-var nt = { type: "object", properties: { small: v, medium: v, large: v, xlarge: v } };
+var nt = { type: "object", properties: I(g.properties, ["light", "dark"]) };
+var pt = { type: "object", properties: { basic: { type: "string" }, delete: { type: "string" }, get: { type: "string" }, head: { type: "string" }, link: { type: "string" }, options: { type: "string" }, patch: { type: "string" }, post: { type: "string" }, put: { type: "string" } } };
+var ct = { type: "object", properties: { error: T, info: T, redirect: T, success: T } };
+var yt = { type: "object", properties: b(g.properties, ["dark"]) };
+var lt = { type: "object", properties: { primary: { type: "string" }, secondary: { type: "string" }, light: { type: "string" } } };
+var dt = { type: "object", properties: { accent: g, border: nt, error: g, http: pt, primary: g, responses: ct, secondary: yt, success: g, text: lt, tonalOffset: { type: "number" }, warning: g } };
+var J = { type: "object", properties: { fontSize: { type: "string" }, padding: { type: "string" }, minWidth: { type: "string" } } };
+var mt = { type: "object", properties: { small: J, medium: J, large: J, xlarge: J } };
 var y = { type: "object", properties: { fontFamily: { type: "string" }, fontSize: { type: "string" }, fontWeight: { type: "string" }, lineHeight: { type: "string" } } };
-var pt = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, hoverStyle: { type: "string" }, boxShadow: { type: "string" }, hoverBoxShadow: { type: "string" }, sizes: nt } };
-var Pe = { type: "object", properties: J(y.properties, ["fontSize", "lineHeight"]) };
-var ct = { type: "object", properties: { medium: Pe, small: Pe } };
-var yt = { type: "object", properties: { ...u(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, color: { type: "string" }, sizes: ct } };
-var lt = { type: "object", properties: { top: { type: "string" }, width: { type: "string" }, height: { type: "string" } } };
-var dt = { type: "object", properties: { borderRadius: { type: "string" }, backgroundColor: { type: "string" } } };
-var Oe = { type: "object", properties: { fullWidth: { type: "boolean" } } };
-var gt = { type: "object", properties: { buttons: pt, httpBadges: yt, layoutControls: lt, panels: dt, tryItButton: Oe, tryItSendButton: Oe } };
-var I = { type: "object", properties: { small: { type: "string" }, medium: { type: "string" }, large: { type: "string" } } };
-var mt = { type: "object", properties: { maxWidth: I } };
-var ft = { type: "object", properties: { maxWidth: I, middlePanelMaxWidth: I } };
-var St = { type: "object", properties: { showDarkRightPanel: { type: "boolean" }, stacked: mt, "three-panel": ft } };
+var gt = { type: "object", properties: { ...b(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, hoverStyle: { type: "string" }, boxShadow: { type: "string" }, hoverBoxShadow: { type: "string" }, sizes: mt } };
+var Oe = { type: "object", properties: I(y.properties, ["fontSize", "lineHeight"]) };
+var ft = { type: "object", properties: { medium: Oe, small: Oe } };
+var St = { type: "object", properties: { ...b(y.properties, ["fontSize", "lineHeight"]), borderRadius: { type: "string" }, color: { type: "string" }, sizes: ft } };
+var ht = { type: "object", properties: { top: { type: "string" }, width: { type: "string" }, height: { type: "string" } } };
+var ut = { type: "object", properties: { borderRadius: { type: "string" }, backgroundColor: { type: "string" } } };
+var Pe = { type: "object", properties: { fullWidth: { type: "boolean" } } };
+var bt = { type: "object", properties: { buttons: gt, httpBadges: St, layoutControls: ht, panels: ut, tryItButton: Pe, tryItSendButton: Pe } };
+var v = { type: "object", properties: { small: { type: "string" }, medium: { type: "string" }, large: { type: "string" } } };
+var Ct = { type: "object", properties: { maxWidth: v } };
+var Rt = { type: "object", properties: { maxWidth: v, middlePanelMaxWidth: v } };
+var Ot = { type: "object", properties: { showDarkRightPanel: { type: "boolean" }, stacked: Ct, "three-panel": Rt } };
 var Ne = { type: "object", properties: { backgroundColor: { type: "string" }, border: { type: "string" } } };
-var ht = { type: "object", properties: { breakFieldNames: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, constraints: Ne, defaultDetailsWidth: { type: "string" }, examples: Ne, labelsTextSize: { type: "string" }, linesColor: { type: "string" }, nestedBackground: { type: "string" }, nestingSpacing: { type: "string" }, requireLabelColor: { type: "string" }, typeNameColor: { type: "string" }, typeTitleColor: { type: "string" } } };
-var je = { type: "object", properties: { subItemsColor: { type: "string" }, textTransform: { type: "string" }, fontWeight: { type: "string" } } };
-var bt = { type: "object", properties: J(je.properties, ["textTransform"]) };
-var ut = { type: "object", properties: { unit: { type: "number" }, paddingHorizontal: { type: "string" }, paddingVertical: { type: "string" }, offsetTop: { type: "string" }, offsetLeft: { type: "string" }, offsetNesting: { type: "string" } } };
-var Ct = { type: "object", properties: { ...u(y.properties, ["fontWeight", "lineHeight"]), activeBgColor: { type: "string" }, activeTextColor: { type: "string" }, backgroundColor: { type: "string" }, borderRadius: { type: "string" }, breakPath: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, groupItems: je, level1items: bt, rightLineColor: { type: "string" }, separatorLabelColor: { type: "string" }, showAtBreakpoint: { type: "string" }, spacing: ut, textColor: { type: "string" }, width: { type: "string" } } };
+var Pt = { type: "object", properties: { breakFieldNames: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, constraints: Ne, defaultDetailsWidth: { type: "string" }, examples: Ne, labelsTextSize: { type: "string" }, linesColor: { type: "string" }, nestedBackground: { type: "string" }, nestingSpacing: { type: "string" }, requireLabelColor: { type: "string" }, typeNameColor: { type: "string" }, typeTitleColor: { type: "string" } } };
+var xe = { type: "object", properties: { subItemsColor: { type: "string" }, textTransform: { type: "string" }, fontWeight: { type: "string" } } };
+var Nt = { type: "object", properties: I(xe.properties, ["textTransform"]) };
+var jt = { type: "object", properties: { unit: { type: "number" }, paddingHorizontal: { type: "string" }, paddingVertical: { type: "string" }, offsetTop: { type: "string" }, offsetLeft: { type: "string" }, offsetNesting: { type: "string" } } };
+var xt = { type: "object", properties: { ...b(y.properties, ["fontWeight", "lineHeight"]), activeBgColor: { type: "string" }, activeTextColor: { type: "string" }, backgroundColor: { type: "string" }, borderRadius: { type: "string" }, breakPath: { type: "boolean" }, caretColor: { type: "string" }, caretSize: { type: "string" }, groupItems: xe, level1items: Nt, rightLineColor: { type: "string" }, separatorLabelColor: { type: "string" }, showAtBreakpoint: { type: "string" }, spacing: jt, textColor: { type: "string" }, width: { type: "string" } } };
 var k = { type: "object", properties: { ...y.properties, color: { type: "string" }, transform: { type: "string" } } };
-var Rt = { type: "object", properties: { ...y.properties, backgroundColor: { type: "string" }, color: { type: "string" }, wordBreak: { type: "string", enum: ["break-all", "break-word", "keep-all", "normal", "revert", "unset", "inherit", "initial"] }, wrap: { type: "boolean" } } };
-var Pt = { type: "object", properties: u(y.properties, ["fontSize"]) };
-var Ot = { type: "object", properties: { color: { type: "string" }, hover: { type: "string" }, textDecoration: { type: "string" }, hoverTextDecoration: { type: "string" }, visited: { type: "string" } } };
-var Nt = { type: "object", properties: { code: Rt, fieldName: y, ...J(y.properties, ["fontSize", "fontFamily"]), fontWeightBold: { type: "string" }, fontWeightLight: { type: "string" }, fontWeightRegular: { type: "string" }, heading1: k, heading2: k, heading3: k, headings: Pt, lineHeight: { type: "string" }, links: Ot, optimizeSpeed: { type: "boolean" }, rightPanelHeading: k, smoothing: { type: "string", enum: ["auto", "none", "antialiased", "subpixel-antialiased", "grayscale"] } } };
-var xt = { type: "object", properties: { color: { type: "string" }, ...u(y.properties, ["fontWeight"]) } };
-var jt = { type: "object", properties: { backgroundColor: { type: "string" }, borderRadius: { type: "string" }, tokens: xt } };
-var Et = { type: "object", properties: { gutter: { type: "string" }, maxHeight: { type: "string" }, maxWidth: { type: "string" } } };
-var Tt = { type: "object", properties: { backgroundColor: { type: "string" }, color: { type: "string" } } };
-var xe = { type: "object", properties: { custom: { type: "string" } } };
-var vt = { type: "object", properties: { DownloadButton: xe, NextSectionButton: xe } };
-var kt = { type: "object", properties: { backgroundColor: { type: "string" }, panelBackgroundColor: { type: "string" }, panelControlsBackgroundColor: { type: "string" }, showAtBreakpoint: { type: "string" }, textColor: { type: "string" }, width: { type: "string" } } };
-var It = { type: "object", properties: { borderRadius: { type: "string" } } };
-var Jt = { type: "object", properties: { sectionHorizontal: { type: "number" }, sectionVertical: { type: "number" }, unit: { type: "number" } } };
-var Lt = { type: "object", properties: { breakpoints: I, codeBlock: jt, colors: at, components: gt, layout: St, logo: Et, fab: Tt, overrides: vt, rightPanel: kt, schema: ht, shape: It, sidebar: Ct, spacing: Jt, typography: Nt, links: { type: "object", properties: { color: { type: "string" } } }, codeSample: { type: "object", properties: { backgroundColor: { type: "string" } } } } };
-var Dt = { type: "object", properties: { skipOptionalParameters: { type: "boolean" }, languages: { type: "array", items: Qe } }, required: ["languages"] };
-var se = { type: "object", properties: { theme: Lt, ctrlFHijack: { type: "boolean" }, defaultSampleLanguage: { type: "string" }, disableDeepLinks: { type: "boolean" }, disableSearch: { type: "boolean" }, disableSidebar: { type: "boolean" }, downloadDefinitionUrl: { type: "string" }, expandDefaultServerVariables: { type: "boolean" }, enumSkipQuotes: { type: "boolean" }, expandDefaultRequest: { type: "boolean" }, expandDefaultResponse: { type: "boolean" }, expandResponses: { type: "string" }, expandSingleSchemaField: { type: "boolean" }, generateCodeSamples: Dt, generatedPayloadSamplesMaxDepth: { type: "number" }, hideDownloadButton: { type: "boolean" }, hideHostname: { type: "boolean" }, hideInfoSection: { type: "boolean" }, hideLogo: { type: "boolean" }, hideRequestPayloadSample: { type: "boolean" }, hideRightPanel: { type: "boolean" }, hideSchemaPattern: { type: "boolean" }, hideSingleRequestSampleTab: { type: "boolean" }, hideSecuritySection: { type: "boolean" }, hideTryItPanel: { type: "boolean" }, hideFab: { type: "boolean" }, hideOneOfDescription: { type: "boolean" }, htmlTemplate: { type: "string" }, jsonSampleExpandLevel: { oneOf: [{ type: "number", minimum: 1 }, { type: "string" }] }, labels: Ze, menuToggle: { type: "boolean" }, nativeScrollbars: { type: "boolean" }, noAutoAuth: { type: "boolean" }, onDeepLinkClick: { type: "object" }, pagination: { type: "string", enum: ["none", "section", "item"] }, pathInMiddlePanel: { type: "boolean" }, payloadSampleIdx: { type: "number", minimum: 0 }, requiredPropsFirst: { type: "boolean" }, routingStrategy: { type: "string" }, samplesTabsMaxCount: { type: "number" }, schemaExpansionLevel: { oneOf: [{ type: "number", minimum: 0 }, { type: "string" }] }, minCharacterLengthToInitSearch: { type: "number", minimum: 1 }, maxResponseHeadersToShowInTryIt: { type: "number", minimum: 0 }, scrollYOffset: { oneOf: [{ type: "number" }, { type: "string" }] }, searchAutoExpand: { type: "boolean" }, searchFieldLevelBoost: { type: "number", minimum: 0 }, searchMaxDepth: { type: "number", minimum: 1 }, searchMode: { type: "string", enum: ["default", "path-only"] }, searchOperationTitleBoost: { type: "number" }, searchTagTitleBoost: { type: "number" }, sendXUserAgentInTryIt: { type: "boolean" }, showChangeLayoutButton: { type: "boolean" }, showConsole: { type: "boolean" }, showNextButton: { type: "boolean" }, showRightPanelToggle: { type: "boolean" }, showSecuritySchemeType: { type: "boolean" }, showWebhookVerb: { type: "boolean" }, showObjectSchemaExamples: { type: "boolean" }, disableTryItRequestUrlEncoding: { type: "boolean" }, sidebarLinks: et, sideNavStyle: { type: "string", enum: ["summary-only", "path-first", "id-only", "path-only"] }, simpleOneOfTypeLabel: { type: "boolean" }, sortEnumValuesAlphabetically: { type: "boolean" }, sortOperationsAlphabetically: { type: "boolean" }, sortPropsAlphabetically: { type: "boolean" }, sortTagsAlphabetically: { type: "boolean" }, suppressWarnings: { type: "boolean" }, unstable_externalDescription: { type: "boolean" }, unstable_ignoreMimeParameters: { type: "boolean" }, untrustedDefinition: { type: "boolean" }, showAccessMode: { type: "boolean" }, preserveOriginalExtensionsName: { type: "boolean" }, markdownHeadingsAnchorLevel: { type: "number" } }, additionalProperties: false };
-function J(d, ie) {
-  return Object.fromEntries(ie.filter((i) => i in d).map((i) => [i, d[i]]));
+var Et = { type: "object", properties: { ...y.properties, backgroundColor: { type: "string" }, color: { type: "string" }, wordBreak: { type: "string", enum: ["break-all", "break-word", "keep-all", "normal", "revert", "unset", "inherit", "initial"] }, wrap: { type: "boolean" } } };
+var Tt = { type: "object", properties: b(y.properties, ["fontSize"]) };
+var Jt = { type: "object", properties: { color: { type: "string" }, hover: { type: "string" }, textDecoration: { type: "string" }, hoverTextDecoration: { type: "string" }, visited: { type: "string" } } };
+var kt = { type: "object", properties: { code: Et, fieldName: y, ...I(y.properties, ["fontSize", "fontFamily"]), fontWeightBold: { type: "string" }, fontWeightLight: { type: "string" }, fontWeightRegular: { type: "string" }, heading1: k, heading2: k, heading3: k, headings: Tt, lineHeight: { type: "string" }, links: Jt, optimizeSpeed: { type: "boolean" }, rightPanelHeading: k, smoothing: { type: "string", enum: ["auto", "none", "antialiased", "subpixel-antialiased", "grayscale"] } } };
+var vt = { type: "object", properties: { color: { type: "string" }, ...b(y.properties, ["fontWeight"]) } };
+var It = { type: "object", properties: { backgroundColor: { type: "string" }, borderRadius: { type: "string" }, tokens: vt } };
+var Lt = { type: "object", properties: { gutter: { type: "string" }, maxHeight: { type: "string" }, maxWidth: { type: "string" } } };
+var Dt = { type: "object", properties: { backgroundColor: { type: "string" }, color: { type: "string" } } };
+var je = { type: "object", properties: { custom: { type: "string" } } };
+var At = { type: "object", properties: { DownloadButton: je, NextSectionButton: je } };
+var _t = { type: "object", properties: { backgroundColor: { type: "string" }, panelBackgroundColor: { type: "string" }, panelControlsBackgroundColor: { type: "string" }, showAtBreakpoint: { type: "string" }, textColor: { type: "string" }, width: { type: "string" } } };
+var qt = { type: "object", properties: { borderRadius: { type: "string" } } };
+var Mt = { type: "object", properties: { sectionHorizontal: { type: "number" }, sectionVertical: { type: "number" }, unit: { type: "number" } } };
+var wt = { type: "object", properties: { breakpoints: v, codeBlock: It, colors: dt, components: bt, layout: Ot, logo: Lt, fab: Dt, overrides: At, rightPanel: _t, schema: Pt, shape: qt, sidebar: xt, spacing: Mt, typography: kt, links: { type: "object", properties: { color: { type: "string" } } }, codeSample: { type: "object", properties: { backgroundColor: { type: "string" } } } } };
+var Ut = { type: "object", properties: { skipOptionalParameters: { type: "boolean" }, languages: { type: "array", items: it } }, required: ["languages"] };
+var ie = { type: "object", properties: { theme: wt, ctrlFHijack: { type: "boolean" }, defaultSampleLanguage: { type: "string" }, disableDeepLinks: { type: "boolean" }, disableSearch: { type: "boolean" }, disableSidebar: { type: "boolean" }, downloadDefinitionUrl: { type: "string" }, expandDefaultServerVariables: { type: "boolean" }, enumSkipQuotes: { type: "boolean" }, expandDefaultRequest: { type: "boolean" }, expandDefaultResponse: { type: "boolean" }, expandResponses: { type: "string" }, expandSingleSchemaField: { type: "boolean" }, generateCodeSamples: Ut, generatedPayloadSamplesMaxDepth: { type: "number" }, hideDownloadButton: { type: "boolean" }, hideHostname: { type: "boolean" }, hideInfoSection: { type: "boolean" }, hideLogo: { type: "boolean" }, hideRequestPayloadSample: { type: "boolean" }, hideRightPanel: { type: "boolean" }, hideSchemaPattern: { type: "boolean" }, hideSingleRequestSampleTab: { type: "boolean" }, hideSecuritySection: { type: "boolean" }, hideTryItPanel: { type: "boolean" }, hideFab: { type: "boolean" }, hideOneOfDescription: { type: "boolean" }, htmlTemplate: { type: "string" }, jsonSampleExpandLevel: { oneOf: [{ type: "number", minimum: 1 }, { type: "string" }] }, labels: rt, menuToggle: { type: "boolean" }, nativeScrollbars: { type: "boolean" }, noAutoAuth: { type: "boolean" }, onDeepLinkClick: { type: "object" }, pagination: { type: "string", enum: ["none", "section", "item"] }, pathInMiddlePanel: { type: "boolean" }, payloadSampleIdx: { type: "number", minimum: 0 }, requiredPropsFirst: { type: "boolean" }, routingStrategy: { type: "string" }, samplesTabsMaxCount: { type: "number" }, schemaExpansionLevel: { oneOf: [{ type: "number", minimum: 0 }, { type: "string" }] }, minCharacterLengthToInitSearch: { type: "number", minimum: 1 }, maxResponseHeadersToShowInTryIt: { type: "number", minimum: 0 }, scrollYOffset: { oneOf: [{ type: "number" }, { type: "string" }] }, searchAutoExpand: { type: "boolean" }, searchFieldLevelBoost: { type: "number", minimum: 0 }, searchMaxDepth: { type: "number", minimum: 1 }, searchMode: { type: "string", enum: ["default", "path-only"] }, searchOperationTitleBoost: { type: "number" }, searchTagTitleBoost: { type: "number" }, sendXUserAgentInTryIt: { type: "boolean" }, showChangeLayoutButton: { type: "boolean" }, showConsole: { type: "boolean" }, showNextButton: { type: "boolean" }, showRightPanelToggle: { type: "boolean" }, showSecuritySchemeType: { type: "boolean" }, showWebhookVerb: { type: "boolean" }, showObjectSchemaExamples: { type: "boolean" }, disableTryItRequestUrlEncoding: { type: "boolean" }, sidebarLinks: at, sideNavStyle: { type: "string", enum: ["summary-only", "path-first", "id-only", "path-only"] }, simpleOneOfTypeLabel: { type: "boolean" }, sortEnumValuesAlphabetically: { type: "boolean" }, sortOperationsAlphabetically: { type: "boolean" }, sortPropsAlphabetically: { type: "boolean" }, sortTagsAlphabetically: { type: "boolean" }, suppressWarnings: { type: "boolean" }, unstable_externalDescription: { type: "boolean" }, unstable_ignoreMimeParameters: { type: "boolean" }, untrustedDefinition: { type: "boolean" }, showAccessMode: { type: "boolean" }, preserveOriginalExtensionsName: { type: "boolean" }, markdownHeadingsAnchorLevel: { type: "number" } }, additionalProperties: false };
+function I(d, se) {
+  return Object.fromEntries(se.filter((s) => s in d).map((s) => [s, d[s]]));
 }
-function u(d, ie) {
-  return Object.fromEntries(Object.entries(d).filter(([i]) => !ie.includes(i)));
+function b(d, se) {
+  return Object.fromEntries(Object.entries(d).filter(([s]) => !se.includes(s)));
 }
 var r = { nodeTypeName: void 0, type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object" }] }, description: "The rules configuration blocks set up linting rules and their severity. You can configure built-in rules, add configurable rules, and rules from plugins.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/rules#rules" };
-var _t = { rules: r, oas2Rules: r, oas3_0Rules: r, oas3_1Rules: r, oas3_2Rules: r, async2Rules: r, async3Rules: r, arazzo1Rules: r, arazzo1_1Rules: r, overlay1Rules: r, openrpc1Rules: r, graphqlRules: r };
+var zt = { rules: r, oas2Rules: r, oas3_0Rules: r, oas3_1Rules: r, oas3_2Rules: r, async2Rules: r, async3Rules: r, arazzo1Rules: r, arazzo1_1Rules: r, overlay1Rules: r, openrpc1Rules: r, graphqlRules: r };
 var n = { nodeTypeName: void 0, type: "object", additionalProperties: true };
-var At = { preprocessors: n, oas2Preprocessors: n, oas3_0Preprocessors: n, oas3_1Preprocessors: n, oas3_2Preprocessors: n, async2Preprocessors: n, async3Preprocessors: n, arazzo1Preprocessors: n, arazzo1_1Preprocessors: n, overlay1Preprocessors: n, openrpc1Preprocessors: n };
+var Bt = { preprocessors: n, oas2Preprocessors: n, oas3_0Preprocessors: n, oas3_1Preprocessors: n, oas3_2Preprocessors: n, async2Preprocessors: n, async3Preprocessors: n, arazzo1Preprocessors: n, arazzo1_1Preprocessors: n, overlay1Preprocessors: n, openrpc1Preprocessors: n };
 var p = { nodeTypeName: void 0, type: "object", additionalProperties: true };
-var qt = { decorators: p, oas2Decorators: p, oas3_0Decorators: p, oas3_1Decorators: p, oas3_2Decorators: p, async2Decorators: p, async3Decorators: p, arazzo1Decorators: p, arazzo1_1Decorators: p, overlay1Decorators: p, openrpc1Decorators: p };
-var wt = { nodeTypeName: void 0, type: "array", items: { type: "string" }, description: "Use extends to inherit rules and their configurations from other rulesets.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/extends" };
-var f = { ..._t, ...qt, ...At, extends: wt };
+var Gt = { decorators: p, oas2Decorators: p, oas3_0Decorators: p, oas3_1Decorators: p, oas3_2Decorators: p, async2Decorators: p, async3Decorators: p, arazzo1Decorators: p, arazzo1_1Decorators: p, overlay1Decorators: p, openrpc1Decorators: p };
+var Ft = { nodeTypeName: void 0, type: "array", items: { type: "string" }, description: "Use extends to inherit rules and their configurations from other rulesets.", documentationLink: "https://redocly.com/docs/cli/configuration/reference/extends" };
+var f = { ...zt, ...Gt, ...Bt, extends: Ft };
 var L = (d) => d;
-var s = L({ RedirectSource: "RedirectSource", Redirects: "Redirects", ScorecardClassic: "ScorecardClassic", ScorecardClassicLevelList: "ScorecardClassicLevelList", ScorecardClassicLevel: "ScorecardClassicLevel", ScorecardClassicTargetList: "ScorecardClassicTargetList", ScorecardClassicTarget: "ScorecardClassicTarget", ScorecardClassicTargetWhere: "ScorecardClassicTargetWhere", ScorecardClassicTargetWhereMetadata: "ScorecardClassicTargetWhereMetadata", ScorecardClassicTeamMetadataProperty: "ScorecardClassicTeamMetadataProperty" });
+var i = L({ RedirectSource: "RedirectSource", Redirects: "Redirects", ScorecardClassic: "ScorecardClassic", ScorecardClassicLevelList: "ScorecardClassicLevelList", ScorecardClassicLevel: "ScorecardClassicLevel", ScorecardClassicTargetList: "ScorecardClassicTargetList", ScorecardClassicTarget: "ScorecardClassicTarget", ScorecardClassicTargetWhere: "ScorecardClassicTargetWhere", ScorecardClassicTargetWhereMetadata: "ScorecardClassicTargetWhereMetadata", ScorecardClassicTeamMetadataProperty: "ScorecardClassicTeamMetadataProperty" });
 var o = { type: "object", properties: { hide: { type: "boolean" } }, additionalProperties: false };
 var Ee = { type: "object", properties: { src: { type: "string" }, async: { type: "boolean" }, crossorigin: { type: "string" }, defer: { type: "boolean" }, fetchpriority: { type: "string" }, integrity: { type: "string" }, module: { type: "boolean" }, nomodule: { type: "boolean" }, nonce: { type: "string" }, referrerpolicy: { type: "string" }, type: { type: "string" }, consent: { type: "string", enum: ["analytics", "marketing"] } }, required: ["src"], additionalProperties: true };
 var re = { type: "object", properties: { page: { type: "string", uiHint: "file" }, directory: { type: "string", uiHint: "file" }, disconnect: { type: "boolean" }, group: { type: "string" }, label: { type: "string" }, href: { type: "string" }, external: { type: "boolean" }, labelTranslationKey: { type: "string" }, groupTranslationKey: { type: "string" }, icon: { oneOf: [{ type: "string" }, { type: "object", properties: { srcSet: { type: "string" } }, required: ["srcSet"] }] }, separator: { type: "string" }, separatorLine: { type: "boolean" }, linePosition: { type: "string", enum: ["top", "bottom"] }, version: { type: "string" }, menuStyle: { type: "string", enum: ["drilldown"] }, expanded: { type: "string", const: "always" }, selectFirstItemOnExpand: { type: "boolean" }, flatten: { type: "boolean" }, linkedSidebars: { type: "array", items: { type: "string" } }, items: { type: "array", items: { type: "object", additionalProperties: true } }, rbac: { type: "object", additionalProperties: { type: "string" } }, additionalProps: { type: "object", additionalProperties: true } } };
 var ae = { type: "array", items: { ...re, properties: { ...re.properties, items: { type: "array", items: re } } } };
-var Mt = { type: "object", properties: { name: { type: "string" }, icon: { type: "string" }, folder: { type: "string" } }, additionalProperties: false, required: ["name", "folder"] };
-var Ut = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" } }, additionalProperties: false };
-var Bt = { type: "array", items: { type: "object", required: ["name", "field", "type"], properties: { name: { type: "string" }, field: { type: "string" }, type: { type: "string", enum: ["multi-select", "select", "tags"] } }, additionalProperties: false } };
-var Gt = { type: "object", properties: { facets: Bt, ...o.properties }, additionalProperties: false };
-var Ft = { type: "object", properties: { page: { type: "string", uiHint: "file" }, label: { type: "string" }, labelTranslationKey: { type: "string" } }, required: ["page"] };
+var Yt = { type: "object", properties: { name: { type: "string" }, icon: { type: "string" }, folder: { type: "string" } }, additionalProperties: false, required: ["name", "folder"] };
+var Ht = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" } }, additionalProperties: false };
+var Vt = { type: "array", items: { type: "object", required: ["name", "field", "type"], properties: { name: { type: "string" }, field: { type: "string" }, type: { type: "string", enum: ["multi-select", "select", "tags"] } }, additionalProperties: false } };
+var Wt = { type: "object", properties: { facets: Vt, ...o.properties }, additionalProperties: false };
+var Kt = { type: "object", properties: { page: { type: "string", uiHint: "file" }, label: { type: "string" }, labelTranslationKey: { type: "string" } }, required: ["page"] };
 var D = { type: "object", properties: { image: { type: "string", uiHint: "file" }, srcSet: { type: "string" }, altText: { type: "string" }, link: { type: "string" }, favicon: { type: "string", uiHint: "file" } }, additionalProperties: false };
-var _ = { type: "object", properties: { items: ae, ...o.properties }, additionalProperties: false };
-var A = { type: "object", additionalProperties: Mt };
+var A = { type: "object", properties: { items: ae, ...o.properties }, additionalProperties: false };
+var _ = { type: "object", additionalProperties: Yt };
 var q = { type: "object", properties: { items: ae, copyrightText: { type: "string" }, logo: o, ...o.properties }, additionalProperties: false };
-var w = { type: "object", properties: { separatorLine: { type: "boolean" }, linePosition: { type: "string", enum: ["top", "bottom"] }, ...o.properties }, additionalProperties: false };
-var M = { type: "object", properties: { head: { type: "array", items: Ee }, body: { type: "array", items: Ee } }, additionalProperties: false };
+var M = { type: "object", properties: { separatorLine: { type: "boolean" }, linePosition: { type: "string", enum: ["top", "bottom"] }, ...o.properties }, additionalProperties: false };
+var w = { type: "object", properties: { head: { type: "array", items: Ee }, body: { type: "array", items: Ee } }, additionalProperties: false };
 var U = { type: "array", items: { type: "object", properties: { href: { type: "string" }, as: { type: "string" }, crossorigin: { type: "string" }, fetchpriority: { type: "string" }, hreflang: { type: "string" }, imagesizes: { type: "string" }, imagesrcset: { type: "string" }, integrity: { type: "string" }, media: { type: "string" }, prefetch: { type: "string" }, referrerpolicy: { type: "string" }, rel: { type: "string" }, sizes: { type: "string" }, title: { type: "string" }, type: { type: "string" } }, required: ["href"], additionalProperties: true } };
-var B = { type: "object", properties: { engine: { type: "string", enum: ["flexsearch", "typesense"] }, ai: Ut, filters: Gt, placement: { type: "string" }, shortcuts: { type: "array", items: { type: "string" } }, suggestedPages: { type: "array", items: Ft }, ...o.properties }, additionalProperties: false };
-var G = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" }, trigger: { type: "object", properties: { hide: { type: "boolean" }, inputType: { type: "string", enum: ["button", "icon"] }, inputIcon: { type: "string", enum: ["chat", "sparkles", "redocly"] } }, additionalProperties: false } }, additionalProperties: false };
-var F = { type: "object", properties: { ignoreDetection: { type: "boolean" }, modes: { type: "array", items: { type: "string" } }, ...o.properties }, additionalProperties: false };
+var z = { type: "object", properties: { engine: { type: "string", enum: ["flexsearch", "typesense"] }, ai: Ht, filters: Wt, placement: { type: "string" }, shortcuts: { type: "array", items: { type: "string" } }, suggestedPages: { type: "array", items: Kt }, ...o.properties }, additionalProperties: false };
+var B = { type: "object", properties: { hide: { type: "boolean" }, suggestions: { type: "array", items: { type: "string" } }, prompt: { type: "string" }, trigger: { type: "object", properties: { hide: { type: "boolean" }, inputType: { type: "string", enum: ["button", "icon"] }, inputIcon: { type: "string", enum: ["chat", "sparkles", "redocly"] } }, additionalProperties: false } }, additionalProperties: false };
+var G = { type: "object", properties: { ignoreDetection: { type: "boolean" }, modes: { type: "array", items: { type: "string" } }, ...o.properties }, additionalProperties: false };
 var C = { type: "string", enum: ["slate", "pink", "coral", "amber", "jade", "cyan", "ocean", "indigo", "iris"] };
-var zt = { type: "object", properties: { ...o.properties, items: { type: "array", items: { type: "string", enum: ["copy", "view", "chatgpt", "claude", "docs-mcp-cursor", "docs-mcp-vscode"] } } }, additionalProperties: false };
-var z = { type: "object", properties: { nextButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, previousButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, actions: zt }, additionalProperties: false };
+var $t = { type: "object", properties: { ...o.properties, items: { type: "array", items: { type: "string", enum: ["copy", "view", "chatgpt", "claude", "docs-mcp-cursor", "docs-mcp-vscode"] } } }, additionalProperties: false };
+var F = { type: "object", properties: { nextButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, previousButton: { type: "object", properties: { text: { type: "string" }, ...o.properties }, additionalProperties: false }, actions: $t }, additionalProperties: false };
 var Y = { type: "object", properties: { elementFormat: { type: "string" }, copy: { type: "object", properties: { ...o.properties }, additionalProperties: false }, report: { type: "object", properties: { tooltipText: { type: "string" }, buttonText: { type: "string" }, label: { type: "string" }, ...o.properties }, additionalProperties: false }, expand: { type: "object", properties: { ...o.properties }, additionalProperties: false }, collapse: { type: "object", properties: { ...o.properties }, additionalProperties: false } }, additionalProperties: false };
-var V = { type: "object", properties: { frontMatterKeysToResolve: { type: "array", items: { type: "string" } }, partialsFolders: { type: "array", items: { type: "string" } }, lastUpdatedBlock: { type: "object", properties: { format: { type: "string", enum: ["timeago", "iso", "long", "short"] }, locale: { type: "string" }, ...o.properties }, additionalProperties: false }, toc: { type: "object", properties: { header: { type: "string" }, depth: { type: "integer", minimum: 1 }, ...o.properties }, additionalProperties: false }, editPage: { type: "object", properties: { baseUrl: { type: "string" }, ...o.properties }, additionalProperties: false }, template: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
-var R = { ...S, properties: { ...S.properties, ...se.properties } };
-var zi = { ...S, properties: { ...S.properties, ...se.properties } };
-var Yt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, scriptUrl: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["scriptUrl"] };
-var Vt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, apiKey: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, outboundClickEventName: { type: "string" }, pageViewEventName: { type: "string" }, amplitudeConfig: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["apiKey"] };
-var Ht = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, orgId: { type: "string" } }, additionalProperties: false, required: ["orgId"] };
-var Kt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, appId: { type: "string" } }, additionalProperties: false, required: ["appId"] };
-var Wt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, dataPlaneUrl: { type: "string" }, controlPlaneUrl: { type: "string" }, sdkUrl: { type: "string" }, loadOptions: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["writeKey"] };
-var $t = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, includeTitleInPageCall: { type: "boolean" }, host: { type: "string" } }, additionalProperties: false, required: ["writeKey"] };
-var Xt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, gtmAuth: { type: "string" }, gtmPreview: { type: "string" }, defaultDataLayer: { type: "object", additionalProperties: true }, dataLayerName: { type: "string" }, enableWebVitalsTracking: { type: "boolean" }, selfHostedOrigin: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["trackingId"] };
+var H = { type: "object", properties: { frontMatterKeysToResolve: { type: "array", items: { type: "string" } }, partialsFolders: { type: "array", items: { type: "string" } }, lastUpdatedBlock: { type: "object", properties: { format: { type: "string", enum: ["timeago", "iso", "long", "short"] }, locale: { type: "string" }, ...o.properties }, additionalProperties: false }, toc: { type: "object", properties: { header: { type: "string" }, depth: { type: "integer", minimum: 1 }, ...o.properties }, additionalProperties: false }, editPage: { type: "object", properties: { baseUrl: { type: "string" }, ...o.properties }, additionalProperties: false }, template: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
+var R = { ...S, properties: { ...S.properties, ...ie.properties } };
+var Ys = { ...S, properties: { ...S.properties, ...ie.properties } };
+var Xt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, scriptUrl: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["scriptUrl"] };
+var Qt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, apiKey: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, outboundClickEventName: { type: "string" }, pageViewEventName: { type: "string" }, amplitudeConfig: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["apiKey"] };
+var Zt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, orgId: { type: "string" } }, additionalProperties: false, required: ["orgId"] };
+var eo = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, appId: { type: "string" } }, additionalProperties: false, required: ["appId"] };
+var to = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, dataPlaneUrl: { type: "string" }, controlPlaneUrl: { type: "string" }, sdkUrl: { type: "string" }, loadOptions: { type: "object", additionalProperties: true } }, additionalProperties: false, required: ["writeKey"] };
+var oo = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, writeKey: { type: "string", minLength: 10 }, trackPage: { type: "boolean" }, includeTitleInPageCall: { type: "boolean" }, host: { type: "string" } }, additionalProperties: false, required: ["writeKey"] };
+var so = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, gtmAuth: { type: "string" }, gtmPreview: { type: "string" }, defaultDataLayer: { type: "object", additionalProperties: true }, dataLayerName: { type: "string" }, enableWebVitalsTracking: { type: "boolean" }, selfHostedOrigin: { type: "string" }, pageViewEventName: { type: "string" } }, additionalProperties: false, required: ["trackingId"] };
 var ne = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, optimizeId: { type: "string" }, exclude: { type: "array", items: { type: "string" } } }, additionalProperties: false, required: ["trackingId"] };
-var Qt = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, optimizeId: { type: "string" }, anonymizeIp: { type: "boolean" }, cookieExpires: { type: "number" }, trackers: { type: "object", additionalProperties: ne } }, additionalProperties: false, required: ["trackingId"] };
-var H = { type: "object", properties: { adobe: Yt, amplitude: Vt, fullstory: Ht, heap: Kt, rudderstack: Wt, segment: $t, gtm: Xt, ga: Qt } };
+var io = { type: "object", properties: { includeInDevelopment: { type: "boolean" }, trackingId: { type: "string" }, conversionId: { type: "string" }, floodlightId: { type: "string" }, head: { type: "boolean" }, respectDNT: { type: "boolean" }, exclude: { type: "array", items: { type: "string" } }, optimizeId: { type: "string" }, anonymizeIp: { type: "boolean" }, cookieExpires: { type: "number" }, trackers: { type: "object", additionalProperties: ne } }, additionalProperties: false, required: ["trackingId"] };
+var V = { type: "object", properties: { adobe: Xt, amplitude: Qt, fullstory: Zt, heap: eo, rudderstack: to, segment: oo, gtm: so, ga: io } };
 var Te = { type: "object", properties: { mode: { type: "string", enum: ["auto", "opt-in", "opt-out", "none", "onetrust", "cookiebot", "trustarc", "tcf"] }, privacyPolicyUrl: { type: "string" }, expires: { type: "number" }, settingsLink: { type: "string", enum: ["auto", "footer", "none"] } }, additionalProperties: false };
-var K = { type: "object", properties: { items: { type: "array", items: { type: "object", properties: { label: { type: "string" }, external: { type: "boolean" }, link: { type: "string" }, separatorLine: { type: "boolean" } }, additionalProperties: true } }, hideLoginButton: { type: "boolean" }, ...o.properties }, additionalProperties: false };
-var W = { type: "object", properties: { hide: { type: "boolean" }, showForUnversioned: { type: "boolean" } } };
+var W = { type: "object", properties: { items: { type: "array", items: { type: "object", properties: { label: { type: "string" }, external: { type: "boolean" }, link: { type: "string" }, separatorLine: { type: "boolean" } }, additionalProperties: true } }, hideLoginButton: { type: "boolean" }, ...o.properties }, additionalProperties: false };
+var K = { type: "object", properties: { hide: { type: "boolean" }, showForUnversioned: { type: "boolean" } } };
 var $ = { type: "object", properties: { hide: { type: "boolean" }, prefixItems: { type: "array", items: { type: "object", properties: { label: { type: "string" }, labelTranslationKey: { type: "string" }, page: { type: "string" }, icon: { type: "string" } }, additionalProperties: false } } }, additionalProperties: false };
-var Zt = { type: "object", additionalProperties: false, required: ["title", "property"], properties: { type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, property: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } }, missingCategoryName: { type: "string" }, missingCategoryNameTranslationKey: { type: "string" }, options: { type: "array", items: { type: "string" } } } };
-var eo = { type: "object", additionalProperties: true, required: ["slug", "items"], properties: { show: { type: "boolean" }, slug: { type: "string" }, filters: { type: "array", items: Zt }, groupByFirstFilter: { type: "boolean" }, filterValuesCasing: { type: "string", enum: ["sentence", "original", "lowercase", "uppercase"] }, items: ae, requiredPermission: { type: "string" }, separateVersions: { type: "boolean" }, title: { type: "string" }, titleTranslationKey: { type: "string" }, description: { type: "string" }, descriptionTranslationKey: { type: "string" } } };
-var P = { type: "object", patternProperties: { ".*": eo } };
-var O = { nodeTypeName: s.ScorecardClassic, description: "Add and create sets of rules and test your API description files against them. With these rules you can maintain quality across your existing APIs and ensure that newly-added or updated APIs match your criteria. An API scorecard can include multiple sets of rules, corresponding to different quality levels.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic", type: "object", additionalProperties: true, required: [], properties: { ignoreNonCompliant: { type: "boolean" }, teamMetadataProperty: { nodeTypeName: s.ScorecardClassicTeamMetadataProperty, description: "Provide custom team label and team metadata property.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#team-metadata-object", type: "object", properties: { property: { type: "string" }, label: { type: "string" }, default: { type: "string" } } }, levels: { nodeTypeName: s.ScorecardClassicLevelList, description: "List of levels to score against.", type: "array", items: { nodeTypeName: s.ScorecardClassicLevel, documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#level-object", type: "object", required: ["name"], properties: { name: { type: "string" }, color: { type: "string" }, ...f }, additionalProperties: false } }, targets: { nodeTypeName: s.ScorecardClassicTargetList, description: "Provide custom `minimumLevel` for specific targets.", type: "array", items: { nodeTypeName: s.ScorecardClassicTarget, type: "object", required: ["where"], properties: { minimumLevel: { type: "string" }, rules: { type: "object", additionalProperties: true }, where: { nodeTypeName: s.ScorecardClassicTargetWhere, description: "Specify which API descriptions to apply the `minimumLevel` to based on the metadata.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#where-object", type: "object", required: ["metadata"], properties: { metadata: { nodeTypeName: s.ScorecardClassicTargetWhereMetadata, type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false } }, additionalProperties: false } }, ignore: { type: "array", items: { type: "string" } }, fromProjectUrl: { type: "string", format: "uri" } } };
-var to = { type: "object", required: ["key"], properties: { key: { type: "string" } }, additionalProperties: false };
-var oo = { type: "object", required: ["type"], properties: { type: { type: "string" } }, additionalProperties: false };
-var io = { type: "object", required: ["property", "title"], properties: { property: { type: "string" }, hide: { type: "boolean" }, label: { type: "string" }, options: { type: "array", items: { type: "string" } }, type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
-var l = { type: "object", properties: { slug: { type: "string" }, hide: { type: "boolean" }, includes: { type: "array", items: oo }, excludes: { type: "array", items: to }, filters: { type: "array", items: io }, titleTranslationKey: { type: "string" }, descriptionTranslationKey: { type: "string" }, catalogSwitcherLabelTranslationKey: { type: "string" } }, additionalProperties: false };
-var so = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean", "array", "object"] }, description: { type: "string" }, example: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }, { type: "array" }, { type: "object" }] }, enum: { type: "array", items: { type: "string" } }, pattern: { type: "string" }, format: { type: "string" }, minimum: { type: "number" }, maximum: { type: "number" }, items: { type: "object" } }, additionalProperties: true };
-var ro = { type: "object", required: ["type", "properties"], properties: { type: { type: "string", enum: ["object"] }, description: { type: "string" }, properties: { type: "object", additionalProperties: so }, required: { type: "array", items: { type: "string" } }, additionalProperties: { type: "boolean" } }, additionalProperties: true };
-var ao = { type: "object", required: ["name", "description", "metadataSchema"], properties: { name: { type: "string", description: "Display name of the entity type" }, description: { type: "string", description: "Description of the entity type" }, metadataSchema: ro, icon: { type: "object", properties: { src: { type: "string" }, srcSet: { type: "string" } }, additionalProperties: false } }, additionalProperties: false };
-var no = { type: "object", additionalProperties: ao };
-var X = { type: "object", properties: { show: { type: "boolean" }, entityTypes: no, catalogs: { type: "object", properties: { all: l, services: l, domains: l, teams: l, users: l, apiDescriptions: l, dataSchemas: l, apiOperations: l }, additionalProperties: l } }, additionalProperties: false };
-var ve = { type: "string", enum: ["eq", "in", "gt", "gte", "lt", "lte", "contains", "startsWith", "endsWith", "exists", "isEmpty", "between", "matches", "some", "every", "none"] };
+var ro = { type: "object", additionalProperties: false, required: ["title", "property"], properties: { type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, property: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } }, missingCategoryName: { type: "string" }, missingCategoryNameTranslationKey: { type: "string" }, options: { type: "array", items: { type: "string" } } } };
+var ao = { type: "object", additionalProperties: true, required: ["slug", "items"], properties: { show: { type: "boolean" }, slug: { type: "string" }, filters: { type: "array", items: ro }, groupByFirstFilter: { type: "boolean" }, filterValuesCasing: { type: "string", enum: ["sentence", "original", "lowercase", "uppercase"] }, items: ae, requiredPermission: { type: "string" }, separateVersions: { type: "boolean" }, title: { type: "string" }, titleTranslationKey: { type: "string" }, description: { type: "string" }, descriptionTranslationKey: { type: "string" } } };
+var O = { type: "object", patternProperties: { ".*": ao } };
+var P = { nodeTypeName: i.ScorecardClassic, description: "Add and create sets of rules and test your API description files against them. With these rules you can maintain quality across your existing APIs and ensure that newly-added or updated APIs match your criteria. An API scorecard can include multiple sets of rules, corresponding to different quality levels.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic", type: "object", additionalProperties: true, required: [], properties: { ignoreNonCompliant: { type: "boolean" }, teamMetadataProperty: { nodeTypeName: i.ScorecardClassicTeamMetadataProperty, description: "Provide custom team label and team metadata property.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#team-metadata-object", type: "object", properties: { property: { type: "string" }, label: { type: "string" }, default: { type: "string" } } }, levels: { nodeTypeName: i.ScorecardClassicLevelList, description: "List of levels to score against.", type: "array", items: { nodeTypeName: i.ScorecardClassicLevel, documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#level-object", type: "object", required: ["name"], properties: { name: { type: "string" }, color: { type: "string" }, ...f }, additionalProperties: false } }, targets: { nodeTypeName: i.ScorecardClassicTargetList, description: "Provide custom `minimumLevel` for specific targets.", type: "array", items: { nodeTypeName: i.ScorecardClassicTarget, type: "object", required: ["where"], properties: { minimumLevel: { type: "string" }, rules: { type: "object", additionalProperties: true }, where: { nodeTypeName: i.ScorecardClassicTargetWhere, description: "Specify which API descriptions to apply the `minimumLevel` to based on the metadata.", documentationLink: "https://redocly.com/docs/realm/config/scorecard-classic#where-object", type: "object", required: ["metadata"], properties: { metadata: { nodeTypeName: i.ScorecardClassicTargetWhereMetadata, type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false } }, additionalProperties: false } }, ignore: { type: "array", items: { type: "string" } }, fromProjectUrl: { type: "string", format: "uri" } } };
+var no = { type: "object", required: ["key"], properties: { key: { type: "string" } }, additionalProperties: false };
+var po = { type: "object", required: ["type"], properties: { type: { type: "string" } }, additionalProperties: false };
+var co = { type: "object", required: ["property", "title"], properties: { property: { type: "string" }, hide: { type: "boolean" }, label: { type: "string" }, options: { type: "array", items: { type: "string" } }, type: { type: "string", enum: ["select", "checkboxes", "date-range"] }, title: { type: "string" }, titleTranslationKey: { type: "string" }, parentFilter: { type: "string" }, valuesMapping: { type: "object", additionalProperties: { type: "string" } } }, additionalProperties: false };
+var l = { type: "object", properties: { slug: { type: "string" }, hide: { type: "boolean" }, includes: { type: "array", items: po }, excludes: { type: "array", items: no }, filters: { type: "array", items: co }, titleTranslationKey: { type: "string" }, descriptionTranslationKey: { type: "string" }, catalogSwitcherLabelTranslationKey: { type: "string" } }, additionalProperties: false };
+var yo = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean", "array", "object"] }, description: { type: "string" }, example: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }, { type: "array" }, { type: "object" }] }, enum: { type: "array", items: { type: "string" } }, pattern: { type: "string" }, format: { type: "string" }, minimum: { type: "number" }, maximum: { type: "number" }, items: { type: "object" } }, additionalProperties: true };
+var lo = { type: "object", required: ["type", "properties"], properties: { type: { type: "string", enum: ["object"] }, description: { type: "string" }, properties: { type: "object", additionalProperties: yo }, required: { type: "array", items: { type: "string" } }, additionalProperties: { type: "boolean" } }, additionalProperties: true };
+var mo = { type: "object", required: ["name", "description", "metadataSchema"], properties: { name: { type: "string", description: "Display name of the entity type" }, description: { type: "string", description: "Description of the entity type" }, metadataSchema: lo, icon: { type: "object", properties: { src: { type: "string" }, srcSet: { type: "string" } }, additionalProperties: false } }, additionalProperties: false };
+var go = { type: "object", additionalProperties: mo };
+var X = { type: "object", properties: { show: { type: "boolean" }, entityTypes: go, catalogs: { type: "object", properties: { all: l, services: l, domains: l, teams: l, users: l, apiDescriptions: l, dataSchemas: l, apiOperations: l }, additionalProperties: l } }, additionalProperties: false };
+var Je = { type: "string", enum: ["eq", "in", "gt", "gte", "lt", "lte", "contains", "startsWith", "endsWith", "exists", "isEmpty", "between", "matches", "some", "every", "none"] };
 var ce = { type: "string", enum: ["and", "or"] };
-var pe = { type: "object", properties: { field: { type: "string" }, operator: ve, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] }, match: { type: "array", items: { type: "object", properties: { field: { type: "string" }, operator: ve, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] } } } } } };
-var po = { type: "object", properties: { operator: ce, conditions: { type: "array", items: pe } }, required: ["operator", "conditions"], additionalProperties: false };
-var ke = { type: "array", items: { oneOf: [pe, { type: "object", properties: { operator: ce, conditions: { type: "array", items: { oneOf: [pe, po] } } }, required: ["operator", "conditions"], additionalProperties: false }] } };
-var Je = { type: "object", properties: { defined: { type: "boolean" }, nonEmpty: { type: "boolean" }, eq: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, gt: { type: "number" }, gte: { type: "number" }, lt: { type: "number" }, lte: { type: "number" }, const: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] } }, additionalProperties: false };
-var co = { type: "array", items: { type: "object", properties: { subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, assertions: Je }, required: ["subject", "assertions"], additionalProperties: false } };
-var yo = { type: "object", properties: { title: { type: "string" }, subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, severity: { type: "string", enum: ["error", "warn", "off"] }, message: { type: "string" }, assertions: Je, where: co, weight: { type: "number" } }, required: ["subject", "assertions"], additionalProperties: false };
-var lo = { type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object", properties: { severity: { type: "string", enum: ["error", "warn", "off"] }, weight: { type: "number" } }, additionalProperties: true }, yo] } };
-var go = { type: "object", properties: { name: { type: "string" }, extends: f.extends, rules: lo }, required: ["name"], additionalProperties: false };
-var Ie = { type: "object", properties: { event: { type: "string", enum: ["runtime", "manual"] } }, required: ["event"], additionalProperties: false };
-var mo = { oneOf: [Ie, { type: "array", items: Ie }] };
-var fo = { type: "object", properties: { name: { type: "string" }, key: { type: "string" }, description: { type: "string" }, entities: { oneOf: [ke, { type: "object", properties: { operator: ce, conditions: ke }, required: ["operator", "conditions"], additionalProperties: false }] }, levels: { type: "array", items: go, minItems: 1 }, trigger: mo }, required: ["name", "key", "entities", "levels"], additionalProperties: false };
-var Q = { type: "array", items: fo };
-var a = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, logo: D, navbar: _, products: A, footer: q, sidebar: w, scripts: M, links: U, feedback: c, search: B, aiAssistant: G, colorMode: F, palette: C, navigation: z, codeSnippet: Y, markdown: V, openapi: R, asyncapi: Ce, graphql: b, analytics: H, userMenu: K, versionPicker: W, breadcrumbs: $, catalog: P, entitiesCatalog: X, catalogClassic: P, scorecard: O, scorecardClassic: O, scorecards: Q }, additionalProperties: true };
-var ye = ((i) => (i.OIDC = "OIDC", i.SAML2 = "SAML2", i))(ye || {});
-var le = ((i) => (i.SERVICE_ACCOUNT = "SERVICE_ACCOUNT", i.OAUTH2 = "OAUTH2", i))(le || {});
-var Le = ((i) => (i.STACKED = "stacked", i.THREE_PANEL = "three-panel", i))(Le || {});
+var pe = { type: "object", properties: { field: { type: "string" }, operator: Je, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] }, match: { type: "array", items: { type: "object", properties: { field: { type: "string" }, operator: Je, value: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, modifier: { type: "string", enum: ["not"] } } } } } };
+var fo = { type: "object", properties: { operator: ce, conditions: { type: "array", items: pe } }, required: ["operator", "conditions"], additionalProperties: false };
+var ke = { type: "array", items: { oneOf: [pe, { type: "object", properties: { operator: ce, conditions: { type: "array", items: { oneOf: [pe, fo] } } }, required: ["operator", "conditions"], additionalProperties: false }] } };
+var Ie = { type: "object", properties: { defined: { type: "boolean" }, nonEmpty: { type: "boolean" }, eq: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] }, gt: { type: "number" }, gte: { type: "number" }, lt: { type: "number" }, lte: { type: "number" }, const: { oneOf: [{ type: "boolean" }, { type: "string" }, { type: "number" }] } }, additionalProperties: false };
+var So = { type: "array", items: { type: "object", properties: { subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, assertions: Ie }, required: ["subject", "assertions"], additionalProperties: false } };
+var ho = { type: "object", properties: { title: { type: "string" }, subject: { type: "object", properties: { type: { type: "string", enum: ["Entity", "EntityMetadata", "EntityRelations", "EntityRelation"] }, property: { type: "string" } }, required: ["type", "property"], additionalProperties: false }, severity: { type: "string", enum: ["error", "warn", "off"] }, message: { type: "string" }, assertions: Ie, where: So, weight: { type: "number" } }, required: ["subject", "assertions"], additionalProperties: false };
+var uo = { type: "object", additionalProperties: { oneOf: [{ type: "string" }, { type: "object", properties: { severity: { type: "string", enum: ["error", "warn", "off"] }, weight: { type: "number" } }, additionalProperties: true }, ho] } };
+var bo = { type: "object", properties: { name: { type: "string" }, extends: f.extends, rules: uo }, required: ["name"], additionalProperties: false };
+var ve = { type: "object", properties: { event: { type: "string", enum: ["runtime", "manual"] } }, required: ["event"], additionalProperties: false };
+var Co = { oneOf: [ve, { type: "array", items: ve }] };
+var Ro = { type: "object", properties: { name: { type: "string" }, key: { type: "string" }, description: { type: "string" }, entities: { oneOf: [ke, { type: "object", properties: { operator: ce, conditions: ke }, required: ["operator", "conditions"], additionalProperties: false }] }, levels: { type: "array", items: bo, minItems: 1 }, trigger: Co }, required: ["name", "key", "entities", "levels"], additionalProperties: false };
+var Q = { type: "array", items: Ro };
+var a = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, logo: D, navbar: A, products: _, footer: q, sidebar: M, scripts: w, links: U, feedback: c, search: z, aiAssistant: B, colorMode: G, palette: C, navigation: F, codeSnippet: Y, markdown: H, openapi: R, asyncapi: Ce, graphql: u, analytics: V, userMenu: W, versionPicker: K, breadcrumbs: $, catalog: O, entitiesCatalog: X, catalogClassic: O, scorecard: P, scorecardClassic: P, scorecards: Q }, additionalProperties: true };
+var Le = ((s) => (s.OIDC = "OIDC", s.SAML2 = "SAML2", s))(Le || {});
+var De = ((s) => (s.SERVICE_ACCOUNT = "SERVICE_ACCOUNT", s.OAUTH2 = "OAUTH2", s))(De || {});
+var Ae = ((s) => (s.STACKED = "stacked", s.THREE_PANEL = "three-panel", s))(Ae || {});
 var Z = "^[a-z0-9]+(?:-[a-z0-9]+)*$";
-var Co = new RegExp(Z);
-var De = 63;
-var Po = `Unique ID cannot exceed ${De} characters`;
+var xo = new RegExp(Z);
+var _e = 63;
+var To = `Unique ID cannot exceed ${_e} characters`;
 var ee = "redocly";
 var te = [ee, "corporate", "guest"];
-var Oo = `Unique ID cannot be a reserved word (${te.join(", ")})`;
-var de = ["REDOCLY", "CORPORATE", "GUEST"];
-var No = { type: "object", additionalProperties: { type: "string" } };
-var xo = { type: "object", additionalProperties: false, patternProperties: { "^[a-zA-Z0-9_-]+$": { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" } } };
+var Jo = `Unique ID cannot be a reserved word (${te.join(", ")})`;
+var ye = ["REDOCLY", "CORPORATE", "GUEST"];
+var ko = { type: "object", additionalProperties: { type: "string" } };
+var vo = { type: "object", additionalProperties: false, patternProperties: { "^[a-zA-Z0-9_-]+$": { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" } } };
 var oe = { type: "string", enum: ["error", "warn", "off"] };
-var jo = { type: "object", additionalProperties: false, properties: { schemaCheck: oe, statusCodeCheck: oe, contentTypeCheck: oe, successCriteriaCheck: oe } };
-var Eo = { type: "object", properties: { event: { type: "string", enum: ["schedule"] }, interval: { type: "string", enum: ["1m", "2m", "5m", "10m", "15m", "30m", "1h", "3h", "6h", "12h", "1d", "7d"] } }, required: ["event"], additionalProperties: false };
-var To = { type: "object", properties: { event: { type: "string", enum: ["build"] } }, required: ["event"], additionalProperties: false };
-var vo = { type: "object", properties: { warn: { type: "number" }, error: { type: "number" } }, additionalProperties: false };
-var ko = { type: "object", additionalProperties: { type: "object", properties: { type: { type: "string", enum: ["http"] }, url: { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" }, description: { type: "string" }, headers: { type: "object", additionalProperties: { type: "string" } } }, required: ["url"], additionalProperties: false } };
-var _e = { type: "object", properties: { ignoreLint: { oneOf: [{ type: "boolean" }, { type: "object", additionalProperties: { type: "boolean" } }] }, ignoreLinkChecker: { type: "boolean" }, ignoreMarkdocErrors: { type: "boolean" }, ignoreRespectMonitoring: { type: "boolean" }, jobs: { type: "array", items: { type: "object", properties: { path: { type: "string", pattern: "^(?!\\/|\\.\\./)" }, agent: { type: "string", enum: ["respect"] }, trigger: { oneOf: [Eo, To] }, inputs: No, servers: xo, severity: jo, slo: vo }, required: ["path", "trigger", "agent"], additionalProperties: false } }, mcpServers: ko }, additionalProperties: false };
-var qe = { type: "string", enum: ["off", "info", "warn", "error"] };
-var j = { type: "array", items: { type: "string" } };
-var Io = { type: "object", properties: { severity: qe, message: { type: "string", minLength: 1 }, fix: { type: "boolean" }, tags: j, description: { type: "string" }, link: { type: "string" }, scope: { oneOf: [{ type: "string", minLength: 1 }, { type: "array", items: { type: "string", minLength: 1 }, minItems: 1 }] }, appliesTo: j, excludes: j, exceptions: { type: "object", properties: { files: j, lines: j }, additionalProperties: false }, assertions: { type: "object", additionalProperties: true } }, additionalProperties: false };
-var Jo = { oneOf: [qe, Io] };
-var Ae = { type: "object", additionalProperties: Jo };
-var Lo = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean"] }, required: { type: "boolean" }, default: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }] }, enum: { type: "array", items: { type: "string" }, minItems: 1 }, dynamic: { type: "boolean" } }, required: ["type"], additionalProperties: false };
-var Do = { type: "object", properties: { selfClosing: { type: "boolean" }, attributes: { type: "object", additionalProperties: Lo } }, additionalProperties: false };
-var _o = { type: "object", properties: { schema: { oneOf: [{ type: "string", enum: ["realm"] }, { type: "boolean" }] }, extend: { type: "object", properties: { tags: { type: "object", additionalProperties: Do }, tagsFile: { type: "string", minLength: 1 } }, additionalProperties: false } }, required: ["schema"], additionalProperties: false };
-var ge = { type: "object", properties: { rules: Ae, excludes: { type: "array", items: { type: "string", minLength: 1 } }, baseline: { type: "string", minLength: 1 }, markdoc: { oneOf: [{ type: "boolean" }, _o] }, apiDescriptions: { type: "object", properties: { rules: Ae }, additionalProperties: false } }, additionalProperties: false };
-var Ao = { type: "object", properties: { end_session_endpoint: { type: "string" }, token_endpoint: { type: "string" }, authorization_endpoint: { type: "string" }, jwks_uri: { type: "string" } }, required: ["token_endpoint", "authorization_endpoint"], additionalProperties: true };
-var qo = { type: "object", properties: { type: { type: "string", const: "OIDC" }, title: { type: "string" }, pkce: { type: "boolean" }, configurationUrl: { type: "string", minLength: 1 }, configuration: Ao, clientId: { type: "string", minLength: 1 }, clientSecret: { type: "string" }, teamsClaimName: { type: "string" }, teamsClaimMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } }, scopes: { type: "array", items: { type: "string" } }, tokenExpirationTime: { type: "number" }, authorizationRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, introspectEndpoint: { type: "string" }, tokenRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, audience: { type: "array", items: { type: "string" } } }, required: ["type", "clientId"], oneOf: [{ required: ["configurationUrl"] }, { required: ["configuration"] }], additionalProperties: false };
+var Io = { type: "object", additionalProperties: false, properties: { schemaCheck: oe, statusCodeCheck: oe, contentTypeCheck: oe, successCriteriaCheck: oe } };
+var Lo = { type: "object", properties: { event: { type: "string", enum: ["schedule"] }, interval: { type: "string", enum: ["1m", "2m", "5m", "10m", "15m", "30m", "1h", "3h", "6h", "12h", "1d", "7d"] } }, required: ["event"], additionalProperties: false };
+var Do = { type: "object", properties: { event: { type: "string", enum: ["build"] } }, required: ["event"], additionalProperties: false };
+var Ao = { type: "object", properties: { warn: { type: "number" }, error: { type: "number" } }, additionalProperties: false };
+var _o = { type: "object", additionalProperties: { type: "object", properties: { type: { type: "string", enum: ["http"] }, url: { type: "string", pattern: "^https?://[^\\s/$.?#].[^\\s]*$" }, description: { type: "string" }, headers: { type: "object", additionalProperties: { type: "string" } } }, required: ["url"], additionalProperties: false } };
+var qe = { type: "object", properties: { ignoreLint: { oneOf: [{ type: "boolean" }, { type: "object", additionalProperties: { type: "boolean" } }] }, ignoreLinkChecker: { type: "boolean" }, ignoreMarkdocErrors: { type: "boolean" }, ignoreRespectMonitoring: { type: "boolean" }, jobs: { type: "array", items: { type: "object", properties: { path: { type: "string", pattern: "^(?!\\/|\\.\\./)" }, agent: { type: "string", enum: ["respect"] }, trigger: { oneOf: [Lo, Do] }, inputs: ko, servers: vo, severity: Io, slo: Ao }, required: ["path", "trigger", "agent"], additionalProperties: false } }, mcpServers: _o }, additionalProperties: false };
+var de = { type: "string", enum: ["off", "info", "warn", "error"] };
+var x = { type: "array", items: { type: "string" } };
+var Me = { type: "object", properties: { severity: de, message: { type: "string", minLength: 1 }, fix: { type: "boolean" }, tags: x, description: { type: "string" }, link: { type: "string" }, scope: { oneOf: [{ type: "string", minLength: 1 }, { type: "array", items: { type: "string", minLength: 1 }, minItems: 1 }] }, appliesTo: x, excludes: x, exceptions: { type: "object", properties: { files: x, lines: x }, additionalProperties: false }, assertions: { type: "object", additionalProperties: true } }, additionalProperties: false };
+var we = { oneOf: [de, Me] };
+var le = { type: "object", additionalProperties: we };
+var Ue = { type: "object", properties: { type: { type: "string", enum: ["string", "number", "boolean"] }, required: { type: "boolean" }, default: { oneOf: [{ type: "string" }, { type: "number" }, { type: "boolean" }] }, enum: { type: "array", items: { type: "string" }, minItems: 1 }, dynamic: { type: "boolean" } }, required: ["type"], additionalProperties: false };
+var ze = { type: "object", properties: { selfClosing: { type: "boolean" }, attributes: { type: "object", additionalProperties: Ue } }, additionalProperties: false };
+var Be = { type: "object", properties: { schema: { oneOf: [{ type: "string", enum: ["realm"] }, { type: "boolean" }] }, extend: { type: "object", properties: { tags: { type: "object", additionalProperties: ze }, tagsFile: { type: "string", minLength: 1 } }, additionalProperties: false } }, required: ["schema"], additionalProperties: false };
+var Ge = { oneOf: [{ type: "boolean" }, Be] };
+var me = { type: "object", properties: { rules: le, excludes: { type: "array", items: { type: "string", minLength: 1 } }, markdoc: Ge, apiDescriptions: { type: "object", properties: { rules: le }, additionalProperties: false } }, additionalProperties: false };
+var qo = { type: "object", properties: { end_session_endpoint: { type: "string" }, token_endpoint: { type: "string" }, authorization_endpoint: { type: "string" }, jwks_uri: { type: "string" } }, required: ["token_endpoint", "authorization_endpoint"], additionalProperties: true };
+var Mo = { type: "object", properties: { type: { type: "string", const: "OIDC" }, title: { type: "string" }, pkce: { type: "boolean" }, configurationUrl: { type: "string", minLength: 1 }, configuration: qo, clientId: { type: "string", minLength: 1 }, clientSecret: { type: "string" }, teamsClaimName: { type: "string" }, teamsClaimMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } }, scopes: { type: "array", items: { type: "string" } }, tokenExpirationTime: { type: "number" }, authorizationRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, introspectEndpoint: { type: "string" }, tokenRequestCustomParams: { type: "object", additionalProperties: { type: "string" } }, audience: { type: "array", items: { type: "string" } } }, required: ["type", "clientId"], oneOf: [{ required: ["configurationUrl"] }, { required: ["configuration"] }], additionalProperties: false };
 var wo = { type: "object", properties: { type: { type: "string", const: "SAML2" }, title: { type: "string" }, issuerId: { type: "string" }, entityId: { type: "string" }, ssoUrl: { type: "string" }, x509PublicCert: { type: "string" }, teamsAttributeName: { type: "string" }, teamsAttributeMap: { type: "object", additionalProperties: { type: "string" } }, defaultTeams: { type: "array", items: { type: "string" } } }, additionalProperties: false, required: ["type", "issuerId", "ssoUrl", "x509PublicCert"] };
-var Mo = { oneOf: [qo, wo], discriminator: { propertyName: "type" } };
-var Uo = { type: "object", additionalProperties: Mo };
-var Ue = { oneOf: [{ type: "array", items: { type: "string", enum: de }, uniqueItems: true }, { type: "string", enum: de }] };
-var we = { type: "string", pattern: Z, not: { enum: te.filter((d) => d !== ee) } };
-var Be = { oneOf: [{ type: "array", items: we, uniqueItems: true }, we] };
-var Ge = { type: "boolean" };
-var Fe = { type: "string", pattern: "^https?://.*" };
-var ze = { type: "string", pattern: "^https?://.*" };
-var Bo = { type: "object", properties: { to: { type: "string" }, type: { type: "number" } }, additionalProperties: false, nodeTypeName: s.RedirectSource, description: "Source is an absolute path that must start with a forward slash.", documentationLink: "https://redocly.com/docs/realm/config/redirects#sources-map" };
-var Go = { type: "object", additionalProperties: Bo, nodeTypeName: s.Redirects, description: "Use redirects to change which resource a URL points to, maintaining working links when you move, rename, or restructure content.", documentationLink: "https://redocly.com/docs/realm/config/redirects" };
+var Uo = { oneOf: [Mo, wo], discriminator: { propertyName: "type" } };
+var zo = { type: "object", additionalProperties: Uo };
+var He = { oneOf: [{ type: "array", items: { type: "string", enum: ye }, uniqueItems: true }, { type: "string", enum: ye }] };
+var Fe = { type: "string", pattern: Z, not: { enum: te.filter((d) => d !== ee) } };
+var Ve = { oneOf: [{ type: "array", items: Fe, uniqueItems: true }, Fe] };
+var We = { type: "boolean" };
+var Ke = { type: "string", pattern: "^https?://.*" };
+var $e = { type: "string", pattern: "^https?://.*" };
+var Bo = { type: "object", properties: { to: { type: "string" }, type: { type: "number" } }, additionalProperties: false, nodeTypeName: i.RedirectSource, description: "Source is an absolute path that must start with a forward slash.", documentationLink: "https://redocly.com/docs/realm/config/redirects#sources-map" };
+var Go = { type: "object", additionalProperties: Bo, nodeTypeName: i.Redirects, description: "Use redirects to change which resource a URL points to, maintaining working links when you move, rename, or restructure content.", documentationLink: "https://redocly.com/docs/realm/config/redirects" };
 var Fo = { type: "string", enum: ["info", "success", "warning", "error"] };
 var e = { type: "object", additionalProperties: { type: "string" } };
-var zo = { type: "object", properties: { trackingId: { type: "string" }, content: { type: "string", uiHint: "textarea" }, dismissible: { type: "boolean" }, target: { type: "string" }, color: Fo, rbac: e, startAt: { type: "string", format: "date-time" }, endAt: { type: "string", format: "date-time" } }, required: ["content"], additionalProperties: false };
-var Yo = { type: "array", items: zo };
-var fe = { type: "object", properties: { root: { type: "string" }, output: { type: "string", pattern: "(.ya?ml|.json)$" }, overlays: { type: "array", items: { type: "string" } }, rbac: e, openapi: R, graphql: b, theme: { type: "object", properties: { openapi: R, graphql: b }, additionalProperties: false }, title: { type: "string" }, metadata: { type: "object", additionalProperties: true }, ...f }, required: ["root"] };
+var Yo = { type: "object", properties: { trackingId: { type: "string" }, content: { type: "string", uiHint: "textarea" }, dismissible: { type: "boolean" }, target: { type: "string" }, color: Fo, rbac: e, startAt: { type: "string", format: "date-time" }, endAt: { type: "string", format: "date-time" } }, required: ["content"], additionalProperties: false };
+var Ho = { type: "array", items: Yo };
+var fe = { type: "object", properties: { root: { type: "string" }, output: { type: "string", pattern: "(.ya?ml|.json)$" }, overlays: { type: "array", items: { type: "string" } }, rbac: e, openapi: R, graphql: u, theme: { type: "object", properties: { openapi: R, graphql: u }, additionalProperties: false }, title: { type: "string" }, metadata: { type: "object", additionalProperties: true }, ...f }, required: ["root"] };
 var Vo = { type: "object", additionalProperties: true };
-var Ho = { type: "object", additionalProperties: { type: "object", additionalProperties: true } };
+var Wo = { type: "object", additionalProperties: { type: "object", additionalProperties: true } };
 var Ko = { type: "object", properties: { hide: { type: "boolean" }, title: { type: "string" }, description: { type: "string" }, details: { type: "object", properties: { path: { type: "string" }, content: { type: "string" } }, additionalProperties: false }, excludeFiles: { type: "array", items: { type: "string" } }, sections: { type: "array", items: { type: "object", properties: { title: { type: "string" }, description: { type: "string" }, includeFiles: { type: "array", items: { type: "string" } }, excludeFiles: { type: "array", items: { type: "string" } } }, required: ["title"], additionalProperties: false } } }, additionalProperties: false };
-var Wo = { type: "object", properties: { title: { type: "string" }, projectTitle: { type: "string" }, description: { type: "string", uiHint: "textarea" }, siteUrl: { type: "string" }, image: { type: "string", uiHint: "file" }, keywords: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, lang: { type: "string" }, jsonLd: { type: "object" }, meta: { type: "array", items: { type: "object", properties: { name: { type: "string" }, content: { type: "string" } }, required: ["name", "content"], additionalProperties: false } }, llmstxt: Ko }, additionalProperties: false };
-var $o = { type: "object", properties: { folders: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var Xo = { type: "object", properties: { catalogs: { type: "object", properties: { all: e, services: e, domains: e, teams: e, users: e, apiDescriptions: e, dataSchemas: e, apiOperations: e }, additionalProperties: e }, entitiesTypes: { type: "object", properties: { service: e, domain: e, team: e, user: e, apiDescription: e, apiOperation: e, dataSchema: e }, additionalProperties: e }, entitiesGroups: { type: "array", items: { type: "object", properties: { entities: { type: "array", items: { type: "string" } }, config: e }, additionalProperties: false } }, entities: { type: "object", properties: { "**": e }, additionalProperties: e } }, additionalProperties: false };
-var Se = { type: "object", properties: { teamNamePatterns: { type: "array", items: { type: "string" } }, teamFolders: { type: "array", items: { type: "string" } }, teamFoldersBaseRoles: e, cms: e, reunite: e, features: { type: "object", properties: { aiSearch: e, mcp: e }, additionalProperties: false }, content: { type: "object", properties: { "**": e }, additionalProperties: e }, entitiesCatalog: Xo }, additionalProperties: e };
-var Qo = { type: "object", properties: { static: { type: "string" } }, additionalProperties: false, required: ["static"] };
-var Zo = { type: "object", properties: { idp: { type: "string" } }, additionalProperties: false, required: ["idp"] };
-var ei = { type: "object", properties: { type: { type: "string", const: "GRAVITEE" }, apiBaseUrl: { type: "string" }, env: { type: "string" }, allowApiProductsOutsideCatalog: { type: "boolean" }, stage: { type: "string" }, auth: { oneOf: [Qo, Zo] } }, additionalProperties: false, required: ["type", "apiBaseUrl"] };
-var ti = { type: "object", properties: { type: { type: "string", const: "OAUTH2" }, tokenEndpoint: { type: "string" }, clientId: { type: "string" }, clientSecret: { type: "string" } }, additionalProperties: false, required: ["type", "tokenEndpoint", "clientId", "clientSecret"] };
-var oi = { type: "object", properties: { type: { type: "string", const: "SERVICE_ACCOUNT" }, serviceAccountEmail: { type: "string" }, serviceAccountPrivateKey: { type: "string" } }, additionalProperties: false, required: ["type", "serviceAccountEmail", "serviceAccountPrivateKey"] };
-var me = { type: "object", properties: { type: { type: "string", const: "APIGEE_X" }, apiUrl: { type: "string" }, stage: { type: "string" }, organizationName: { type: "string" }, ignoreApiProducts: { type: "array", items: { type: "string" } }, allowApiProductsOutsideCatalog: { type: "boolean" }, auth: { type: "object", oneOf: [ti, oi], discriminator: { propertyName: "type" } } }, additionalProperties: false, required: ["type", "organizationName", "auth"] };
-var ii = { ...me, properties: { ...me.properties, type: { type: "string", const: "APIGEE_EDGE" } } };
-var si = { type: "object", oneOf: [me, ii, ei], discriminator: { propertyName: "type" } };
-var ri = { type: "object", required: ["adapters"], additionalProperties: false, properties: { adapters: { type: "array", items: si } } };
-var Me = { type: "object", properties: { defaultLocale: { type: "string" }, locales: { type: "array", items: { type: "object", properties: { code: { type: "string" }, name: { type: "string" } }, required: ["code"] } } }, additionalProperties: false, required: ["defaultLocale"] };
-var ai = { type: "object", properties: { name: { type: "string" }, value: { type: "string" } }, additionalProperties: false, required: ["name", "value"] };
-var ni = { type: "object", properties: { hide: { type: "boolean" }, docs: { type: "object", properties: { hide: { type: "boolean" }, name: { type: "string" }, ignore: { type: "array", items: { type: "string" } }, publicEndpoint: { type: "boolean" } }, additionalProperties: false } }, additionalProperties: false };
-var pi = { type: "object", properties: { hide: { type: "boolean" }, excludeFiles: { type: "array", items: { type: "string" } } }, additionalProperties: false };
-var ci = { type: "object", properties: { requiresLogin: Ge, logoutReturnUrl: Fe, residency: ze, sso: Ue, idps: Be, rbac: Se }, additionalProperties: false, not: { required: ["sso", "idps"] }, description: "Use either `access.sso` (filter by category) or `access.idps` (filter by slug), not both." };
-var E = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, licenseKey: { type: "string" }, redirects: Go, seo: Wo, rbac: Se, apiFunctions: $o, requiresLogin: Ge, responseHeaders: { type: "object", additionalProperties: { type: "array", items: ai } }, mockServer: { type: "object", properties: { off: { type: "boolean" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, strictExamples: { type: "boolean" }, errorIfForcedExampleNotFound: { type: "boolean" }, description: { type: "string" } } }, apis: { type: "object", additionalProperties: fe }, ...f, ssoDirect: Uo, sso: Ue, idps: Be, residency: ze, logoutReturnUrl: Fe, access: ci, developerOnboarding: ri, removeAttribution: { type: "boolean" }, i18n: Me, l10n: Me, metadata: Vo, metadataGlobs: Ho, ignore: { type: "array", items: { type: "string" } }, theme: a, reunite: _e, logo: D, navbar: _, products: A, footer: q, sidebar: w, scripts: M, links: U, feedback: c, search: B, aiAssistant: G, colorMode: F, palette: C, navigation: z, codeSnippet: Y, markdown: V, openapi: R, graphql: b, analytics: H, consent: Te, userMenu: K, versionPicker: W, breadcrumbs: $, catalog: P, entitiesCatalog: X, catalogClassic: P, scorecard: O, scorecardClassic: O, scorecards: Q, mcp: ni, skills: pi, recheck: ge, corsProxy: { type: "object", properties: { allowedTargets: { type: "array", items: { type: "string" } } }, additionalProperties: false }, banner: Yo }, not: { required: ["sso", "idps"] }, additionalProperties: true };
-var yi = { ...E, additionalProperties: false };
-var li = { $id: "root-redocly-config", ...E, properties: { plugins: { type: "array", items: { type: "string" } }, ...E.properties, env: { type: "object", additionalProperties: yi } }, additionalProperties: false };
+var $o = { type: "object", properties: { title: { type: "string" }, projectTitle: { type: "string" }, description: { type: "string", uiHint: "textarea" }, siteUrl: { type: "string" }, image: { type: "string", uiHint: "file" }, keywords: { oneOf: [{ type: "array", items: { type: "string" } }, { type: "string" }] }, lang: { type: "string" }, jsonLd: { type: "object" }, meta: { type: "array", items: { type: "object", properties: { name: { type: "string" }, content: { type: "string" } }, required: ["name", "content"], additionalProperties: false } }, llmstxt: Ko }, additionalProperties: false };
+var Xo = { type: "object", properties: { folders: { type: "array", items: { type: "string" } } }, additionalProperties: false };
+var Qo = { type: "object", properties: { catalogs: { type: "object", properties: { all: e, services: e, domains: e, teams: e, users: e, apiDescriptions: e, dataSchemas: e, apiOperations: e }, additionalProperties: e }, entitiesTypes: { type: "object", properties: { service: e, domain: e, team: e, user: e, apiDescription: e, apiOperation: e, dataSchema: e }, additionalProperties: e }, entitiesGroups: { type: "array", items: { type: "object", properties: { entities: { type: "array", items: { type: "string" } }, config: e }, additionalProperties: false } }, entities: { type: "object", properties: { "**": e }, additionalProperties: e } }, additionalProperties: false };
+var Se = { type: "object", properties: { teamNamePatterns: { type: "array", items: { type: "string" } }, teamFolders: { type: "array", items: { type: "string" } }, teamFoldersBaseRoles: e, cms: e, reunite: e, features: { type: "object", properties: { aiSearch: e, mcp: e }, additionalProperties: false }, content: { type: "object", properties: { "**": e }, additionalProperties: e }, entitiesCatalog: Qo }, additionalProperties: e };
+var Zo = { type: "object", properties: { static: { type: "string" } }, additionalProperties: false, required: ["static"] };
+var es = { type: "object", properties: { idp: { type: "string" } }, additionalProperties: false, required: ["idp"] };
+var ts = { type: "object", properties: { type: { type: "string", const: "GRAVITEE" }, apiBaseUrl: { type: "string" }, env: { type: "string" }, allowApiProductsOutsideCatalog: { type: "boolean" }, stage: { type: "string" }, auth: { oneOf: [Zo, es] } }, additionalProperties: false, required: ["type", "apiBaseUrl"] };
+var os = { type: "object", properties: { type: { type: "string", const: "OAUTH2" }, tokenEndpoint: { type: "string" }, clientId: { type: "string" }, clientSecret: { type: "string" } }, additionalProperties: false, required: ["type", "tokenEndpoint", "clientId", "clientSecret"] };
+var ss = { type: "object", properties: { type: { type: "string", const: "SERVICE_ACCOUNT" }, serviceAccountEmail: { type: "string" }, serviceAccountPrivateKey: { type: "string" } }, additionalProperties: false, required: ["type", "serviceAccountEmail", "serviceAccountPrivateKey"] };
+var ge = { type: "object", properties: { type: { type: "string", const: "APIGEE_X" }, apiUrl: { type: "string" }, stage: { type: "string" }, organizationName: { type: "string" }, ignoreApiProducts: { type: "array", items: { type: "string" } }, allowApiProductsOutsideCatalog: { type: "boolean" }, auth: { type: "object", oneOf: [os, ss], discriminator: { propertyName: "type" } } }, additionalProperties: false, required: ["type", "organizationName", "auth"] };
+var is = { ...ge, properties: { ...ge.properties, type: { type: "string", const: "APIGEE_EDGE" } } };
+var rs = { type: "object", oneOf: [ge, is, ts], discriminator: { propertyName: "type" } };
+var as = { type: "object", required: ["adapters"], additionalProperties: false, properties: { adapters: { type: "array", items: rs } } };
+var Ye = { type: "object", properties: { defaultLocale: { type: "string" }, locales: { type: "array", items: { type: "object", properties: { code: { type: "string" }, name: { type: "string" } }, required: ["code"] } } }, additionalProperties: false, required: ["defaultLocale"] };
+var ns = { type: "object", properties: { name: { type: "string" }, value: { type: "string" } }, additionalProperties: false, required: ["name", "value"] };
+var ps = { type: "object", properties: { hide: { type: "boolean" }, docs: { type: "object", properties: { hide: { type: "boolean" }, name: { type: "string" }, ignore: { type: "array", items: { type: "string" } }, publicEndpoint: { type: "boolean" } }, additionalProperties: false } }, additionalProperties: false };
+var cs = { type: "object", properties: { hide: { type: "boolean" }, excludeFiles: { type: "array", items: { type: "string" } } }, additionalProperties: false };
+var ys = { type: "object", properties: { requiresLogin: We, logoutReturnUrl: Ke, residency: $e, sso: He, idps: Ve, rbac: Se }, additionalProperties: false, not: { required: ["sso", "idps"] }, description: "Use either `access.sso` (filter by category) or `access.idps` (filter by slug), not both." };
+var E = { type: "object", properties: { imports: { type: "array", items: { type: "string" } }, licenseKey: { type: "string" }, redirects: Go, seo: $o, rbac: Se, apiFunctions: Xo, requiresLogin: We, responseHeaders: { type: "object", additionalProperties: { type: "array", items: ns } }, mockServer: { type: "object", properties: { off: { type: "boolean" }, position: { type: "string", enum: ["first", "last", "replace", "off"] }, strictExamples: { type: "boolean" }, errorIfForcedExampleNotFound: { type: "boolean" }, description: { type: "string" } } }, apis: { type: "object", additionalProperties: fe }, ...f, ssoDirect: zo, sso: He, idps: Ve, residency: $e, logoutReturnUrl: Ke, access: ys, developerOnboarding: as, removeAttribution: { type: "boolean" }, i18n: Ye, l10n: Ye, metadata: Vo, metadataGlobs: Wo, ignore: { type: "array", items: { type: "string" } }, theme: a, reunite: qe, logo: D, navbar: A, products: _, footer: q, sidebar: M, scripts: w, links: U, feedback: c, search: z, aiAssistant: B, colorMode: G, palette: C, navigation: F, codeSnippet: Y, markdown: H, openapi: R, graphql: u, analytics: V, consent: Te, userMenu: W, versionPicker: K, breadcrumbs: $, catalog: O, entitiesCatalog: X, catalogClassic: O, scorecard: P, scorecardClassic: P, scorecards: Q, mcp: ps, skills: cs, recheck: me, corsProxy: { type: "object", properties: { allowedTargets: { type: "array", items: { type: "string" } } }, additionalProperties: false }, banner: Ho }, not: { required: ["sso", "idps"] }, additionalProperties: true };
+var ls = { ...E, additionalProperties: false };
+var ds = { $id: "root-redocly-config", ...E, properties: { plugins: { type: "array", items: { type: "string" } }, ...E.properties, env: { type: "object", additionalProperties: ls } }, additionalProperties: false };
 var he = { type: "object", properties: { logo: a.properties.logo, navbar: a.properties.navbar, footer: a.properties.footer, sidebar: a.properties.sidebar, search: a.properties.search, codeSnippet: a.properties.codeSnippet, breadcrumbs: a.properties.breadcrumbs, openapi: a.properties.openapi, feedback: a.properties.feedback, palette: C, mockServer: E.properties.mockServer, analytics: { type: "object", properties: { ga: ne } } }, additionalProperties: true };
-var di = { $id: "product-config-override", type: "object", properties: { ...he.properties, apis: { type: "object", additionalProperties: fe }, theme: he }, additionalProperties: false };
-var be = ["partOf", "hasParts", "creates", "createdBy", "owns", "ownedBy", "implements", "implementedBy", "dependsOn", "dependencyOf", "uses", "usedBy", "produces", "consumes", "linksTo", "supersedes", "supersededBy", "compatibleWith", "extends", "extendedBy", "relatesTo", "hasMember", "memberOf", "triggers", "triggeredBy", "returns", "returnedBy"];
+var ms = { $id: "product-config-override", type: "object", properties: { ...he.properties, apis: { type: "object", additionalProperties: fe }, theme: he }, additionalProperties: false };
+var ue = ["partOf", "hasParts", "creates", "createdBy", "owns", "ownedBy", "implements", "implementedBy", "dependsOn", "dependencyOf", "uses", "usedBy", "produces", "consumes", "linksTo", "supersedes", "supersededBy", "compatibleWith", "extends", "extendedBy", "relatesTo", "hasMember", "memberOf", "triggers", "triggeredBy", "returns", "returnedBy"];
 var t = L({ UserEntity: "UserEntity", UserEntityMetadata: "UserEntityMetadata", ApiDescriptionEntity: "ApiDescriptionEntity", ApiDescriptionEntityMetadata: "ApiDescriptionEntityMetadata", ApiOperationEntity: "ApiOperationEntity", ApiOperationEntityMetadata: "ApiOperationEntityMetadata", DataSchemaEntity: "DataSchemaEntity", DataSchemaEntityMetadata: "DataSchemaEntityMetadata", ServiceEntity: "ServiceEntity", DomainEntity: "DomainEntity", TeamEntity: "TeamEntity", Entity: "Entity", EntityMetadata: "EntityMetadata", EntityLinkList: "EntityLinkList", EntityLink: "EntityLink", EntityRelation: "EntityRelation", EntityRelationList: "EntityRelationList", EntityContact: "EntityContact", EntitySlackContact: "EntitySlackContact", EntitySlackChannel: "EntitySlackChannel" });
-var gi = { type: "object", nodeTypeName: t.UserEntityMetadata, properties: { email: { type: "string", description: "Email of the user" } }, required: ["email"], additionalProperties: true };
-var mi = { type: "object", nodeTypeName: t.ApiDescriptionEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Type of the API description" }, descriptionFile: { type: "string", description: "Path to the file containing the API description" } }, required: ["specType", "descriptionFile"], additionalProperties: true };
-var fi = { type: "object", nodeTypeName: t.ApiOperationEntityMetadata, properties: { method: { type: "string", enum: ["GET", "POST", "PUT", "DELETE", "PATCH", "MUTATION", "QUERY", "SUBSCRIBE", "PUBLISH"], description: "HTTP method of the API operation" }, path: { type: "string", description: "Path of the API operation" }, payload: { type: "array", items: { type: "string", description: "Related dataSchema name" } }, responses: { type: "array", items: { type: "string", description: "Related dataSchema name" } } }, required: ["method", "path"], additionalProperties: true };
-var Si = { type: "object", nodeTypeName: t.DataSchemaEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Specification type of the data schema" }, schema: { type: "string", description: "Inline schema of the data structure" }, sdl: { type: "string", description: "SDL of the data structure" } }, required: ["specType"], additionalProperties: true };
-var hi = { type: "object", properties: {}, nodeTypeName: t.EntityMetadata, additionalProperties: true };
-var bi = { type: "object", nodeTypeName: t.EntitySlackChannel, properties: { name: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["name"], additionalProperties: false };
-var ui = { type: "object", nodeTypeName: t.EntitySlackContact, properties: { channels: { type: "array", items: bi } }, required: ["channels"], additionalProperties: false };
-var Ci = { type: "object", nodeTypeName: t.EntityContact, properties: { slack: ui }, additionalProperties: false };
-var Ri = { type: "object", nodeTypeName: t.EntityLink, properties: { label: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["label", "url"], additionalProperties: false };
-var Pi = { type: "object", nodeTypeName: t.EntityRelation, properties: { type: { type: "string", enum: be }, key: { type: "string", minLength: 2, maxLength: 100 }, version: { type: "string" }, revision: { type: "string" } }, required: ["type", "key"], additionalProperties: false };
-var g = { version: { type: "string" }, key: { type: "string", pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$", minLength: 2, maxLength: 150 }, type: { type: "string", enum: ["user", "data-schema", "api-operation", "api-description", "service", "domain", "team"] }, title: { type: "string", minLength: 2, maxLength: 200 }, summary: { type: "string", minLength: 1, maxLength: 500 }, tags: { type: "array", items: { type: "string", minLength: 1, maxLength: 50 } }, git: { type: "array", items: { type: "string" } }, contact: Ci, links: { type: "array", nodeTypeName: t.EntityLinkList, items: Ri }, relations: { type: "array", nodeTypeName: t.EntityRelationList, items: Pi }, metadata: hi };
-var Ds = { type: "object", discriminator: { propertyName: "type" }, oneOf: [{ type: "object", properties: { ...g, type: { type: "string", const: "user" }, metadata: gi }, required: ["key", "title", "type", "metadata"], additionalProperties: false, nodeTypeName: t.UserEntity }, { type: "object", nodeTypeName: t.ApiOperationEntity, properties: { ...g, type: { type: "string", const: "api-operation" }, metadata: fi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.DataSchemaEntity, properties: { ...g, type: { type: "string", const: "data-schema" }, metadata: Si }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ApiDescriptionEntity, properties: { ...g, type: { type: "string", const: "api-description" }, metadata: mi }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ServiceEntity, properties: { ...g, type: { type: "string", const: "service" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.DomainEntity, properties: { ...g, type: { type: "string", const: "domain" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.TeamEntity, properties: { ...g, type: { type: "string", const: "team" } }, required: ["key", "title", "type"], additionalProperties: false }] };
-var _s = { type: "object", nodeTypeName: t.Entity, properties: { ...g }, required: ["key", "title", "type"], additionalProperties: false };
+var gs = { type: "object", nodeTypeName: t.UserEntityMetadata, properties: { email: { type: "string", description: "Email of the user" } }, required: ["email"], additionalProperties: true };
+var fs = { type: "object", nodeTypeName: t.ApiDescriptionEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Type of the API description" }, descriptionFile: { type: "string", description: "Path to the file containing the API description" } }, required: ["specType", "descriptionFile"], additionalProperties: true };
+var Ss = { type: "object", nodeTypeName: t.ApiOperationEntityMetadata, properties: { method: { type: "string", enum: ["GET", "POST", "PUT", "DELETE", "PATCH", "MUTATION", "QUERY", "SUBSCRIBE", "PUBLISH"], description: "HTTP method of the API operation" }, path: { type: "string", description: "Path of the API operation" }, payload: { type: "array", items: { type: "string", description: "Related dataSchema name" } }, responses: { type: "array", items: { type: "string", description: "Related dataSchema name" } } }, required: ["method", "path"], additionalProperties: true };
+var hs = { type: "object", nodeTypeName: t.DataSchemaEntityMetadata, properties: { specType: { type: "string", enum: ["jsonschema", "openapi", "asyncapi", "avro", "zod", "graphql", "protobuf", "arazzo"], description: "Specification type of the data schema" }, schema: { type: "string", description: "Inline schema of the data structure" }, sdl: { type: "string", description: "SDL of the data structure" } }, required: ["specType"], additionalProperties: true };
+var us = { type: "object", properties: {}, nodeTypeName: t.EntityMetadata, additionalProperties: true };
+var bs = { type: "object", nodeTypeName: t.EntitySlackChannel, properties: { name: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["name"], additionalProperties: false };
+var Cs = { type: "object", nodeTypeName: t.EntitySlackContact, properties: { channels: { type: "array", items: bs } }, required: ["channels"], additionalProperties: false };
+var Rs = { type: "object", nodeTypeName: t.EntityContact, properties: { slack: Cs }, additionalProperties: false };
+var Os = { type: "object", nodeTypeName: t.EntityLink, properties: { label: { type: "string", minLength: 2, maxLength: 150 }, url: { type: "string" } }, required: ["label", "url"], additionalProperties: false };
+var Ps = { type: "object", nodeTypeName: t.EntityRelation, properties: { type: { type: "string", enum: ue }, key: { type: "string", minLength: 2, maxLength: 100 }, version: { type: "string" }, revision: { type: "string" } }, required: ["type", "key"], additionalProperties: false };
+var m = { version: { type: "string" }, key: { type: "string", pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$", minLength: 2, maxLength: 150 }, type: { type: "string", enum: ["user", "data-schema", "api-operation", "api-description", "service", "domain", "team"] }, title: { type: "string", minLength: 2, maxLength: 200 }, summary: { type: "string", minLength: 1, maxLength: 500 }, tags: { type: "array", items: { type: "string", minLength: 1, maxLength: 50 } }, git: { type: "array", items: { type: "string" } }, contact: Rs, links: { type: "array", nodeTypeName: t.EntityLinkList, items: Os }, relations: { type: "array", nodeTypeName: t.EntityRelationList, items: Ps }, metadata: us };
+var xi = { type: "object", discriminator: { propertyName: "type" }, oneOf: [{ type: "object", properties: { ...m, type: { type: "string", const: "user" }, metadata: gs }, required: ["key", "title", "type", "metadata"], additionalProperties: false, nodeTypeName: t.UserEntity }, { type: "object", nodeTypeName: t.ApiOperationEntity, properties: { ...m, type: { type: "string", const: "api-operation" }, metadata: Ss }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.DataSchemaEntity, properties: { ...m, type: { type: "string", const: "data-schema" }, metadata: hs }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ApiDescriptionEntity, properties: { ...m, type: { type: "string", const: "api-description" }, metadata: fs }, required: ["key", "title", "type", "metadata"], additionalProperties: false }, { type: "object", nodeTypeName: t.ServiceEntity, properties: { ...m, type: { type: "string", const: "service" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.DomainEntity, properties: { ...m, type: { type: "string", const: "domain" } }, required: ["key", "title", "type"], additionalProperties: false }, { type: "object", nodeTypeName: t.TeamEntity, properties: { ...m, type: { type: "string", const: "team" } }, required: ["key", "title", "type"], additionalProperties: false }] };
+var Ei = { type: "object", nodeTypeName: t.Entity, properties: { ...m }, required: ["key", "title", "type"], additionalProperties: false };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
+// node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
 import path2 from "node:path";
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/graphql/node-kinds.js
+// node_modules/@redocly/openapi-core/lib/graphql/node-kinds.js
 var graphqlNodeKinds = [
   "Name",
   "Document",
@@ -56409,7 +56410,7 @@ var graphqlNodeKinds = [
   "DirectiveArgumentCoordinate"
 ];
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/oas-types.js
+// node_modules/@redocly/openapi-core/lib/oas-types.js
 var specVersions = [
   "oas2",
   "oas3_0",
@@ -56441,12 +56442,12 @@ function getTypes(spec) {
   return typesMap[spec];
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/is-custom-rule-id.js
+// node_modules/@redocly/openapi-core/lib/utils/is-custom-rule-id.js
 function isCustomRuleId(id) {
   return id.includes("/");
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/json-schema-adapter.js
+// node_modules/@redocly/openapi-core/lib/types/json-schema-adapter.js
 var import__ = __toESM(require__(), 1);
 var ajv;
 function getAjv() {
@@ -56515,13 +56516,13 @@ function transformJSONSchemaToNodeType(propertyName, schema, ctx) {
         throw new Error(`Unexpected discriminator without a propertyName in ${propertyName}.`);
       }
       const discriminatorMapping = {};
-      const oneOfs = schema.oneOf.map((option, i) => {
+      const oneOfs = schema.oneOf.map((option, i2) => {
         if (typeof option === "boolean") {
-          throw new Error(`Unexpected boolean schema in ${propertyName} at position ${i} in oneOf.`);
+          throw new Error(`Unexpected boolean schema in ${propertyName} at position ${i2} in oneOf.`);
         }
         const discriminatedProperty = option?.properties?.[discriminatedPropertyName];
         if (!discriminatedProperty || typeof discriminatedProperty === "boolean") {
-          throw new Error(`Unexpected property '${discriminatedProperty}' schema in ${propertyName} at position ${i} in oneOf.`);
+          throw new Error(`Unexpected property '${discriminatedProperty}' schema in ${propertyName} at position ${i2} in oneOf.`);
         }
         const discriminatorValue = discriminatedProperty.const;
         const actualTypeName = transformJSONSchemaToNodeType(discriminatorValue, option, ctx);
@@ -56543,7 +56544,7 @@ function transformJSONSchemaToNodeType(propertyName, schema, ctx) {
         return findOneOf(schema.oneOf, oneOfs)(value, key);
       };
     } else {
-      const oneOfs = schema.oneOf.map((option, i) => transformJSONSchemaToNodeType(propertyName + "_" + i, option, ctx));
+      const oneOfs = schema.oneOf.map((option, i2) => transformJSONSchemaToNodeType(propertyName + "_" + i2, option, ctx));
       return findOneOf(schema.oneOf, oneOfs);
     }
   }
@@ -56611,7 +56612,7 @@ function getNodeTypesFromJSONSchema(schemaName, entrySchema) {
   };
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
+// node_modules/@redocly/openapi-core/lib/types/redocly-yaml.js
 var builtInOAS2Rules = [
   "info-contact",
   "operation-operationId",
@@ -57143,9 +57144,9 @@ function createAssertionDefinitionSubject(nodeNames) {
 }
 function createScorecardLevelsItems(nodeTypes) {
   return {
-    ...nodeTypes[s.ScorecardClassicLevel],
+    ...nodeTypes[i.ScorecardClassicLevel],
     properties: {
-      ...nodeTypes[s.ScorecardClassicLevel]?.properties,
+      ...nodeTypes[i.ScorecardClassicLevel]?.properties,
       ...configGovernanceProperties
     }
   };
@@ -57318,7 +57319,7 @@ function createConfigTypes(extraSchemas, config) {
     ConfigApisProperties: createConfigApisProperties(nodeTypes),
     Subject: createAssertionDefinitionSubject([...nodeNames, ...graphqlNodeKinds]),
     ...nodeTypes,
-    [s.ScorecardClassicLevel]: createScorecardLevelsItems(nodeTypes)
+    [i.ScorecardClassicLevel]: createScorecardLevelsItems(nodeTypes)
   };
 }
 var CoreConfigTypes = {
@@ -57351,15 +57352,15 @@ var CoreConfigTypes = {
   Preprocessors,
   Assertions
 };
-var { theme: _2, ...propertiesWithoutTheme } = li.properties;
+var { theme: _2, ...propertiesWithoutTheme } = ds.properties;
 var redoclyConfigSchemaWithoutTheme = {
-  ...li,
+  ...ds,
   properties: propertiesWithoutTheme
 };
 var ConfigTypes = createConfigTypes(redoclyConfigSchemaWithoutTheme);
 var NormalizedConfigTypes = normalizeTypes(ConfigTypes);
 
-// node_modules/@redocly/reunite-integration/node_modules/js-yaml/dist/js-yaml.mjs
+// node_modules/@redocly/openapi-core/node_modules/js-yaml/dist/js-yaml.mjs
 var NOT_RESOLVED = /* @__PURE__ */ Symbol("NOT_RESOLVED");
 function defineScalarTag(tagName, options2) {
   return {
@@ -58257,9 +58258,9 @@ function simpleEscapeSequence(c2) {
 }
 var simpleEscapeCheck = new Array(256);
 var simpleEscapeMap = new Array(256);
-for (let i = 0; i < 256; i++) {
-  simpleEscapeCheck[i] = simpleEscapeSequence(i) ? 1 : 0;
-  simpleEscapeMap[i] = simpleEscapeSequence(i);
+for (let i2 = 0; i2 < 256; i2++) {
+  simpleEscapeCheck[i2] = simpleEscapeSequence(i2) ? 1 : 0;
+  simpleEscapeMap[i2] = simpleEscapeSequence(i2);
 }
 var DEFAULT_TAG_HANDLERS = Object.assign(/* @__PURE__ */ Object.create(null), {
   "!": "!",
@@ -58425,14 +58426,14 @@ var CHOMPING_CLIP = CHOMPING_MODE.CLIP;
 var CHOMPING_STRIP = CHOMPING_MODE.STRIP;
 var CHOMPING_KEEP = CHOMPING_MODE.KEEP;
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/js-yaml/index.js
+// node_modules/@redocly/openapi-core/lib/js-yaml/index.js
 var DEFAULT_SCHEMA_WITHOUT_TIMESTAMP = CORE_SCHEMA.withTags(mergeTag, binaryTag, omapTag, pairsTag, setTag);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/constants.js
+// node_modules/@redocly/openapi-core/lib/config/constants.js
 var CONFIG_BUNDLER_VISITOR_ID = "configBundler";
 var PLUGINS_COLLECTOR_VISITOR_ID = "pluginsCollector";
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/resolve.js
+// node_modules/@redocly/openapi-core/lib/resolve.js
 var Source = class {
   absoluteRef;
   body;
@@ -58464,13 +58465,13 @@ var Source = class {
   }
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/ajv.js
+// node_modules/@redocly/openapi-core/lib/rules/ajv.js
 var import_ajv_formats = __toESM(require_dist(), 1);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/assertions/asserts.js
+// node_modules/@redocly/openapi-core/lib/rules/common/assertions/asserts.js
 var assertionSchemaLocation = new Location(new Source("assertion", ""), "#/schema");
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/index.js
+// node_modules/@redocly/openapi-core/lib/config/index.js
 init_rules();
 
 // node_modules/colorette/index.js
@@ -58527,7 +58528,7 @@ var isWindows = process.platform === "win32";
 var isCompatibleTerminal = tty && tty.isatty(1) && env2.TERM && env2.TERM !== "dumb";
 var isCI = "CI" in env2 && ("GITHUB_ACTIONS" in env2 || "GITLAB_CI" in env2 || "CIRCLECI" in env2);
 var enabled = !isDisabled && (isForced || isWindows || isCompatibleTerminal || isCI);
-var raw = (open, close, searchRegex, replaceValue) => (s2) => enabled ? open + (~(s2 += "").indexOf(close, 4) ? s2.replace(searchRegex, replaceValue) : s2) + close : s2;
+var raw = (open, close, searchRegex, replaceValue) => (s) => enabled ? open + (~(s += "").indexOf(close, 4) ? s.replace(searchRegex, replaceValue) : s) + close : s;
 var init = (open, close) => {
   return raw(
     `\x1B[${open}m`,
@@ -58582,12 +58583,12 @@ var bgMagentaBright = init(105, 49);
 var bgCyanBright = init(106, 49);
 var bgWhiteBright = init(107, 49);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/identity.js
+// node_modules/@redocly/openapi-core/lib/utils/identity.js
 function identity(value) {
   return value;
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/logger.js
+// node_modules/@redocly/openapi-core/lib/logger.js
 var colorize = new Proxy(colorette_exports, {
   get(target, prop) {
     if (isBrowser) {
@@ -58629,20 +58630,20 @@ var Logger = class {
 };
 var logger = new Logger();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/utils.js
+// node_modules/@redocly/openapi-core/lib/rules/utils.js
 var import_js_levenshtein = __toESM(require_js_levenshtein(), 1);
 init_is_defined();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-parameter-examples.js
+// node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-parameter-examples.js
 init_is_defined();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-schema-examples.js
+// node_modules/@redocly/openapi-core/lib/rules/common/no-invalid-schema-examples.js
 init_is_defined();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/common/path-segment-plural.js
+// node_modules/@redocly/openapi-core/lib/rules/common/path-segment-plural.js
 var import_pluralize2 = __toESM(require_pluralize(), 1);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/component-name-unique.js
+// node_modules/@redocly/openapi-core/lib/rules/oas3/component-name-unique.js
 var TYPE_NAME_SCHEMA = "Schema";
 var TYPE_NAME_PARAMETER = "Parameter";
 var TYPE_NAME_RESPONSE = "Response";
@@ -58654,19 +58655,19 @@ var TYPE_NAME_TO_OPTION_COMPONENT_NAME = {
   [TYPE_NAME_REQUEST_BODY]: "requestBodies"
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/no-illogical-composition-keywords.js
+// node_modules/@redocly/openapi-core/lib/rules/oas3/no-illogical-composition-keywords.js
 init_is_defined();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/rules/oas3/no-invalid-media-type-examples.js
+// node_modules/@redocly/openapi-core/lib/rules/oas3/no-invalid-media-type-examples.js
 init_is_defined();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
-import * as fs from "node:fs";
+// node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
+import * as fs2 from "node:fs";
 import module from "node:module";
 import * as path4 from "node:path";
 import * as url from "node:url";
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/visitors.js
+// node_modules/@redocly/openapi-core/lib/visitors.js
 var legacyTypesMap = {
   Root: "DefinitionRoot",
   ServerVariablesMap: "ServerVariableMap",
@@ -58837,10 +58838,49 @@ function normalizeVisitors(visitorsConfig, types) {
   }
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
+// node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
 import path3 from "node:path";
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/utils/assign-config.js
+// node_modules/@redocly/openapi-core/lib/config/recheck.js
+var RECHECK_PLUGIN_ID = "recheck";
+function isRecheckPreset(name) {
+  return name.startsWith(`${RECHECK_PLUGIN_ID}/`);
+}
+function mergeRecheckRule(base, override) {
+  const baseRule = typeof base === "string" && isPlainObject(override) ? { severity: base } : base;
+  if (!isPlainObject(baseRule))
+    return override;
+  if (typeof override === "string")
+    return { ...baseRule, severity: override };
+  if (!isPlainObject(override))
+    return override;
+  const merged = { ...baseRule, ...override };
+  if (isPlainObject(baseRule.assertions) && isPlainObject(override.assertions)) {
+    merged.assertions = { ...baseRule.assertions, ...override.assertions };
+  }
+  return merged;
+}
+function mergeRecheckRules(base, override) {
+  const merged = isPlainObject(base) ? { ...base } : {};
+  if (isPlainObject(override)) {
+    for (const [key, entry] of Object.entries(override)) {
+      merged[key] = mergeRecheckRule(merged[key], entry);
+    }
+  }
+  return merged;
+}
+function mergeRecheckBlocks(base, override) {
+  if (!isPlainObject(base))
+    return base;
+  if (override === void 0 || override === null)
+    return base;
+  if (!isPlainObject(override))
+    return override;
+  const { rules: rules9, ...settings } = override;
+  return { ...base, ...settings, rules: mergeRecheckRules(base.rules, rules9) };
+}
+
+// node_modules/@redocly/openapi-core/lib/utils/assign-config.js
 var assignConfig = (target, obj) => {
   if (!obj)
     return;
@@ -58866,7 +58906,7 @@ function assignOnlyExistingConfig(target, obj) {
   }
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/utils.js
+// node_modules/@redocly/openapi-core/lib/config/utils.js
 function parsePresetName(presetName) {
   if (presetName.indexOf("/") > -1) {
     const [pluginId, configName] = presetName.split("/");
@@ -58876,6 +58916,7 @@ function parsePresetName(presetName) {
   }
 }
 function mergeExtends(rulesConfList) {
+  let recheck = { rules: {} };
   const result = {
     rules: {},
     oas2Rules: {},
@@ -58910,7 +58951,8 @@ function mergeExtends(rulesConfList) {
     arazzo1Decorators: {},
     arazzo1_1Decorators: {},
     overlay1Decorators: {},
-    openrpc1Decorators: {}
+    openrpc1Decorators: {},
+    recheck
   };
   for (const rulesConf of rulesConfList) {
     if (isPlainObject(rulesConf) && "extends" in rulesConf && rulesConf.extends !== void 0) {
@@ -58982,17 +59024,22 @@ ${JSON.stringify(rulesConf, null, 2)}`);
     assignOnlyExistingConfig(result.overlay1Decorators, rulesConf.decorators);
     assignConfig(result.openrpc1Decorators, rulesConf.openrpc1Decorators);
     assignOnlyExistingConfig(result.openrpc1Decorators, rulesConf.decorators);
+    recheck = mergeRecheckBlocks(recheck, rulesConf.recheck);
   }
+  result.recheck = recheck;
   return result;
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
+// node_modules/@redocly/openapi-core/lib/config/bundle-extends.js
 function bundleExtends({ node, ctx, plugins }) {
   if (!node.extends) {
     return node;
   }
+  const hasRecheckPlugin = plugins.some((plugin) => plugin.id === RECHECK_PLUGIN_ID);
   const resolvedExtends = (node.extends || []).filter(isTruthy).map((presetItem) => {
     if (!isAbsoluteUrl(presetItem) && !path3.extname(presetItem)) {
+      if (isRecheckPreset(presetItem) && !hasRecheckPlugin)
+        return null;
       return resolvePreset(presetItem, plugins);
     }
     const resolvedRef = ctx.resolve({ $ref: presetItem });
@@ -59007,7 +59054,7 @@ function bundleExtends({ node, ctx, plugins }) {
   ]);
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/visitors.js
+// node_modules/@redocly/openapi-core/lib/config/visitors.js
 function collectorHandleNode(node, ctx) {
   if (isPlainObject(node) && Array.isArray(node.plugins)) {
     const { plugins, rootConfigDir } = ctx.getVisitorData();
@@ -59037,7 +59084,7 @@ var pluginsCollectorVisitor = normalizeVisitors([
           collectorHandleNode(node, ctx);
         }
       },
-      [s.ScorecardClassicLevel]: {
+      [i.ScorecardClassicLevel]: {
         leave(node, ctx) {
           collectorHandleNode(node, ctx);
         }
@@ -59081,7 +59128,7 @@ var configBundlerVisitor = normalizeVisitors([
           bundlerHandleNode(node, ctx);
         }
       },
-      [s.ScorecardClassicLevel]: {
+      [i.ScorecardClassicLevel]: {
         leave(node, ctx) {
           bundlerHandleNode(node, ctx);
         }
@@ -59135,16 +59182,16 @@ peg$SyntaxError.prototype.format = function(sources) {
         break;
       }
     }
-    var s2 = this.location.start;
-    var offset_s = this.location.source && typeof this.location.source.offset === "function" ? this.location.source.offset(s2) : s2;
+    var s = this.location.start;
+    var offset_s = this.location.source && typeof this.location.source.offset === "function" ? this.location.source.offset(s) : s;
     var loc = this.location.source + ":" + offset_s.line + ":" + offset_s.column;
     if (src) {
       var e2 = this.location.end;
       var filler = peg$padEnd("", offset_s.line.toString().length, " ");
-      var line = src[s2.line - 1];
-      var last = s2.line === e2.line ? e2.column : line.length + 1;
-      var hatLen = last - s2.column || 1;
-      str += "\n --> " + loc + "\n" + filler + " |\n" + offset_s.line + " | " + line + "\n" + filler + " | " + peg$padEnd("", s2.column - 1, " ") + peg$padEnd("", hatLen, "^");
+      var line = src[s.line - 1];
+      var last = s.line === e2.line ? e2.column : line.length + 1;
+      var hatLen = last - s.column || 1;
+      str += "\n --> " + loc + "\n" + filler + " |\n" + offset_s.line + " | " + line + "\n" + filler + " | " + peg$padEnd("", s.column - 1, " ") + peg$padEnd("", hatLen, "^");
     } else {
       str += "\n at " + loc;
     }
@@ -59175,15 +59222,15 @@ peg$SyntaxError.buildMessage = function(expected, found) {
   function hex(ch) {
     return ch.charCodeAt(0).toString(16).toUpperCase();
   }
-  function literalEscape(s2) {
-    return s2.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+  function literalEscape(s) {
+    return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
       return "\\x0" + hex(ch);
     }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
       return "\\x" + hex(ch);
     });
   }
-  function classEscape(s2) {
-    return s2.replace(/\\/g, "\\\\").replace(/\]/g, "\\]").replace(/\^/g, "\\^").replace(/-/g, "\\-").replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
+  function classEscape(s) {
+    return s.replace(/\\/g, "\\\\").replace(/\]/g, "\\]").replace(/\^/g, "\\^").replace(/-/g, "\\-").replace(/\0/g, "\\0").replace(/\t/g, "\\t").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/[\x00-\x0F]/g, function(ch) {
       return "\\x0" + hex(ch);
     }).replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) {
       return "\\x" + hex(ch);
@@ -59194,12 +59241,12 @@ peg$SyntaxError.buildMessage = function(expected, found) {
   }
   function describeExpected(expected2) {
     var descriptions = expected2.map(describeExpectation);
-    var i, j2;
+    var i2, j2;
     descriptions.sort();
     if (descriptions.length > 0) {
-      for (i = 1, j2 = 1; i < descriptions.length; i++) {
-        if (descriptions[i - 1] !== descriptions[i]) {
-          descriptions[j2] = descriptions[i];
+      for (i2 = 1, j2 = 1; i2 < descriptions.length; i2++) {
+        if (descriptions[i2 - 1] !== descriptions[i2]) {
+          descriptions[j2] = descriptions[i2];
           j2++;
         }
       }
@@ -59220,17 +59267,17 @@ peg$SyntaxError.buildMessage = function(expected, found) {
   return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";
 };
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/bundle/bundle-document.js
+// node_modules/@redocly/openapi-core/lib/bundle/bundle-document.js
 init_rules();
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
+// node_modules/@redocly/openapi-core/lib/config/config-resolvers.js
 init_is_defined();
 var preResolvePluginPath = (plugin, base, rootConfigDir) => {
   if (!isString(plugin)) {
     return plugin;
   }
   const maybeAbsolutePluginPath = path4.resolve(path4.dirname(base), plugin);
-  if (fs.existsSync(maybeAbsolutePluginPath)) {
+  if (fs2.existsSync(maybeAbsolutePluginPath)) {
     return { absolutePath: maybeAbsolutePluginPath, rawPath: plugin, isModule: false };
   }
   try {
@@ -59263,10 +59310,10 @@ function resolvePreset(presetName, plugins) {
   return preset;
 }
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/format/codeframes.js
+// node_modules/@redocly/openapi-core/lib/format/codeframes.js
 var yamlAst = __toESM(require_src(), 1);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/format/format.js
+// node_modules/@redocly/openapi-core/lib/format/format.js
 var BG_COLORS = {
   warn: (str) => colorize.bgYellow(colorize.black(str)),
   error: colorize.bgRed
@@ -59277,16 +59324,16 @@ var COLORS = {
 };
 var MAX_SUGGEST = +(env.REDOCLY_CLI_LINT_MAX_SUGGESTIONS ?? 5);
 
-// node_modules/@redocly/reunite-integration/node_modules/@redocly/openapi-core/lib/lint.js
+// node_modules/@redocly/openapi-core/lib/lint.js
 init_rules();
-var { theme: _3, ...propertiesWithoutTheme2 } = li.properties;
+var { theme: _3, ...propertiesWithoutTheme2 } = ds.properties;
 var redoclyConfigSchemaWithoutTheme2 = {
-  ...li,
+  ...ds,
   properties: propertiesWithoutTheme2
 };
 
 // node_modules/@redocly/reunite-integration/lib/push.js
-import * as fs2 from "node:fs";
+import * as fs3 from "node:fs";
 import * as path5 from "node:path";
 
 // node_modules/@redocly/reunite-integration/lib/resolve-project-ref.js
@@ -59345,7 +59392,7 @@ async function pushFiles({ domain, apiKey, organization, project, mountPath, fil
       commit,
       isMainBranch: defaultBranch === commit.branchName,
       replace
-    }, files.map((file) => ({ path: slash(file.name), stream: fs2.createReadStream(file.path) })));
+    }, files.map((file) => ({ path: slash(file.name), stream: fs3.createReadStream(file.path) })));
     return { pushId: id, organizationId, projectId };
   } finally {
     const sunsetWarning = client.getSunsetWarning();
@@ -59357,7 +59404,7 @@ async function pushFiles({ domain, apiKey, organization, project, mountPath, fil
 function collectFilesToPush(files, onFileOverwritten) {
   const collectedFiles = {};
   for (const file of files) {
-    if (fs2.statSync(file).isDirectory()) {
+    if (fs3.statSync(file).isDirectory()) {
       const dir = file;
       const fileList = getFilesList(dir, []);
       fileList.forEach((f2) => addFile(f2, dir));
@@ -59378,10 +59425,10 @@ function collectFilesToPush(files, onFileOverwritten) {
   }));
 }
 function getFilesList(dir, files) {
-  const filesAndDirs = fs2.readdirSync(dir);
+  const filesAndDirs = fs3.readdirSync(dir);
   for (const name of filesAndDirs) {
     const currentPath = path5.join(dir, name);
-    if (fs2.statSync(currentPath).isDirectory()) {
+    if (fs3.statSync(currentPath).isDirectory()) {
       files = getFilesList(currentPath, files);
     } else {
       files.push(currentPath);
