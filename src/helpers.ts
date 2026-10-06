@@ -4,8 +4,8 @@ import * as github from '@actions/github';
 import { ParsedEventData, ParsedInputData } from './types';
 
 export function parseInputData(): ParsedInputData {
-  const redoclyOrgSlug = core.getInput('organization', { required: true });
-  const redoclyProjectSlug = core.getInput('project', { required: true });
+  const organization = core.getInput('organization', { required: true });
+  const project = core.getInput('project', { required: true });
   const mountPath = core.getInput('mountPath', { required: true });
   const files = core.getInput('files', { required: true }).split(' ');
 
@@ -19,8 +19,8 @@ export function parseInputData(): ParsedInputData {
   );
 
   return {
-    redoclyOrgSlug,
-    redoclyProjectSlug,
+    organization,
+    project,
     mountPath,
     files: absoluteFilePaths,
     redoclyDomain,

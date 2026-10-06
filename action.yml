@@ -8,10 +8,10 @@ branding:
 
 inputs:
   organization:
-    description: 'Redocly organization slug'
+    description: 'Redocly organization ID (slugs are deprecated)'
     required: true
   project:
-    description: 'Redocly project slug'
+    description: 'Redocly project ID (slugs are deprecated)'
     required: true
   domain:
     description: 'Redocly app domain'

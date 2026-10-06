@@ -115,8 +115,8 @@ describe('helpers', () => {
 
       expect(getInputMock).toHaveBeenCalledTimes(7);
       expect(parsedInputData).toEqual({
-        redoclyOrgSlug: 'test-org-slug',
-        redoclyProjectSlug: 'test-project-slug',
+        organization: 'test-org-slug',
+        project: 'test-project-slug',
         redoclyDomain: 'redocly-domain.com',
         files: [
           '/home/runner/work/reunite-push-action/testFolder',
@@ -144,8 +144,8 @@ describe('helpers', () => {
 
       expect(getInputMock).toHaveBeenCalledTimes(7);
       expect(parsedInputData).toEqual({
-        redoclyOrgSlug: 'test-org-slug',
-        redoclyProjectSlug: 'test-project-slug',
+        organization: 'test-org-slug',
+        project: 'test-project-slug',
         redoclyDomain: 'redocly-domain.com',
         files: [
           '/home/runner/work/reunite-push-action/testFolder',

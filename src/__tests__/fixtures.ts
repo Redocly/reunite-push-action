@@ -6,8 +6,8 @@ import {
 } from '../types';
 
 export const parsedInputDataStub: ParsedInputData = {
-  redoclyOrgSlug: 'test-org-slug',
-  redoclyProjectSlug: 'test-project-slug',
+  organization: 'test-org-slug',
+  project: 'test-project-slug',
   redoclyDomain: 'redocly-domain.com',
   files: ['test'],
   mountPath: 'test/mount/path',

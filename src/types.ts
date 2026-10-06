@@ -10,8 +10,8 @@ export type {
 } from '@redocly/reunite-integration';
 
 export interface ParsedInputData {
-  redoclyOrgSlug: string;
-  redoclyProjectSlug: string;
+  organization: string;
+  project: string;
   redoclyDomain: string;
   files: string[];
   mountPath: string;

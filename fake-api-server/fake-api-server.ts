@@ -77,6 +77,16 @@ app.get(/\/pushes\/[^/]+$/, (req, res) => {
   res.json(stubResponseStatus);
 });
 
+// The push resolves the organization and project inputs to ids with this lookup.
+app.get(/\/orgs\/[^/]+\/projects\/[^/]+$/, (req, res) => {
+  res.json({
+    id: 'prj_01hksn7dhbmf3nby0aeax6bkvf',
+    slug: 'ci-test-project',
+    name: 'CI test project',
+    uri: `http://localhost:${port}/api/orgs/org_01hksn7dgmb6jpak0tzzepreq1/projects/prj_01hksn7dhbmf3nby0aeax6bkvf`,
+  });
+});
+
 app.get('*', (req, res) => {
   res.json(stubResponseStatus);
 });
