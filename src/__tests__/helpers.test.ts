@@ -187,7 +187,7 @@ describe('helpers', () => {
       });
     });
 
-    it.each(['opened', 'reopened', 'synchronize'])(
+    it.each(['opened', 'reopened', 'synchronize', 'stacked'])(
       `should return parsed GitHub PR event data for "%s" action`,
       async action => {
         github.context.eventName = 'pull_request';
@@ -241,7 +241,7 @@ describe('helpers', () => {
       });
 
       await expect(parseEventData()).rejects.toThrow(
-        'Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.',
+        'Unsupported GitHub event. Only "opened", "synchronize", "reopened" and "stacked" actions are supported for pull requests.',
       );
     });
 

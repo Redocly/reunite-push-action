@@ -50246,10 +50246,10 @@ async function parseEventData(defaultBranchOverride) {
     );
   }
   if (github2.context.eventName === "pull_request") {
-    const allowedActions = ["opened", "synchronize", "reopened"];
+    const allowedActions = ["opened", "synchronize", "reopened", "stacked"];
     if (!github2.context.payload.action || !allowedActions.includes(github2.context.payload.action)) {
       throw new Error(
-        'Unsupported GitHub event. Only "opened", "synchronize" and "reopened" actions are supported for pull requests.'
+        'Unsupported GitHub event. Only "opened", "synchronize", "reopened" and "stacked" actions are supported for pull requests.'
       );
     }
   }
