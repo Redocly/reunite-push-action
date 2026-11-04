@@ -50944,10 +50944,16 @@ function parseInputData() {
     defaultBranch
   };
 }
+var SUPPORTED_EVENTS = [
+  "push",
+  "pull_request",
+  "schedule",
+  "workflow_dispatch"
+];
 async function parseEventData(defaultBranchOverride) {
-  if (!(github2.context.eventName === "push" || github2.context.eventName === "pull_request")) {
+  if (!SUPPORTED_EVENTS.includes(github2.context.eventName)) {
     throw new Error(
-      'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.'
+      'Unsupported GitHub event type. Only "push", "pull_request", "schedule" and "workflow_dispatch" events are supported.'
     );
   }
   if (github2.context.eventName === "pull_request") {
@@ -50958,20 +50964,14 @@ async function parseEventData(defaultBranchOverride) {
       );
     }
   }
-  const namespace = github2.context.payload?.repository?.owner?.login;
-  const repository = github2.context.payload?.repository?.name;
-  if (!namespace || !repository) {
-    throw new Error(
-      "Invalid GitHub event data. Can not get owner or repository name from the event payload."
-    );
-  }
+  const { owner: namespace, repo: repository } = github2.context.repo;
   const branch = github2.context.payload.pull_request?.["head"]?.["ref"] || github2.context.ref.replace("refs/heads/", "");
   if (!branch) {
     throw new Error(
       "Invalid GitHub event data. Can not get branch from the event payload."
     );
   }
-  const defaultBranch = defaultBranchOverride || github2.context.payload?.repository?.default_branch || github2.context.payload?.repository?.master_branch;
+  const defaultBranch = defaultBranchOverride || github2.context.payload?.repository?.default_branch || github2.context.payload?.repository?.master_branch || (github2.context.eventName === "schedule" ? branch : void 0);
   if (!defaultBranch) {
     throw new Error(
       'Invalid GitHub event data. Can not get default branch from the event payload. You can use the "defaultBranch" input to set it manually.'
@@ -51025,6 +51025,7 @@ function getCommitSha() {
   if (github2.context.eventName === "pull_request") {
     return github2.context.payload.pull_request?.head?.sha;
   }
+  return github2.context.sha;
 }
 
 // src/push.ts

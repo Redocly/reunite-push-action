@@ -13,7 +13,7 @@ jest.mock('@actions/github', () => ({
   ...jest.requireActual('@actions/github'),
   context: {
     repo: {
-      owner: '',
+      owner: 'test-namespace',
       repo: 'test-repo',
     },
     issue: {
@@ -225,12 +225,55 @@ describe('helpers', () => {
       },
     );
 
+    it('should return parsed GitHub schedule event data for the default branch', async () => {
+      github.context.eventName = 'schedule';
+      github.context.payload = {};
+      github.context.ref = 'refs/heads/main';
+      github.context.sha = 'test-schedule-sha';
+
+      const parsedEventData = await parseEventData();
+
+      expect(parsedEventData).toEqual({
+        eventName: 'schedule',
+        namespace: 'test-namespace',
+        repository: 'test-repo',
+        branch: 'main',
+        defaultBranch: 'main',
+        commit: {
+          commitSha: 'test-schedule-sha',
+          commitMessage: 'test-commit-message',
+          commitUrl: 'test-commit-html-url',
+          commitAuthor: {
+            name: 'test-commit-author-name',
+            email: 'test-commit-author-email',
+          },
+          commitCreatedAt: 'test-commit-created-at',
+        },
+      });
+    });
+
+    it('should return parsed GitHub workflow_dispatch event data', async () => {
+      github.context.eventName = 'workflow_dispatch';
+      github.context.payload = createPayloadMock({});
+      github.context.ref = 'refs/heads/test-branch';
+      github.context.sha = 'test-dispatch-sha';
+
+      const parsedEventData = await parseEventData();
+
+      expect(parsedEventData).toMatchObject({
+        eventName: 'workflow_dispatch',
+        branch: 'test-branch',
+        defaultBranch: 'test-default-branch',
+        commit: { commitSha: 'test-dispatch-sha' },
+      });
+    });
+
     it('should throw error for unsupported event types', async () => {
       github.context.eventName = 'issues';
       github.context.ref = 'refs/pull/1/merge';
 
       await expect(parseEventData()).rejects.toThrow(
-        'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.',
+        'Unsupported GitHub event type. Only "push", "pull_request", "schedule" and "workflow_dispatch" events are supported.',
       );
     });
 
@@ -242,17 +285,6 @@ describe('helpers', () => {
 
       await expect(parseEventData()).rejects.toThrow(
         'Unsupported GitHub event. Only "opened", "synchronize", "reopened" and "stacked" actions are supported for pull requests.',
-      );
-    });
-
-    it('should throw error when repository info is missing', async () => {
-      github.context.eventName = 'push';
-      github.context.payload = createPayloadMock({
-        repository: undefined,
-      });
-
-      await expect(parseEventData()).rejects.toThrow(
-        'Invalid GitHub event data. Can not get owner or repository name from the event payload.',
       );
     });
 

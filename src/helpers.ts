@@ -29,17 +29,19 @@ export function parseInputData(): ParsedInputData {
   };
 }
 
+const SUPPORTED_EVENTS = [
+  'push',
+  'pull_request',
+  'schedule',
+  'workflow_dispatch',
+];
+
 export async function parseEventData(
   defaultBranchOverride?: string,
 ): Promise<ParsedEventData> {
-  if (
-    !(
-      github.context.eventName === 'push' ||
-      github.context.eventName === 'pull_request'
-    )
-  ) {
+  if (!SUPPORTED_EVENTS.includes(github.context.eventName)) {
     throw new Error(
-      'Unsupported GitHub event type. Only "push" and "pull_request" events are supported.',
+      'Unsupported GitHub event type. Only "push", "pull_request", "schedule" and "workflow_dispatch" events are supported.',
     );
   }
 
@@ -56,14 +58,7 @@ export async function parseEventData(
     }
   }
 
-  const namespace = github.context.payload?.repository?.owner?.login;
-  const repository = github.context.payload?.repository?.name;
-
-  if (!namespace || !repository) {
-    throw new Error(
-      'Invalid GitHub event data. Can not get owner or repository name from the event payload.',
-    );
-  }
+  const { owner: namespace, repo: repository } = github.context.repo;
 
   const branch =
     github.context.payload.pull_request?.['head']?.['ref'] ||
@@ -75,10 +70,12 @@ export async function parseEventData(
     );
   }
 
+  // GitHub runs scheduled workflows only on the default branch, and their event has no payload.
   const defaultBranch: string | undefined =
     defaultBranchOverride ||
     github.context.payload?.repository?.default_branch ||
-    github.context.payload?.repository?.master_branch;
+    github.context.payload?.repository?.master_branch ||
+    (github.context.eventName === 'schedule' ? branch : undefined);
 
   if (!defaultBranch) {
     throw new Error(
@@ -146,4 +143,6 @@ export function getCommitSha(): string | undefined {
   if (github.context.eventName === 'pull_request') {
     return github.context.payload.pull_request?.head?.sha;
   }
+
+  return github.context.sha;
 }
