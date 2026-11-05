@@ -60258,6 +60258,7 @@ function reportSlugDeprecation({
 
 // src/push-status.ts
 var core4 = __toESM(require_core(), 1);
+var BUILD_TYPES = ["preview", "production"];
 async function waitForDeployment2(options2) {
   const startTime = Date.now();
   const apiKey = getApiKeys();
@@ -60302,6 +60303,11 @@ async function waitForDeployment2(options2) {
     );
   }
   return toPushStatusSummary(push);
+}
+function getFailedBuildTypes(summary) {
+  return BUILD_TYPES.filter(
+    (buildType) => summary[buildType]?.deploy.status === "failed"
+  );
 }
 function toPushStatusSummary(push) {
   return {
@@ -60379,8 +60385,15 @@ async function run() {
       repo: ghEvent.repository,
       commitId: ghEvent.commit.commitSha
     });
-    console.debug("Action finished successfully. Push ID:", pushId);
     core6.setOutput("pushId", pushId);
+    const failedBuildTypes = getFailedBuildTypes(pushStatusData);
+    if (failedBuildTypes.length > 0) {
+      core6.setFailed(
+        `The ${failedBuildTypes.join(" and ")} deployment failed. The commit statuses show the reason.`
+      );
+      return;
+    }
+    console.debug("Action finished successfully. Push ID:", pushId);
   } catch (error3) {
     if (error3 instanceof Error) core6.setFailed(error3.message);
   } finally {

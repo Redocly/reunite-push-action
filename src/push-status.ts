@@ -8,6 +8,8 @@ import {
 } from '@redocly/reunite-integration';
 import type { PushStatusSummary } from './types';
 
+const BUILD_TYPES: BuildType[] = ['preview', 'production'];
+
 export interface WaitForDeploymentOptions {
   domain: string;
   organization: string;
@@ -78,6 +80,12 @@ export async function waitForDeployment(
   }
 
   return toPushStatusSummary(push);
+}
+
+export function getFailedBuildTypes(summary: PushStatusSummary): BuildType[] {
+  return BUILD_TYPES.filter(
+    buildType => summary[buildType]?.deploy.status === 'failed',
+  );
 }
 
 function toPushStatusSummary(push: PushResponse): PushStatusSummary {

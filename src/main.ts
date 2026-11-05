@@ -8,7 +8,7 @@ import {
   setRedoclyEnvironment,
 } from './helpers';
 import { pushToReunite } from './push';
-import { waitForDeployment } from './push-status';
+import { getFailedBuildTypes, waitForDeployment } from './push-status';
 import { reportSunsetWarning } from './sunset-warning';
 import type { PushStatusSummary } from './types';
 
@@ -69,9 +69,18 @@ export async function run(): Promise<void> {
       commitId: ghEvent.commit.commitSha,
     });
 
-    console.debug('Action finished successfully. Push ID:', pushId);
-
     core.setOutput('pushId', pushId);
+
+    const failedBuildTypes = getFailedBuildTypes(pushStatusData);
+
+    if (failedBuildTypes.length > 0) {
+      core.setFailed(
+        `The ${failedBuildTypes.join(' and ')} deployment failed. The commit statuses show the reason.`,
+      );
+      return;
+    }
+
+    console.debug('Action finished successfully. Push ID:', pushId);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   } finally {

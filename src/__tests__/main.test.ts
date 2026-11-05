@@ -106,6 +106,54 @@ describe('action', () => {
     expect(setFailedMock).not.toHaveBeenCalled();
   });
 
+  it('fails the run after it sets the commit statuses when the preview deployment failed', async () => {
+    waitForDeploymentMock.mockResolvedValue({
+      ...pushStatusSummaryStub,
+      preview: {
+        ...pushStatusSummaryStub.preview,
+        deploy: { status: 'failed', url: 'test-url' },
+      },
+    });
+
+    await main.run();
+
+    expect(setCommitStatusMock).toHaveBeenCalled();
+    expect(setOutputMock).toHaveBeenCalledWith('pushId', 'test-push-id');
+    expect(setFailedMock).toHaveBeenCalledWith(
+      'The preview deployment failed. The commit statuses show the reason.',
+    );
+  });
+
+  it('fails the run when the production deployment failed', async () => {
+    waitForDeploymentMock.mockResolvedValue({
+      ...pushStatusSummaryStub,
+      production: {
+        deploy: { status: 'failed', url: 'test-url' },
+        scorecard: [],
+      },
+    });
+
+    await main.run();
+
+    expect(setFailedMock).toHaveBeenCalledWith(
+      'The production deployment failed. The commit statuses show the reason.',
+    );
+  });
+
+  it('does not fail the run when the production deployment was skipped', async () => {
+    waitForDeploymentMock.mockResolvedValue({
+      ...pushStatusSummaryStub,
+      production: {
+        deploy: { status: 'skipped', url: null },
+        scorecard: [],
+      },
+    });
+
+    await main.run();
+
+    expect(setFailedMock).not.toHaveBeenCalled();
+  });
+
   it('sets a failed status in case push error', async () => {
     pushToReuniteMock.mockImplementation(async () => {
       throw new Error('Test error message from push');
